@@ -1,0 +1,31 @@
+.SideToggle {
+  width: 40px;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.SideToggle div {
+  width: 90%;
+  height: 3px;
+  background-color: white;
+}
+
+.SideChart {
+  display: inline-block;
+  height: 100%;
+  margin: 0 10px 0 10px;
+}
+
+.SideDiv {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}

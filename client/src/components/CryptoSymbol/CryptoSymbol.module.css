@@ -1,0 +1,11 @@
+.Symbol {
+  background-color: white;
+  padding: 8px;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+.Symbol img {
+  height: 30px;
+  width: 30px;
+}

@@ -1,0 +1,15 @@
+.Header {
+  text-align: center;
+  font-weight: bold;
+  font-size: 40px;
+  margin-top: 55px;
+  opacity: 1;
+	animation-name: fadeInAnim;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 1s;
+}
+@keyframes fadeInAnim {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
