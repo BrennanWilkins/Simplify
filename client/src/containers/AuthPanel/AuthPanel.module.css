@@ -1,0 +1,148 @@
+.Container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgb(18, 152, 189), rgb(26, 171, 152));
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.LoginPanel, .SignupPanel {
+  background: white;
+  box-shadow: 0 0 10px 0 rgb(0,0,0,0.75);
+  border-radius: 3px;
+  width: 350px;
+  text-align: center;
+  height: 70%;
+  max-height: 500px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.SignupPanel {
+  height: 80%;
+  max-height: 550px;
+}
+.LoginPanel .Content, .SignupPanel .Content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 440px;
+  padding: 20px 0;
+  position: relative;
+}
+.SignupPanel .Content {
+  height: 500px;
+}
+.SwitchAuth {
+  position: absolute;
+  bottom: 15px;
+  color: rgb(22, 110, 98);
+}
+.SwitchAuth a {
+  margin-left: 5px;
+  text-decoration: none;
+  color: rgb(22, 110, 98);
+  font-weight: bold;
+}
+.SwitchAuth a:hover {
+  color: rgb(26, 171, 152);
+}
+.Title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 5px;
+}
+.Title h1 {
+  color: rgb(15, 119, 147);
+}
+.SubTitle {
+  text-align: center;
+  margin: 0 20px 5px;
+  color: rgb(15, 119, 147);
+}
+.InputDiv, .InputDivFocus {
+  padding: 10px;
+  margin: 10px;
+  font-size: 18px;
+  height: 27px;
+  border-radius: 10px;
+  border: 1px solid rgb(18, 152, 189, 0.1);
+  background: rgb(18, 152, 189, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.InputDivFocus {
+  border: 1px solid rgb(18, 152, 189, 0.3);
+  box-shadow: 0 0 10px 4px rgb(235, 242, 251, 0.5);
+}
+.Icon {
+  font-size: 18px;
+  color: rgb(22, 110, 98);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.InputDiv input, .InputDivFocus input {
+  border: 0;
+  font-size: 18px;
+  margin-left: 5px;
+  outline: none;
+  padding: 3px 2px;
+  background: 0;
+}
+.InputDivFocus .Icon {
+  color: rgb(26, 171, 152);
+}
+.Content button {
+  cursor: pointer;
+  color: white;
+  background: rgb(15, 119, 147);
+  border: 0;
+  border-radius: 3px;
+  font-size: 16px;
+  transition: background 300ms;
+  line-height: 0;
+  padding: 20px 15px;
+  outline: 0;
+}
+.Content button:hover {
+  transition: background 300ms;
+  background: rgb(18, 152, 189);
+}
+.Remember {
+  margin-top: 10px;
+  font-size: 13px;
+}
+.Remember span {
+  margin-left: 2px;
+  color: rgb(15, 119, 147);
+}
+.Remember input {
+  position: relative;
+  top: 1.5px;
+}
+.ErrDiv {
+  width: 100%;
+  font-size: 14px;
+  text-align: center;
+  height: 30px;
+  margin: 15px 0 10px;
+}
+.ErrMsgShow {
+  opacity: 1;
+  transition: opacity 300ms;
+  color: rgb(15, 119, 147);
+}
+.ErrMsgHide {
+  opacity: 0;
+  transition: opacity 300ms;
+  color: rgb(15, 119, 147);
+}

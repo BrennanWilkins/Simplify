@@ -1,3 +1,4 @@
-export { getCryptoPrices, updateCryptoPortfolio, getCryptoPortfolio } from './cryptoPortfolio';
-export { getStockPrices, updateStockPortfolio, getStockPortfolio } from './stockPortfolio';
-export { auth, signup, tryAutoSignIn, logout, clearError } from './auth';
+export { login, logout, autoLogin } from './auth';
+export { setCryptos } from './cryptos';
+export { setNetWorthData, resetNetWorth } from './netWorth';
+export { setPortfolio, resetPortfolio } from './portfolio';

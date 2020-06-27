@@ -1,13 +1,9 @@
 import axios from 'axios';
 
-const cryptoInstance = axios.create({
-  baseURL: 'http://localhost:9000/cryptoAPI/'
+export const authInstance = axios.create({
+  baseURL: 'http://localhost:9000/api/auth/'
 });
-cryptoInstance.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
-const stockInstance = axios.create({
-  baseURL: 'http://localhost:9000/stockAPI/'
+export const instance = axios.create({
+  baseURL: 'http://localhost:9000/api/'
 });
-stockInstance.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
-
-export {cryptoInstance, stockInstance};
