@@ -1,0 +1,124 @@
+.Container {
+  width: 100%;
+  position: absolute;
+  top: 70px;
+  height: calc(100% - 70px);
+  overflow: auto;
+}
+.NetWorthTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.NetWorthValue {
+  margin-left: 50px;
+  color: rgb(26, 171, 152);
+}
+.NetWorthChart {
+  width: 80%;
+  margin: auto;
+}
+.NetWorthChart a {
+  display: none;
+}
+.Block {
+  position: relative;
+  top: -12.5px;
+  width: 100px;
+  height: 10px;
+  background: white;
+}
+.Investments {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0 0 20px;
+}
+.Stocks, .Cryptos {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px;
+  position: relative;
+}
+.Stocks h1, .Cryptos h1 {
+  color: rgb(10, 77, 96);
+}
+.Table {
+  width: 500px;
+  border-collapse: collapse;
+}
+.Table td {
+  border: 1px solid rgb(18, 152, 189);
+  background: rgb(18, 152, 189, 0.04);
+  padding: 8px 2px;
+  box-sizing: border-box;
+  text-align: center;
+  word-wrap: break-word;
+  max-width: 100px;
+}
+.Value {
+  color: rgb(26, 171, 152);
+  font-weight: bold;
+}
+.HeaderFields {
+  color: rgb(15, 119, 147);
+  background: rgb(18, 152, 189, 0.1);
+}
+.HeaderFields th {
+  padding: 10px 0;
+}
+.Symbol {
+  font-weight: bold;
+}
+.NewBtn {
+  background: rgb(15, 119, 147);
+  color: white;
+  border: 0;
+  outline: none;
+  padding: 8px 10px;
+  font-size: 16px;
+  border-radius: 3px;
+  margin: 0 0 10px;
+  cursor: pointer;
+  transition: background 250ms;
+}
+.NewBtn:hover {
+  background: rgb(10, 77, 96);
+  transition: background 250ms;
+}
+.NetWorthText {
+  color: rgb(10, 77, 96);
+}
+.BuySellBtns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 10px;
+  position: relative;
+}
+.BuyBtn, .SellBtn {
+  color: white;
+  border: 0;
+  outline: none;
+  padding: 8px 10px;
+  font-size: 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 250ms;
+  margin: 5px;
+  background: rgb(26, 171, 152, 0.7);
+}
+.BuyBtn:hover, .SellBtn:hover {
+  background: rgb(26, 171, 152);
+  transition: background 250ms;
+}
+@media (max-width: 1070px) {
+  .Investments {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}

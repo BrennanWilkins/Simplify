@@ -5,9 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const config = require('config');
-const axios = require('axios');
 const authRouter = require('./routes/auth');
-const Cryptos = require('./models/cryptos');
+const netWorthRouter = require('./routes/netWorth');
+const portfolioRouter = require('./routes/portfolio');
 
 const app = express();
 
@@ -25,6 +25,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/auth', authRouter);
+app.use('/api/netWorth', netWorthRouter);
+app.use('/api/portfolio', portfolioRouter);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));

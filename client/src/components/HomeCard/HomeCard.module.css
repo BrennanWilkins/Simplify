@@ -1,0 +1,58 @@
+.CardContainer {
+  width: 350px;
+  height: 300px;
+  margin: 20px;
+  border-radius: 3px;
+  position: relative;
+}
+.CardContainer h1 {
+  transition: color 250ms;
+}
+.CardContainer:hover h1 {
+  color: rgb(26, 171, 152);
+  transition: color 250ms;
+}
+.Card {
+  width: 350px;
+  height: 300px;
+  box-shadow: 0 0 10px 0 rgb(0,0,0,0.75);
+  transform: scale(0);
+  position: absolute;
+  bottom: -70px;
+  left: -80px;
+  cursor: default;
+}
+.Card1 {
+  -webkit-animation: scaleUp 250ms forwards;
+  animation: scaleUp 250ms forwards;
+}
+.Card2 {
+  animation: scaleUp 250ms forwards 125ms;
+  -webkit-animation: scaleUp 250ms forwards 125ms;
+}
+.Card3 {
+  animation: scaleUp 250ms forwards 225ms;
+  -webkit-animation: scaleUp 250ms forwards 225ms;
+}
+.Card4 {
+  animation: scaleUp 250ms forwards 325ms;
+  -webkit-animation: scaleUp 250ms forwards 325ms;
+}
+.Card5 {
+  animation: scaleUp 250ms forwards 425ms;
+  -webkit-animation: scaleUp 250ms forwards 425ms;
+}
+.Card6 {
+  animation: scaleUp 250ms forwards 525ms;
+  -webkit-animation: scaleUp 250ms forwards 525ms;
+}
+@keyframes scaleUp {
+  from {
+    transform: scale(0);
+  }
+  to {
+    bottom: 0;
+    left: 0;
+    transform: scale(1);
+  }
+}

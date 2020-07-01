@@ -1,0 +1,23 @@
+.CloseBtn span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.CloseBtn {
+  float: right;
+  font-size: 20px;
+  width: 25px;
+  height: 25px;
+  background: rgb(15, 119, 147);
+  transition: background 250ms;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  border-radius: 3px;
+}
+.CloseBtn:hover {
+  background: rgb(10, 77, 96);
+  transition: background 250ms;
+}

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import classes from './AuthPanel.module.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import { personIcon, lockIcon } from '../../components/UI/UIIcons';
+import { personIcon, lockIcon, arrowRight } from '../../components/UI/UIIcons';
 import { Link } from 'react-router-dom';
 import { validate } from '../../utils/authValidation';
 import ChartSymbol from '../../components/UI/ChartSymbol/ChartSymbol';
 import { authInstance as axios, instance } from '../../axios';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
+import { calcPortfolioValue, calcNetWorth } from '../../utils/valueCalcs';
 
 const AuthPanel = props => {
   const [email, setEmail] = useState('');
@@ -26,6 +27,7 @@ const AuthPanel = props => {
   };
 
   const submitHandler = () => {
+    if (loading) { return; }
     const res = props.mode === 'Login' ? validate(email, password, password) :
     validate(email, password, confPass);
     setErrMsg(res);
@@ -40,7 +42,8 @@ const AuthPanel = props => {
     axios.post('login', { email, password, remember }).then(res => {
       successHandler(res.data);
     }).catch(err => {
-      showErr(err.response.data.msg);
+      if (err.response) { return showErr(err.response.data.msg); }
+      showErr('Error logging in.');
     });
   };
 
@@ -49,13 +52,12 @@ const AuthPanel = props => {
     axios.post('signup', { email, password, confirmPassword: confPass, remember }).then(res => {
       successHandler(res.data);
     }).catch(err => {
-      showErr(err.response.data.msg);
+      if (err.response) { return showErr(err.response.data.msg); }
+      showErr('Error signing up.');
     });
   };
 
   const successHandler = (data) => {
-    console.log(data);
-    setLoading(false);
     instance.defaults.headers.common['x-auth-token'] = data.token;
     if (remember) {
       localStorage['token'] = data.token;
@@ -68,12 +70,20 @@ const AuthPanel = props => {
       localStorage['expirationDate'] = new Date(new Date().getTime() + 3600000);
       localStorage['expirationTime'] = '3600000';
     }
-    props.login();
-    props.setCryptos(data.cryptos);
+    const updatedNetWorth = calcNetWorth(data.netWorth.dataPoints, data.portfolio);
+    instance.put('netWorth', { netWorthData: updatedNetWorth }).then(res => {
+      props.setNetWorthData(res.data.result.dataPoints);
+    }).catch(err => {
+      setErr(true);
+      setErrMsg('Error connecting to the server.');
+      setLoading(false);
+      return;
+    });
     if (props.mode === 'Login') {
-      props.setNetWorthData(data.netWorth);
-      props.setPortfolio(data.portfolio);
+      props.setPortfolio(calcPortfolioValue(data.portfolio));
     }
+    reset();
+    props.login();
   };
 
   const reset = () => {
@@ -83,6 +93,7 @@ const AuthPanel = props => {
     setPassword('');
     setConfPass('');
     setRemember(false);
+    setLoading(false);
   };
 
   return (
@@ -90,11 +101,12 @@ const AuthPanel = props => {
       <div className={props.mode === 'Login' ? classes.LoginPanel : classes.SignupPanel}>
         {loading && <Spinner login />}
         <div className={classes.Content}>
+          <Link to="/demo" className={classes.Demo}>View a demo account<span>{arrowRight}</span></Link>
           <div className={classes.Title}>
             <ChartSymbol />
             <h1>Simplify</h1>
           </div>
-          <p className={classes.SubTitle}>The all in one budget, net worth, and investment tracker</p>
+          <p className={classes.SubTitle}>Simplify your finances with budget, net worth, and investment trackers</p>
           <div className={focused === '1' ? classes.InputDivFocus : classes.InputDiv}>
             <span className={classes.Icon}>{personIcon}</span>
             <input onFocus={() => setFocus('1')} onBlur={() => setFocus('')}
@@ -149,7 +161,6 @@ const AuthPanel = props => {
 
 const mapDispatchToProps = dispatch => ({
   login: () => dispatch(actions.login()),
-  setCryptos: (cryptos) => dispatch(actions.setCryptos(cryptos)),
   setNetWorthData: (data) => dispatch(actions.setNetWorthData(data)),
   setPortfolio: (data) => dispatch(actions.setPortfolio(data))
 });

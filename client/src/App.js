@@ -3,6 +3,9 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import AuthPanel from './containers/AuthPanel/AuthPanel';
 import { connect } from 'react-redux';
 import { autoLogin } from './store/actions/index';
+import HomePage from './containers/HomePage/HomePage';
+import NavBar from './components/NavBar/NavBar';
+import Portfolio from './containers/Portfolio/Portfolio';
 
 const App = props => {
   useEffect(() => {
@@ -12,12 +15,17 @@ const App = props => {
   return (
     <BrowserRouter>
       {props.isAuth ?
-        <Switch>
-          <Route exact path="/" render={() => <h1>Home</h1>} />
-          <Redirect to="/" />
-        </Switch>
+        <React.Fragment>
+          <NavBar />
+          <Switch>
+            <Route exact path="/portfolio" component={Portfolio} />
+            <Route exact path="/" component={HomePage} />
+            <Redirect to="/" />
+          </Switch>
+        </React.Fragment>
         :
         <Switch>
+          <Route exact path="/demo" render={() => <div>Demo</div>} />
           <Route exact path="/login" render={() => <AuthPanel mode="Login" />} />
           <Route exact path="/signup" render={() => <AuthPanel mode="Signup" />} />
           <Redirect to="/login" />

@@ -1,0 +1,132 @@
+.StockPanel, .CryptoPanel, .StockPanelHide, .CryptoPanelHide {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: -300px;
+  width: 350px;
+  height: 300px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  background: white;
+  z-index: 2;
+  padding: 10px;
+  overflow: hidden;
+}
+.StockPanel {
+  left: 335px;
+  opacity: 1;
+  transform: scale(1);
+  transition: all 400ms;
+}
+.CryptoPanel {
+  left: -205px;
+  opacity: 1;
+  transform: scale(1);
+  transition: all 400ms;
+}
+.StockPanelHide {
+  opacity: 0;
+  top: -140px;
+  transform: scale(0);
+  left: 50px;
+  transition: all 400ms;
+}
+.CryptoPanelHide {
+  opacity: 0;
+  top: -140px;
+  transform: scale(0);
+  left: 80px;
+  transition: all 400ms;
+}
+.BtnDiv {
+  width: 100%;
+}
+.Text, .HideText {
+  text-align: center;
+  color: rgb(10, 77, 96);
+  opacity: 1;
+  transition: opacity 250ms;
+  cursor: default;
+}
+.HideText {
+  opacity: 0;
+}
+.Input {
+  width: 70%;
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 3px;
+  border: 1px solid rgb(18, 152, 189);
+  background: rgb(18, 152, 189, 0.03);
+  outline: none;
+}
+.ConfirmBtn, .HideConfirmBtn {
+  margin: 20px 0 0;
+  color: white;
+  background: rgb(15, 119, 147);
+  border: 0;
+  border-radius: 3px;
+  outline: none;
+  padding: 7px 10px;
+  cursor: pointer;
+  opacity: 1;
+  transition: all 250ms;
+}
+.HideConfirmBtn {
+  opacity: 0;
+}
+.AllBtn {
+  color: white;
+  background: rgb(15, 119, 147);
+  border: 0;
+  border-radius: 3px;
+  outline: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  opacity: 1;
+  transition: all 250ms;
+  margin-left: 10px;
+}
+.ConfirmBtn:hover, .AllBtn:hover {
+  background: rgb(10, 77, 96);
+  transition: background 250ms;
+}
+.ShowErr, .HideErr {
+  opacity: 1;
+  transition: opacity 300ms;
+  text-align: center;
+  font-size: 15px;
+  height: 24px;
+  width: 85%;
+  margin: 10px 0 0;
+}
+.HideErr {
+  opacity: 0;
+}
+.InputDiv, .HideInputDiv {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 250ms;
+}
+.HideInputDiv {
+  opacity: 0;
+}
+.Dropdown {
+  width: 200px;
+  height: 30px;
+  outline: none;
+}
+@media (max-width: 1070px) {
+  .StockPanel, .CryptoPanel {
+    left: calc(50% - 185px);
+    top: -325px;
+  }
+  .StockPanelHide, .CryptoPanelHide {
+    left: calc(50% - 185px);
+    top: -140px;
+  }
+}

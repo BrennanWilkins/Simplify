@@ -1,0 +1,52 @@
+.NavBar {
+  background: rgb(42, 69, 92);
+  position: fixed;
+  width: 100%;
+  height: 70px;
+  top: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.Title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+.Title:hover > h1 {
+  color: rgb(26, 171, 152);
+  transition: color 300ms;
+}
+.Title h1 {
+  font-size: 25px;
+  transition: color 300ms;
+}
+.Link {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 300ms;
+  position: relative;
+}
+.Link:hover {
+  color: rgb(26, 171, 152);
+  transition: color 300ms;
+}
+.Link:hover .FocusBorder {
+  width: 100%;
+  transition: 300ms ease-out;
+  left: 0;
+}
+.FocusBorder {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: rgb(26, 171, 152);
+  transition: 300ms ease-out;
+}

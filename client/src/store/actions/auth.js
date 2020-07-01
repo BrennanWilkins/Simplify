@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import { instance } from '../../axios';
 import * as actions from './index';
+import { calcNetWorth, calcPortfolioValue } from '../../utils/valueCalcs';
 
 let expirationTimeout;
 
@@ -35,4 +36,16 @@ export const autoLogin = () => dispatch => {
   instance.defaults.headers.common['x-auth-token'] = localStorage['token'];
   const newTime = new Date(localStorage['expirationDate']).getTime() - new Date().getTime();
   localStorage['expirationTime'] = newTime;
+  instance.get('/auth/autoLogin').then(res => {
+    const updatedNetWorth = calcNetWorth(res.data.netWorth.dataPoints, res.data.portfolio);
+    instance.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
+      dispatch(actions.setNetWorthData(resp.data.result.dataPoints));
+      dispatch(actions.setPortfolio(calcPortfolioValue(res.data.portfolio)));
+      dispatch(login());
+    }).catch(err => {
+      dispatch(logout());
+    });
+  }).catch(err => {
+    dispatch(logout());
+  });
 };
