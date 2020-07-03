@@ -13,3 +13,17 @@
   align-items: center;
   flex-wrap: wrap;
 }
+.InvestmentCard {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.Title, .Title2 {
+  color: rgb(10, 77, 96);
+  font-size: 22px;
+  text-align: center;
+  margin: 24px 0 10px;
+}
+.Title2 {
+  margin: 15px 0 5px;
+}

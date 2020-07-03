@@ -1,11 +1,13 @@
 export const calcPortfolioValue = (portfolio) => {
   const cryptos = [...portfolio.cryptos].map(crypto => {
     if (crypto.price === '?') { return { ...crypto, value: '?' }; }
+    if (crypto.identifier === 'Manual') { return crypto; }
     return { ...crypto, value: crypto.price * crypto.quantity };
   });
 
   const stocks = [...portfolio.stocks].map(stock => {
     if (stock.price === '?') { return { ...stock, value: '?' }; }
+    if (stock.identifier === 'Manual') { return stock; }
     return { ...stock, value: stock.price * stock.quantity };
   });
 
@@ -17,13 +19,13 @@ export const calcNetWorth = (netWorthData, portfolio) => {
   const updatedData = [...netWorthData];
   let netWorth = 0;
   for (let stock of updatedPortfolio.stocks) {
-    if (stock.value !== '?') { netWorth += stock.value; }
+    if (stock.value !== '?') { netWorth += Number(stock.value); }
   }
   for (let crypto of updatedPortfolio.cryptos) {
-    if (crypto.value !== '?') { netWorth += crypto.value; }
+    if (crypto.value !== '?') { netWorth += Number(crypto.value); }
   }
-  for (let asset of updatedPortfolio.otherAssets) { netWorth += asset.value; }
-  for (let debt of updatedPortfolio.liabilities) { netWorth -= debt.value; }
+  for (let asset of updatedPortfolio.otherAssets) { netWorth += Number(asset.value); }
+  for (let debt of updatedPortfolio.liabilities) { netWorth -= Number(debt.value); }
 
   // if last net worth entry was a day ago make a new entry
   if (Math.abs(new Date().getTime() - new Date(netWorthData[netWorthData.length - 1].date).getTime()) >= 86400000) {

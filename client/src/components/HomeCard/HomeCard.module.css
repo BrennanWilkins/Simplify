@@ -5,13 +5,6 @@
   border-radius: 3px;
   position: relative;
 }
-.CardContainer h1 {
-  transition: color 250ms;
-}
-.CardContainer:hover h1 {
-  color: rgb(26, 171, 152);
-  transition: color 250ms;
-}
 .Card {
   width: 350px;
   height: 300px;

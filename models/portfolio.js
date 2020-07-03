@@ -3,7 +3,17 @@ const mongoose = require('mongoose');
 const assetSchema = new mongoose.Schema({
   symbol: String,
   name: String,
-  quantity: Number
+  quantity: Number,
+  identifier: String
+});
+
+const manualAssetSchema = new mongoose.Schema({
+  symbol: String,
+  name: String,
+  quantity: Number,
+  price: Number,
+  value: Number,
+  identifier: String
 });
 
 const otherSchema = new mongoose.Schema({
@@ -14,6 +24,8 @@ const otherSchema = new mongoose.Schema({
 
 const PortfolioSchema = new mongoose.Schema({
   cryptos: [assetSchema],
+  manualCryptos: [manualAssetSchema],
+  manualStocks: [manualAssetSchema],
   stocks: [assetSchema],
   otherAssets: [otherSchema],
   liabilities: [otherSchema],

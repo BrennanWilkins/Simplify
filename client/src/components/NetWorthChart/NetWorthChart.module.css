@@ -1,0 +1,42 @@
+.Chart {
+  width: 100%;
+  height: 100%;
+}
+.NetWorthTitle, .NetWorthTitleSmall {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.NetWorthTitleSmall {
+  margin: 10px 0 5px;
+}
+.NetWorthValue {
+  margin-left: 50px;
+  color: rgb(26, 171, 152);
+}
+.NetWorthText {
+  color: rgb(10, 77, 96);
+}
+.NetWorthValueSmall {
+  margin-left: 30px;
+  color: rgb(26, 171, 152);
+  font-size: 22px;
+}
+.NetWorthTextSmall {
+  color: rgb(10, 77, 96);
+  font-size: 22px;
+}
+.NetWorthChart {
+  width: 80%;
+  margin: auto;
+}
+.NetWorthChart a {
+  display: none;
+}
+.Block {
+  position: relative;
+  top: -12.5px;
+  width: 100px;
+  height: 10px;
+  background: white;
+}

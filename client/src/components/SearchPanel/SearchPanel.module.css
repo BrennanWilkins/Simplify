@@ -12,32 +12,27 @@
   z-index: 2;
   padding: 10px;
   overflow: hidden;
+  opacity: 1;
+  transform: scale(1);
+  transition: all 400ms;
 }
 .StockPanel {
   left: 335px;
-  opacity: 1;
-  transform: scale(1);
-  transition: all 400ms;
 }
 .CryptoPanel {
   left: -205px;
-  opacity: 1;
-  transform: scale(1);
-  transition: all 400ms;
 }
 .StockPanelHide {
   opacity: 0;
   top: -50px;
   transform: scale(0);
-  left: 100px;
-  transition: all 400ms;
+  left: 55px;
 }
 .CryptoPanelHide {
   opacity: 0;
   top: -50px;
   transform: scale(0);
-  left: 50px;
-  transition: all 400ms;
+  left: 75px;
 }
 .BtnDiv {
   width: 100%;

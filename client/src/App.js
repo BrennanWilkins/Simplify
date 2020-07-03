@@ -6,6 +6,7 @@ import { autoLogin } from './store/actions/index';
 import HomePage from './containers/HomePage/HomePage';
 import NavBar from './components/NavBar/NavBar';
 import Portfolio from './containers/Portfolio/Portfolio';
+import GoalPage from './containers/GoalPage/GoalPage';
 
 const App = props => {
   useEffect(() => {
@@ -20,6 +21,7 @@ const App = props => {
           <Switch>
             <Route exact path="/portfolio" component={Portfolio} />
             <Route exact path="/" component={HomePage} />
+            <Route exact path="/goals" component={GoalPage} />
             <Redirect to="/" />
           </Switch>
         </React.Fragment>

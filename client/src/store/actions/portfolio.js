@@ -11,3 +11,7 @@ export const addCrypto = (crypto) => ({ type: actionTypes.ADD_CRYPTO, crypto });
 export const changeStock = (stocks) => ({ type: actionTypes.CHANGE_STOCK, stocks });
 
 export const changeCrypto = (cryptos) => ({ type: actionTypes.CHANGE_CRYPTO, cryptos });
+
+export const updateAssets = (assets) => ({ type: actionTypes.UPDATE_ASSETS, assets });
+
+export const updateDebts = (debts) => ({ type: actionTypes.UPDATE_DEBTS, debts });

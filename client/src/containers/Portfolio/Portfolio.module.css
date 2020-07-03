@@ -5,29 +5,6 @@
   height: calc(100% - 70px);
   overflow: auto;
 }
-.NetWorthTitle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.NetWorthValue {
-  margin-left: 50px;
-  color: rgb(26, 171, 152);
-}
-.NetWorthChart {
-  width: 80%;
-  margin: auto;
-}
-.NetWorthChart a {
-  display: none;
-}
-.Block {
-  position: relative;
-  top: -12.5px;
-  width: 100px;
-  height: 10px;
-  background: white;
-}
 .Investments {
   display: flex;
   justify-content: center;
@@ -72,6 +49,9 @@
 .Symbol {
   font-weight: bold;
 }
+.Symbol img {
+  height: 20px;
+}
 .NewBtn {
   background: rgb(15, 119, 147);
   color: white;
@@ -88,9 +68,6 @@
   background: rgb(10, 77, 96);
   transition: background 250ms;
 }
-.NetWorthText {
-  color: rgb(10, 77, 96);
-}
 .BuySellBtns {
   width: 100%;
   display: flex;
@@ -98,6 +75,33 @@
   align-items: center;
   margin: 0 0 10px;
   position: relative;
+}
+.SettingsBtn, .AssetSettingsBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  background: white;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 0;
+  outline: none;
+  padding: 7px;
+  position: absolute;
+  right: 150px;
+  top: 0;
+}
+.SettingsBtn span, .AssetSettingsBtn span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(26, 171, 152, 0.7);
+  transition: color 250ms;
+}
+.SettingsBtn:hover span, .AssetSettingsBtn:hover span {
+  color: rgb(26, 171, 152);
+  transition: color 250ms;
 }
 .BuyBtn, .SellBtn {
   color: white;
@@ -114,6 +118,16 @@
 .BuyBtn:hover, .SellBtn:hover {
   background: rgb(26, 171, 152);
   transition: background 250ms;
+}
+.AssetBtns {
+  width: 65%;
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+}
+.AssetSettingsBtn {
+  right: -40px;
+  top: -4px;
 }
 @media (max-width: 1070px) {
   .Investments {

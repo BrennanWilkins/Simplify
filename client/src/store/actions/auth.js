@@ -23,7 +23,12 @@ export const logout = () => dispatch => {
   dispatch(logoutDispatch());
   dispatch(actions.resetPortfolio());
   dispatch(actions.resetNetWorth());
+  dispatch(endLoading());
 };
+
+export const startLoading = () => ({ type: actionTypes.START_LOADING });
+
+export const endLoading = () => ({ type: actionTypes.END_LOADING });
 
 export const autoLogin = () => dispatch => {
   if (!localStorage['token'] || !localStorage['expirationDate']) { return; }
@@ -33,6 +38,7 @@ export const autoLogin = () => dispatch => {
     localStorage.removeItem('expirationTime');
     return;
   }
+  dispatch(startLoading());
   instance.defaults.headers.common['x-auth-token'] = localStorage['token'];
   const newTime = new Date(localStorage['expirationDate']).getTime() - new Date().getTime();
   localStorage['expirationTime'] = newTime;
@@ -41,6 +47,7 @@ export const autoLogin = () => dispatch => {
     instance.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
       dispatch(actions.setNetWorthData(resp.data.result.dataPoints));
       dispatch(actions.setPortfolio(calcPortfolioValue(res.data.portfolio)));
+      dispatch(endLoading());
       dispatch(login());
     }).catch(err => {
       dispatch(logout());

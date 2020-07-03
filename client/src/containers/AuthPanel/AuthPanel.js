@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './AuthPanel.module.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { personIcon, lockIcon, arrowRight } from '../../components/UI/UIIcons';
@@ -20,6 +20,13 @@ const AuthPanel = props => {
   const [remember, setRemember] = useState(false);
   const [focused, setFocus] = useState('');
 
+  useEffect(() => {
+    if (props.loading) {
+      setErr(true);
+      setErrMsg('Retrieving current stock prices...');
+    }
+  }, [props.loading]);
+
   const showErr = (msg) => {
     setErr(true);
     setLoading(false);
@@ -27,7 +34,7 @@ const AuthPanel = props => {
   };
 
   const submitHandler = () => {
-    if (loading) { return; }
+    if (loading || props.loading) { return; }
     const res = props.mode === 'Login' ? validate(email, password, password) :
     validate(email, password, confPass);
     setErrMsg(res);
@@ -39,6 +46,8 @@ const AuthPanel = props => {
 
   const loginHandler = () => {
     setLoading(true);
+    setErr(true);
+    setErrMsg('Retrieving current stock prices...');
     axios.post('login', { email, password, remember }).then(res => {
       successHandler(res.data);
     }).catch(err => {
@@ -71,17 +80,19 @@ const AuthPanel = props => {
       localStorage['expirationTime'] = '3600000';
     }
     const updatedNetWorth = calcNetWorth(data.netWorth.dataPoints, data.portfolio);
-    instance.put('netWorth', { netWorthData: updatedNetWorth }).then(res => {
-      props.setNetWorthData(res.data.result.dataPoints);
-    }).catch(err => {
-      setErr(true);
-      setErrMsg('Error connecting to the server.');
-      setLoading(false);
-      return;
-    });
     if (props.mode === 'Login') {
-      props.setPortfolio(calcPortfolioValue(data.portfolio));
+      instance.put('netWorth', { netWorthData: updatedNetWorth }).then(res => {
+        props.setNetWorthData(res.data.result.dataPoints);
+      }).catch(err => {
+        setErr(true);
+        setErrMsg('Error connecting to the server.');
+        setLoading(false);
+        return;
+      });
+    } else {
+      props.setNetWorthData(data.netWorth.dataPoints);
     }
+    props.setPortfolio(calcPortfolioValue(data.portfolio));
     reset();
     props.login();
   };
@@ -99,7 +110,7 @@ const AuthPanel = props => {
   return (
     <div className={classes.Container}>
       <div className={props.mode === 'Login' ? classes.LoginPanel : classes.SignupPanel}>
-        {loading && <Spinner login />}
+        {(loading || props.loading) && <Spinner mode={props.mode} />}
         <div className={classes.Content}>
           <Link to="/demo" className={classes.Demo}>View a demo account<span>{arrowRight}</span></Link>
           <div className={classes.Title}>
@@ -159,10 +170,14 @@ const AuthPanel = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  loading: state.auth.loading
+});
+
 const mapDispatchToProps = dispatch => ({
   login: () => dispatch(actions.login()),
   setNetWorthData: (data) => dispatch(actions.setNetWorthData(data)),
   setPortfolio: (data) => dispatch(actions.setPortfolio(data))
 });
 
-export default connect(null, mapDispatchToProps)(AuthPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthPanel);

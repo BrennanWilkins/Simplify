@@ -123,7 +123,8 @@ const SearchPanel = props => {
       symbol: inputValTicker.toUpperCase(),
       price: Number(inputValPrice).toFixed(2),
       quantity: inputValShares,
-      value: (inputValPrice * inputValShares).toFixed(2)
+      value: (inputValPrice * inputValShares).toFixed(2),
+      identifier: 'Manual'
     } :
     props.mode === 'Stock' ?
     {
@@ -131,14 +132,16 @@ const SearchPanel = props => {
       symbol: selectedRes.ticker,
       price: (selectedRes.price).toFixed(2),
       quantity: inputValShares,
-      value: (inputValShares * selectedRes.price).toFixed(2)
+      value: (inputValShares * selectedRes.price).toFixed(2),
+      identifier: 'Normal'
     } :
     {
       name: selectedRes.item.name,
       symbol: selectedRes.item.symbol,
       price: (selectedRes.item.price).toFixed(2),
       quantity: inputValShares,
-      value: (inputValShares * selectedRes.item.price).toFixed(2)
+      value: (inputValShares * selectedRes.item.price).toFixed(2),
+      identifier: 'Normal'
     };
     if (props.mode === 'Stock') {
       for (let stock of props.stocks) {

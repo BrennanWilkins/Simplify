@@ -5,8 +5,10 @@ import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import * as actions from '../../store/actions/index';
 import { instance as axios } from '../../axios';
 import { calcNetWorth } from '../../utils/valueCalcs';
+import Select from 'react-select';
+import '../UI/ReactSelectStyles.css';
 
-const originalSelected = { name: '', symbol: '', quantity: 0, price: 0, value: 0 };
+const originalSelected = { name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Normal' };
 
 const BuySellPanel = props => {
   const [selected, setSelected] = useState({ ...originalSelected });
@@ -14,9 +16,33 @@ const BuySellPanel = props => {
   const [selectedVal, setSelectedVal] = useState(0);
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const [panelClass, setPanelClass] = useState(classes.Hide);
+  const [titleText, setTitleText] = useState('');
   const panelRef = useRef();
 
   useEffect(() => {
+    switch(props.mode) {
+      case 'BuyStock':
+        if (props.show) { setPanelClass(classes.BuyStock); }
+        else { setPanelClass(classes.HideBuyStock); }
+        setTitleText('Which stock did you buy?');
+        break;
+      case 'SellStock':
+        if (props.show) { setPanelClass(classes.SellStock); }
+        else { setPanelClass(classes.HideSellStock); }
+        setTitleText('Which stock did you sell?');
+        break;
+      case 'BuyCrypto':
+        if (props.show) { setPanelClass(classes.BuyCrypto); }
+        else { setPanelClass(classes.HideBuyCrypto); }
+        setTitleText('Which cryptocurrency did you buy?');
+        break;
+      default:
+        if (props.show) { setPanelClass(classes.SellCrypto); }
+        else { setPanelClass(classes.HideSellCrypto); }
+        setTitleText('Which cryptocurrency did you sell?');
+        break;
+    }
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.mode, props.show]);
@@ -36,6 +62,7 @@ const BuySellPanel = props => {
     setSelectedName('');
     setErr(false);
     setErrMsg('');
+    setTitleText('');
     props.close();
   };
 
@@ -53,10 +80,56 @@ const BuySellPanel = props => {
 
   const confirmHandler = () => {
     if (selectedVal === 0) { return; }
-    if (selectedVal > selected.quantity) {
+    if ((props.mode === 'SellStock' || props.mode === 'SellCrypto') && selectedVal > selected.quantity) {
       setErr(true);
       setErrMsg(`You do not own enough${props.mode === 'SellStock' ? ' shares of' : ''} ${selected.symbol} to sell that much.`);
       return;
+    }
+    if (selectedVal === selected.quantity) {
+      if (props.mode === 'SellStock') {
+        axios.put('portfolio/deleteStock', { identifier: selected.identifier, name: selected.name }).then(res => {
+          const stocks = [...props.stocks];
+          const index = stocks.findIndex(stock => stock.name === selected.name);
+          stocks.splice(index, 1);
+          const updatedPortfolio = { ...props.portfolio };
+          updatedPortfolio.stocks = [...stocks];
+          const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+          axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
+            props.setNetWorthData(resp.data.result.dataPoints);
+            props.changeStock(stocks);
+            return closeHandler();
+          }).catch(err => {
+            setErr(true);
+            return setErrMsg('Error connecting to the server.');
+          });
+        }).catch(err => {
+          setErr(true);
+          return setErrMsg('Error connecting to the server.');
+        });
+        return;
+      }
+      if (props.mode === 'SellCrypto') {
+        axios.put('portfolio/deleteCrypto', { identifier: selected.identifier, name: selected.name }).then(res => {
+          const cryptos = [...props.cryptos];
+          const index = cryptos.findIndex(crypto => crypto.name === selected.name);
+          cryptos.splice(index, 1);
+          const updatedPortfolio = { ...props.portfolio };
+          updatedPortfolio.cryptos = [...cryptos];
+          const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+          axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
+            props.setNetWorthData(resp.data.result.dataPoints);
+            props.changeCrypto(cryptos);
+            return closeHandler();
+          }).catch(err => {
+            setErr(true);
+            return setErrMsg('Error connecting to the server.');
+          });
+        }).catch(err => {
+          setErr(true);
+          return setErrMsg('Error connecting to the server.');
+        });
+        return;
+      }
     }
     const newPortfolio = props.mode === 'BuyStock' || props.mode === 'SellStock' ?
     [...props.stocks] : [...props.cryptos];
@@ -74,8 +147,8 @@ const BuySellPanel = props => {
         const updatedPortfolio = { ...props.portfolio };
         updatedPortfolio.stocks = [...newPortfolio];
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        axios.put('netWorth', { netWorthData: updatedNetWorth }).then(res => {
-          props.setNetWorthData(res.data.result.dataPoints);
+        axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
+          props.setNetWorthData(resp.data.result.dataPoints);
           props.changeStock(newPortfolio);
           closeHandler();
         }).catch(err => {
@@ -92,8 +165,8 @@ const BuySellPanel = props => {
         const updatedPortfolio = { ...props.portfolio };
         updatedPortfolio.cryptos = [...newPortfolio];
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        axios.put('netWorth', { netWorthData: updatedNetWorth }).then(res => {
-          props.setNetWorthData(res.data.result.dataPoints);
+        axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
+          props.setNetWorthData(resp.data.result.dataPoints);
           props.changeCrypto(newPortfolio);
           closeHandler();
         }).catch(err => {
@@ -107,73 +180,60 @@ const BuySellPanel = props => {
     }
   };
 
-  const selectHandler = (e) => {
-    const val = e.target.value;
-    setSelectedName(val);
+  const selectHandler = (selectedOption) => {
+    if (!selectedOption) {
+      setSelectedName('');
+      return setSelected({ ...originalSelected });
+    }
+    setSelectedName(selectedOption);
     setErr(false);
     setErrMsg('');
     setSelectedVal(0);
-    if (val === '') { return setSelected({ ...originalSelected }); }
     if (props.mode === 'BuyStock' || props.mode === 'SellStock') {
-      const stockMatch = props.stocks.find(stock => stock.name === val);
+      const stockMatch = props.stocks.find(stock => stock.name === selectedOption.value);
       setSelected({ ...stockMatch });
     } else {
-      const cryptoMatch = props.cryptos.find(crypto => crypto.name === val);
+      const cryptoMatch = props.cryptos.find(crypto => crypto.name === selectedOption.value);
       setSelected({ ...cryptoMatch });
     }
   };
 
+  const stockOptions = props.stocks.map(stock => {
+    return { value: stock.name, label: stock.name };
+  });
+
+  const cryptoOptions = props.cryptos.map(crypto => {
+    return { value: crypto.name, label: crypto.name };
+  });
+
   return (
-    <div ref={panelRef} className={props.mode === 'BuyStock' || props.mode === 'SellStock' ?
-      (props.show ? classes.StockPanel : classes.StockPanelHide) :
-      (props.show ? classes.CryptoPanel : classes.CryptoPanelHide)}>
-    <div className={classes.BtnDiv}>
-      <CloseBtn close={closeHandler} />
-    </div>
-    <p className={classes.Text}>
-      {props.mode === 'BuyStock' ?
-      'Which stock did you buy?' :
-      props.mode === 'SellStock' ?
-      'Which stock did you sell?' :
-      props.mode === 'BuyCrypto' ?
-      'Which cryptocurrency did you buy?' :
-      'Which cryptocurrency did you sell?'}
-    </p>
-    <select className={classes.Dropdown} value={selectedName} onChange={selectHandler}>
-      <option value="" hidden></option>
-      {props.mode === 'BuyStock' || props.mode === 'SellStock' ?
-      props.stocks.map((stock, i) => (
-        <option value={stock.name} key={stock.name}>
-          {stock.name}
-        </option>
-      )) :
-      props.cryptos.map((crypto, i) => (
-        <option value={crypto.name} key={crypto.name}>
-          {crypto.name}
-        </option>
-      ))
-      }
-    </select>
-    <p className={selectedName === '' ? classes.HideText : classes.Text}>
-      {props.mode === 'BuyStock' ?
-      `How many shares of ${selected.symbol} did you buy?` :
-      props.mode === 'SellStock' ?
-      `How many shares of ${selected.symbol} did you sell?` :
-      props.mode === 'BuyCrypto' ?
-      `How much ${selected.symbol} did you buy?` :
-      `How much ${selected.symbol} did you sell?`}
-    </p>
-    <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
-      <input disabled={selectedName === ''} type="text" className={classes.Input}
-        value={selectedVal} onChange={setValHandler} />
-      {props.mode === 'SellStock' || props.mode === 'SellCrypto' ? (
-        <button className={classes.AllBtn} onClick={() => setSelectedVal(selected.quantity)}>All</button>
-      ) : null}
-    </div>
-    <button onClick={confirmHandler} className={selectedName === '' ? classes.HideConfirmBtn : classes.ConfirmBtn}>
-      Confirm
-    </button>
-    <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+    <div ref={panelRef} className={panelClass}>
+      <div className={classes.BtnDiv}>
+        <CloseBtn close={closeHandler} />
+      </div>
+      <p className={classes.Text}>{titleText}</p>
+      <Select options={props.mode === 'BuyStock' || props.mode === 'SellStock' ? stockOptions : cryptoOptions}
+        className={classes.Dropdown} onChange={selectHandler} isSearchable value={selectedName} classNamePrefix="react-select" />
+      <p className={selectedName === '' ? classes.HideText : classes.Text}>
+        {props.mode === 'BuyStock' ?
+        `How many shares of ${selected.symbol} did you buy?` :
+        props.mode === 'SellStock' ?
+        `How many shares of ${selected.symbol} did you sell?` :
+        props.mode === 'BuyCrypto' ?
+        `How much ${selected.symbol} did you buy?` :
+        `How much ${selected.symbol} did you sell?`}
+      </p>
+      <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
+        <input disabled={selectedName === ''} type="text" className={classes.Input}
+          value={selectedVal} onChange={setValHandler} />
+        {props.mode === 'SellStock' || props.mode === 'SellCrypto' ? (
+          <button className={classes.AllBtn} onClick={() => setSelectedVal(selected.quantity)}>All</button>
+        ) : null}
+      </div>
+      <button onClick={confirmHandler} className={selectedName === '' ? classes.HideConfirmBtn : classes.ConfirmBtn}>
+        Confirm
+      </button>
+      <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
     </div>
   );
 };

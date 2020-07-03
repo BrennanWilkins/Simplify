@@ -1,0 +1,60 @@
+.SideNav, .HideSideNav {
+  position: absolute;
+  width: 240px;
+  height: 100%;
+  left: 0;
+  transform: translateX(0);
+  transition: all 400ms;
+  background: rgb(42, 69, 92);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.HideSideNav {
+  transform: translateX(-100%);
+}
+.Title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  margin: 30px 0 10px;
+}
+.Title:hover > h1 {
+  color: rgb(26, 171, 152);
+  transition: color 300ms;
+}
+.Title h1 {
+  font-size: 25px;
+  transition: color 300ms;
+}
+.Link, .LogoutLink {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 300ms;
+  position: relative;
+  margin: 25px 0 0;
+}
+.Link:hover, .LogoutLink:hover {
+  color: rgb(26, 171, 152);
+  transition: color 300ms;
+}
+.Link:hover .FocusBorder, .LogoutLink:hover .FocusBorder {
+  width: 100%;
+  transition: 300ms ease-out;
+  left: 0;
+}
+.FocusBorder {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: rgb(26, 171, 152);
+  transition: 300ms ease-out;
+}

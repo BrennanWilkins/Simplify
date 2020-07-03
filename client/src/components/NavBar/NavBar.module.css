@@ -24,7 +24,7 @@
   font-size: 25px;
   transition: color 300ms;
 }
-.Link {
+.Link, .LogoutLink {
   color: white;
   text-decoration: none;
   font-size: 18px;
@@ -32,11 +32,11 @@
   transition: color 300ms;
   position: relative;
 }
-.Link:hover {
+.Link:hover, .LogoutLink:hover {
   color: rgb(26, 171, 152);
   transition: color 300ms;
 }
-.Link:hover .FocusBorder {
+.Link:hover .FocusBorder, .LogoutLink:hover .FocusBorder {
   width: 100%;
   transition: 300ms ease-out;
   left: 0;
@@ -49,4 +49,60 @@
   height: 2px;
   background: rgb(26, 171, 152);
   transition: 300ms ease-out;
+}
+.LeftNavBar {
+  display: none;
+}
+.SideToggle {
+  width: 40px;
+  height: 70%;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  margin: 0 20px;
+}
+.SideToggle div {
+  width: 90%;
+  height: 3px;
+  background: white;
+  transition: background 300ms;
+}
+.SideToggle:hover div {
+  background: rgb(26, 171, 152);
+  transition: background 300ms;
+}
+.Backdrop, .HideBackdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgb(0, 0, 0, 0.25);
+  opacity: 1;
+  visibility: visible;
+  z-index: 50;
+  transition: all 400ms;
+}
+.HideBackdrop {
+  opacity: 0;
+  visibility: hidden;
+}
+@media (max-width: 750px) {
+  .Link {
+    display: none;
+  }
+  .NavBar {
+    justify-content: space-between;
+  }
+  .LeftNavBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  .LogoutLink {
+    margin-right: 20px;
+  }
 }

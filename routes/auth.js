@@ -73,7 +73,11 @@ router.post('/login', [
                             if (pResult.status === 'fulfilled') { updatedStocks[i].price = pResult.value.price.regularMarketPrice; }
                             else { updatedStocks[i].price = '?'; }
                           });
-                          const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: updatedStocks };
+                          const manualStocks = [...portfolio.manualStocks];
+                          const manualCryptos = [...portfolio.manualCryptos];
+                          const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
+                          const combinedCryptos = updatedCryptos.concat([...portfolio.manualCryptos]);
+                          const updatedPortfolio = { ...portfolio, cryptos: combinedCryptos, stocks: combinedStocks };
                           return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth });
                         });
                       });
@@ -98,7 +102,11 @@ router.post('/login', [
                         if (pResult.status === 'fulfilled') { updatedStocks[i].price = pResult.value.price.regularMarketPrice; }
                         else { updatedStocks[i].price = '?'; }
                       });
-                      const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: updatedStocks };
+                      const manualStocks = [...portfolio.manualStocks];
+                      const manualCryptos = [...portfolio.manualCryptos];
+                      const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
+                      const combinedCryptos = updatedCryptos.concat([...portfolio.manualCryptos]);
+                      const updatedPortfolio = { ...portfolio, cryptos: combinedCryptos, stocks: combinedStocks };
                       return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth });
                     });
                   }
@@ -135,7 +143,10 @@ router.post('/signup', [
           const options = req.body.remember === 'false' ? { expiresIn: '1h' } : { expiresIn: '30d' };
           jwt.sign({ newUser }, config.get('AUTH_KEY'), options, (err, token) => {
             if (err) { return res.status(500).json({ msg: 'Failed signing up user.' }); }
-            const newPortfolio = new Portfolio({ cryptos: [], stocks: [], otherAssets: [], liabilities: [], userId: newUser._id });
+            // **
+            const newPortfolio = new Portfolio({ cryptos: [], stocks: [], otherAssets: [],
+              liabilities: [], manualCryptos: [], manualStocks: [], userId: newUser._id });
+            // const newPortfolio = new Portfolio({ cryptos: [], stocks: [], otherAssets: [], liabilities: [], userId: newUser._id });
             newPortfolio.save((err, portfolio) => {
               if (err) { return res.status(500).json({ msg: 'Failed signing up user.' }); }
               const newNetWorth = new NetWorth({ dataPoints: [{ date: new Date(), value: 0}], userId: newUser._id });
@@ -207,7 +218,11 @@ router.get('/autoLogin', auth, (req, res, next) => {
                   if (pResult.status === 'fulfilled') { updatedStocks[i].price = pResult.value.price.regularMarketPrice; }
                   else { updatedStocks[i].price = '?'; }
                 });
-                const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: updatedStocks };
+                const manualStocks = [...portfolio.manualStocks];
+                const manualCryptos = [...portfolio.manualCryptos];
+                const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
+                const combinedCryptos = updatedCryptos.concat([...portfolio.manualCryptos]);
+                const updatedPortfolio = { ...portfolio, cryptos: combinedCryptos, stocks: combinedStocks };
                 return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth });
               });
             });
@@ -232,7 +247,11 @@ router.get('/autoLogin', auth, (req, res, next) => {
               if (pResult.status === 'fulfilled') { updatedStocks[i].price = pResult.value.price.regularMarketPrice; }
               else { updatedStocks[i].price = '?'; }
             });
-            const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: updatedStocks };
+            const manualStocks = [...portfolio.manualStocks];
+            const manualCryptos = [...portfolio.manualCryptos];
+            const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
+            const combinedCryptos = updatedCryptos.concat([...portfolio.manualCryptos]);
+            const updatedPortfolio = { ...portfolio, cryptos: combinedCryptos, stocks: combinedStocks };
             return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth });
           });
         }

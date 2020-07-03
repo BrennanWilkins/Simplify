@@ -1,4 +1,8 @@
-.StockPanel, .CryptoPanel, .StockPanelHide, .CryptoPanelHide {
+.Hide {
+  display: none;
+}
+.BuyStock, .SellStock, .HideBuyStock, .HideSellStock,
+.BuyCrypto, .SellCrypto, .HideBuyCrypto, .HideSellCrypto {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -12,32 +16,37 @@
   z-index: 2;
   padding: 10px;
   overflow: hidden;
-}
-.StockPanel {
   left: 335px;
   opacity: 1;
   transform: scale(1);
   transition: all 400ms;
 }
-.CryptoPanel {
+.BuyCrypto, .SellCrypto {
   left: -205px;
-  opacity: 1;
-  transform: scale(1);
-  transition: all 400ms;
 }
-.StockPanelHide {
+.HideBuyStock {
   opacity: 0;
   top: -140px;
   transform: scale(0);
-  left: 50px;
-  transition: all 400ms;
+  left: 30px;
 }
-.CryptoPanelHide {
+.HideSellStock {
   opacity: 0;
   top: -140px;
   transform: scale(0);
-  left: 80px;
-  transition: all 400ms;
+  left: 85px;
+}
+.HideBuyCrypto {
+  opacity: 0;
+  top: -140px;
+  transform: scale(0);
+  left: 45px;
+}
+.HideSellCrypto {
+  opacity: 0;
+  top: -140px;
+  transform: scale(0);
+  left: 110px;
 }
 .BtnDiv {
   width: 100%;
@@ -116,16 +125,14 @@
   opacity: 0;
 }
 .Dropdown {
-  width: 200px;
-  height: 30px;
-  outline: none;
+  width: 230px;
 }
 @media (max-width: 1070px) {
-  .StockPanel, .CryptoPanel {
+  .BuyStock, .SellStock, .BuyCrypto, .SellCrypto {
     left: calc(50% - 185px);
     top: -325px;
   }
-  .StockPanelHide, .CryptoPanelHide {
+  .HideBuyStock, .HideSellStock, .HideBuyCrypto, .HideSellCrypto {
     left: calc(50% - 185px);
     top: -140px;
   }

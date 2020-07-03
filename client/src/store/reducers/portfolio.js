@@ -30,6 +30,10 @@ const reducer = (state = initialState, action) => {
       return { ...state, stocks: action.stocks };
     case actionTypes.CHANGE_CRYPTO:
       return { ...state, cryptos: action.cryptos };
+    case actionTypes.UPDATE_ASSETS:
+      return { ...state, otherAssets: action.assets };
+    case actionTypes.UPDATE_DEBTS:
+      return { ...state, liabilities: action.debts };
     default: return state;
   }
 };

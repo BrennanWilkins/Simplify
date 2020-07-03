@@ -1,0 +1,74 @@
+.TableContainer {
+  width: 100%;
+  max-height: 220px;
+  overflow: auto;
+}
+.AssetTableContainer {
+  width: 100%;
+  max-height: 95px;
+  overflow: auto;
+}
+.TableContainer::-webkit-scrollbar-track,
+.AssetTableContainer::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: white;
+}
+.TableContainer::-webkit-scrollbar,
+.AssetTableContainer::-webkit-scrollbar {
+  width: 10px;
+  background-color: white;
+}
+.TableContainer::-webkit-scrollbar-thumb,
+.AssetTableContainer::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #ddd;
+}
+.Table {
+  width: 320px;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: auto;
+}
+.NormalTable {
+  width: 500px;
+  border-collapse: collapse;
+}
+.Table td, .NormalTable td {
+  border: 1px solid rgb(18, 152, 189);
+  background: rgb(18, 152, 189, 0.04);
+  padding: 8px 2px;
+  box-sizing: border-box;
+  text-align: center;
+  word-wrap: break-word;
+  max-width: 50px;
+}
+.NormalTable td {
+  max-width: 100px;
+}
+.Value {
+  color: rgb(26, 171, 152);
+  font-weight: bold;
+}
+.HeaderFields {
+  color: rgb(15, 119, 147);
+  background: rgb(18, 152, 189, 0.1);
+}
+.HeaderFields th {
+  padding: 10px 0;
+}
+.Symbol {
+  font-weight: bold;
+  position: relative;
+}
+.Symbol img {
+  position: absolute;
+  height: 18px;
+  top: calc(50% - 9px);
+  left: calc(50% - 9px);
+}
+.NormalTable .Symbol img {
+  height: 24px;
+  position: absolute;
+  top: calc(50% - 12px);
+  left: calc(50% - 12px);
+}

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import classes from './Portfolio.module.css';
-import CanvasJSReact from '../../components/canvasjs/canvasjs.react';
 import { connect } from 'react-redux';
-import { createNetWorthOptions } from '../../utils/chartFuncs';
 import SearchPanel from '../../components/SearchPanel/SearchPanel';
 import BuySellPanel from '../../components/BuySellPanel/BuySellPanel';
-const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+import { settingsIcon } from '../../components/UI/UIIcons';
+import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
+import AssetPanel from '../../components/AssetPanel/AssetPanel';
+import NetWorthChart from '../../components/NetWorthChart/NetWorthChart';
+import InvestmentTable from '../../components/InvestmentTable/InvestmentTable';
 
 const Portfolio = props => {
   const [showStockSearch, setShowStockSearch] = useState(false);
@@ -14,8 +16,14 @@ const Portfolio = props => {
   const [showSellStock, setShowSellStock] = useState(false);
   const [showBuyCrypto, setShowBuyCrypto] = useState(false);
   const [showSellCrypto, setShowSellCrypto] = useState(false);
-
-  const netWorthVal = (props.netWorthData[props.netWorthData.length - 1].value).toFixed(2);
+  const [showStockSettings, setShowStockSettings] = useState(false);
+  const [showCryptoSettings, setShowCryptoSettings] = useState(false);
+  const [showAddAsset, setShowAddAsset] = useState(false);
+  const [showRemoveAsset, setShowRemoveAsset] = useState(false);
+  const [showAddDebt, setShowAddDebt] = useState(false);
+  const [showRemoveDebt, setShowRemoveDebt] = useState(false);
+  const [showAssetSettings, setShowAssetSettings] = useState(false);
+  const [showDebtSettings, setShowDebtSettings] = useState(false);
 
   const showBuySellHandler = (mode) => {
     if ((mode === 'BuyStock' || mode === 'SellStock') && props.stocks.length === 0) {
@@ -32,14 +40,7 @@ const Portfolio = props => {
 
   return (
     <div className={classes.Container}>
-      <div className={classes.NetWorthTitle}>
-        <h1 className={classes.NetWorthText}>Net Worth</h1>
-        <h1 className={classes.NetWorthValue}>${netWorthVal}</h1>
-      </div>
-      <div className={classes.NetWorthChart}>
-        <CanvasJSChart options={createNetWorthOptions(props.netWorthData)} />
-        <div className={classes.Block}></div>
-      </div>
+      <NetWorthChart small={false} />
       <div className={classes.Investments}>
         <div className={classes.Stocks}>
           <h1>Stocks</h1>
@@ -49,30 +50,13 @@ const Portfolio = props => {
             <BuySellPanel mode="BuyStock" show={showBuyStock} close={() => setShowBuyStock(false)} />
             <button className={classes.SellBtn} onClick={() => showBuySellHandler('SellStock')}>Sell</button>
             <BuySellPanel mode="SellStock" show={showSellStock} close={() => setShowSellStock(false)} />
+            <button className={classes.SettingsBtn} onClick={() => setShowStockSettings(true)}>
+              <span>{settingsIcon}</span>
+            </button>
+            <SettingsPanel mode="Stock" show={showStockSettings} close={() => setShowStockSettings(false)} />
           </div>
           <SearchPanel mode="Stock" show={showStockSearch} close={() => setShowStockSearch(false)} />
-          <table className={classes.Table}>
-            <thead>
-              <tr className={classes.HeaderFields}>
-                <th>Ticker</th>
-                <th>Company Name</th>
-                <th>Shares</th>
-                <th>Price</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {props.stocks.map((stock, i) => (
-                <tr key={i}>
-                  <td className={classes.Symbol}>{stock.symbol}</td>
-                  <td>{stock.name}</td>
-                  <td>{stock.quantity}</td>
-                  <td>{stock.price === '?' ? '?' : `$${Number(stock.price).toFixed(2)}`}</td>
-                  <td className={classes.Value}>{stock.value === '?' ? '?' : `$${Number(stock.value).toFixed(2)}`}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <InvestmentTable mode="Stocks" normal />
         </div>
         <div className={classes.Cryptos}>
           <h1>Cryptocurrencies</h1>
@@ -82,30 +66,43 @@ const Portfolio = props => {
             <BuySellPanel mode="BuyCrypto" show={showBuyCrypto} close={() => setShowBuyCrypto(false)} />
             <button className={classes.SellBtn} onClick={() => showBuySellHandler('SellCrypto')}>Sell</button>
             <BuySellPanel mode="SellCrypto" show={showSellCrypto} close={() => setShowSellCrypto(false)} />
+            <button className={classes.SettingsBtn} onClick={() => setShowCryptoSettings(true)}>
+              <span>{settingsIcon}</span>
+            </button>
+            <SettingsPanel mode="Crypto" show={showCryptoSettings} close={() => setShowCryptoSettings(false)} />
           </div>
           <SearchPanel mode="Crypto" show={showCryptoSearch} close={() => setShowCryptoSearch(false)} />
-          <table className={classes.Table}>
-            <thead>
-              <tr className={classes.HeaderFields}>
-                <th>Symbol</th>
-                <th>Cryptocurrency</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {props.cryptos.map((crypto, i) => (
-                <tr key={i}>
-                  <td className={classes.Symbol}>{crypto.symbol}</td>
-                  <td>{crypto.name}</td>
-                  <td>{crypto.quantity}</td>
-                  <td>{crypto.price === '?' ? '?' : `$${Number(crypto.price).toFixed(2)}`}</td>
-                  <td className={classes.Value}>{crypto.value === '?' ? '?' : `$${Number(crypto.value).toFixed(2)}`}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <InvestmentTable mode="Cryptos" normal />
+        </div>
+      </div>
+      <div className={classes.Investments}>
+        <div className={classes.Stocks}>
+          <h1>Assets</h1>
+          <div className={classes.AssetBtns}>
+            <button className={classes.NewBtn} onClick={() => setShowAddAsset(true)}>Add a new asset</button>
+            <AssetPanel mode="AddAsset" close={() => setShowAddAsset(false)} show={showAddAsset} />
+            <button className={classes.NewBtn} onClick={() => setShowRemoveAsset(true)}>Remove an asset</button>
+            <AssetPanel mode="RemoveAsset" close={() => setShowRemoveAsset(false)} show={showRemoveAsset} />
+            <button className={classes.AssetSettingsBtn} onClick={() => setShowAssetSettings(true)}>
+              <span>{settingsIcon}</span>
+            </button>
+            <AssetPanel mode="SettingsAsset" close={() => setShowAssetSettings(false)} show={showAssetSettings} />
+          </div>
+          <InvestmentTable mode="Assets" normal />
+        </div>
+        <div className={classes.Cryptos}>
+          <h1>Liabilities</h1>
+          <div className={classes.AssetBtns}>
+            <button className={classes.NewBtn} onClick={() => setShowAddDebt(true)}>Add a new liability</button>
+            <AssetPanel mode="AddDebt" close={() => setShowAddDebt(false)} show={showAddDebt} />
+            <button className={classes.NewBtn} onClick={() => setShowRemoveDebt(true)}>Remove a liability</button>
+            <AssetPanel mode="RemoveDebt" close={() => setShowRemoveDebt(false)} show={showRemoveDebt} />
+            <button className={classes.AssetSettingsBtn} onClick={() => setShowDebtSettings(true)}>
+              <span>{settingsIcon}</span>
+            </button>
+            <AssetPanel mode="SettingsDebt" close={() => setShowDebtSettings(false)} show={showDebtSettings} />
+          </div>
+          <InvestmentTable mode="Debts" normal />
         </div>
       </div>
     </div>
@@ -113,7 +110,6 @@ const Portfolio = props => {
 };
 
 const mapStateToProps = state => ({
-  netWorthData: state.netWorth.netWorthData,
   stocks: state.portfolio.stocks,
   cryptos: state.portfolio.cryptos
 });
