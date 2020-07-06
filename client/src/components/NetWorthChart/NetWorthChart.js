@@ -14,7 +14,7 @@ const NetWorthChart = props => {
       <div className={classes.Chart}>
         <div className={classes.NetWorthTitleSmall}>
           <h1 className={classes.NetWorthTextSmall}>Net Worth</h1>
-          <h1 className={classes.NetWorthValueSmall}>${netWorthVal}</h1>
+          <h1 className={classes.NetWorthValueSmall}>${String(Number(netWorthVal).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</h1>
         </div>
         <div className={classes.NetWorthChart}>
           <CanvasJSChart options={{ ...createNetWorthOptions(props.netWorthData), height: 200 }} />
@@ -25,7 +25,7 @@ const NetWorthChart = props => {
       <div>
         <div className={classes.NetWorthTitle}>
           <h1 className={classes.NetWorthText}>Net Worth</h1>
-          <h1 className={classes.NetWorthValue}>${netWorthVal}</h1>
+          <h1 className={classes.NetWorthValue}>${String(Number(netWorthVal).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</h1>
         </div>
         <div className={classes.NetWorthChart}>
           <CanvasJSChart options={{ ...createNetWorthOptions(props.netWorthData) }} />

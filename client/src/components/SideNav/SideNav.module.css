@@ -1,7 +1,7 @@
 .SideNav, .HideSideNav {
   position: absolute;
   width: 240px;
-  height: 100%;
+  height: calc(100% - 25px);
   left: 0;
   transform: translateX(0);
   transition: all 400ms;
@@ -10,26 +10,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 25px;
 }
 .HideSideNav {
   transform: translateX(-100%);
-}
-.Title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  cursor: pointer;
-  text-decoration: none;
-  margin: 30px 0 10px;
-}
-.Title:hover > h1 {
-  color: rgb(26, 171, 152);
-  transition: color 300ms;
-}
-.Title h1 {
-  font-size: 25px;
-  transition: color 300ms;
 }
 .Link, .LogoutLink {
   color: white;

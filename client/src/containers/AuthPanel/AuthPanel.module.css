@@ -71,15 +71,6 @@
 .SwitchAuth a:hover {
   color: rgb(10, 77, 96);
 }
-.Title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 0 5px;
-}
-.Title h1 {
-  color: rgb(15, 119, 147);
-}
 .SubTitle {
   text-align: center;
   margin: 0 30px 20px;

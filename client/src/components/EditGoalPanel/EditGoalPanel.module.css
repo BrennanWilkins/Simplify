@@ -1,25 +1,37 @@
-.Container {
-  width: 100%;
-  position: absolute;
-  top: 70px;
-  height: calc(100% - 70px);
-  overflow: auto;
+.EditPanel, .HideEditPanel, .DeletePanel, .HideDeletePanel {
   display: flex;
-  justify-content: center;
-}
-.SetGoal {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: -250px;
+  width: 250px;
+  height: 200px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  background: white;
+  z-index: 2;
+  padding: 10px;
+  overflow: hidden;
+  left: 65px;
+  transition: all 400ms;
 }
-.Title {
-  color: rgb(10, 77, 96);
-  text-align: center;
+.DeletePanel, .HideDeletePanel {
+  height: 150px;
+  width: 200px;
+  left: 90px;
+  top: -200px;
 }
-.Title2 {
-  text-align: center;
-  color: rgb(26, 171, 152);
+.HideEditPanel {
+  opacity: 0;
+  top: -80px;
+  left: 0;
+  transform: scale(0);
+}
+.HideDeletePanel {
+  opacity: 0;
+  top: -50px;
+  left: 150px;
+  transform: scale(0);
 }
 .Input {
   width: 200px;
@@ -48,20 +60,6 @@
   background: rgb(26, 171, 152);
   transition: background 250ms;
 }
-.SubTitle {
-  text-align: center;
-  color: rgb(26, 171, 152);
-  font-size: 22px;
-  margin: 0;
-  font-weight: bold;
-}
-.Btns {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
 .ShowErr, .HideErr {
   opacity: 1;
   transition: opacity 300ms;
@@ -71,4 +69,11 @@
 }
 .HideErr {
   opacity: 0;
+}
+.BtnDiv {
+  width: 100%;
+}
+.Title {
+  text-align: center;
+  color: rgb(10, 77, 96);
 }

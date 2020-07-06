@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import classes from './NavBar.module.css';
 import { Link } from 'react-router-dom';
-import Chart from '../UI/ChartSymbol/ChartSymbol';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import SideNav from '../SideNav/SideNav';
+import Title from '../UI/Title/Title';
 
 const NavBar = props => {
   const [showSideNav, setShowSideNav] = useState(false);
@@ -19,10 +19,7 @@ const NavBar = props => {
             <div></div>
           </div>
         </div>
-        <Link className={classes.Title} to="/">
-          <Chart />
-          <h1>Simplify</h1>
-        </Link>
+        <Title />
         <Link className={classes.Link} to="/portfolio">
           Portfolio
           <div className={classes.FocusBorder}></div>

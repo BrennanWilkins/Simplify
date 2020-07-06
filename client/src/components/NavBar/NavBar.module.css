@@ -8,22 +8,6 @@
   justify-content: space-around;
   align-items: center;
 }
-.Title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  cursor: pointer;
-  text-decoration: none;
-}
-.Title:hover > h1 {
-  color: rgb(26, 171, 152);
-  transition: color 300ms;
-}
-.Title h1 {
-  font-size: 25px;
-  transition: color 300ms;
-}
 .Link, .LogoutLink {
   color: white;
   text-decoration: none;

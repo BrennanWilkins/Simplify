@@ -11,6 +11,7 @@ const Portfolio = require('../models/portfolio');
 const NetWorth = require('../models/netWorth');
 const auth = require('../middleware/auth');
 const yf = require('yahoo-finance');
+const Goals = require('../models/goals');
 
 const cmcOptions = {
   headers: {
@@ -78,7 +79,13 @@ router.post('/login', [
                           const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
                           const combinedCryptos = updatedCryptos.concat([...portfolio.manualCryptos]);
                           const updatedPortfolio = { ...portfolio, cryptos: combinedCryptos, stocks: combinedStocks };
-                          return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth });
+                          Goals.findOne({ userId: user._id }, (err, goal) => {
+                            if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                            if (!goal) {
+                              return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth });
+                            }
+                            return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
+                          });
                         });
                       });
                     }).catch(err => {
@@ -107,7 +114,13 @@ router.post('/login', [
                       const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
                       const combinedCryptos = updatedCryptos.concat([...portfolio.manualCryptos]);
                       const updatedPortfolio = { ...portfolio, cryptos: combinedCryptos, stocks: combinedStocks };
-                      return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth });
+                      Goals.findOne({ userId: user._id }, (err, goal) => {
+                        if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                        if (!goal) {
+                          return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth });
+                        }
+                        return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
+                      });
                     });
                   }
                 });
@@ -223,7 +236,13 @@ router.get('/autoLogin', auth, (req, res, next) => {
                 const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
                 const combinedCryptos = updatedCryptos.concat([...portfolio.manualCryptos]);
                 const updatedPortfolio = { ...portfolio, cryptos: combinedCryptos, stocks: combinedStocks };
-                return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth });
+                Goals.findOne({ userId: req.userId }, (err, goal) => {
+                  if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                  if (!goal) {
+                    return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth });
+                  }
+                  return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
+                });
               });
             });
           }).catch(err => {
@@ -252,7 +271,13 @@ router.get('/autoLogin', auth, (req, res, next) => {
             const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
             const combinedCryptos = updatedCryptos.concat([...portfolio.manualCryptos]);
             const updatedPortfolio = { ...portfolio, cryptos: combinedCryptos, stocks: combinedStocks };
-            return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth });
+            Goals.findOne({ userId: req.userId }, (err, goal) => {
+              if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+              if (!goal) {
+                return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth });
+              }
+              return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
+            });
           });
         }
       });

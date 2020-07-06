@@ -16,6 +16,7 @@
   align-items: center;
   border: 0;
   border-radius: 3px;
+  cursor: pointer;
 }
 .CloseBtn:hover {
   background: rgb(10, 77, 96);

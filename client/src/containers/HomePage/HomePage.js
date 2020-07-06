@@ -3,6 +3,8 @@ import classes from './HomePage.module.css';
 import HomeCard from '../../components/HomeCard/HomeCard';
 import NetWorthChart from '../../components/NetWorthChart/NetWorthChart';
 import InvestmentTable from '../../components/InvestmentTable/InvestmentTable';
+import GoalChart from '../../components/GoalChart/GoalChart';
+import { connect } from 'react-redux';
 
 const HomePage = props => {
   return (
@@ -35,11 +37,22 @@ const HomePage = props => {
           <h1>Budget</h1>
         </HomeCard>
         <HomeCard num="6">
-          <h1>Net Worth Goal</h1>
+          <div className={classes.InvestmentCard}>
+            <h1 className={classes.Title}>Net Worth Goal</h1>
+            <div className={classes.ChartContainer}>
+              {props.goal ? <GoalChart mode="Small" /> : (
+                <p className={classes.SubTitle}>Create a new net worth goal!</p>
+              )}
+            </div>
+          </div>
         </HomeCard>
       </div>
     </div>
   );
 };
 
-export default HomePage;
+const mapStateToProps = state => ({
+  goal: state.goal.goal
+});
+
+export default connect(mapStateToProps)(HomePage);

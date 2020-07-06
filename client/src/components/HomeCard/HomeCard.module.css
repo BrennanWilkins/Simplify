@@ -13,7 +13,7 @@
   position: absolute;
   bottom: -70px;
   left: -80px;
-  cursor: default;
+  cursor: pointer;
 }
 .Card1 {
   -webkit-animation: scaleUp 250ms forwards;

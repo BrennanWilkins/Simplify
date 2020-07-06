@@ -4,11 +4,11 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import { personIcon, lockIcon, arrowRight } from '../../components/UI/UIIcons';
 import { Link } from 'react-router-dom';
 import { validate } from '../../utils/authValidation';
-import ChartSymbol from '../../components/UI/ChartSymbol/ChartSymbol';
 import { authInstance as axios, instance } from '../../axios';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import { calcPortfolioValue, calcNetWorth } from '../../utils/valueCalcs';
+import Title from '../../components/UI/Title/Title';
 
 const AuthPanel = props => {
   const [email, setEmail] = useState('');
@@ -26,6 +26,13 @@ const AuthPanel = props => {
       setErrMsg('Retrieving current stock prices...');
     }
   }, [props.loading]);
+
+  useEffect(() => {
+    if (props.error) {
+      setErr(true);
+      setErrMsg('Error logging in.');
+    }
+  }, [props.error]);
 
   const showErr = (msg) => {
     setErr(true);
@@ -93,6 +100,7 @@ const AuthPanel = props => {
       props.setNetWorthData(data.netWorth.dataPoints);
     }
     props.setPortfolio(calcPortfolioValue(data.portfolio));
+    if (data.goal) { props.setGoal(data.goal); }
     reset();
     props.login();
   };
@@ -113,10 +121,7 @@ const AuthPanel = props => {
         {(loading || props.loading) && <Spinner mode={props.mode} />}
         <div className={classes.Content}>
           <Link to="/demo" className={classes.Demo}>View a demo account<span>{arrowRight}</span></Link>
-          <div className={classes.Title}>
-            <ChartSymbol />
-            <h1>Simplify</h1>
-          </div>
+          <Title auth />
           <p className={classes.SubTitle}>Simplify your finances with budget, net worth, and investment trackers</p>
           <div className={focused === '1' ? classes.InputDivFocus : classes.InputDiv}>
             <span className={classes.Icon}>{personIcon}</span>
@@ -171,13 +176,15 @@ const AuthPanel = props => {
 };
 
 const mapStateToProps = state => ({
-  loading: state.auth.loading
+  loading: state.auth.loading,
+  error: state.auth.error
 });
 
 const mapDispatchToProps = dispatch => ({
   login: () => dispatch(actions.login()),
   setNetWorthData: (data) => dispatch(actions.setNetWorthData(data)),
-  setPortfolio: (data) => dispatch(actions.setPortfolio(data))
+  setPortfolio: (data) => dispatch(actions.setPortfolio(data)),
+  setGoal: (goal) => dispatch(actions.setGoal(goal))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPanel);

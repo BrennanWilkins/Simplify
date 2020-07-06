@@ -40,3 +40,10 @@
   height: 10px;
   background: white;
 }
+.Chart .Block {
+  position: relative;
+  top: -12px;
+  width: 56px;
+  height: 10px;
+  background: white;
+}

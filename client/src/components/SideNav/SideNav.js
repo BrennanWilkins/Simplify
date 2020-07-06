@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import classes from './SideNav.module.css';
 import { Link } from 'react-router-dom';
-import Chart from '../UI/ChartSymbol/ChartSymbol';
+import Title from '../UI/Title/Title';
 
 const SideNav = props => {
   const navRef = useRef();
@@ -22,10 +22,7 @@ const SideNav = props => {
 
   return (
     <div ref={navRef} className={props.show ? classes.SideNav : classes.HideSideNav}>
-      <Link className={classes.Title} to="/" onClick={props.close}>
-        <Chart />
-        <h1>Simplify</h1>
-      </Link>
+      <Title />
       <Link className={classes.Link} to="/portfolio" onClick={props.close}>
         Portfolio
         <div className={classes.FocusBorder}></div>

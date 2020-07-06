@@ -30,6 +30,10 @@ export const startLoading = () => ({ type: actionTypes.START_LOADING });
 
 export const endLoading = () => ({ type: actionTypes.END_LOADING });
 
+export const createError = () => ({ type: actionTypes.CREATE_ERROR });
+
+export const removeError = () => ({ type: actionTypes.REMOVE_ERROR });
+
 export const autoLogin = () => dispatch => {
   if (!localStorage['token'] || !localStorage['expirationDate']) { return; }
   if (new Date(localStorage['expirationDate']) <= new Date()) {
@@ -47,12 +51,18 @@ export const autoLogin = () => dispatch => {
     instance.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
       dispatch(actions.setNetWorthData(resp.data.result.dataPoints));
       dispatch(actions.setPortfolio(calcPortfolioValue(res.data.portfolio)));
+      if (res.data.goal) { dispatch(actions.setGoal(res.data.goal)); }
       dispatch(endLoading());
+      dispatch(removeError());
       dispatch(login());
     }).catch(err => {
       dispatch(logout());
+      dispatch(endLoading());
+      dispatch(createError());
     });
   }).catch(err => {
     dispatch(logout());
+    dispatch(endLoading());
+    dispatch(createError());
   });
 };

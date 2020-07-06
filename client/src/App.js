@@ -7,6 +7,8 @@ import HomePage from './containers/HomePage/HomePage';
 import NavBar from './components/NavBar/NavBar';
 import Portfolio from './containers/Portfolio/Portfolio';
 import GoalPage from './containers/GoalPage/GoalPage';
+import PlanPage from './containers/PlanPage/PlanPage';
+import BudgetPage from './containers/BudgetPage/BudgetPage';
 
 const App = props => {
   useEffect(() => {
@@ -22,6 +24,8 @@ const App = props => {
             <Route exact path="/portfolio" component={Portfolio} />
             <Route exact path="/" component={HomePage} />
             <Route exact path="/goals" component={GoalPage} />
+            <Route exact path="/plan" component={PlanPage} />
+            <Route exact path="/budget" component={BudgetPage} />
             <Redirect to="/" />
           </Switch>
         </React.Fragment>

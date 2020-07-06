@@ -1,0 +1,85 @@
+.Title, .AuthTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+}
+.AuthTitle {
+  cursor: default;
+}
+.Title:hover .Bar1 {
+  background: rgb(38, 233, 207);
+  transition: background 300ms;
+}
+.Title:hover .Bar2 {
+  background: rgb(35, 219, 195);
+  transition: background 300ms 50ms;
+}
+.Title:hover .Bar3 {
+  background: rgb(31, 198, 176);
+  transition: background 300ms 100ms;
+}
+.Title:hover .Bar4 {
+  background: rgb(26, 171, 152);
+  transition: background 300ms 150ms;
+}
+.AuthTitle:hover .Bar1 {
+  background: rgb(32, 208, 185);
+  transition: background 300ms;
+}
+.AuthTitle:hover .Bar2 {
+  background: rgb(32, 208, 185, 0.8);
+  transition: background 300ms 50ms;
+}
+.AuthTitle:hover .Bar3 {
+  background: rgb(32, 208, 185, 0.6);
+  transition: background 300ms 100ms;
+}
+.AuthTitle:hover .Bar4 {
+  background: rgb(32, 208, 185, 0.4);
+  transition: background 300ms 150ms;
+}
+.Title h1, .AuthTitle h1 {
+  font-size: 25px;
+  background: linear-gradient(to right, rgb(18, 152, 189), rgb(26, 171, 152));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+.Bars {
+  height: 100%;
+  justify-content: center;
+  align-items: baseline;
+  cursor: pointer;
+  display: flex;
+}
+.AuthTitle .Bars {
+  cursor: default;
+}
+.Bars div {
+  width: 13px;
+  border-radius: 2px;
+}
+.Bar1 {
+  height: 25px;
+  background: rgb(18, 152, 189);
+  transition: background 300ms 150ms;
+}
+.Bar2 {
+  height: 30px;
+  background: rgb(18, 152, 189, 0.8);
+  transition: background 300ms 100ms;
+}
+.Bar3 {
+  height: 40px;
+  background: rgb(18, 152, 189, 0.6);
+  transition: background 300ms 50ms;
+}
+.Bar4 {
+  height: 50px;
+  background: rgb(18, 152, 189, 0.4);
+  transition: background 300ms;
+}

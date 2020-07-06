@@ -1,0 +1,100 @@
+.Container {
+  width: 100%;
+  position: absolute;
+  top: 70px;
+  height: calc(100% - 70px);
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.Chart, .HideChart {
+  width: 80%;
+  transition: all 250ms;
+  position: relative;
+  margin: 0 0 25px;
+}
+.Chart a, .HideChart a {
+  display: none;
+}
+.HideChart {
+  opacity: 0;
+  visibility: hidden;
+}
+.Block {
+  position: absolute;
+  background: white;
+  width: 56px;
+  height: 10px;
+  bottom: 2px;
+  left: 0;
+}
+.Inputs {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.InputRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+}
+.InputField {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 5px 20px 0;
+  width: 200px;
+  height: 80px;
+}
+.InputField input {
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 3px;
+  border: 1px solid rgb(18, 152, 189);
+  background: rgb(18, 152, 189, 0.03);
+  outline: none;
+}
+.InputField p {
+  text-align: center;
+  color: rgb(15, 119, 147);
+}
+.Btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  margin: 40px 0 0;
+}
+.Btns button {
+  margin: 0 10px 0;
+  color: white;
+  background: rgb(15, 119, 147);
+  border: 0;
+  border-radius: 3px;
+  outline: none;
+  padding: 7px 10px;
+  cursor: pointer;
+  opacity: 1;
+  transition: all 250ms;
+}
+.Btns button:hover {
+  background: rgb(10, 77, 96);
+  transition: background 250ms;
+}
+.Title {
+  margin: 10px 0 0;
+  text-align: center;
+  color: rgb(10, 77, 96);
+}
+.Title2 {
+  margin: 20px 0;
+  text-align: center;
+  color: rgb(26, 171, 152);
+}
+@media (max-width: 520px) {
+  .InputRow {
+    flex-direction: column;
+  }
+}

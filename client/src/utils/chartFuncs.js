@@ -9,6 +9,7 @@ export const createNetWorthOptions = (data) => {
     exportEnabled: false,
     axisY: { valueFormatString: "'$'0" },
     axisX: { valueFormatString: 'MM/DD/YY', labelAngle: -20 },
+    toolTip: { content: '{x}: ${y}' },
     data: [{
       type: 'area',
       indexLabelFontColor: '#5A5757',
