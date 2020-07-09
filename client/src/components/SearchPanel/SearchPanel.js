@@ -6,6 +6,7 @@ import * as actions from '../../store/actions/index';
 import { calcNetWorth } from '../../utils/valueCalcs';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import BackBtn from '../UI/BackBtn/BackBtn';
+import Spinner from '../UI/Spinner/Spinner';
 
 let typingTimeout;
 
@@ -22,7 +23,7 @@ const SearchPanel = props => {
   const [selectedTicker, setSelectedTicker] = useState('');
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-
+  const [loading, setLoading] = useState(false);
   const inputRef = useRef();
   const panelRef = useRef();
 
@@ -52,20 +53,46 @@ const SearchPanel = props => {
 
   const searchStock = (stock) => {
     if (stock === '') { return setSearchRes([]); }
-    axios.get('portfolio/searchStock/' + stock).then(res => {
-      setSearchRes(res.data.result);
-    }).catch(err => {
-      console.log(err);
-    });
+    setLoading(true);
+    if (props.isDemo) {
+      axios.get('demo/searchStock/' + stock).then(res => {
+        setLoading(false);
+        setSearchRes(res.data.result);
+      }).catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+    } else {
+      axios.get('portfolio/searchStock/' + stock).then(res => {
+        setSearchRes(res.data.result);
+        setLoading(false);
+      }).catch(err => {
+        setLoading(false);
+        console.log(err);
+      });
+    }
   };
 
   const searchCrypto = (crypto) => {
     if (crypto === '') { return setSearchRes([]); }
-    axios.get('portfolio/searchCrypto/' + crypto).then(res => {
-      setSearchRes(res.data.result);
-    }).catch(err => {
-      console.log(err);
-    });
+    setLoading(true);
+    if (props.isDemo) {
+      axios.get('demo/searchCrypto/' + crypto).then(res => {
+        setSearchRes(res.data.result);
+        setLoading(false);
+      }).catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+    } else {
+      axios.get('portfolio/searchCrypto/' + crypto).then(res => {
+        setSearchRes(res.data.result);
+        setLoading(false);
+      }).catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+    }
   };
 
   const closeHandler = () => {
@@ -86,6 +113,7 @@ const SearchPanel = props => {
     setSelectedTicker('');
     setErr(false);
     setErrMsg('');
+    setLoading(false);
   };
 
   const selectedHandler = (stock) => {
@@ -150,13 +178,18 @@ const SearchPanel = props => {
           return setErrMsg(`You already have ${stock.symbol} in your portfolio.`);
         }
       }
+      const updatedStocks = [...props.stocks];
+      updatedStocks.unshift({ ...data });
+      const updatedPortfolio = { ...props.portfolio, stocks: updatedStocks };
+      const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+      if (props.isDemo) {
+        props.setNetWorthData(updatedNetWorth);
+        props.addStock(data);
+        return closeHandler();
+      }
       axios.put('portfolio/updateStocks', { data }).then(res => {
-        const updatedStocks = [...props.stocks];
-        updatedStocks.unshift({ ...data });
-        const updatedPortfolio = { ...props.portfolio, stocks: updatedStocks };
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        axios.put('netWorth', { netWorthData: updatedNetWorth }).then(res => {
-          props.setNetWorthData(res.data.result.dataPoints);
+        axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
+          props.setNetWorthData(resp.data.result.dataPoints);
           props.addStock(data);
           closeHandler();
         }).catch(err => {
@@ -174,13 +207,18 @@ const SearchPanel = props => {
           return setErrMsg(`You already have ${crypto.symbol} in your portfolio.`);
         }
       }
+      const updatedCryptos = [...props.cryptos];
+      updatedCryptos.unshift({ ...data });
+      const updatedPortfolio = { ...props.portfolio, cryptos: updatedCryptos };
+      const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+      if (props.isDemo) {
+        props.setNetWorthData(updatedNetWorth);
+        props.addCrypto(data);
+        return closeHandler();
+      }
       axios.put('portfolio/updateCryptos', { data }).then(res => {
-        const updatedCryptos = [...props.cryptos];
-        updatedCryptos.unshift({ ...data });
-        const updatedPortfolio = { ...props.portfolio, cryptos: updatedCryptos };
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        axios.put('netWorth', { netWorthData: updatedNetWorth }).then(res => {
-          props.setNetWorthData(res.data.result.dataPoints);
+        axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
+          props.setNetWorthData(resp.data.result.dataPoints);
           props.addCrypto(data);
           closeHandler();
         }).catch(err => {
@@ -210,6 +248,7 @@ const SearchPanel = props => {
       <input className={classes.SearchInput}
         value={val} onChange={setSearchVal} ref={inputRef}
         placeholder={props.mode === 'Stock' ? 'AAPL, Apple, ...' : 'BTC, Bitcoin, ...'} />
+      {loading && <Spinner mode="Search" />}
       <div className={classes.Results}>
         {searchRes.map((stock, i) => (
           <div className={classes.Result} key={i} onClick={() => selectedHandler(stock)}>
@@ -261,7 +300,8 @@ const mapStateToProps = state => ({
   stocks: state.portfolio.stocks,
   cryptos: state.portfolio.cryptos,
   portfolio: state.portfolio,
-  netWorthData: state.netWorth.netWorthData
+  netWorthData: state.netWorth.netWorthData,
+  isDemo: state.auth.isDemo
 });
 
 const mapDispatchToProps = dispatch => ({

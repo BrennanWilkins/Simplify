@@ -34,6 +34,13 @@ const AuthPanel = props => {
     }
   }, [props.error]);
 
+  useEffect(() => {
+    if (props.demoError) {
+      setErr(true);
+      setErrMsg('There was an error loading the demo account.');
+    }
+  }, [props.demoError]);
+
   const showErr = (msg) => {
     setErr(true);
     setLoading(false);
@@ -77,9 +84,9 @@ const AuthPanel = props => {
     instance.defaults.headers.common['x-auth-token'] = data.token;
     if (remember) {
       localStorage['token'] = data.token;
-      // expires in 30 days
-      localStorage['expirationDate'] = new Date(new Date().getTime() + 2592000000);
-      localStorage['expirationTime'] = '2592000000';
+      // expires in 7 days
+      localStorage['expirationDate'] = new Date(new Date().getTime() + 604800000);
+      localStorage['expirationTime'] = '604800000';
     } else {
       // expires in 1hr
       localStorage['token'] = data.token;
@@ -122,7 +129,7 @@ const AuthPanel = props => {
         <div className={props.mode === 'Login' ? classes.LoginPanel : classes.SignupPanel}>
           {(loading || props.loading) && <Spinner mode={props.mode} />}
           <div className={classes.Content}>
-            <Link to="/demo" className={classes.Demo}>View a demo account<span>{arrowRight}</span></Link>
+            <div className={classes.Demo} onClick={props.loadDemo}>View a demo account<span>{arrowRight}</span></div>
             <Title auth />
             <p className={classes.SubTitle}>Simplify your finances with budget, net worth, and investment trackers</p>
             <div className={focused === '1' ? classes.InputDivFocus : classes.InputDiv}>
@@ -155,7 +162,7 @@ const AuthPanel = props => {
             }
             <div className={classes.Remember}>
               <input type="checkbox" onChange={() => setRemember(prev => !prev)} checked={remember}/>
-              <span>Remember me for 30 days</span>
+              <span>Remember me</span>
             </div>
             <div className={classes.ErrDiv}>
               <span className={err ? classes.ErrMsgShow : classes.ErrMsgHide}>
@@ -180,7 +187,8 @@ const AuthPanel = props => {
 
 const mapStateToProps = state => ({
   loading: state.auth.loading,
-  error: state.auth.error
+  error: state.auth.error,
+  demoError: state.auth.demoError
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -188,7 +196,8 @@ const mapDispatchToProps = dispatch => ({
   setNetWorthData: (data) => dispatch(actions.setNetWorthData(data)),
   setPortfolio: (data) => dispatch(actions.setPortfolio(data)),
   setGoal: (goal) => dispatch(actions.setGoal(goal)),
-  setBudget: (budget) => dispatch(actions.setBudget(budget))
+  setBudget: (budget) => dispatch(actions.setBudget(budget)),
+  loadDemo: () => dispatch(actions.loadDemo())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPanel);

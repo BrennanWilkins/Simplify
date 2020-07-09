@@ -67,6 +67,10 @@ const BudgetPage = props => {
   };
 
   const createHandler = () => {
+    if (props.isDemo) {
+      props.setNewBudget(budgets);
+      return closeHandler();
+    }
     axios.post('budgets', { budgets }).then(res => {
       props.setNewBudget(budgets);
       closeHandler();
@@ -107,8 +111,12 @@ const BudgetPage = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  isDemo: state.auth.isDemo
+});
+
 const mapDispatchToProps = dispatch => ({
   setNewBudget: (budget) => dispatch(actions.setNewBudget(budget))
 });
 
-export default connect(null, mapDispatchToProps)(BudgetPage);
+export default connect(mapStateToProps, mapDispatchToProps)(BudgetPage);

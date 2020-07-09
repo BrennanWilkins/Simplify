@@ -232,10 +232,8 @@ router.post('/signup', [
           const options = req.body.remember === 'false' ? { expiresIn: '1h' } : { expiresIn: '30d' };
           jwt.sign({ newUser }, config.get('AUTH_KEY'), options, (err, token) => {
             if (err) { return res.status(500).json({ msg: 'Failed signing up user.' }); }
-            // **
             const newPortfolio = new Portfolio({ cryptos: [], stocks: [], otherAssets: [],
               liabilities: [], manualCryptos: [], manualStocks: [], userId: newUser._id });
-            // const newPortfolio = new Portfolio({ cryptos: [], stocks: [], otherAssets: [], liabilities: [], userId: newUser._id });
             newPortfolio.save((err, portfolio) => {
               if (err) { return res.status(500).json({ msg: 'Failed signing up user.' }); }
               const newNetWorth = new NetWorth({ dataPoints: [{ date: new Date(), value: 0}], userId: newUser._id });

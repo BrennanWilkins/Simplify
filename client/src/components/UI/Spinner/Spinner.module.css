@@ -27,6 +27,20 @@
   -webkit-animation: load4 1.3s infinite linear;
   animation: load4 1.3s infinite linear;
 }
+.SearchLoader {
+  color: rgb(18, 152, 189);
+  font-size: 4px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: absolute;
+  top: 125px;
+  right: 33px;
+  z-index: 100;
+  text-indent: -9999em;
+  -webkit-animation: load4 1.3s infinite linear;
+  animation: load4 1.3s infinite linear;
+}
 .LoginLoader {
   top: calc(50% - 10.5px);
 }

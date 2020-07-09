@@ -17,7 +17,7 @@ const App = props => {
 
   return (
     <BrowserRouter>
-      {props.isAuth ?
+      {props.isAuth || props.isDemo ?
         <React.Fragment>
           <NavBar />
           <Switch>
@@ -42,7 +42,8 @@ const App = props => {
 };
 
 const mapStateToProps = state => ({
-  isAuth: state.auth.isAuth
+  isAuth: state.auth.isAuth,
+  isDemo: state.auth.isDemo
 });
 
 const mapDispatchToProps = dispatch => ({

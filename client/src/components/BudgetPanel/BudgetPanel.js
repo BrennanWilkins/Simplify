@@ -85,6 +85,10 @@ const BudgetPanel = props => {
     const newBudget = budgets.map(budget => (
       { category: budget.category, budget: budget.budget, transactions: budget.transactions }
     )).filter((budget, i) => !hiddenInd.includes(i));
+    if (props.isDemo) {
+      props.setBudget(newBudget);
+      return closeHandler();
+    }
     axios.put('budgets', { budgets: newBudget }).then(res => {
       props.setBudget(newBudget);
       closeHandler();
@@ -97,6 +101,10 @@ const BudgetPanel = props => {
 
   const deleteHandler = () => {
     setErr(false);
+    if (props.isDemo) {
+      props.deleteBudget();
+      return closeHandler();
+    }
     axios.delete('budgets').then(res => {
       props.deleteBudget();
       closeHandler();
@@ -137,7 +145,8 @@ const BudgetPanel = props => {
 };
 
 const mapStateToProps = state => ({
-  budget: state.budget.budget
+  budget: state.budget.budget,
+  isDemo: state.auth.isDemo
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -87,13 +87,18 @@ const BuySellPanel = props => {
     }
     if (selectedVal === selected.quantity) {
       if (props.mode === 'SellStock') {
+        const stocks = [...props.stocks];
+        const index = stocks.findIndex(stock => stock.name === selected.name);
+        stocks.splice(index, 1);
+        const updatedPortfolio = { ...props.portfolio };
+        updatedPortfolio.stocks = [...stocks];
+        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+        if (props.isDemo) {
+          props.setNetWorthData(updatedNetWorth);
+          props.changeStock(stocks);
+          return closeHandler();
+        }
         axios.put('portfolio/deleteStock', { identifier: selected.identifier, name: selected.name }).then(res => {
-          const stocks = [...props.stocks];
-          const index = stocks.findIndex(stock => stock.name === selected.name);
-          stocks.splice(index, 1);
-          const updatedPortfolio = { ...props.portfolio };
-          updatedPortfolio.stocks = [...stocks];
-          const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
           axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
             props.setNetWorthData(resp.data.result.dataPoints);
             props.changeStock(stocks);
@@ -109,13 +114,18 @@ const BuySellPanel = props => {
         return;
       }
       if (props.mode === 'SellCrypto') {
+        const cryptos = [...props.cryptos];
+        const index = cryptos.findIndex(crypto => crypto.name === selected.name);
+        cryptos.splice(index, 1);
+        const updatedPortfolio = { ...props.portfolio };
+        updatedPortfolio.cryptos = [...cryptos];
+        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+        if (props.isDemo) {
+          props.setNetWorthData(updatedNetWorth);
+          props.changeCrypto(cryptos);
+          return closeHandler();
+        }
         axios.put('portfolio/deleteCrypto', { identifier: selected.identifier, name: selected.name }).then(res => {
-          const cryptos = [...props.cryptos];
-          const index = cryptos.findIndex(crypto => crypto.name === selected.name);
-          cryptos.splice(index, 1);
-          const updatedPortfolio = { ...props.portfolio };
-          updatedPortfolio.cryptos = [...cryptos];
-          const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
           axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
             props.setNetWorthData(resp.data.result.dataPoints);
             props.changeCrypto(cryptos);
@@ -140,13 +150,17 @@ const BuySellPanel = props => {
     Number(Number(newData.quantity) - Number(selectedVal));
     newData.quantity = newQuantity;
     newData.value = newData.price * newQuantity;
-
+    newPortfolio[index] = { ...newData };
+    const updatedPortfolio = { ...props.portfolio };
     if (props.mode === 'BuyStock' || props.mode === 'SellStock') {
+      updatedPortfolio.stocks = [...newPortfolio];
+      const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+      if (props.isDemo) {
+        props.setNetWorthData(updatedNetWorth);
+        props.changeStock(newPortfolio);
+        return closeHandler();
+      }
       axios.put('portfolio/changeStock', { ...newData }).then(res => {
-        newPortfolio[index] = { ...newData };
-        const updatedPortfolio = { ...props.portfolio };
-        updatedPortfolio.stocks = [...newPortfolio];
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
           props.setNetWorthData(resp.data.result.dataPoints);
           props.changeStock(newPortfolio);
@@ -160,11 +174,14 @@ const BuySellPanel = props => {
         setErrMsg('Error connecting to the server.');
       });
     } else {
+      updatedPortfolio.cryptos = [...newPortfolio];
+      const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+      if (props.isDemo) {
+        props.setNetWorthData(updatedNetWorth);
+        props.changeCrypto(newPortfolio);
+        return closeHandler();
+      }
       axios.put('portfolio/changeCrypto', { ...newData }).then(res => {
-        newPortfolio[index] = { ...newData };
-        const updatedPortfolio = { ...props.portfolio };
-        updatedPortfolio.cryptos = [...newPortfolio];
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
           props.setNetWorthData(resp.data.result.dataPoints);
           props.changeCrypto(newPortfolio);
@@ -242,7 +259,8 @@ const mapStateToProps = state => ({
   cryptos: state.portfolio.cryptos,
   stocks: state.portfolio.stocks,
   portfolio: state.portfolio,
-  netWorthData: state.netWorth.netWorthData
+  netWorthData: state.netWorth.netWorthData,
+  isDemo: state.auth.isDemo
 });
 
 const mapDispatchToProps = dispatch => ({

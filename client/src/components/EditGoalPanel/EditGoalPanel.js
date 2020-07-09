@@ -34,6 +34,10 @@ const EditGoalPanel = props => {
 
   const editHandler = () => {
     if (inputVal === 0) { return; }
+    if (props.isDemo) {
+      props.setGoal(inputVal);
+      return closeHandler();
+    }
     axios.put('goals', { goal: inputVal }).then(res => {
       props.setGoal(inputVal);
       closeHandler();
@@ -44,6 +48,10 @@ const EditGoalPanel = props => {
   };
 
   const deleteHandler = () => {
+    if (props.isDemo) {
+      props.setGoal(null);
+      return closeHandler();
+    }
     axios.delete('goals').then(res => {
       props.setGoal(null);
       closeHandler();
@@ -85,8 +93,12 @@ const EditGoalPanel = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  isDemo: state.auth.isDemo
+});
+
 const mapDispatchToProps = dispatch => ({
   setGoal: (goal) => dispatch(actions.setGoal(goal))
 });
 
-export default connect(null, mapDispatchToProps)(EditGoalPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(EditGoalPanel);

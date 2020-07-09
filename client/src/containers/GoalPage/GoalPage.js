@@ -27,6 +27,7 @@ const GoalPage = props => {
 
   const createHandler = () => {
     if (goalValue === 0) { return; }
+    if (props.isDemo) { return props.setGoal(goalValue); }
     axios.post('goals', { goal: goalValue }).then(res => {
       props.setGoal(goalValue);
     }).catch(err => {
@@ -65,7 +66,8 @@ const GoalPage = props => {
 };
 
 const mapStateToProps = state => ({
-  goal: state.goal.goal
+  goal: state.goal.goal,
+  isDemo: state.auth.isDemo
 });
 
 const mapDispatchToProps = dispatch => ({

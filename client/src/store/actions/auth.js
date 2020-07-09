@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes';
 import { instance } from '../../axios';
 import * as actions from './index';
 import { calcNetWorth, calcPortfolioValue } from '../../utils/valueCalcs';
+import { getDemoData } from '../../utils/demoData';
 
 let expirationTimeout;
 
@@ -23,6 +24,8 @@ export const logout = () => dispatch => {
   dispatch(logoutDispatch());
   dispatch(actions.resetPortfolio());
   dispatch(actions.resetNetWorth());
+  dispatch(actions.setGoal(null));
+  dispatch(actions.deleteBudget());
   dispatch(endLoading());
 };
 
@@ -31,6 +34,8 @@ export const startLoading = () => ({ type: actionTypes.START_LOADING });
 export const endLoading = () => ({ type: actionTypes.END_LOADING });
 
 export const createError = () => ({ type: actionTypes.CREATE_ERROR });
+
+export const createDemoError = () => ({ type: actionTypes.CREATE_DEMO_ERROR });
 
 export const removeError = () => ({ type: actionTypes.REMOVE_ERROR });
 
@@ -65,5 +70,28 @@ export const autoLogin = () => dispatch => {
     dispatch(logout());
     dispatch(endLoading());
     dispatch(createError());
+  });
+};
+
+export const demoLogin = () => ({ type: actionTypes.DEMO_LOGIN });
+
+export const loadDemo = () => dispatch => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('expirationDate');
+  localStorage.removeItem('expirationTime');
+  dispatch(startLoading());
+  const demoData = getDemoData();
+  instance.post('/demo/demoLogin', { portfolio: demoData.portfolio }).then(res => {
+    const updatedNetWorth = calcNetWorth(demoData.netWorthData, res.data.portfolio);
+    dispatch(actions.setNetWorthData(updatedNetWorth));
+    dispatch(actions.setPortfolio(calcPortfolioValue(res.data.portfolio)));
+    dispatch(actions.setGoal(demoData.goal));
+    dispatch(actions.setBudget(demoData.budget));
+    dispatch(endLoading());
+    dispatch(removeError());
+    dispatch(demoLogin());
+  }).catch(err => {
+    dispatch(endLoading());
+    dispatch(createDemoError());
   });
 };

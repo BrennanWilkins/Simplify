@@ -46,7 +46,7 @@ const SideNav = props => {
         <div className={classes.FocusBorder}></div>
       </div>
       <div className={classes.LogoutLink} onClick={props.logout}>
-        Logout
+        {props.demo ? 'Back to Login' : 'Logout'}
         <div className={classes.FocusBorder}></div>
       </div>
     </div>

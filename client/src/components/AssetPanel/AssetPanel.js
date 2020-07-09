@@ -160,6 +160,7 @@ const AssetPanel = props => {
   };
 
   const confirmHandler = () => {
+    const updatedPortfolio = { ...props.portfolio };
     if (props.mode === 'AddAsset') {
       const data = { name: inputName, desc: inputDesc, value: inputValue };
       for (let asset of props.otherAssets) {
@@ -168,8 +169,16 @@ const AssetPanel = props => {
           return setErrMsg(`You already have ${data.name} in your portfolio`);
         }
       }
+      if (props.isDemo) {
+        const otherAssets = [...updatedPortfolio.otherAssets];
+        otherAssets.unshift({ ...data });
+        updatedPortfolio.otherAssets = otherAssets;
+        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+        props.setNetWorthData(updatedNetWorth);
+        props.updateAssets(otherAssets);
+        return closeHandler();
+      }
       axios.put('portfolio/addAsset', { ...data }).then(res => {
-        const updatedPortfolio = { ...props.portfolio };
         updatedPortfolio.otherAssets = res.data.assets;
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
@@ -179,8 +188,17 @@ const AssetPanel = props => {
         }).catch(err => { return errHandler(); });
       }).catch(err => { errHandler(); });
     } else if (props.mode === 'RemoveAsset') {
+      if (props.isDemo) {
+        const otherAssets = [...updatedPortfolio.otherAssets];
+        const index = otherAssets.findIndex(asset => asset.name === selected.name);
+        otherAssets.splice(index, 1);
+        updatedPortfolio.otherAssets = otherAssets;
+        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+        props.setNetWorthData(updatedNetWorth);
+        props.updateAssets(otherAssets);
+        return closeHandler();
+      }
       axios.put('portfolio/removeAsset', { name: selected.name }).then(res => {
-        const updatedPortfolio = { ...props.portfolio };
         updatedPortfolio.otherAssets = res.data.assets;
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
@@ -197,8 +215,16 @@ const AssetPanel = props => {
           return setErrMsg(`You already have ${data.name} in your portfolio`);
         }
       }
+      if (props.isDemo) {
+        const liabilities = [...updatedPortfolio.liabilities];
+        liabilities.unshift({ ...data });
+        updatedPortfolio.liabilities = liabilities;
+        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+        props.setNetWorthData(updatedNetWorth);
+        props.updateDebts(liabilities);
+        return closeHandler();
+      }
       axios.put('portfolio/addDebt', { ...data }).then(res => {
-        const updatedPortfolio = { ...props.portfolio };
         updatedPortfolio.liabilities = res.data.debts;
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
@@ -208,8 +234,17 @@ const AssetPanel = props => {
         }).catch(err => { return errHandler(); });
       }).catch(err => { errHandler(); });
     } else if (props.mode === 'RemoveDebt') {
+      if (props.isDemo) {
+        const liabilities = [...updatedPortfolio.liabilities];
+        const index = liabilities.findIndex(debt => debt.name === selected.name);
+        liabilities.splice(index, 1);
+        updatedPortfolio.liabilities = liabilities;
+        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+        props.setNetWorthData(updatedNetWorth);
+        props.updateDebts(liabilities);
+        return closeHandler();
+      }
       axios.put('portfolio/removeDebt', { name: selected.name }).then(res => {
-        const updatedPortfolio = { ...props.portfolio };
         updatedPortfolio.liabilities = res.data.debts;
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
@@ -220,8 +255,17 @@ const AssetPanel = props => {
       }).catch(err => { errHandler(); });
     } else if (props.mode === 'SettingsAsset') {
       const data = { name: selected.name, desc: selected.desc, value: newValue };
+      if (props.isDemo) {
+        const otherAssets = [...updatedPortfolio.otherAssets];
+        const index = otherAssets.findIndex(asset => asset.name === data.name);
+        otherAssets[index].value = data.value;
+        updatedPortfolio.otherAssets = otherAssets;
+        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+        props.setNetWorthData(updatedNetWorth);
+        props.updateAssets(otherAssets);
+        return closeHandler();
+      }
       axios.put('portfolio/updateAsset', { ...data }).then(res => {
-        const updatedPortfolio = { ...props.portfolio };
         updatedPortfolio.otherAssets = res.data.assets;
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
@@ -232,8 +276,17 @@ const AssetPanel = props => {
       }).catch(err => { errHandler(); });
     } else {
       const data = { name: selected.name, desc: selected.desc, value: newValue };
+      if (props.isDemo) {
+        const liabilities = [...updatedPortfolio.liabilities];
+        const index = liabilities.findIndex(debt => debt.name === data.name);
+        liabilities[index].value = data.value;
+        updatedPortfolio.liabilities = liabilities;
+        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+        props.setNetWorthData(updatedNetWorth);
+        props.updateDebts(liabilities);
+        return closeHandler();
+      }
       axios.put('portfolio/updateDebt', { ...data }).then(res => {
-        const updatedPortfolio = { ...props.portfolio };
         updatedPortfolio.liabilities = res.data.debts;
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
@@ -283,7 +336,8 @@ const mapStateToProps = state => ({
   otherAssets: state.portfolio.otherAssets,
   liabilities: state.portfolio.liabilities,
   portfolio: state.portfolio,
-  netWorthData: state.netWorth.netWorthData
+  netWorthData: state.netWorth.netWorthData,
+  isDemo: state.auth.isDemo
 });
 
 const mapDispatchToProps = dispatch => ({

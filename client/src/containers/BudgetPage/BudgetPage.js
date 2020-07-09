@@ -50,6 +50,7 @@ const BudgetPage = props => {
       }
       return budg;
     });
+    if (props.isDemo) { setAddTransCateg(''); return props.setBudget(budgets); }
     axios.put('budgets', { budgets }).then(res => {
       setAddTransCateg('');
       props.setBudget(budgets);
@@ -83,13 +84,17 @@ const BudgetPage = props => {
                       </div>
                     </div>
                     <div className={showCategs.includes(budget.category) ? classes.Transactions : classes.HideTransactions}>
-                      {budget.transactions.map((transaction, i) => (
-                        <div className={classes.Transaction} key={i}>
-                          <div>{transaction.desc}</div>
-                          <div>${Number(transaction.value).toFixed(2)}</div>
-                          <div>{String(new Date(transaction.date).toJSON().slice(2,10).split('-').reverse().join('/'))}</div>
-                        </div>
-                      ))}
+                      {budget.transactions.map((transaction, i) => {
+                        const date = new Date(transaction.date).toJSON().slice(0,10).split('-');
+                        const dateFormatted = [date[1], date[2], date[0].slice(2)].join('/');
+                        return (
+                          <div className={classes.Transaction} key={i}>
+                            <div>{transaction.desc}</div>
+                            <div>${Number(transaction.value).toFixed(2)}</div>
+                            <div>{dateFormatted}</div>
+                          </div>
+                        );
+                      })}
                     </div>
                     <div className={addTransCateg === budget.category ? classes.ShowAddTrans : classes.HideAddTrans}>
                       <input className={classes.Input1} value={transDesc}
@@ -124,7 +129,8 @@ const BudgetPage = props => {
 };
 
 const mapStateToProps = state => ({
-  budget: state.budget.budget
+  budget: state.budget.budget,
+  isDemo: state.auth.isDemo
 });
 
 const mapDispatchToProps = dispatch => ({

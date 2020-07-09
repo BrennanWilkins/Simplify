@@ -4,6 +4,9 @@ export const START_LOADING = 'START_LOADING';
 export const END_LOADING = 'END_LOADING';
 export const CREATE_ERROR = 'CREATE_ERROR';
 export const REMOVE_ERROR = 'REMOVE_ERROR';
+export const LOAD_DEMO = 'LOAD_DEMO';
+export const DEMO_LOGIN = 'DEMO_LOGIN';
+export const CREATE_DEMO_ERROR = 'CREATE_DEMO_ERROR';
 
 export const SET_NET_WORTH_DATA = 'SET_NET_WORTH_DATA';
 export const RESET_NET_WORTH = 'RESET_NET_WORTH';

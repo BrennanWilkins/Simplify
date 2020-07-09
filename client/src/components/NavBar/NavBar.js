@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './NavBar.module.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -11,6 +11,10 @@ import HelpPanel from '../HelpPanel/HelpPanel';
 const NavBar = props => {
   const [showSideNav, setShowSideNav] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+
+  useEffect(() => {
+    if (props.isDemo) { setShowHelp(true); }
+  }, []);
 
   return (
     <div>
@@ -45,19 +49,23 @@ const NavBar = props => {
           <div className={classes.FocusBorder}></div>
         </div>
         <div className={classes.LogoutLink} onClick={props.logout}>
-          Logout
+          {props.isDemo ? 'Back to Login' : 'Logout'}
           <div className={classes.FocusBorder}></div>
         </div>
       </div>
       <div className={showSideNav || showHelp ? classes.Backdrop : classes.HideBackdrop}></div>
-      <SideNav show={showSideNav} close={() => setShowSideNav(false)} showHelpPanel={() => setShowHelp(true)} />
+      <SideNav demo={props.isDemo} show={showSideNav} close={() => setShowSideNav(false)} showHelpPanel={() => setShowHelp(true)} />
       <HelpPanel show={showHelp} close={() => setShowHelp(false)} />
     </div>
   );
 };
 
+const mapStateToProps = state => ({
+  isDemo: state.auth.isDemo
+});
+
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(actions.logout())
 });
 
-export default connect(null, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

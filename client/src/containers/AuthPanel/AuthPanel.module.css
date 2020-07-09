@@ -50,8 +50,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  text-decoration: none;
   transition: color 250ms;
+  cursor: pointer;
 }
 .Demo:hover {
   transition: color 250ms;
@@ -135,7 +135,7 @@
 }
 .Remember {
   margin-top: 10px;
-  font-size: 13px;
+  font-size: 14px;
 }
 .Remember span {
   margin-left: 2px;
