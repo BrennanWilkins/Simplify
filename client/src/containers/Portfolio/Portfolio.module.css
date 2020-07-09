@@ -5,6 +5,9 @@
   height: calc(100% - 70px);
   overflow: auto;
 }
+.Content {
+  min-width: 520px;
+}
 .Investments {
   display: flex;
   justify-content: center;

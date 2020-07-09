@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import classes from './SideNav.module.css';
 import { Link } from 'react-router-dom';
 import Title from '../UI/Title/Title';
+import { questionIcon } from '../UI/UIIcons';
 
 const SideNav = props => {
   const navRef = useRef();
@@ -39,6 +40,11 @@ const SideNav = props => {
         Goals
         <div className={classes.FocusBorder}></div>
       </Link>
+      <div className={classes.Link} onClick={() => { props.close(); props.showHelpPanel(); }}>
+        Help
+        <span className={classes.QuestionIcon}>{questionIcon}</span>
+        <div className={classes.FocusBorder}></div>
+      </div>
       <div className={classes.LogoutLink} onClick={props.logout}>
         Logout
         <div className={classes.FocusBorder}></div>

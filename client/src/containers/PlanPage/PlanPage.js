@@ -61,37 +61,39 @@ const PlanPage = props => {
 
   return (
     <div className={classes.Container}>
-      <h1 className={classes.Title}>Compound Interest Visualizer</h1>
-      <div className={classes.Inputs}>
-        <div className={classes.InputRow}>
-          <div className={classes.InputField}>
-            <p>Principal Investment</p>
-            <input value={inputVals.principal} name="principal" onChange={setInputsHandler} />
-          </div>
-          <div className={classes.InputField}>
-            <p>Monthly Contribution</p>
-            <input value={inputVals.contrib} name="contrib" onChange={setInputsHandler} />
-          </div>
-          </div>
-        <div className={classes.InputRow}>
-          <div className={classes.InputField}>
-            <p>Years Compounded</p>
-            <input value={inputVals.years} name="years" onChange={setInputsHandler} />
-          </div>
-          <div className={classes.InputField}>
-            <p>Yearly return in %</p>
-            <input value={inputVals.interest} name="interest" onChange={setInputsHandler} />
+      <div className={classes.Content}>
+        <h1 className={classes.Title}>Compound Interest Visualizer</h1>
+        <div className={classes.Inputs}>
+          <div className={classes.InputRow}>
+            <div className={classes.InputField}>
+              <p>Principal Investment</p>
+              <input value={inputVals.principal} name="principal" onChange={setInputsHandler} />
+            </div>
+            <div className={classes.InputField}>
+              <p>Monthly Contribution</p>
+              <input value={inputVals.contrib} name="contrib" onChange={setInputsHandler} />
+            </div>
+            </div>
+          <div className={classes.InputRow}>
+            <div className={classes.InputField}>
+              <p>Years Compounded</p>
+              <input value={inputVals.years} name="years" onChange={setInputsHandler} />
+            </div>
+            <div className={classes.InputField}>
+              <p>Yearly return in %</p>
+              <input value={inputVals.interest} name="interest" onChange={setInputsHandler} />
+            </div>
           </div>
         </div>
-      </div>
-      <div className={classes.Btns}>
-        <button onClick={calcHandler}>Calculate</button>
-        <button onClick={resetHandler}>Reset</button>
-      </div>
-      <div className={showChart ? classes.Chart : classes.HideChart}>
-        <h1 className={classes.Title2}>${String(Number(finalVal).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</h1>
-        <CanvasJSChart options={options} />
-        <div className={classes.Block}></div>
+        <div className={classes.Btns}>
+          <button onClick={calcHandler}>Calculate</button>
+          <button onClick={resetHandler}>Reset</button>
+        </div>
+        <div className={showChart ? classes.Chart : classes.HideChart}>
+          <h1 className={classes.Title2}>${String(Number(finalVal).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</h1>
+          <CanvasJSChart options={options} />
+          <div className={classes.Block}></div>
+        </div>
       </div>
     </div>
   );

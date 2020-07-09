@@ -10,7 +10,6 @@
   width: 200px;
   position: relative;
   z-index: 1;
-  background: red;
 }
 .ChartContainer a, .SmallChartContainer a {
   display: none;

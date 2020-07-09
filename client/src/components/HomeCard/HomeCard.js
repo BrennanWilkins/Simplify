@@ -13,8 +13,14 @@ const HomeCard = props => {
   );
 
   const linkHandler = () => {
-    if (['1', '2', '3', '4'].includes(props.num)) {
+    if (props.num === '1') {
       props.history.push('/portfolio');
+    } else if (props.num === '2') {
+      props.history.push('/portfolio/?pos=stocks');
+    } else if (props.num === '3') {
+      props.history.push('/portfolio/?pos=cryptos');
+    } else if (props.num === '4') {
+      props.history.push('/portfolio/?pos=assets');
     } else if (props.num === '5') {
       props.history.push('/budget');
     } else {

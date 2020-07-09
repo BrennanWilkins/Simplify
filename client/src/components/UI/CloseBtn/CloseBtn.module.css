@@ -1,10 +1,10 @@
-.CloseBtn span {
+.Icon {
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
 }
-.CloseBtn {
+.CloseBtn, .CloseBudgetBtn {
   float: right;
   font-size: 20px;
   width: 25px;
@@ -18,7 +18,12 @@
   border-radius: 3px;
   cursor: pointer;
 }
-.CloseBtn:hover {
+.CloseBudgetBtn {
+  margin-left: 10px;
+  width: 28px;
+  height: 28px;
+}
+.CloseBtn:hover, .CloseBudgetBtn:hover {
   background: rgb(10, 77, 96);
   transition: background 250ms;
 }

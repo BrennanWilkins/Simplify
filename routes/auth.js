@@ -12,6 +12,7 @@ const NetWorth = require('../models/netWorth');
 const auth = require('../middleware/auth');
 const yf = require('yahoo-finance');
 const Goals = require('../models/goals');
+const Budgets = require('../models/budgets');
 
 const cmcOptions = {
   headers: {
@@ -82,9 +83,46 @@ router.post('/login', [
                           Goals.findOne({ userId: user._id }, (err, goal) => {
                             if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
                             if (!goal) {
-                              return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth });
+                              Budgets.findOne({ userId: user._id }, (err, budgets) => {
+                                if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                                if (!budgets) {
+                                  return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth });
+                                }
+                                if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
+                                  budgets.date = new Date();
+                                  const newBudgets = [...budgets.budgets].map(budget => (
+                                    { ...budget, remaining: budget.budget, transactions: [] }
+                                  ));
+                                  budgets.budgets = newBudgets;
+                                  budgets.save((err, budgetsResult) => {
+                                    if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                                    return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth, budgets: newBudgets });
+                                  });
+                                }
+                                return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets });
+                              });
+                            } else {
+                              Budgets.findOne({ userId: user._id }, (err, budgets) => {
+                                if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                                if (!budgets) {
+                                  return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
+                                }
+                                if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
+                                  budgets.date = new Date();
+                                  const newBudgets = [...budgets.budgets].map(budget => (
+                                    { ...budget, remaining: budget.budget, transactions: [] }
+                                  ));
+                                  budgets.budgets = newBudgets;
+                                  budgets.save((err, budgetsResult) => {
+                                    if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                                    return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio,
+                                      netWorth, budgets: newBudgets, goal: goal.netWorthGoal });
+                                  });
+                                }
+                                return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio,
+                                  netWorth, budgets: budgets.budgets, goal: goal.netWorthGoal });
+                              });
                             }
-                            return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
                           });
                         });
                       });
@@ -117,9 +155,47 @@ router.post('/login', [
                       Goals.findOne({ userId: user._id }, (err, goal) => {
                         if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
                         if (!goal) {
-                          return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth });
+                          Budgets.findOne({ userId: user._id }, (err, budgets) => {
+                            if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                            if (!budgets) {
+                              return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth });
+                            }
+                            if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
+                              budgets.date = new Date();
+                              const newBudgets = [...budgets.budgets].map(budget => (
+                                { ...budget, remaining: budget.budget, transactions: [] }
+                              ));
+                              budgets.budgets = newBudgets;
+                              budgets.save((err, budgetsResult) => {
+                                if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                                return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio,
+                                  netWorth, budgets: newBudgets });
+                              });
+                            }
+                            return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets });
+                          });
+                        } else {
+                          Budgets.findOne({ userId: user._id }, (err, budgets) => {
+                            if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                            if (!budgets) {
+                              return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
+                            }
+                            if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
+                              budgets.date = new Date();
+                              const newBudgets = [...budgets.budgets].map(budget => (
+                                { ...budget, remaining: budget.budget, transactions: [] }
+                              ));
+                              budgets.budgets = newBudgets;
+                              budgets.save((err, budgetsResult) => {
+                                if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                                return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio,
+                                  netWorth, budgets: newBudgets, goal: goal.netWorthGoal });
+                              });
+                            }
+                            return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth,
+                              budgets: budgets.budgets, goal: goal.netWorthGoal });
+                          });
                         }
-                        return res.status(200).json({ msg: 'Success.', token, portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
                       });
                     });
                   }
@@ -239,9 +315,46 @@ router.get('/autoLogin', auth, (req, res, next) => {
                 Goals.findOne({ userId: req.userId }, (err, goal) => {
                   if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
                   if (!goal) {
-                    return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth });
+                    Budgets.findOne({ userId: req.userId }, (err, budgets) => {
+                      if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                      if (!budgets) {
+                        return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth });
+                      }
+                      if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
+                        budgets.date = new Date();
+                        const newBudgets = [...budgets.budgets].map(budget => (
+                          { ...budget, remaining: budget.budget, transactions: [] }
+                        ));
+                        budgets.budgets = newBudgets;
+                        budgets.save((err, budgetsResult) => {
+                          if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                          return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio,
+                            netWorth, budgets: newBudgets });
+                        });
+                      }
+                      return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets });
+                    });
+                  } else {
+                    Budgets.findOne({ userId: req.userId }, (err, budgets) => {
+                      if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                      if (!budgets) {
+                        return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
+                      }
+                      if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
+                        budgets.date = new Date();
+                        const newBudgets = [...budgets.budgets].map(budget => (
+                          { ...budget, remaining: budget.budget, transactions: [] }
+                        ));
+                        budgets.budgets = newBudgets;
+                        budgets.save((err, budgetsResult) => {
+                          if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                          return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio,
+                            netWorth, budgets: newBudgets, goal: goal.netWorthGoal });
+                        });
+                      }
+                      return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal, budgets: budgets.budgets });
+                    });
                   }
-                  return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
                 });
               });
             });
@@ -274,9 +387,46 @@ router.get('/autoLogin', auth, (req, res, next) => {
             Goals.findOne({ userId: req.userId }, (err, goal) => {
               if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
               if (!goal) {
-                return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth });
+                Budgets.findOne({ userId: req.userId }, (err, budgets) => {
+                  if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                  if (!budgets) {
+                    return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth });
+                  }
+                  if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
+                    budgets.date = new Date();
+                    const newBudgets = [...budgets.budgets].map(budget => (
+                      { ...budget, remaining: budget.budget, transactions: [] }
+                    ));
+                    budgets.budgets = newBudgets;
+                    budgets.save((err, budgetsResult) => {
+                      if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                      return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio,
+                        netWorth, budgets: newBudgets });
+                    });
+                  }
+                  return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets });
+                });
+              } else {
+                Budgets.findOne({ userId: req.userId }, (err, budgets) => {
+                  if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                  if (!budgets) {
+                    return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
+                  }
+                  if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
+                    budgets.date = new Date();
+                    const newBudgets = [...budgets.budgets].map(budget => (
+                      { ...budget, remaining: budget.budget, transactions: [] }
+                    ));
+                    budgets.budgets = newBudgets;
+                    budgets.save((err, budgetsResult) => {
+                      if (err) { return res.status(500).json({ msg: 'There was an error logging in.' }); }
+                      return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio,
+                        netWorth, budgets: newBudgets, goal: goal.netWorthGoal });
+                    });
+                  }
+                  return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal, budgets: budgets.budgets });
+                });
               }
-              return res.status(200).json({ msg: 'Success.', portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal });
             });
           });
         }

@@ -37,27 +37,29 @@ const GoalPage = props => {
 
   return (
     <div className={classes.Container}>
-      {props.goal ? (
-        <div>
-          <h1 className={classes.Title}>Net Worth Goal</h1>
-          <h1 className={classes.Title2}>${String(Number(props.goal).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</h1>
-          <GoalChart mode="Normal" />
-          <div className={classes.Btns}>
-            <button className={classes.Btn} onClick={() => setShowEdit(true)}>Edit goal</button>
-            <button className={classes.Btn} onClick={() => setShowDelete(true)}>Delete goal</button>
-            <EditGoalPanel show={showEdit} mode="Edit" close={() => setShowEdit(false)} goal={props.goal} />
-            <EditGoalPanel show={showDelete} mode="Delete" close={() => setShowDelete(false)} goal={props.goal} />
+      <div className={classes.Content}>
+        {props.goal ? (
+          <div>
+            <h1 className={classes.Title}>Net Worth Goal</h1>
+            <h1 className={classes.Title2}>${String(Number(props.goal).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</h1>
+            <GoalChart mode="Normal" />
+            <div className={classes.Btns}>
+              <button className={classes.Btn} onClick={() => setShowEdit(true)}>Edit goal</button>
+              <button className={classes.Btn} onClick={() => setShowDelete(true)}>Delete goal</button>
+              <EditGoalPanel show={showEdit} mode="Edit" close={() => setShowEdit(false)} goal={props.goal} />
+              <EditGoalPanel show={showDelete} mode="Delete" close={() => { setShowDelete(false); setGoalValue(0); }} goal={props.goal} />
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className={classes.SetGoal}>
-          <h1 className={classes.Title}>Create a new net worth goal</h1>
-          <p className={classes.SubTitle}>${String(Number(goalValue).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</p>
-          <input className={classes.Input} value={goalValue} onChange={goalValueHandler} />
-          <button className={classes.Btn} onClick={createHandler}>Create</button>
-          <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-        </div>
-      )}
+        ) : (
+          <div className={classes.SetGoal}>
+            <h1 className={classes.Title}>Create a new net worth goal</h1>
+            <p className={classes.SubTitle}>${String(Number(goalValue).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</p>
+            <input className={classes.Input} value={goalValue} onChange={goalValueHandler} />
+            <button className={classes.Btn} onClick={createHandler}>Create</button>
+            <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

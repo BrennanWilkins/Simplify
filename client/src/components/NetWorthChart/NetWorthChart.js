@@ -16,7 +16,7 @@ const NetWorthChart = props => {
           <h1 className={classes.NetWorthTextSmall}>Net Worth</h1>
           <h1 className={classes.NetWorthValueSmall}>${String(Number(netWorthVal).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</h1>
         </div>
-        <div className={classes.NetWorthChart}>
+        <div className={classes.NetWorthChartSmall}>
           <CanvasJSChart options={{ ...createNetWorthOptions(props.netWorthData), height: 200 }} />
           <div className={classes.Block}></div>
         </div>

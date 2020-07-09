@@ -101,6 +101,7 @@ const AuthPanel = props => {
     }
     props.setPortfolio(calcPortfolioValue(data.portfolio));
     if (data.goal) { props.setGoal(data.goal); }
+    if (data.budgets) { props.setBudget(data.budgets); }
     reset();
     props.login();
   };
@@ -117,57 +118,59 @@ const AuthPanel = props => {
 
   return (
     <div className={classes.Container}>
-      <div className={props.mode === 'Login' ? classes.LoginPanel : classes.SignupPanel}>
-        {(loading || props.loading) && <Spinner mode={props.mode} />}
-        <div className={classes.Content}>
-          <Link to="/demo" className={classes.Demo}>View a demo account<span>{arrowRight}</span></Link>
-          <Title auth />
-          <p className={classes.SubTitle}>Simplify your finances with budget, net worth, and investment trackers</p>
-          <div className={focused === '1' ? classes.InputDivFocus : classes.InputDiv}>
-            <span className={classes.Icon}>{personIcon}</span>
-            <input onFocus={() => setFocus('1')} onBlur={() => setFocus('')}
-              value={email}
-              placeholder="Email"
-              spellCheck="false"
-              onChange={(e) => { setEmail(e.target.value); setErr(false); }} />
-          </div>
-          <div className={focused === '2' ? classes.InputDivFocus : classes.InputDiv}>
-            <span className={classes.Icon}>{lockIcon}</span>
-            <input onFocus={() => setFocus('2')} onBlur={() => setFocus('')}
-              type="password"
-              value={password}
-              placeholder="Password"
-              spellCheck="false"
-              onChange={(e) => { setPassword(e.target.value); setErr(false); }} />
-          </div>
-          {props.mode === 'Signup' &&
-            <div className={focused === '3' ? classes.InputDivFocus : classes.InputDiv}>
-              <span className={classes.Icon}>{lockIcon}</span>
-              <input onFocus={() => setFocus('3')} onBlur={() => setFocus('')}
-                type="password"
-                value={confPass}
-                placeholder="Confirm Password"
+      <div className={classes.OuterContent}>
+        <div className={props.mode === 'Login' ? classes.LoginPanel : classes.SignupPanel}>
+          {(loading || props.loading) && <Spinner mode={props.mode} />}
+          <div className={classes.Content}>
+            <Link to="/demo" className={classes.Demo}>View a demo account<span>{arrowRight}</span></Link>
+            <Title auth />
+            <p className={classes.SubTitle}>Simplify your finances with budget, net worth, and investment trackers</p>
+            <div className={focused === '1' ? classes.InputDivFocus : classes.InputDiv}>
+              <span className={classes.Icon}>{personIcon}</span>
+              <input onFocus={() => setFocus('1')} onBlur={() => setFocus('')}
+                value={email}
+                placeholder="Email"
                 spellCheck="false"
-                onChange={(e) => { setConfPass(e.target.value); setErr(false); }} />
+                onChange={(e) => { setEmail(e.target.value); setErr(false); }} />
             </div>
-          }
-          <div className={classes.Remember}>
-            <input type="checkbox" onChange={() => setRemember(prev => !prev)} checked={remember}/>
-            <span>Remember me for 30 days</span>
-          </div>
-          <div className={classes.ErrDiv}>
-            <span className={err ? classes.ErrMsgShow : classes.ErrMsgHide}>
-              {errMsg}
-            </span>
-          </div>
-          <button onClick={submitHandler}>
-            {props.mode === 'Login' ? 'Log in' : 'Sign up'}
-          </button>
-          <div className={classes.SwitchAuth}>
-            {props.mode === 'Login' ?
-              <span>Not registered?<Link onClick={reset} to="/signup">Signup</Link></span> :
-              <span>Already registered?<Link onClick={reset} to="/login">Login</Link></span>
+            <div className={focused === '2' ? classes.InputDivFocus : classes.InputDiv}>
+              <span className={classes.Icon}>{lockIcon}</span>
+              <input onFocus={() => setFocus('2')} onBlur={() => setFocus('')}
+                type="password"
+                value={password}
+                placeholder="Password"
+                spellCheck="false"
+                onChange={(e) => { setPassword(e.target.value); setErr(false); }} />
+            </div>
+            {props.mode === 'Signup' &&
+              <div className={focused === '3' ? classes.InputDivFocus : classes.InputDiv}>
+                <span className={classes.Icon}>{lockIcon}</span>
+                <input onFocus={() => setFocus('3')} onBlur={() => setFocus('')}
+                  type="password"
+                  value={confPass}
+                  placeholder="Confirm Password"
+                  spellCheck="false"
+                  onChange={(e) => { setConfPass(e.target.value); setErr(false); }} />
+              </div>
             }
+            <div className={classes.Remember}>
+              <input type="checkbox" onChange={() => setRemember(prev => !prev)} checked={remember}/>
+              <span>Remember me for 30 days</span>
+            </div>
+            <div className={classes.ErrDiv}>
+              <span className={err ? classes.ErrMsgShow : classes.ErrMsgHide}>
+                {errMsg}
+              </span>
+            </div>
+            <button onClick={submitHandler}>
+              {props.mode === 'Login' ? 'Log in' : 'Sign up'}
+            </button>
+            <div className={classes.SwitchAuth}>
+              {props.mode === 'Login' ?
+                <span>Not registered?<Link onClick={reset} to="/signup">Signup</Link></span> :
+                <span>Already registered?<Link onClick={reset} to="/login">Login</Link></span>
+              }
+            </div>
           </div>
         </div>
       </div>
@@ -184,7 +187,8 @@ const mapDispatchToProps = dispatch => ({
   login: () => dispatch(actions.login()),
   setNetWorthData: (data) => dispatch(actions.setNetWorthData(data)),
   setPortfolio: (data) => dispatch(actions.setPortfolio(data)),
-  setGoal: (goal) => dispatch(actions.setGoal(goal))
+  setGoal: (goal) => dispatch(actions.setGoal(goal)),
+  setBudget: (budget) => dispatch(actions.setBudget(budget))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPanel);

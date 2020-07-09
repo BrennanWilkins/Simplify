@@ -9,6 +9,7 @@ const BudgetSchema = new mongoose.Schema({
 
 const BudgetsSchema = new mongoose.Schema({
   userId: mongoose.Schema.Types.ObjectId,
+  date: String,
   budgets: [BudgetSchema]
 });
 

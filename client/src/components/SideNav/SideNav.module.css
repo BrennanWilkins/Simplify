@@ -42,3 +42,13 @@
   background: rgb(26, 171, 152);
   transition: 300ms ease-out;
 }
+.QuestionIcon {
+  margin-left: 5px;
+  position: relative;
+  top: 3px;
+}
+@media (max-width: 400px) {
+  .SideNav, .HideSideNav {
+    width: 200px;
+  }
+}

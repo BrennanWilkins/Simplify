@@ -1,0 +1,46 @@
+.ChartContainer {
+  height: 400px;
+  width: 400px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.SmallChartContainer {
+  height: 200px;
+  width: 200px;
+  position: relative;
+  z-index: 1;
+  background: red;
+}
+.ChartContainer a, .SmallChartContainer a {
+  display: none;
+}
+.Block {
+  position: absolute;
+  background: white;
+  width: 100px;
+  height: 20px;
+  bottom: 0;
+  left: 0;
+}
+.SmallChartContainer .Block {
+  width: 59px;
+}
+.ChartContainer h1, .SmallChartContainer h1 {
+  position: absolute;
+  top: calc(50% - 60px);
+  left: calc(50% - 125px);
+  width: 250px;
+  height: 200px;
+  text-align: center;
+  color: rgb(26, 171, 152);
+  margin: 0;
+  font-size: 26px;
+}
+.SmallChartContainer h1 {
+  font-size: 14px;
+  height: 50px;
+  width: 120px;
+  left: 40px;
+  top: 65px;
+}

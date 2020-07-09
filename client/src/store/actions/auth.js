@@ -52,6 +52,7 @@ export const autoLogin = () => dispatch => {
       dispatch(actions.setNetWorthData(resp.data.result.dataPoints));
       dispatch(actions.setPortfolio(calcPortfolioValue(res.data.portfolio)));
       if (res.data.goal) { dispatch(actions.setGoal(res.data.goal)); }
+      if (res.data.budgets) { dispatch(actions.setBudget(res.data.budgets)); }
       dispatch(endLoading());
       dispatch(removeError());
       dispatch(login());

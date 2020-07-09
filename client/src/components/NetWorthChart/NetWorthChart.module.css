@@ -26,11 +26,14 @@
   color: rgb(10, 77, 96);
   font-size: 22px;
 }
-.NetWorthChart {
+.NetWorthChart, .NetWorthChartSmall {
   width: 80%;
   margin: auto;
 }
-.NetWorthChart a {
+.NetWorthChart {
+  min-width: 500px;
+}
+.NetWorthChart a, .NetWorthChartSmall a {
   display: none;
 }
 .Block {
@@ -46,4 +49,16 @@
   width: 56px;
   height: 10px;
   background: white;
+}
+@media (max-width: 500px) {
+  .NetWorthTitle {
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+  .NetWorthValue {
+    margin: 0 0 20px;
+  }
+  .NetWorthText {
+    margin-bottom: 15px;
+  }
 }

@@ -5,16 +5,19 @@ import { connect } from 'react-redux';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const BudgetChart = props => {
-  // const netWorthVal = props.netWorthData.length === 0 ? '0.00' :
-  // (props.netWorthData[props.netWorthData.length - 1].value).toFixed(2);
-  //
-  // let percReached = ((netWorthVal / props.goal) * 100).toFixed(2);
-  // if (percReached > 100) { percReached = 100.00; }
-  //
-  // const dataPoints = [{ name: 'Current Net Worth', y: netWorthVal, color: 'rgb(26, 171, 152)' }];
-  // if (percReached < 100) {
-  //   dataPoints.push({ name: 'Remaining', y: props.goal - netWorthVal, color: 'rgb(15, 119, 147)' });
-  // }
+  let totBudget = 0;
+  let totSpent = 0;
+  props.budget.forEach(budget => {
+    totBudget += Number(budget.budget);
+    totSpent += Number(budget.budget - budget.remaining);
+  });
+  let percReached = (totSpent / totBudget * 100).toFixed(2);
+  if (percReached > 1000) { percReached = 'over 1000'; }
+
+  const dataPoints = [{ name: 'Total Spent', y: totSpent, color: 'rgb(18, 152, 189)' }];
+  if (percReached !== 'over 1000') {
+    dataPoints.push({ name: 'Remaining Budget', y: Number(totBudget - totSpent), color: 'rgb(26, 171, 152)' });
+  }
 
   const options = { animationEnabled: true, data: [{ type: "doughnut", dataPoints: dataPoints }] };
   if (props.mode === 'Small') { options.height = 200; options.width = 200; }

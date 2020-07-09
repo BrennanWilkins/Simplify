@@ -20,3 +20,5 @@ export const UPDATE_DEBTS = 'UPDATE_DEBTS';
 export const SET_GOAL = 'SET_GOAL';
 
 export const SET_NEW_BUDGET = 'SET_NEW_BUDGET';
+export const SET_BUDGET = 'SET_BUDGET';
+export const DELETE_BUDGET = 'DELETE_BUDGET';

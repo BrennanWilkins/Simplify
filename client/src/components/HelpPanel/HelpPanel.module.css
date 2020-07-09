@@ -1,0 +1,116 @@
+.Panel, .HidePanel {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: calc(50% - 300px);
+  left: calc(50% - 185px);
+  width: 370px;
+  height: 600px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  background: white;
+  z-index: 100;
+  padding: 10px;
+  overflow: hidden;
+  transition: all 400ms;
+}
+.HidePanel {
+  opacity: 0;
+  transform: scale(0);
+}
+.TopDiv {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.BtnsDiv {
+  width: 150px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.PrevBtn, .NextBtn, .DisPrevBtn, .DisNextBtn {
+  color: white;
+  background: rgb(15, 119, 147);
+  transition: background 250ms;
+  border: 0;
+  border-radius: 3px;
+  outline: none;
+  padding: 0 5px;
+  cursor: pointer;
+}
+.PrevBtn:hover, .NextBtn:hover {
+  background: rgb(10, 77, 96);
+  transition: background 250ms;
+}
+.Icon {
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.PrevBtn span, .DisPrevBtn span {
+  transform: rotate(180deg);
+}
+.DisPrevBtn {
+  background: rgb(15, 119, 147, 0.6);
+}
+.DisNextBtn {
+  background: rgb(26, 171, 152, 0.8);
+}
+.DisNextBtn:hover {
+  background: rgb(26, 171, 152);
+  transition: background 250ms;
+}
+.PageNum {
+  color: rgb(10, 77, 96, 0.6);
+  font-size: 18px;
+}
+.Content {
+  color: rgb(10, 77, 96);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 460px;
+  text-align: center;
+  padding: 5px;
+}
+.Content a {
+  text-decoration: none;
+  color: rgb(26, 171, 152, 0.8);
+}
+.Content a:hover {
+  color: rgb(26, 171, 152);
+}
+.Gif2 {
+  width: 240px;
+  height: 272.4px;
+}
+.Gif3 {
+  width: 300px;
+  height: 309px;
+}
+.Gif4 {
+  width: 300px;
+  height: 302.5px;
+}
+.Gif5 {
+  width: 167.4px;
+  height: 226.2px;
+}
+.Gif6 {
+  width: 300px;
+  height: 233.5px;
+}
+.Gif7 {
+  width: 360px;
+  height: 233.4px;
+}
+.P1 {
+  margin-top: 10px;
+}
+.P2 {
+  margin-top: 0;
+}

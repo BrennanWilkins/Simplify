@@ -3,9 +3,13 @@
   position: absolute;
   top: 70px;
   height: calc(100% - 70px);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.Content {
   display: flex;
   justify-content: center;
+  min-width: 374px;
 }
 .Cards {
   display: flex;
@@ -13,7 +17,7 @@
   align-items: center;
   flex-wrap: wrap;
 }
-.InvestmentCard {
+.Card {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -36,4 +40,39 @@
 .SubTitle {
   color: rgb(18, 152, 189);
   text-align: center;
+}
+.BudgetContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 230px;
+  overflow: auto;
+}
+.BudgetContainer::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: white;
+}
+.BudgetContainer::-webkit-scrollbar {
+  width: 10px;
+  background-color: white;
+}
+.BudgetContainer::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #ddd;
+}
+.BudgetDiv {
+  border-bottom: 2px solid rgb(18, 152, 189, 0.2);
+  padding: 10px;
+}
+.InnerBudgetDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+@media (max-width: 374px) {
+  .Container {
+    overflow-x: auto;
+  }
 }

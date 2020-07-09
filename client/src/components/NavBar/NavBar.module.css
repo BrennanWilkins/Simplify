@@ -73,7 +73,12 @@
   opacity: 0;
   visibility: hidden;
 }
-@media (max-width: 750px) {
+.QuestionIcon {
+  margin-left: 5px;
+  position: relative;
+  top: 3px;
+}
+@media (max-width: 800px) {
   .Link {
     display: none;
   }

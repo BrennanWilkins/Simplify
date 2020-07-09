@@ -5,9 +5,12 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import SideNav from '../SideNav/SideNav';
 import Title from '../UI/Title/Title';
+import { questionIcon } from '../UI/UIIcons';
+import HelpPanel from '../HelpPanel/HelpPanel';
 
 const NavBar = props => {
   const [showSideNav, setShowSideNav] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
 
   return (
     <div>
@@ -36,13 +39,19 @@ const NavBar = props => {
           Goals
           <div className={classes.FocusBorder}></div>
         </Link>
+        <div className={classes.Link} onClick={() => setShowHelp(true)}>
+          Help
+          <span className={classes.QuestionIcon}>{questionIcon}</span>
+          <div className={classes.FocusBorder}></div>
+        </div>
         <div className={classes.LogoutLink} onClick={props.logout}>
           Logout
           <div className={classes.FocusBorder}></div>
         </div>
       </div>
-      <div className={showSideNav ? classes.Backdrop : classes.HideBackdrop}></div>
-      <SideNav show={showSideNav} close={() => setShowSideNav(false)} />
+      <div className={showSideNav || showHelp ? classes.Backdrop : classes.HideBackdrop}></div>
+      <SideNav show={showSideNav} close={() => setShowSideNav(false)} showHelpPanel={() => setShowHelp(true)} />
+      <HelpPanel show={showHelp} close={() => setShowHelp(false)} />
     </div>
   );
 };

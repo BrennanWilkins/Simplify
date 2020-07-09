@@ -4,9 +4,13 @@
   top: 70px;
   height: calc(100% - 70px);
   overflow: auto;
+}
+.Content {
+  width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
+  min-width: 400px;
 }
 .Chart, .HideChart {
   width: 80%;

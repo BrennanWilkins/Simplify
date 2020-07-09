@@ -1,0 +1,77 @@
+.Category, .SmallCategory {
+  width: 200px;
+  word-wrap: break-word;
+  color: rgb(18, 152, 189);
+  font-weight: bold;
+}
+.SmallCategory {
+  width: 70px;
+  font-size: 12px;
+  padding-right: 5px;
+}
+.BudgetOval, .SmallBudgetOval {
+  border-radius: 20px;
+  height: 25px;
+  width: 300px;
+  border: 2px solid rgb(18, 152, 189);
+  overflow: hidden;
+}
+.SmallBudgetOval {
+  width: 150px;
+  height: 20px;
+}
+.BudgetOverlay, .SmallBudgetOverlay {
+  background: linear-gradient(to right, rgb(18, 152, 189), rgb(26, 171, 152));
+  height: 25px;
+  border-radius: 20px;
+}
+.SmallBudgetOverlay {
+  height: 20px;
+}
+.OverlaySpan, .SmallOverlaySpan, .ShowRight, .SmallShowRight {
+  margin: 0 10px;
+  float: right;
+  color: rgb(10, 77, 96);
+  font-weight: bold;
+  width: 120px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.SmallOverlaySpan, .SmallShowRight {
+  width: 60px;
+  margin: 0 5px;
+  font-size: 12px;
+  height: 20px;
+}
+.ShowRight, .SmallShowRight {
+  position: relative;
+  left: 140px;
+  justify-content: flex-start;
+}
+.SmallShowRight {
+  left: 70px;
+}
+.BudgetVal, .SmallBudgetVal {
+  width: 150px;
+  color: rgb(15, 119, 147);
+  font-weight: bold;
+  word-wrap: break-word;
+}
+.SmallBudgetVal {
+  padding: 0 5px;
+  width: 75px;
+  font-size: 12px;
+  text-align: center;
+}
+@media (max-width: 1040px) {
+  .BudgetVal {
+    text-align: center;
+    margin: 10px 0 20px;
+  }
+  .Category {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+}

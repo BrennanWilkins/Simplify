@@ -28,7 +28,7 @@
   animation: load4 1.3s infinite linear;
 }
 .LoginLoader {
-  top: calc(50% + 7.5px);
+  top: calc(50% - 10.5px);
 }
 @-webkit-keyframes load4 {
   0%,

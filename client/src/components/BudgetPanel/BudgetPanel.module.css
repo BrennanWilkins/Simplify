@@ -3,7 +3,7 @@
   align-items: center;
   flex-direction: column;
   position: absolute;
-  top: 90px;
+  top: -450px;
   width: 350px;
   height: 400px;
   border-radius: 3px;
@@ -17,30 +17,26 @@
 }
 .HidePanel {
   opacity: 0;
-  top: -170px;
+  top: -180px;
   transform: scale(0);
 }
-.Input {
-  width: 60%;
+.Budgets input {
+  width: 120px;
   padding: 5px;
   font-size: 16px;
   border-radius: 3px;
   border: 1px solid rgb(18, 152, 189);
   background: rgb(18, 152, 189, 0.03);
   outline: none;
-}
-.InputDiv {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 10px;
 }
 .BtnDiv {
   width: 100%;
 }
-.Btn {
-  margin: 20px 0 10px;
+.ConfirmBtn, .DeleteBtn, .AddBtn {
+  margin: 20px 0 15px;
   color: white;
-  background: rgb(15, 119, 147);
+  background: rgb(26, 171, 152, 0.7);
   transition: background 250ms;
   border: 0;
   border-radius: 3px;
@@ -48,61 +44,41 @@
   padding: 8px 10px;
   cursor: pointer;
 }
-.Btn:hover {
+.AddBtn {
+  margin: 5px 0;
+  background: rgb(15, 119, 147);
+}
+.AddBtn:hover {
   background: rgb(10, 77, 96);
   transition: background 250ms;
 }
-.Field {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+.DeleteBtn {
+  margin: 20px 0 10px;
+  background: rgb(230, 29, 29, 0.5);
 }
-.CreateBtn, .HideCreateBtn {
-  margin: 10px 0 9px;
-  color: white;
-  background: rgb(26, 171, 152, 0.7);
-  transition: all 250ms;
-  border: 0;
-  border-radius: 3px;
-  outline: none;
-  padding: 8px 10px;
-  cursor: pointer;
+.DeleteBtn:hover {
+  background: rgb(230, 29, 29, 0.8);
+  transition: background 250ms;
 }
-.HideCreateBtn {
-  opacity: 0;
-  visibility: hidden;
-  transition: all 250ms;
-}
-.CreateBtn:hover {
+.ConfirmBtn:hover {
   background: rgb(26, 171, 152);
   transition: background 250ms;
 }
-.Entries {
+.Budgets {
   width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
   overflow: auto;
-  height: 180px;
+  max-height: 200px;
+  margin-top: 30px;
 }
-.Entries div {
+.Budgets div {
   width: 80%;
-  padding: 5px 10px;
-  border-bottom: 1px solid rgb(15, 119, 147);
+  padding: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.Entries span {
-  color: rgb(15, 119, 147);
-  width: 50%;
-  padding: 5px;
-  text-align: center;
-  word-wrap: break-word;
-}
-.Text {
-  color: rgb(15, 119, 147);
-  cursor: default;
 }
 .ShowErr, .HideErr {
   opacity: 1;
@@ -115,4 +91,11 @@
 }
 .HideErr {
   opacity: 0;
+}
+.Hidden {
+  height: 0;
+  position: absolute;
+}
+.Hidden, .Hidden input, .Hidden button {
+  display: none;
 }
