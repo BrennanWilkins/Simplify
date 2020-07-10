@@ -9,6 +9,7 @@ import Portfolio from './containers/Portfolio/Portfolio';
 import GoalPage from './containers/GoalPage/GoalPage';
 import PlanPage from './containers/PlanPage/PlanPage';
 import BudgetPage from './containers/BudgetPage/BudgetPage';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 const App = props => {
   useEffect(() => {
@@ -17,26 +18,28 @@ const App = props => {
 
   return (
     <BrowserRouter>
-      {props.isAuth || props.isDemo ?
-        <React.Fragment>
-          <NavBar />
+      <ErrorBoundary>
+        {props.isAuth || props.isDemo ?
+          <React.Fragment>
+            <NavBar />
+            <Switch>
+              <Route exact path="/portfolio" component={Portfolio} />
+              <Route exact path="/" component={HomePage} />
+              <Route exact path="/goals" component={GoalPage} />
+              <Route exact path="/plan" component={PlanPage} />
+              <Route exact path="/budget" component={BudgetPage} />
+              <Redirect to="/" />
+            </Switch>
+          </React.Fragment>
+          :
           <Switch>
-            <Route exact path="/portfolio" component={Portfolio} />
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/goals" component={GoalPage} />
-            <Route exact path="/plan" component={PlanPage} />
-            <Route exact path="/budget" component={BudgetPage} />
-            <Redirect to="/" />
+            <Route exact path="/demo" render={() => <div>Demo</div>} />
+            <Route exact path="/login" render={() => <AuthPanel mode="Login" />} />
+            <Route exact path="/signup" render={() => <AuthPanel mode="Signup" />} />
+            <Redirect to="/login" />
           </Switch>
-        </React.Fragment>
-        :
-        <Switch>
-          <Route exact path="/demo" render={() => <div>Demo</div>} />
-          <Route exact path="/login" render={() => <AuthPanel mode="Login" />} />
-          <Route exact path="/signup" render={() => <AuthPanel mode="Signup" />} />
-          <Redirect to="/login" />
-        </Switch>
-      }
+        }
+      </ErrorBoundary>
     </BrowserRouter>
   );
 };
