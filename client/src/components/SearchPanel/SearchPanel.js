@@ -29,7 +29,7 @@ const SearchPanel = props => {
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClick);
-    inputRef.current.focus();
+    if (props.show) { inputRef.current.focus(); }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.mode, props.show]);
 

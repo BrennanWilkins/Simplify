@@ -74,11 +74,10 @@
   margin-top: 30px;
 }
 .Budgets div {
-  width: 80%;
-  padding: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 10px;
 }
 .ShowErr, .HideErr {
   opacity: 1;

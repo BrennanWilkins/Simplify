@@ -160,7 +160,7 @@ router.post('/demoLogin', async (req, res) => {
       console.log('Updating cryptos...');
       const resp = await axios.get(cmcUrl, cmcOptions);
       mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price }));
-      const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: cmcCryptos }, {});
+      const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
       console.log('Crypto update successful');
     } else { mappedCryptos = cryptos.cryptos; }
     const updatedCryptos = [...req.body.portfolio.cryptos].map(crypto => {

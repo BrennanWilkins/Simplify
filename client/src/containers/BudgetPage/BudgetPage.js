@@ -107,7 +107,7 @@ const BudgetPage = props => {
                       <input className={classes.Input1} value={transDesc}
                         onChange={e => setTransDesc(e.target.value)} placeholder="Transaction Description" />
                       <input className={classes.Input2} value={transCost} onChange={transCostHandler} placeholder="Cost" />
-                      <div>
+                      <div className={classes.BtnDiv}>
                         <button onClick={confirmAddTransHandler} className={classes.Btn}>Add</button>
                         <CloseBtn budget close={() => setAddTransCateg('')} />
                       </div>

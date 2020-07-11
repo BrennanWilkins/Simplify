@@ -49,7 +49,7 @@ const NavBar = props => {
           <div className={classes.FocusBorder}></div>
         </div>
         <div className={classes.LogoutLink} onClick={props.logout}>
-          {props.isDemo ? 'Back to Login' : 'Logout'}
+          {props.isDemo ? 'Login' : 'Logout'}
           <div className={classes.FocusBorder}></div>
         </div>
       </div>

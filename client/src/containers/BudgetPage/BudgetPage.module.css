@@ -159,6 +159,12 @@
 .SmallShowAddTrans, .SmallHideAddTrans {
   display: none;
 }
+.BtnDiv {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 @media (max-width: 1040px) {
   .InnerBudgetDiv {
     flex-direction: column;
