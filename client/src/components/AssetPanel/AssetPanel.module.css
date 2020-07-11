@@ -113,6 +113,7 @@
   opacity: 1;
   visibility: visible;
   transition: all 250ms;
+  font-size: 14px;
 }
 .HideConfirm {
   opacity: 0;

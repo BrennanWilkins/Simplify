@@ -135,7 +135,9 @@ const BudgetPanel = props => {
             <CloseBtn close={() => deleteOneHandler(i)} />
           </div>
         ))}
-        <button className={classes.AddBtn} onClick={addHandler}>Add a new category</button>
+        <div className={classes.BtnDiv2}>
+          <button className={classes.AddBtn} onClick={addHandler}>Add a new category</button>
+        </div>
       </div>
       <button onClick={confirmHandler} className={classes.ConfirmBtn}>Confirm</button>
       <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>

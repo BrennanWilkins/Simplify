@@ -55,6 +55,7 @@
   transition: background 250ms;
   margin: 10px;
   background: rgb(26, 171, 152, 0.7);
+  font-size: 14px;
 }
 .BtnDiv2 {
   display: flex;

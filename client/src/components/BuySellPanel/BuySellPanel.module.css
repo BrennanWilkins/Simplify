@@ -81,6 +81,7 @@
   cursor: pointer;
   opacity: 1;
   transition: all 250ms;
+  font-size: 14px;
 }
 .HideConfirmBtn {
   opacity: 0;

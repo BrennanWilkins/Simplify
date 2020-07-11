@@ -47,6 +47,7 @@
   outline: none;
   padding: 8px 10px;
   cursor: pointer;
+  font-size: 14px;
 }
 .Btn:hover {
   background: rgb(10, 77, 96);
@@ -67,6 +68,7 @@
   outline: none;
   padding: 8px 10px;
   cursor: pointer;
+  font-size: 14px;
 }
 .HideCreateBtn {
   opacity: 0;
@@ -79,9 +81,6 @@
 }
 .Entries {
   width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
   overflow: auto;
   height: 180px;
 }
@@ -92,6 +91,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: auto;
 }
 .Entries span {
   color: rgb(15, 119, 147);
