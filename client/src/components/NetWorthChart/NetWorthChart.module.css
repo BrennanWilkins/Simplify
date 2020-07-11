@@ -29,6 +29,8 @@
 .NetWorthChart, .NetWorthChartSmall {
   width: 80%;
   margin: auto;
+  z-index: 1;
+  position: relative;
 }
 .NetWorthChart {
   min-width: 500px;

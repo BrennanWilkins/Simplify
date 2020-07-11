@@ -80,12 +80,16 @@ const EditGoalPanel = props => {
       {props.mode === 'Edit' ? (
         <React.Fragment>
           <input className={classes.Input} value={inputVal} onChange={inputValHandler} />
-          <button className={classes.Btn} onClick={editHandler}>Change</button>
+          <div className={classes.BtnDiv2}>
+            <button className={classes.Btn} onClick={editHandler}>Change</button>
+          </div>
         </React.Fragment>
       ) : (
         <React.Fragment>
           <p className={classes.Title}>Are you sure?</p>
-          <button className={classes.Btn} onClick={deleteHandler}>Delete</button>
+          <div className={classes.BtnDiv2}>
+            <button className={classes.Btn} onClick={deleteHandler}>Delete</button>
+          </div>
         </React.Fragment>
       )}
       <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>

@@ -6,9 +6,8 @@
 }
 .CloseBtn, .CloseBudgetBtn {
   float: right;
-  font-size: 19px;
-  width: 25px;
-  height: 25px;
+  font-size: 20px;
+  padding: 2.5px;
   background: rgb(15, 119, 147);
   transition: background 250ms;
   display: flex;
@@ -20,7 +19,6 @@
 }
 .CloseBudgetBtn {
   margin-left: 10px;
-  font-size: 20px;
   width: 28px;
   height: 28px;
 }

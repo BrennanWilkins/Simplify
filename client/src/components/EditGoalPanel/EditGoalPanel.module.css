@@ -1,7 +1,7 @@
 .EditPanel, .HideEditPanel, .DeletePanel, .HideDeletePanel {
-  display: flex;
+  /* display: flex;
   align-items: center;
-  flex-direction: column;
+  flex-direction: column; */
   position: absolute;
   top: -250px;
   width: 250px;
@@ -56,6 +56,10 @@
   margin: 10px;
   background: rgb(26, 171, 152, 0.7);
 }
+.BtnDiv2 {
+  display: flex;
+  justify-content: center;
+}
 .Btn:hover {
   background: rgb(26, 171, 152);
   transition: background 250ms;
@@ -74,6 +78,7 @@
   width: 100%;
 }
 .Title {
+  margin-top: 35px;
   text-align: center;
   color: rgb(10, 77, 96);
 }
