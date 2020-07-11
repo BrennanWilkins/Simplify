@@ -2,12 +2,18 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const NetWorth = require('../models/netWorth');
+const { body, validationResult } = require('express-validator');
 
-router.put('/', auth, (req, res, next) => {
-  NetWorth.findOneAndUpdate({ userId: req.userId }, { dataPoints: req.body.netWorthData }, { new: true }, (err, result) => {
-    if (err) { return res.status(500).json({ msg: 'Failed to update stats.' }); }
-    return res.status(200).json({ msg: 'Success.', result });
-  });
+router.put('/', auth,
+  [body('netWorthData').not().isEmpty(),
+  body('netWorthData.*._id').escape(),
+  body('netWorthData.*.date').escape()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      const result = await NetWorth.findOneAndUpdate({ userId: req.userId }, { dataPoints: req.body.netWorthData }, { new: true });
+      res.status(200).json({ result });
+    } catch(e) { res.sendStatus(500); }
 });
 
 module.exports = router;

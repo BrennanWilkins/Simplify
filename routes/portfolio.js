@@ -6,258 +6,262 @@ const Cryptos = require('../models/cryptos');
 const Fuse = require('fuse.js');
 const StockSearch = require('stock-ticker-symbol');
 const yf = require('yahoo-finance');
+const { param, body, validationResult } = require('express-validator');
 
-router.get('/searchCrypto/:searchVal', auth, (req, res, next) => {
-  Cryptos.find({}, (err, cryptos) => {
-    if (err) { return res.status(500).json({ msg: 'Failed retrieving cryptos.' }); }
-    const fuse = new Fuse(cryptos[0].cryptos, { keys: ['name', 'symbol'] });
-    const result = fuse.search(req.params.searchVal).slice(0, 12);
-    return res.status(200).json({ result });
-  });
+router.get('/searchCrypto/:searchVal',
+  [param('searchVal').trim().escape()],
+  async (req, res) => {
+    try {
+      const cryptos = await Cryptos.find({});
+      const fuse = new Fuse(cryptos[0].cryptos, { keys: ['name', 'symbol'] });
+      const result = fuse.search(req.params.searchVal).slice(0, 12);
+      res.status(200).json({ result });
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.get('/searchStock/:searchVal', auth, (req, res, next) => {
-  const searchResult = StockSearch.search(req.params.searchVal);
-  const promises = [];
-  searchResult.forEach(stock => {
-    promises.push(yf.quote({ symbol: stock.ticker, modules: ['price']}));
-  });
-  Promise.allSettled(promises).then(results => {
-    results.forEach((result, i) => {
-      if (result.status === 'fulfilled') {
-        if (!result.value.price.regularMarketPrice) {
-          searchResult[i].price = '?';
-        } else {
-          searchResult[i].price = result.value.price.regularMarketPrice;
+router.get('/searchStock/:searchVal',
+  [param('searchVal').trim().escape()],
+  (req, res) => {
+    const searchResult = StockSearch.search(req.params.searchVal);
+    const promises = searchResult.map(stock => yf.quote({ symbol: stock.ticker, modules: ['price'] }));
+    Promise.allSettled(promises).then(results => {
+      results.forEach((result, i) => {
+        if (result.status === 'fulfilled') {
+          if (!result.value.price.regularMarketPrice) {
+            searchResult[i].price = '?';
+          } else {
+            searchResult[i].price = result.value.price.regularMarketPrice;
+          }
         }
+        else { searchResult[i].price = '?'; }
+      });
+      const result = searchResult.filter(stock => stock.price !== '?');
+      res.status(200).json({ result });
+    });
+});
+
+router.put('/updateStocks', auth,
+  [body('data.*').not().isEmpty().escape()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      if (req.body.quantity < 0) { throw 'err'; }
+      if (req.body.data.identifier === 'Manual') {
+        const manualStocks = [...portfolio.manualStocks];
+        manualStocks.unshift({ ...req.body.data });
+        portfolio.manualStocks = manualStocks;
+      } else {
+        const stocks = [...portfolio.stocks];
+        const { value, price, ...data } = req.body.data;
+        stocks.unshift(data);
+        portfolio.stocks = stocks;
       }
-      else { searchResult[i].price = '?'; }
-    });
-    const result = searchResult.filter(stock => stock.price !== '?');
-    return res.status(200).json({ result });
-  });
+      const result = await portfolio.save();
+      res.sendStatus(200);
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.put('/updateStocks', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    if (req.body.data.identifier === 'Manual') {
-      const manualStocks = [...portfolio.manualStocks];
-      manualStocks.unshift({ name: req.body.data.name, symbol: req.body.data.symbol,
-        quantity: req.body.data.quantity, value: req.body.data.value, price: req.body.data.price,
-        identifier: req.body.data.identifier });
-      portfolio.manualStocks = manualStocks;
-    } else {
-      const stocks = [...portfolio.stocks];
-      stocks.unshift({ name: req.body.data.name, symbol: req.body.data.symbol,
-        quantity: req.body.data.quantity, identifier: req.body.data.identifier });
-      portfolio.stocks = stocks;
-    }
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error updating stocks.' }); }
-      return res.status(200).json({ msg: 'Success' });
-    });
-  });
-});
-
-router.put('/changeStock', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    if (req.body.identifier === 'Manual') {
-      const manualStocks = [...portfolio.manualStocks];
-      const index = manualStocks.findIndex(stock => stock.name === req.body.name);
-      manualStocks[index].name = req.body.name;
-      manualStocks[index].symbol = req.body.symbol;
-      manualStocks[index].quantity = req.body.quantity;
-      manualStocks[index].value = req.body.value;
-      manualStocks[index].price = req.body.price;
-      portfolio.manualStocks = manualStocks;
-    } else {
-      const stocks = [...portfolio.stocks];
+router.put('/changeStock', auth,
+  [body('name').not().isEmpty().escape(),
+  body('_id').escape(),
+  body('symbol').not().isEmpty().escape(),
+  body('identifier').not().isEmpty().escape(),
+  body('quantity').isNumeric(),
+  body('price').isNumeric(),
+  body('value').isNumeric()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      if (req.body.quantity < 0) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      const stocks = req.body.identifier === 'Manual' ? [...portfolio.manualStocks] :
+      [...portfolio.stocks];
       const index = stocks.findIndex(stock => stock.name === req.body.name);
       stocks[index].name = req.body.name;
       stocks[index].symbol = req.body.symbol;
       stocks[index].quantity = req.body.quantity;
-      portfolio.stocks = stocks;
-    }
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error updating stocks.' }); }
-      return res.status(200).json({ msg: 'Success' });
-    });
-  });
+      if (req.body.identifier === 'Manual') {
+        stocks[index].value = req.body.value;
+        stocks[index].price = req.body.price;
+        portfolio.manualStocks = stocks;
+      } else { portfolio.stocks = stocks; }
+      const result = await portfolio.save();
+      res.sendStatus(200);
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.put('/changeCrypto', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    if (req.body.identifier === 'Manual') {
-      const manualCryptos = [...portfolio.manualCryptos];
-      const index = manualCryptos.findIndex(crypto => crypto.name === req.body.name);
-      manualCryptos[index].name = req.body.name;
-      manualCryptos[index].symbol = req.body.symbol;
-      manualCryptos[index].quantity = req.body.quantity;
-      manualCryptos[index].value = req.body.value;
-      manualCryptos[index].price = req.body.price;
-      portfolio.manualCryptos = manualCryptos;
-    } else {
-      const cryptos = [...portfolio.cryptos];
+router.put('/changeCrypto', auth,
+  [body('name').not().isEmpty().escape(),
+  body('_id').escape(),
+  body('symbol').not().isEmpty().escape(),
+  body('identifier').not().isEmpty().escape(),
+  body('quantity').isNumeric(),
+  body('price').isNumeric(),
+  body('value').isNumeric()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      if (req.body.quantity < 0) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      const cryptos = req.body.identifier === 'Manual' ? [...portfolio.manualCryptos] :
+      [...portfolio.cryptos];
       const index = cryptos.findIndex(crypto => crypto.name === req.body.name);
       cryptos[index].name = req.body.name;
       cryptos[index].symbol = req.body.symbol;
       cryptos[index].quantity = req.body.quantity;
-      portfolio.cryptos = cryptos;
-    }
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error updating cryptos.' }); }
-      return res.status(200).json({ msg: 'Success' });
-    });
-  });
+      if (req.body.identifier === 'Manual') {
+        cryptos[index].value = req.body.value;
+        cryptos[index].price = req.body.price;
+        portfolio.manualCryptos = cryptos;
+      } else { portfolio.cryptos = cryptos; }
+      const result = await portfolio.save();
+      res.sendStatus(200);
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.put('/deleteStock', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    if (req.body.identifier === 'Manual') {
-      const manualStocks = [...portfolio.manualStocks];
-      const index = manualStocks.findIndex(stock => stock.name === req.body.name);
-      manualStocks.splice(index, 1);
-      portfolio.manualStocks = [...manualStocks];
-    } else {
-      const stocks = [...portfolio.stocks];
+router.put('/deleteStock', auth,
+  [body('*').not().isEmpty().escape()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      const stocks = req.body.identifier === 'Manual' ? [...portfolio.manualStocks] :
+      [...portfolio.stocks];
       const index = stocks.findIndex(stock => stock.name === req.body.name);
       stocks.splice(index, 1);
-      portfolio.stocks = [...stocks];
-    }
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error updating stocks.' }); }
-      return res.status(200).json({ msg: 'Success' });
-    });
-  });
+      if (req.body.identifier === 'Manual') { portfolio.manualStocks = [...stocks]; }
+      else { portfolio.stocks = [...stocks]; }
+      const result = await portfolio.save();
+      res.sendStatus(200);
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.put('/deleteCrypto', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    if (req.body.identifier === 'Manual') {
-      const manualCryptos = [...portfolio.manualCryptos];
-      const index = manualCryptos.findIndex(crypto => crypto.name === req.body.name);
-      manualCryptos.splice(index, 1);
-      portfolio.manualCryptos = [...manualCryptos];
-    } else {
-      const cryptos = [...portfolio.cryptos];
+router.put('/deleteCrypto', auth,
+  [body('*').not().isEmpty().escape()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      const cryptos = req.body.identifier === 'Manual' ? [...portfolio.manualCryptos] :
+      [...portfolio.cryptos];
       const index = cryptos.findIndex(crypto => crypto.name === req.body.name);
       cryptos.splice(index, 1);
-      portfolio.cryptos = [...cryptos];
-    }
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error updating cryptos.' }); }
-      return res.status(200).json({ msg: 'Success' });
-    });
-  });
+      if (req.body.identifier === 'Manual') { portfolio.manualCryptos = [...cryptos]; }
+      else { portfolio.cryptos = [...cryptos]; }
+      const result = await portfolio.save();
+      res.sendStatus(200);
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.put('/updateCryptos', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    if (req.body.data.identifier === 'Manual') {
-      const manualCryptos = [...portfolio.manualCryptos];
-      manualCryptos.unshift({ name: req.body.data.name, symbol: req.body.data.symbol,
-        quantity: req.body.data.quantity, identifier: req.body.data.identifier,
-        price: req.body.data.price, value: req.body.data.value });
-      portfolio.manualCryptos = manualCryptos;
-    } else {
-      const cryptos = [...portfolio.cryptos];
-      cryptos.unshift({ name: req.body.data.name, symbol: req.body.data.symbol,
-        quantity: req.body.data.quantity, identifier: req.body.data.identifier });
-      portfolio.cryptos = cryptos;
-    }
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error updating cryptos.' }); }
-      return res.status(200).json({ msg: 'Success' });
-    });
-  });
+router.put('/updateCryptos', auth,
+  [body('data.*').not().isEmpty().escape()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      if (req.body.quantity < 0) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      if (req.body.data.identifier === 'Manual') {
+        const manualCryptos = [...portfolio.manualCryptos];
+        manualCryptos.unshift({ ...req.body.data });
+        portfolio.manualCryptos = manualCryptos;
+      } else {
+        const cryptos = [...portfolio.cryptos];
+        const { value, price, ...data } = req.body.data;
+        cryptos.unshift(data);
+        portfolio.cryptos = cryptos;
+      }
+      const result = await portfolio.save();
+      res.sendStatus(200);
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.put('/addAsset', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    const otherAssets = [...portfolio.otherAssets];
-    otherAssets.unshift({ name: req.body.name, desc: req.body.desc, value: req.body.value });
-    portfolio.otherAssets = otherAssets;
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error adding asset.' }); }
-      return res.status(200).json({ msg: 'Success', assets: result.otherAssets });
-    });
-  });
+router.put('/addAsset', auth,
+  [body('*').not().isEmpty().escape()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      const otherAssets = [...portfolio.otherAssets];
+      otherAssets.unshift({ ...req.body });
+      portfolio.otherAssets = otherAssets;
+      const result = await portfolio.save();
+      res.status(200).json({ assets: result.otherAssets });
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.put('/removeAsset', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    const otherAssets = [...portfolio.otherAssets];
-    const index = otherAssets.findIndex(asset => asset.name === req.body.name);
-    otherAssets.splice(index, 1);
-    portfolio.otherAssets = otherAssets;
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error adding asset.' }); }
-      return res.status(200).json({ msg: 'Success', assets: result.otherAssets });
-    });
-  });
+router.put('/removeAsset', auth,
+  [body('name').not().isEmpty().escape()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      const otherAssets = [...portfolio.otherAssets];
+      const index = otherAssets.findIndex(asset => asset.name === req.body.name);
+      otherAssets.splice(index, 1);
+      portfolio.otherAssets = otherAssets;
+      const result = await portfolio.save();
+      res.status(200).json({ assets: result.otherAssets });
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.put('/addDebt', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    const liabilities = [...portfolio.liabilities];
-    liabilities.unshift({ name: req.body.name, desc: req.body.desc, value: req.body.value });
-    portfolio.liabilities = liabilities;
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error adding debt.' }); }
-      return res.status(200).json({ msg: 'Success', debts: result.liabilities  });
-    });
-  });
+router.put('/addDebt', auth,
+  [body('*').not().isEmpty().escape()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      const liabilities = [...portfolio.liabilities];
+      liabilities.unshift({ ...req.body });
+      portfolio.liabilities = liabilities;
+      const result = await portfolio.save();
+      res.status(200).json({ debts: result.liabilities  });
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.put('/removeDebt', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    const liabilities = [...portfolio.liabilities];
-    const index = liabilities.findIndex(debt => debt.name === req.body.name);
-    liabilities.splice(index, 1);
-    portfolio.liabilities = liabilities;
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error adding asset.' }); }
-      return res.status(200).json({ msg: 'Success', debts: result.liabilities });
-    });
-  });
+router.put('/removeDebt', auth,
+  [body('name').not().isEmpty().escape()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      const liabilities = [...portfolio.liabilities];
+      const index = liabilities.findIndex(debt => debt.name === req.body.name);
+      liabilities.splice(index, 1);
+      portfolio.liabilities = liabilities;
+      const result = await portfolio.save();
+      res.status(200).json({ debts: result.liabilities });
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.put('/updateAsset', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    const otherAssets = [...portfolio.otherAssets];
-    const index = otherAssets.findIndex(asset => asset.name === req.body.name);
-    otherAssets[index].value = req.body.value;
-    portfolio.otherAssets = otherAssets;
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error adding asset.' }); }
-      return res.status(200).json({ msg: 'Success', assets: result.otherAssets });
-    });
-  });
+router.put('/updateAsset', auth,
+  [body('*').not().isEmpty().escape()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      const otherAssets = [...portfolio.otherAssets];
+      const index = otherAssets.findIndex(asset => asset.name === req.body.name);
+      otherAssets[index].value = req.body.value;
+      portfolio.otherAssets = otherAssets;
+      const result = await portfolio.save();
+      res.status(200).json({ assets: result.otherAssets });
+    } catch(e) { res.sendStatus(500); }
 });
 
-router.put('/updateDebt', auth, (req, res, next) => {
-  Portfolio.findOne({ userId: req.userId }, (err, portfolio) => {
-    if (err) { return res.status(500).json({ msg: 'Server error.' }); }
-    const liabilities = [...portfolio.liabilities];
-    const index = liabilities.findIndex(debt => debt.name === req.body.name);
-    liabilities[index].value = req.body.value;
-    portfolio.liabilities = liabilities;
-    portfolio.save((err, result) => {
-      if (err) { return res.status(500).json({ msg: 'Error adding asset.' }); }
-      return res.status(200).json({ msg: 'Success', debts: result.liabilities });
-    });
-  });
+router.put('/updateDebt', auth,
+  [body('*').not().isEmpty().escape()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      const portfolio = await Portfolio.findOne({ userId: req.userId });
+      const liabilities = [...portfolio.liabilities];
+      const index = liabilities.findIndex(debt => debt.name === req.body.name);
+      liabilities[index].value = req.body.value;
+      portfolio.liabilities = liabilities;
+      const result = await portfolio.save();
+      res.status(200).json({ debts: result.liabilities });
+    } catch(e) { res.sendStatus(500); }
 });
 
 module.exports = router;

@@ -10,7 +10,6 @@ const netWorthRouter = require('./routes/netWorth');
 const portfolioRouter = require('./routes/portfolio');
 const goalsRouter = require('./routes/goals');
 const budgetsRouter = require('./routes/budgets');
-const demoRouter = require('./routes/demo');
 
 const app = express();
 
@@ -32,7 +31,6 @@ app.use('/api/netWorth', netWorthRouter);
 app.use('/api/portfolio', portfolioRouter);
 app.use('/api/goals', goalsRouter);
 app.use('/api/budgets', budgetsRouter);
-app.use('/api/demo', demoRouter);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));

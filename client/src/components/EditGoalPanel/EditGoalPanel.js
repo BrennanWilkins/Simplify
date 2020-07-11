@@ -33,7 +33,7 @@ const EditGoalPanel = props => {
   };
 
   const editHandler = () => {
-    if (inputVal === 0) { return; }
+    if (inputVal === 0 || inputVal > 999999999999) { return; }
     if (props.isDemo) {
       props.setGoal(inputVal);
       return closeHandler();

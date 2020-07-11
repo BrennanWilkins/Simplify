@@ -75,7 +75,6 @@ const BudgetPage = props => {
       props.setNewBudget(budgets);
       closeHandler();
     }).catch(err => {
-      console.log(err);
       setErr(true);
       setErrMsg('Error connecting to the server.');
     });

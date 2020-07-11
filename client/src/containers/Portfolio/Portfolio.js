@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classes from './Portfolio.module.css';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import SearchPanel from '../../components/SearchPanel/SearchPanel';
 import BuySellPanel from '../../components/BuySellPanel/BuySellPanel';
 import { settingsIcon } from '../../components/UI/UIIcons';
@@ -129,4 +130,4 @@ const mapStateToProps = state => ({
   cryptos: state.portfolio.cryptos
 });
 
-export default connect(mapStateToProps)(Portfolio);
+export default connect(mapStateToProps)(withRouter(Portfolio));

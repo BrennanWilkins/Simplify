@@ -96,6 +96,7 @@
   margin: 20px 0;
   text-align: center;
   color: rgb(26, 171, 152);
+  word-wrap: break-word;
 }
 @media (max-width: 520px) {
   .InputRow {

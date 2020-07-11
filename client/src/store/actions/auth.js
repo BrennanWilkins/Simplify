@@ -81,7 +81,7 @@ export const loadDemo = () => dispatch => {
   localStorage.removeItem('expirationTime');
   dispatch(startLoading());
   const demoData = getDemoData();
-  instance.post('/demo/demoLogin', { portfolio: demoData.portfolio }).then(res => {
+  instance.post('/auth/demoLogin', { portfolio: demoData.portfolio }).then(res => {
     const updatedNetWorth = calcNetWorth(demoData.netWorthData, res.data.portfolio);
     dispatch(actions.setNetWorthData(updatedNetWorth));
     dispatch(actions.setPortfolio(calcPortfolioValue(res.data.portfolio)));

@@ -22,7 +22,7 @@ const BudgetBars = props => {
         </div>
       </div>
       <span className={props.small ? classes.SmallBudgetVal : classes.BudgetVal}>
-        ${String(Number(props.budget.budget).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
+        ${Number(Number(props.budget.budget).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </span>
     </React.Fragment>
   );

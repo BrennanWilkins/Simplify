@@ -35,6 +35,7 @@ const PlanPage = props => {
 
   const calcHandler = () => {
     for (let key in inputVals) { if (inputVals[key] === '') { return; } }
+    if (inputVals.years === '0' || inputVals.interest === '0') { return; }
     const res = Compound(inputVals.principal, inputVals.contrib, inputVals.years, (inputVals.interest / 100), 12);
     setFinalVal(res.result);
     const newData = res.total.map((pt, i) => ({ x: i, y: pt }));
@@ -90,7 +91,9 @@ const PlanPage = props => {
           <button onClick={resetHandler}>Reset</button>
         </div>
         <div className={showChart ? classes.Chart : classes.HideChart}>
-          <h1 className={classes.Title2}>${String(Number(finalVal).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</h1>
+          <h1 className={classes.Title2}>
+            ${Number(Number(finalVal).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </h1>
           <CanvasJSChart options={options} />
           <div className={classes.Block}></div>
         </div>

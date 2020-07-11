@@ -54,45 +54,25 @@ const SearchPanel = props => {
   const searchStock = (stock) => {
     if (stock === '') { return setSearchRes([]); }
     setLoading(true);
-    if (props.isDemo) {
-      axios.get('demo/searchStock/' + stock).then(res => {
-        setLoading(false);
-        setSearchRes(res.data.result);
-      }).catch(err => {
-        console.log(err);
-        setLoading(false);
-      });
-    } else {
-      axios.get('portfolio/searchStock/' + stock).then(res => {
-        setSearchRes(res.data.result);
-        setLoading(false);
-      }).catch(err => {
-        setLoading(false);
-        console.log(err);
-      });
-    }
+    axios.get('portfolio/searchStock/' + stock).then(res => {
+      setSearchRes(res.data.result);
+      setLoading(false);
+    }).catch(err => {
+      setLoading(false);
+      console.log(err);
+    });
   };
 
   const searchCrypto = (crypto) => {
     if (crypto === '') { return setSearchRes([]); }
     setLoading(true);
-    if (props.isDemo) {
-      axios.get('demo/searchCrypto/' + crypto).then(res => {
-        setSearchRes(res.data.result);
-        setLoading(false);
-      }).catch(err => {
-        console.log(err);
-        setLoading(false);
-      });
-    } else {
-      axios.get('portfolio/searchCrypto/' + crypto).then(res => {
-        setSearchRes(res.data.result);
-        setLoading(false);
-      }).catch(err => {
-        console.log(err);
-        setLoading(false);
-      });
-    }
+    axios.get('portfolio/searchCrypto/' + crypto).then(res => {
+      setSearchRes(res.data.result);
+      setLoading(false);
+    }).catch(err => {
+      console.log(err);
+      setLoading(false);
+    });
   };
 
   const closeHandler = () => {
@@ -144,7 +124,7 @@ const SearchPanel = props => {
     setInputValShares(val);
   };
 
-  const addHandler = (manual) => {
+  const addHandler = async (manual) => {
     const data = manual ?
     {
       name: inputValName,
@@ -187,19 +167,16 @@ const SearchPanel = props => {
         props.addStock(data);
         return closeHandler();
       }
-      axios.put('portfolio/updateStocks', { data }).then(res => {
-        axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
-          props.setNetWorthData(resp.data.result.dataPoints);
-          props.addStock(data);
-          closeHandler();
-        }).catch(err => {
-          setErr(true);
-          setErrMsg('Error connecting to the server.');
-        });
-      }).catch(err => {
+      try {
+        const res = await axios.put('portfolio/updateStocks', { data });
+        const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
+        props.setNetWorthData(resp.data.result.dataPoints);
+        props.addStock(data);
+        closeHandler();
+      } catch(e) {
         setErr(true);
-        setErrMsg('Error connecting to server.');
-      });
+        return setErrMsg('Error connecting to the server.');
+      }
     } else {
       for (let crypto of props.cryptos) {
         if (crypto.symbol === data.symbol) {
@@ -216,19 +193,16 @@ const SearchPanel = props => {
         props.addCrypto(data);
         return closeHandler();
       }
-      axios.put('portfolio/updateCryptos', { data }).then(res => {
-        axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
-          props.setNetWorthData(resp.data.result.dataPoints);
-          props.addCrypto(data);
-          closeHandler();
-        }).catch(err => {
-          setErr(true);
-          setErrMsg('Error connecting to the server.');
-        });
-      }).catch(err => {
+      try {
+        const res = await axios.put('portfolio/updateCryptos', { data });
+        const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
+        props.setNetWorthData(resp.data.result.dataPoints);
+        props.addCrypto(data);
+        closeHandler();
+      } catch(e) {
         setErr(true);
-        setErrMsg('Error connecting to server.');
-      });
+        return setErrMsg('Error connecting to the server.');
+      }
     }
   };
 

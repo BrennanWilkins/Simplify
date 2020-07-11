@@ -26,7 +26,7 @@ const GoalPage = props => {
   };
 
   const createHandler = () => {
-    if (goalValue === 0) { return; }
+    if (goalValue === 0 || goalValue > 999999999999) { return; }
     if (props.isDemo) { return props.setGoal(goalValue); }
     axios.post('goals', { goal: goalValue }).then(res => {
       props.setGoal(goalValue);
@@ -42,7 +42,9 @@ const GoalPage = props => {
         {props.goal ? (
           <div>
             <h1 className={classes.Title}>Net Worth Goal</h1>
-            <h1 className={classes.Title2}>${String(Number(props.goal).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</h1>
+            <h1 className={classes.Title2}>
+              ${Number(Number(props.goal).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </h1>
             <GoalChart mode="Normal" />
             <div className={classes.Btns}>
               <button className={classes.Btn} onClick={() => setShowEdit(true)}>Edit goal</button>
@@ -54,7 +56,9 @@ const GoalPage = props => {
         ) : (
           <div className={classes.SetGoal}>
             <h1 className={classes.Title}>Create a new net worth goal</h1>
-            <p className={classes.SubTitle}>${String(Number(goalValue).toFixed(2)).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</p>
+            <p className={classes.SubTitle}>
+              ${Number(Number(goalValue).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
             <input className={classes.Input} value={goalValue} onChange={goalValueHandler} />
             <button className={classes.Btn} onClick={createHandler}>Create</button>
             <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>

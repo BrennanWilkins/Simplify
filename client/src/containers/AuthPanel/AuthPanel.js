@@ -30,7 +30,7 @@ const AuthPanel = props => {
   useEffect(() => {
     if (props.error) {
       setErr(true);
-      setErrMsg('Error logging in.');
+      setErrMsg('There was an error logging in.');
     }
   }, [props.error]);
 
@@ -66,7 +66,7 @@ const AuthPanel = props => {
       successHandler(res.data);
     }).catch(err => {
       if (err.response) { return showErr(err.response.data.msg); }
-      showErr('Error logging in.');
+      showErr('There was an error logging in.');
     });
   };
 
@@ -129,7 +129,7 @@ const AuthPanel = props => {
         <div className={props.mode === 'Login' ? classes.LoginPanel : classes.SignupPanel}>
           {(loading || props.loading) && <Spinner mode={props.mode} />}
           <div className={classes.Content}>
-            <div className={classes.Demo} onClick={props.loadDemo}>View a demo account<span>{arrowRight}</span></div>
+            <div className={classes.Demo} onClick={() => { reset(); props.loadDemo(); }}>View a demo account<span>{arrowRight}</span></div>
             <Title auth />
             <p className={classes.SubTitle}>Simplify your finances with budget, net worth, and investment trackers</p>
             <div className={focused === '1' ? classes.InputDivFocus : classes.InputDiv}>
