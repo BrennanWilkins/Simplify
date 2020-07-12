@@ -254,7 +254,7 @@ const SearchPanel = props => {
           onChange={e => setInputValTicker(e.target.value)} />
         </div>
         <div>
-          <p>{props.mode === 'Stock' ? 'Company name:' : 'Cryptocurrency name:'}</p>
+          <p>{props.mode === 'Stock' ? 'Company name:' : 'Name:'}</p>
           <input placeholder={props.mode === 'Stock' ? 'eg Apple' : 'eg Bitcoin'} value={inputValName}
           onChange={e => setInputValName(e.target.value)} />
         </div>

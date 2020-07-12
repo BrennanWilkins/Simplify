@@ -51,9 +51,6 @@
   width: 230px;
 }
 .ShowInput, .HideInput {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
   background: white;
   width: 100%;
   opacity: 1;
@@ -73,9 +70,12 @@
   border: 1px solid rgb(18, 152, 189);
   background: rgb(18, 152, 189, 0.03);
   outline: none;
+  display: block;
+  margin: auto;
 }
 .ShowInput button, .HideInput button {
-  margin: 20px 0 10px;
+  margin: 20px auto 10px;
+  display: block;
 }
 .ShowErr, .HideErr {
   opacity: 1;
