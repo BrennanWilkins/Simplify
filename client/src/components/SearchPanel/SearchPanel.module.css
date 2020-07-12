@@ -88,6 +88,7 @@
 .ShowInput p, .HideInput p {
   margin: 5px;
   display: inline-block;
+  font-size: 16px;
 }
 .Result {
   width: 350px;

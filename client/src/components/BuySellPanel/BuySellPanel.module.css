@@ -97,6 +97,7 @@
   opacity: 1;
   transition: all 250ms;
   margin-left: 10px;
+  font-size: 14px;
 }
 .ConfirmBtn:hover, .AllBtn:hover {
   background: rgb(10, 77, 96);
