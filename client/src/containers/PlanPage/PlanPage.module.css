@@ -73,20 +73,6 @@
 }
 .Btns button {
   margin: 0 10px 0;
-  color: white;
-  background: rgb(15, 119, 147);
-  border: 0;
-  border-radius: 3px;
-  outline: none;
-  padding: 7px 10px;
-  cursor: pointer;
-  opacity: 1;
-  transition: all 250ms;
-  font-size: 14px;
-}
-.Btns button:hover {
-  background: rgb(10, 77, 96);
-  transition: background 250ms;
 }
 .Title {
   margin: 10px 0 0;

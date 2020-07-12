@@ -7,6 +7,7 @@ import { calcNetWorth } from '../../utils/valueCalcs';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import BackBtn from '../UI/BackBtn/BackBtn';
 import Spinner from '../UI/Spinner/Spinner';
+import BlueBtn from '../UI/BlueBtn/BlueBtn';
 
 let typingTimeout;
 
@@ -125,6 +126,8 @@ const SearchPanel = props => {
   };
 
   const addHandler = async (manual) => {
+    if (inputValShares === 0 || inputValShares === '') { return; }
+    if (manual && (inputValName === '' || inputValTicker === '' || inputValPrice === '')) { return; }
     const data = manual ?
     {
       name: inputValName,
@@ -230,9 +233,9 @@ const SearchPanel = props => {
             <div className={classes.SearchName}>{props.mode === 'Stock' ? stock.name : stock.item.name}</div>
           </div>
         ))}
-        <button className={classes.ManualAddBtn} onClick={() => setShowManual(true)}>
+        <BlueBtn clicked={() => setShowManual(true)}>
           {`${props.mode === 'Stock' ? 'Stock' : 'Crypto'} not found? Add it manually`}
-        </button>
+        </BlueBtn>
       </div>
       <div className={showInput ? classes.ShowInput : classes.HideInput}>
         <p className={classes.InputText}>
@@ -241,7 +244,7 @@ const SearchPanel = props => {
           `How much ${selectedTicker} do you own?`}
         </p>
         <input value={inputValShares} onChange={inputValSharesHandler} />
-        <button className={classes.ConfirmBtn} onClick={() => addHandler(false)}>Add</button>
+        <BlueBtn clicked={() => addHandler(false)}>Add</BlueBtn>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
       <div className={showManual ? classes.ShowInput: classes.HideInput}>
@@ -263,7 +266,7 @@ const SearchPanel = props => {
           <p>{props.mode === 'Stock' ? 'Number of shares:' : 'Quantity:'}</p>
           <input value={inputValShares} onChange={inputValSharesHandler} />
         </div>
-        <button className={classes.ConfirmBtn} onClick={() => addHandler(true)}>Add</button>
+        <BlueBtn clicked={() => addHandler(true)}>Add</BlueBtn>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
     </div>

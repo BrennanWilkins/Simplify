@@ -108,22 +108,13 @@
   padding: 2px 10px;
   width: 210px;
 }
-.ManualAddBtn, .ConfirmBtn {
+.Results button {
   margin: 10px 0 0;
-  color: white;
-  background: rgb(15, 119, 147);
-  transition: background 250ms;
-  border: 0;
-  border-radius: 3px;
-  outline: none;
   padding: 5px 10px;
 }
-.ConfirmBtn {
+.ShowInput button, .HideInput button {
   margin: 20px 0 10px;
-}
-.ManualAddBtn:hover, .ConfirmBtn:hover {
-  background: rgb(10, 77, 96);
-  transition: background 250ms;
+  padding: 5px 10px;
 }
 .InputText {
   margin: 0 0 15px !important;

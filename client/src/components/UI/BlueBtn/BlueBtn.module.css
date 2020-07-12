@@ -1,0 +1,22 @@
+.BigBtn, .Btn, .NoBigBtn {
+  background: rgb(15, 119, 147);
+  color: white;
+  border: 0;
+  outline: none;
+  padding: 8px 10px;
+  font-size: 16px;
+  border-radius: 3px;
+  margin: 0 0 10px;
+  cursor: pointer;
+  transition: background 250ms;
+}
+.NoBigBtn {
+  margin: 0;
+}
+.Btn {
+  font-size: 14px;
+}
+.Btn:hover, .BigBtn:hover, .NoBigBtn:hover {
+  background: rgb(10, 77, 96);
+  transition: background 250ms;
+}

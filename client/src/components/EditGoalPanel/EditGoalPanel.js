@@ -4,6 +4,7 @@ import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import { connect } from 'react-redux';
 import { instance as axios } from '../../axios';
 import * as actions from '../../store/actions/index';
+import GreenBtn from '../UI/GreenBtn/GreenBtn';
 
 const EditGoalPanel = props => {
   const panelRef = useRef();
@@ -81,14 +82,14 @@ const EditGoalPanel = props => {
         <React.Fragment>
           <input className={classes.Input} value={inputVal} onChange={inputValHandler} />
           <div className={classes.BtnDiv2}>
-            <button className={classes.Btn} onClick={editHandler}>Change</button>
+            <GreenBtn clicked={editHandler}>Change</GreenBtn>
           </div>
         </React.Fragment>
       ) : (
         <React.Fragment>
           <p className={classes.Title}>Are you sure?</p>
           <div className={classes.BtnDiv2}>
-            <button className={classes.Btn} onClick={deleteHandler}>Delete</button>
+            <GreenBtn clicked={deleteHandler}>Delete</GreenBtn>
           </div>
         </React.Fragment>
       )}

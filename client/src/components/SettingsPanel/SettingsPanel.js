@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { instance as axios } from '../../axios';
 import { calcNetWorth } from '../../utils/valueCalcs';
+import BlueBtn from '../UI/BlueBtn/BlueBtn';
 
 const originalSelected = { name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Manual' };
 
@@ -159,7 +160,7 @@ const SettingsPanel = props => {
         value={selectedName} classNamePrefix="react-select" />
       <div className={showInput ? classes.ShowInput : classes.HideInput}>
         <input value={priceVal} onChange={setValHandler} />
-        <button className={classes.ConfirmBtn} onClick={confirmHandler}>Confirm</button>
+        <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
     </div>

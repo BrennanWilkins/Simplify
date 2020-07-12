@@ -5,6 +5,7 @@ import * as actions from '../../store/actions/index';
 import { instance as axios } from '../../axios';
 import EditGoalPanel from '../../components/EditGoalPanel/EditGoalPanel';
 import GoalChart from '../../components/GoalChart/GoalChart';
+import GreenBtn from '../../components/UI/GreenBtn/GreenBtn';
 
 const GoalPage = props => {
   const [goalValue, setGoalValue] = useState(0);
@@ -47,8 +48,8 @@ const GoalPage = props => {
             </h1>
             <GoalChart mode="Normal" />
             <div className={classes.Btns}>
-              <button className={classes.Btn} onClick={() => setShowEdit(true)}>Edit goal</button>
-              <button className={classes.Btn} onClick={() => setShowDelete(true)}>Delete goal</button>
+              <GreenBtn big clicked={() => setShowEdit(true)}>Edit goal</GreenBtn>
+              <GreenBtn big clicked={() => setShowDelete(true)}>Delete goal</GreenBtn>
               <EditGoalPanel show={showEdit} mode="Edit" close={() => setShowEdit(false)} goal={props.goal} />
               <EditGoalPanel show={showDelete} mode="Delete" close={() => { setShowDelete(false); setGoalValue(0); }} goal={props.goal} />
             </div>
@@ -60,7 +61,7 @@ const GoalPage = props => {
               ${Number(Number(goalValue).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
             <input className={classes.Input} value={goalValue} onChange={goalValueHandler} />
-            <button className={classes.Btn} onClick={createHandler}>Create</button>
+            <GreenBtn big clicked={createHandler}>Create</GreenBtn>
             <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
           </div>
         )}

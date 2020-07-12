@@ -9,6 +9,8 @@ import BudgetPanel from '../../components/BudgetPanel/BudgetPanel';
 import { instance as axios } from '../../axios';
 import CloseBtn from '../../components/UI/CloseBtn/CloseBtn';
 import BudgetBars from '../../components/BudgetBars/BudgetBars';
+import BlueBtn from '../../components/UI/BlueBtn/BlueBtn';
+import GreenBtn from '../../components/UI/GreenBtn/GreenBtn';
 
 const BudgetPage = props => {
   const [showCreate, setShowCreate] = useState(false);
@@ -67,7 +69,7 @@ const BudgetPage = props => {
           <div className={classes.Content}>
             <BudgetChart mode="Normal" />
             <div className={classes.Btns}>
-              <button className={classes.Btn} onClick={() => setShowBudgetPanel(true)}>Edit Budget</button>
+              <BlueBtn big noMargin clicked={() => setShowBudgetPanel(true)}>Edit Budget</BlueBtn>
               <BudgetPanel show={showBudgetPanel} close={() => setShowBudgetPanel(false)} />
             </div>
             <div className={classes.Budget}>
@@ -100,7 +102,7 @@ const BudgetPage = props => {
                       <input className={classes.Input1} value={transDesc}
                         onChange={e => setTransDesc(e.target.value)} placeholder="Transaction Description" />
                       <input className={classes.Input2} value={transCost} onChange={transCostHandler} placeholder="Cost" />
-                      <button onClick={confirmAddTransHandler} className={classes.Btn}>Add</button>
+                      <BlueBtn big noMargin clicked={confirmAddTransHandler}>Add</BlueBtn>
                       <CloseBtn budget close={() => setAddTransCateg('')} />
                     </div>
                     <div className={addTransCateg === budget.category ? classes.SmallShowAddTrans : classes.SmallHideAddTrans}>
@@ -108,7 +110,7 @@ const BudgetPage = props => {
                         onChange={e => setTransDesc(e.target.value)} placeholder="Transaction Description" />
                       <input className={classes.Input2} value={transCost} onChange={transCostHandler} placeholder="Cost" />
                       <div className={classes.BtnDiv}>
-                        <button onClick={confirmAddTransHandler} className={classes.Btn}>Add</button>
+                        <BlueBtn big noMargin clicked={confirmAddTransHandler}>Add</BlueBtn>
                         <CloseBtn budget close={() => setAddTransCateg('')} />
                       </div>
                     </div>
@@ -119,7 +121,7 @@ const BudgetPage = props => {
           </div>
         ) : (
           <div className={classes.NewDiv}>
-            <button className={classes.CreateBtn} onClick={() => setShowCreate(true)}>Create a new budget</button>
+            <BlueBtn big noMargin clicked={() => setShowCreate(true)}>Create a new budget</BlueBtn>
             <NewBudgetPanel show={showCreate} close={() => setShowCreate(false)} />
           </div>
         )}

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import { instance as axios } from '../../axios';
 import * as actions from '../../store/actions/index';
+import BlueBtn from '../UI/BlueBtn/BlueBtn';
 
 const BudgetPage = props => {
   const [categVal, setCategVal] = useState('');
@@ -93,7 +94,9 @@ const BudgetPage = props => {
           <input className={classes.Input} value={budgetVal} onChange={budgetValHandler} />
         </div>
       </div>
-      <button className={classes.Btn} onClick={addHandler}>Add category</button>
+      <div className={classes.BtnDiv2}>
+        <BlueBtn clicked={addHandler}>Add category</BlueBtn>
+      </div>
       <div className={classes.Entries}>
         {budgets.map((budget, i) => (
           <div key={i}>
@@ -102,9 +105,11 @@ const BudgetPage = props => {
           </div>
         ))}
       </div>
-      <button onClick={createHandler} className={budgets.length > 0 ? classes.CreateBtn : classes.HideCreateBtn}>
-        Create budget
-      </button>
+      <div className={classes.BtnDiv3}>
+        <button onClick={createHandler} className={budgets.length > 0 ? classes.CreateBtn : classes.HideCreateBtn}>
+          Create budget
+        </button>
+      </div>
       <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
     </div>
   );

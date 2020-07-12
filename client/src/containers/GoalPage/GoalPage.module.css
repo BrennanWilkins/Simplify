@@ -37,22 +37,6 @@
   margin: 20px;
   transition: all 250ms;
 }
-.Btn {
-  color: white;
-  border: 0;
-  outline: none;
-  padding: 8px 10px;
-  font-size: 16px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background 250ms;
-  margin: 10px;
-  background: rgb(26, 171, 152, 0.7);
-}
-.Btn:hover {
-  background: rgb(26, 171, 152);
-  transition: background 250ms;
-}
 .SubTitle {
   text-align: center;
   color: rgb(26, 171, 152);

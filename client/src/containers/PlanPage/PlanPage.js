@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import classes from './PlanPage.module.css';
 import Compound from 'compound-interest-calc';
 import CanvasJSReact from '../../components/canvasjs/canvasjs.react';
+import BlueBtn from '../../components/UI/BlueBtn/BlueBtn';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const PlanPage = props => {
@@ -87,8 +88,8 @@ const PlanPage = props => {
           </div>
         </div>
         <div className={classes.Btns}>
-          <button onClick={calcHandler}>Calculate</button>
-          <button onClick={resetHandler}>Reset</button>
+          <BlueBtn clicked={calcHandler}>Calculate</BlueBtn>
+          <BlueBtn clicked={resetHandler}>Reset</BlueBtn>
         </div>
         <div className={showChart ? classes.Chart : classes.HideChart}>
           <h1 className={classes.Title2}>

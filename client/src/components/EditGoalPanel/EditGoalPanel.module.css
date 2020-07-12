@@ -1,7 +1,4 @@
 .EditPanel, .HideEditPanel, .DeletePanel, .HideDeletePanel {
-  /* display: flex;
-  align-items: center;
-  flex-direction: column; */
   position: absolute;
   top: -250px;
   width: 250px;
@@ -44,26 +41,12 @@
   margin: 20px;
   transition: all 250ms;
 }
-.Btn {
-  color: white;
-  border: 0;
-  outline: none;
-  padding: 8px 10px;
-  font-size: 16px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background 250ms;
-  margin: 10px;
-  background: rgb(26, 171, 152, 0.7);
-  font-size: 14px;
-}
 .BtnDiv2 {
   display: flex;
   justify-content: center;
 }
-.Btn:hover {
-  background: rgb(26, 171, 152);
-  transition: background 250ms;
+.BtnDiv2 button {
+  margin: 10px;
 }
 .ShowErr, .HideErr {
   opacity: 1;

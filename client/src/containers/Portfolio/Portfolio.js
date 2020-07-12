@@ -9,6 +9,8 @@ import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 import AssetPanel from '../../components/AssetPanel/AssetPanel';
 import NetWorthChart from '../../components/NetWorthChart/NetWorthChart';
 import InvestmentTable from '../../components/InvestmentTable/InvestmentTable';
+import GreenBtn from '../../components/UI/GreenBtn/GreenBtn';
+import BlueBtn from '../../components/UI/BlueBtn/BlueBtn';
 
 const Portfolio = props => {
   const [showStockSearch, setShowStockSearch] = useState(false);
@@ -59,11 +61,11 @@ const Portfolio = props => {
         <div className={classes.Investments}>
           <div className={classes.Stocks} ref={stockRef}>
             <h1>Stocks</h1>
-            <button className={classes.NewBtn} onClick={() => setShowStockSearch(true)}>Add a new holding</button>
+            <BlueBtn big clicked={() => setShowStockSearch(true)}>Add a new holding</BlueBtn>
             <div className={classes.BuySellBtns}>
-              <button className={classes.BuyBtn} onClick={() => showBuySellHandler('BuyStock')}>Buy</button>
+              <GreenBtn big clicked={() => showBuySellHandler('BuyStock')}>Buy</GreenBtn>
               <BuySellPanel mode="BuyStock" show={showBuyStock} close={() => setShowBuyStock(false)} />
-              <button className={classes.SellBtn} onClick={() => showBuySellHandler('SellStock')}>Sell</button>
+              <GreenBtn big clicked={() => showBuySellHandler('SellStock')}>Sell</GreenBtn>
               <BuySellPanel mode="SellStock" show={showSellStock} close={() => setShowSellStock(false)} />
               <button className={classes.SettingsBtn} onClick={() => setShowStockSettings(true)}>
                 <span>{settingsIcon}</span>
@@ -75,11 +77,11 @@ const Portfolio = props => {
           </div>
           <div className={classes.Cryptos} ref={cryptoRef}>
             <h1>Cryptocurrencies</h1>
-            <button className={classes.NewBtn} onClick={() => setShowCryptoSearch(true)}>Add a new holding</button>
+            <BlueBtn big clicked={() => setShowCryptoSearch(true)}>Add a new holding</BlueBtn>
             <div className={classes.BuySellBtns}>
-              <button className={classes.BuyBtn} onClick={() => showBuySellHandler('BuyCrypto')}>Buy</button>
+              <GreenBtn big clicked={() => showBuySellHandler('BuyCrypto')}>Buy</GreenBtn>
               <BuySellPanel mode="BuyCrypto" show={showBuyCrypto} close={() => setShowBuyCrypto(false)} />
-              <button className={classes.SellBtn} onClick={() => showBuySellHandler('SellCrypto')}>Sell</button>
+              <GreenBtn big clicked={() => showBuySellHandler('SellCrypto')}>Sell</GreenBtn>
               <BuySellPanel mode="SellCrypto" show={showSellCrypto} close={() => setShowSellCrypto(false)} />
               <button className={classes.SettingsBtn} onClick={() => setShowCryptoSettings(true)}>
                 <span>{settingsIcon}</span>
@@ -94,9 +96,9 @@ const Portfolio = props => {
           <div className={classes.Stocks} ref={assetRef}>
             <h1>Assets</h1>
             <div className={classes.AssetBtns}>
-              <button className={classes.NewBtn} onClick={() => setShowAddAsset(true)}>Add a new asset</button>
+              <BlueBtn big clicked={() => setShowAddAsset(true)}>Add a new asset</BlueBtn>
               <AssetPanel mode="AddAsset" close={() => setShowAddAsset(false)} show={showAddAsset} />
-              <button className={classes.NewBtn} onClick={() => setShowRemoveAsset(true)}>Remove an asset</button>
+              <BlueBtn big clicked={() => setShowRemoveAsset(true)}>Remove an asset</BlueBtn>
               <AssetPanel mode="RemoveAsset" close={() => setShowRemoveAsset(false)} show={showRemoveAsset} />
               <button className={classes.AssetSettingsBtn} onClick={() => setShowAssetSettings(true)}>
                 <span>{settingsIcon}</span>
@@ -108,9 +110,9 @@ const Portfolio = props => {
           <div className={classes.Cryptos}>
             <h1>Liabilities</h1>
             <div className={classes.AssetBtns}>
-              <button className={classes.NewBtn} onClick={() => setShowAddDebt(true)}>Add a new liability</button>
+              <BlueBtn big clicked={() => setShowAddDebt(true)}>Add a new liability</BlueBtn>
               <AssetPanel mode="AddDebt" close={() => setShowAddDebt(false)} show={showAddDebt} />
-              <button className={classes.NewBtn} onClick={() => setShowRemoveDebt(true)}>Remove a liability</button>
+              <BlueBtn big clicked={() => setShowRemoveDebt(true)}>Remove a liability</BlueBtn>
               <AssetPanel mode="RemoveDebt" close={() => setShowRemoveDebt(false)} show={showRemoveDebt} />
               <button className={classes.AssetSettingsBtn} onClick={() => setShowDebtSettings(true)}>
                 <span>{settingsIcon}</span>
