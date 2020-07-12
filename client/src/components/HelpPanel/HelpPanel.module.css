@@ -126,6 +126,11 @@
   width: 360px;
   height: 233.4px;
 }
+.Content p {
+  font-size: 16px;
+  margin-left: 0;
+  margin-right: 0;
+}
 .P1 {
   margin-top: 10px;
 }
