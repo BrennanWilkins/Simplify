@@ -233,9 +233,11 @@ const SearchPanel = props => {
             <div className={classes.SearchName}>{props.mode === 'Stock' ? stock.name : stock.item.name}</div>
           </div>
         ))}
-        <BlueBtn clicked={() => setShowManual(true)}>
-          {`${props.mode === 'Stock' ? 'Stock' : 'Crypto'} not found? Add it manually`}
-        </BlueBtn>
+        <div className={classes.BtnDiv2}>
+          <BlueBtn clicked={() => setShowManual(true)}>
+            {`${props.mode === 'Stock' ? 'Stock' : 'Crypto'} not found? Add it manually`}
+          </BlueBtn>
+        </div>
       </div>
       <div className={showInput ? classes.ShowInput : classes.HideInput}>
         <p className={classes.InputText}>
