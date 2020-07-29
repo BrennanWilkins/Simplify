@@ -15,26 +15,3 @@
   text-decoration: none;
   margin-bottom: 15px;
 }
-.Error button {
-  border: 0;
-  border-radius: 3px;
-  background-color: rgb(15, 119, 147);
-  height: 30px;
-  display: block;
-}
-.Error button:hover {
-  background-color: rgb(10, 77, 96);
-}
-.ErrorInfo {
-  width: 90%;
-  height: 300px;
-  overflow: auto;
-}
-.Down {
-  transform: rotate(90deg);
-  transition: transform 250ms;
-}
-.Right {
-  transform: rotate(0deg);
-  transition: transform 250ms;
-}

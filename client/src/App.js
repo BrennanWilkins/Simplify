@@ -3,14 +3,14 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import AuthPanel from './containers/AuthPanel/AuthPanel';
 import { connect } from 'react-redux';
 import { autoLogin } from './store/actions/index';
-import HomePage from './containers/HomePage/HomePage';
 import NavBar from './components/NavBar/NavBar';
-import GoalPage from './containers/GoalPage/GoalPage';
-import PlanPage from './containers/PlanPage/PlanPage';
-import BudgetPage from './containers/BudgetPage/BudgetPage';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import Spinner from './components/UI/Spinner/Spinner';
 const Portfolio = React.lazy(() => import('./containers/Portfolio/Portfolio'));
+const BudgetPage = React.lazy(() => import('./containers/BudgetPage/BudgetPage'));
+const HomePage = React.lazy(() => import('./containers/HomePage/HomePage'));
+const GoalPage = React.lazy(() => import('./containers/GoalPage/GoalPage'));
+const PlanPage = React.lazy(() => import('./containers/PlanPage/PlanPage'));
 
 const App = props => {
   useEffect(() => {
@@ -25,16 +25,15 @@ const App = props => {
             <NavBar />
             <Switch>
               <Route exact path="/portfolio" render={() => <Suspense fallback={<Spinner />}><Portfolio /></Suspense>} />
-              <Route exact path="/" component={HomePage} />
-              <Route exact path="/goals" component={GoalPage} />
-              <Route exact path="/plan" component={PlanPage} />
-              <Route exact path="/budget" component={BudgetPage} />
+              <Route exact path="/" render={() => <Suspense fallback={<Spinner />}><HomePage /></Suspense>}/>
+              <Route exact path="/goals" render={() => <Suspense fallback={<Spinner />}><GoalPage /></Suspense>} />
+              <Route exact path="/plan" render={() => <Suspense fallback={<Spinner />}><PlanPage /></Suspense>} />
+              <Route exact path="/budget" render={() => <Suspense fallback={<Spinner />}><BudgetPage /></Suspense>} />
               <Redirect to="/" />
             </Switch>
           </React.Fragment>
           :
           <Switch>
-            <Route exact path="/demo" render={() => <div>Demo</div>} />
             <Route exact path="/login" render={() => <AuthPanel mode="Login" />} />
             <Route exact path="/signup" render={() => <AuthPanel mode="Signup" />} />
             <Redirect to="/login" />
