@@ -25,7 +25,7 @@ const App = props => {
             <NavBar />
             <Switch>
               <Route exact path="/portfolio" render={() => <Suspense fallback={<Spinner />}><Portfolio /></Suspense>} />
-              <Route exact path="/" render={() => <Suspense fallback={<Spinner />}><HomePage /></Suspense>}/>
+              <Route exact path="/" render={() => <Suspense fallback=""><HomePage /></Suspense>}/>
               <Route exact path="/goals" render={() => <Suspense fallback={<Spinner />}><GoalPage /></Suspense>} />
               <Route exact path="/plan" render={() => <Suspense fallback={<Spinner />}><PlanPage /></Suspense>} />
               <Route exact path="/budget" render={() => <Suspense fallback={<Spinner />}><BudgetPage /></Suspense>} />

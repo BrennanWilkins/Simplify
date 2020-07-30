@@ -5,9 +5,7 @@ const NetWorth = require('../models/netWorth');
 const { body, validationResult } = require('express-validator');
 
 router.put('/', auth,
-  [body('netWorthData').not().isEmpty(),
-  body('netWorthData.*._id').escape(),
-  body('netWorthData.*.date').escape()],
+  [body('netWorthData').not().isEmpty()],
   async (req, res) => {
     try {
       if (!validationResult(req).isEmpty()) { throw 'err'; }

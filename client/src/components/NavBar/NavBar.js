@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import classes from './NavBar.module.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -6,7 +6,7 @@ import * as actions from '../../store/actions/index';
 import SideNav from '../SideNav/SideNav';
 import Title from '../UI/Title/Title';
 import { questionIcon } from '../UI/UIIcons';
-import HelpPanel from '../HelpPanel/HelpPanel';
+const HelpPanel = React.lazy(() => import('../HelpPanel/HelpPanel'));
 
 const NavBar = props => {
   const [showSideNav, setShowSideNav] = useState(false);
@@ -55,7 +55,7 @@ const NavBar = props => {
       </div>
       <div className={showSideNav || showHelp ? classes.Backdrop : classes.HideBackdrop}></div>
       <SideNav demo={props.isDemo} show={showSideNav} close={() => setShowSideNav(false)} showHelpPanel={() => setShowHelp(true)} />
-      <HelpPanel show={showHelp} close={() => setShowHelp(false)} />
+      <Suspense fallback=""><HelpPanel show={showHelp} close={() => setShowHelp(false)} /></Suspense>
     </div>
   );
 };
