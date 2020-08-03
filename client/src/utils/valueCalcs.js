@@ -1,11 +1,13 @@
 export const calcPortfolioValue = (portfolio) => {
   const cryptos = [...portfolio.cryptos].map(crypto => {
+    // if crypto price wasnt found then show '?'
     if (crypto.price === '?') { return { ...crypto, value: '?' }; }
     if (crypto.identifier === 'Manual') { return crypto; }
     return { ...crypto, value: crypto.price * crypto.quantity };
   });
 
   const stocks = [...portfolio.stocks].map(stock => {
+    // if stock price wasnt found then show '?'
     if (stock.price === '?') { return { ...stock, value: '?' }; }
     if (stock.identifier === 'Manual') { return stock; }
     return { ...stock, value: stock.price * stock.quantity };
@@ -18,6 +20,7 @@ export const calcNetWorth = (netWorthData, portfolio) => {
   const updatedPortfolio = calcPortfolioValue(portfolio);
   const updatedData = [...netWorthData];
   let netWorth = 0;
+  // add all stocks/cryptos/assets to net worth & remove debts for total
   for (let stock of updatedPortfolio.stocks) {
     if (stock.value !== '?') { netWorth += Number(stock.value); }
   }

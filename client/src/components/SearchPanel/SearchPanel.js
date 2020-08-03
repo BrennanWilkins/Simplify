@@ -39,11 +39,13 @@ const SearchPanel = props => {
   }, []);
 
   const handleClick = (e) => {
+    // close panel if clicked outside
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
   };
 
   const setSearchVal = (e) => {
+    // searches for stock/crypto 600ms after user stops typing
     const value = e.target.value;
     setVal(value);
     clearTimeout(typingTimeout);
@@ -128,6 +130,7 @@ const SearchPanel = props => {
   const addHandler = async (manual) => {
     if (inputValShares === 0 || inputValShares === '') { return; }
     if (manual && (inputValName === '' || inputValTicker === '' || inputValPrice === '')) { return; }
+    // identifier is Manual if stock/crypto added manually, else is Normal
     const data = manual ?
     {
       name: inputValName,

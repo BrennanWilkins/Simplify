@@ -21,13 +21,15 @@ router.post('/login',
   [check('email').not().isEmpty().isEmail().normalizeEmail().escape(),
   check('password').trim().isLength({ min: 8, max: 100 }).escape()],
   async (req, res) => {
-    const errors = validationResult(req);
     if (!validationResult(req).isEmpty()) { return res.status(400).json({ msg: 'Error in input fields.' }); }
     try {
       const user = await User.findOne({ email: req.body.email });
+      // return 400 error if no user found
       if (!user) { return res.status(400).json({ msg: 'Incorrect email or password.' }); }
       const same = await bcryptjs.compare(req.body.password, user.password);
+      // return 400 error if password incorrect
       if (!same) { return res.status(400).json({ msg: 'Incorrect email or password.' }); }
+      // if remember me chosen then token expires in 7 days, else 1 hour
       const options = req.body.remember === 'false' ? { expiresIn: '1h' } : { expiresIn: '7d' };
       const token = await jwt.sign({ user }, config.get('AUTH_KEY'), options);
       const portfolio = await Portfolio.findOne({ userId: user._id }).lean();
@@ -37,8 +39,10 @@ router.post('/login',
       const budgets = await Budgets.findOne({ userId: user._id });
       const updatedStocks = [...portfolio.stocks];
       const promises = updatedStocks.map(stock => yf.quote({ symbol: stock.symbol, modules: ['price'] }));
+      // await for all stock price requests to finish
       const pResults = await Promise.allSettled(promises);
       pResults.forEach((pResult, i) => {
+        // if price not found set it as '?'
         if (pResult.status === 'fulfilled') { updatedStocks[i].price = pResult.value.price.regularMarketPrice; }
         else { updatedStocks[i].price = '?'; }
       });
@@ -62,6 +66,7 @@ router.post('/login',
       const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
       if (!goal && !budgets) { return res.status(200).json({ token, portfolio: updatedPortfolio, netWorth }); }
       if (goal && !budgets) { return res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal }); }
+      // if its a new month then reset all budget transactions
       if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
         budgets.date = String(new Date());
         for (let budget of budgets.budgets) { budget.transactions = []; }
@@ -85,6 +90,7 @@ router.post('/signup',
       const hashedPassword = await bcryptjs.hash(req.body.password, 10);
       const newUser = new User({ email: req.body.email, password: hashedPassword });
       const saveRes = await newUser.save();
+      // if remember clicked then token expires in 7 days else 1 hour
       const options = req.body.remember === 'false' ? { expiresIn: '1h' } : { expiresIn: '7d' };
       const token = await jwt.sign({ newUser }, config.get('AUTH_KEY'), options);
       const newPortfolio = new Portfolio({ cryptos: [], stocks: [], otherAssets: [],
@@ -116,13 +122,16 @@ router.get('/autoLogin', auth, async (req, res) => {
     const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
     const updatedStocks = [...portfolio.stocks];
     const promises = updatedStocks.map(stock => yf.quote({ symbol: stock.symbol, modules: ['price']}));
+    // wait for all stock price requests to finish
     const pResults = await Promise.allSettled(promises);
     pResults.forEach((pResult, i) => {
+      // if stock price not found then set price as '?'
       if (pResult.status === 'fulfilled') { updatedStocks[i].price = pResult.value.price.regularMarketPrice; }
       else { updatedStocks[i].price = '?'; }
     });
     const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
     let mappedCryptos;
+    // if cryptos last updated over 1 hr ago then update cryptos
     if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) {
       console.log('Updating cryptos...');
       const resp = await axios.get(cmcUrl, cmcOptions);
@@ -138,6 +147,7 @@ router.get('/autoLogin', auth, async (req, res) => {
     const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
     if (!goal && !budgets) { return res.status(200).json({ portfolio: updatedPortfolio, netWorth }); }
     if (goal && !budgets) { return res.status(200).json({ portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal }); }
+    // if new month then reset budget transactions
     if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
       budgets.date = String(new Date());
       for (let budget of budgets.budgets) { budget.transactions = []; }
@@ -149,6 +159,7 @@ router.get('/autoLogin', auth, async (req, res) => {
 });
 
 router.post('/demoLogin', async (req, res) => {
+  // for demo mode, retrieves stock prices for default demo portfolio
   try {
     const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
     let mappedCryptos;

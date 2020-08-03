@@ -14,6 +14,7 @@ const PlanPage = React.lazy(() => import('./containers/PlanPage/PlanPage'));
 
 const App = props => {
   useEffect(() => {
+    // try auto login on mount
     props.autoLogin();
   }, []);
 

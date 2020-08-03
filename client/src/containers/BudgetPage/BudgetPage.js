@@ -10,7 +10,6 @@ import { instance as axios } from '../../axios';
 import CloseBtn from '../../components/UI/CloseBtn/CloseBtn';
 import BudgetBars from '../../components/BudgetBars/BudgetBars';
 import BlueBtn from '../../components/UI/BlueBtn/BlueBtn';
-import GreenBtn from '../../components/UI/GreenBtn/GreenBtn';
 
 const BudgetPage = props => {
   const [showCreate, setShowCreate] = useState(false);

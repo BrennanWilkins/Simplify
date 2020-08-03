@@ -30,12 +30,6 @@ const InvestmentTable = props => (
         ))) : props.mode === 'Cryptos' ? (
           props.cryptos.map((crypto, i) => (
             <tr key={i}>
-              {/*<td className={classes.Symbol}>
-                {crypto.symbol === 'BTC' ? <img src="/assets/btcIcon.png" alt="BTC"></img> :
-                crypto.symbol === 'ETH' ? <img src="/assets/ethIcon.png" alt="ETH"></img> :
-                crypto.symbol === 'LTC' ? <img src="/assets/ltcIcon.png" alt="LTC"></img> :
-                crypto.symbol}
-              </td>*/}
               <td className={classes.Symbol}>
                 {crypto.symbol === 'BTC' ? <img src={btcIcon} alt="BTC"></img> :
                 crypto.symbol === 'ETH' ? <img src={ethIcon} alt="ETH"></img> :

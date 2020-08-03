@@ -17,6 +17,7 @@ const SideNav = props => {
   }, []);
 
   const handleClick = (e) => {
+    // close side nav on outside click
     if (navRef.current.contains(e.target)) { return; }
     props.close();
   };

@@ -24,6 +24,7 @@ const BudgetPage = props => {
   }, []);
 
   const handleClick = (e) => {
+    // close panel if clicked outside
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
   };

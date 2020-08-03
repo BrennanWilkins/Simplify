@@ -14,6 +14,7 @@ const BudgetPanel = props => {
   const panelRef = useRef();
 
   useEffect(() => {
+    // sync state to props
     if (props.show) {
       setCategVals(props.budget.map(budget => budget.category));
       setBudgetVals(props.budget.map(budget => budget.budget));
@@ -26,7 +27,8 @@ const BudgetPanel = props => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
-  const handleClick = (e) => {
+  const handleClick = e => {
+    // closes panel if click outside
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
   };
@@ -43,6 +45,7 @@ const BudgetPanel = props => {
   const budgetValHandler = (i, e) => {
     setErr(false);
     let val = e.target.value;
+    // prevents leading zeros
     if (isNaN(val)) { return; }
     if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
       val = val.slice(1);
@@ -62,12 +65,14 @@ const BudgetPanel = props => {
 
   const confirmHandler = () => {
     setErr(false);
+    // cant have budget w no categories
     if (budgetVals.length === hiddenInd.length) {
       setErr(true);
       return setErrMsg('You need to have at least one category.');
     }
     const budgets = [...props.budget];
     for (let i = 0; i < budgetVals.length; i++) {
+      // dont include deleted budget categories
       if (hiddenInd.includes(i)) { continue; }
       if (budgetVals[i] === 0) {
         setErr(true);
@@ -90,6 +95,7 @@ const BudgetPanel = props => {
       { category: budget.category, budget: budget.budget, transactions: budget.transactions }
     )).filter((budget, i) => !hiddenInd.includes(i));
     if (props.isDemo) {
+      // for demo mode only
       props.setBudget(newBudget);
       return closeHandler();
     }
@@ -106,6 +112,7 @@ const BudgetPanel = props => {
   const deleteHandler = () => {
     setErr(false);
     if (props.isDemo) {
+      // for demo mode only
       props.deleteBudget();
       return closeHandler();
     }
@@ -125,6 +132,7 @@ const BudgetPanel = props => {
   };
 
   const deleteOneHandler = (i) => {
+    // hiddenInd used to keep track of deleted categories
     setHiddenInd(hiddenInd.concat([i]));
   };
 

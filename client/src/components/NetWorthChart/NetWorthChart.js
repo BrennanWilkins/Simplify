@@ -9,6 +9,7 @@ const NetWorthChart = props => {
   const netWorthVal = props.netWorthData.length === 0 ? '0.00' :
   Number(props.netWorthData[props.netWorthData.length - 1].value).toFixed(2);
 
+  // props.small used for chart on home page
   return (
     props.small ? (
       <div className={classes.Chart}>

@@ -162,14 +162,17 @@ const AssetPanel = props => {
   const confirmHandler = async () => {
     const updatedPortfolio = { ...props.portfolio };
     if (props.mode === 'AddAsset') {
+      // add asset & update net worth
       const data = { name: inputName, desc: inputDesc, value: inputValue };
       for (let asset of props.otherAssets) {
+        // must have diff names
         if (asset.name === data.name) {
           setErr(true);
           return setErrMsg(`You already have ${data.name} in your portfolio`);
         }
       }
       if (props.isDemo) {
+        // for demo mode only
         const otherAssets = [...updatedPortfolio.otherAssets];
         otherAssets.unshift({ ...data });
         updatedPortfolio.otherAssets = otherAssets;
@@ -188,7 +191,9 @@ const AssetPanel = props => {
         return closeHandler();
       } catch(e) { return errHandler(); }
     } else if (props.mode === 'RemoveAsset') {
+      // remove asset & update net worth
       if (props.isDemo) {
+        // for demo mode only
         const otherAssets = [...updatedPortfolio.otherAssets];
         const index = otherAssets.findIndex(asset => asset.name === selected.name);
         otherAssets.splice(index, 1);
@@ -208,6 +213,7 @@ const AssetPanel = props => {
         return closeHandler();
       } catch(e) { return errHandler(); }
     } else if (props.mode === 'AddDebt') {
+      // add liability & update net worth
       const data = { name: inputName, desc: inputDesc, value: inputValue };
       for (let debt of props.liabilities) {
         if (debt.name === data.name) {
@@ -216,6 +222,7 @@ const AssetPanel = props => {
         }
       }
       if (props.isDemo) {
+        // for demo mode only
         const liabilities = [...updatedPortfolio.liabilities];
         liabilities.unshift({ ...data });
         updatedPortfolio.liabilities = liabilities;
@@ -234,7 +241,9 @@ const AssetPanel = props => {
         return closeHandler();
       } catch(e) { return errHandler(); }
     } else if (props.mode === 'RemoveDebt') {
+      // remove liability & update net worth
       if (props.isDemo) {
+        // for demo mode only
         const liabilities = [...updatedPortfolio.liabilities];
         const index = liabilities.findIndex(debt => debt.name === selected.name);
         liabilities.splice(index, 1);
@@ -254,8 +263,10 @@ const AssetPanel = props => {
         return closeHandler();
       } catch(e) { return errHandler(); }
     } else if (props.mode === 'SettingsAsset') {
+      // update price of asset & update net worth
       const data = { name: selected.name, desc: selected.desc, value: newValue };
       if (props.isDemo) {
+        // for demo mode only
         const otherAssets = [...updatedPortfolio.otherAssets];
         const index = otherAssets.findIndex(asset => asset.name === data.name);
         otherAssets[index].value = data.value;
@@ -275,8 +286,10 @@ const AssetPanel = props => {
         return closeHandler();
       } catch(e) { return errHandler(); }
     } else {
+      // update value of liability & update net worth
       const data = { name: selected.name, desc: selected.desc, value: newValue };
       if (props.isDemo) {
+        // for demo mode only
         const liabilities = [...updatedPortfolio.liabilities];
         const index = liabilities.findIndex(debt => debt.name === data.name);
         liabilities[index].value = data.value;

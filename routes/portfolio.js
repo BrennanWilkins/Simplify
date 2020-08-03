@@ -8,20 +8,24 @@ const StockSearch = require('stock-ticker-symbol');
 const yf = require('yahoo-finance');
 const { param, body, validationResult } = require('express-validator');
 
+// public route for searching cryptos
 router.get('/searchCrypto/:searchVal',
   [param('searchVal').trim().escape()],
   async (req, res) => {
     try {
       const cryptos = await Cryptos.find({});
+      // fuse used to generate best matches for search query
       const fuse = new Fuse(cryptos[0].cryptos, { keys: ['name', 'symbol'] });
       const result = fuse.search(req.params.searchVal).slice(0, 12);
       res.status(200).json({ result });
     } catch(e) { res.sendStatus(500); }
 });
 
+// public route for searching stocks
 router.get('/searchStock/:searchVal',
   [param('searchVal').trim().escape()],
   (req, res) => {
+    // get search results from stock-ticker-symbol API then retrieve prices from yahoo-finance API
     const searchResult = StockSearch.search(req.params.searchVal);
     const promises = searchResult.map(stock => yf.quote({ symbol: stock.ticker, modules: ['price'] }));
     Promise.allSettled(promises).then(results => {

@@ -47,6 +47,7 @@ const AuthPanel = props => {
     setErrMsg(msg);
   };
 
+  // submit request on 'Enter' press
   const keyPressHandler = e => { if (e.key === 'Enter') { submitHandler(); } }
 
   const submitHandler = () => {
@@ -54,6 +55,7 @@ const AuthPanel = props => {
     const res = props.mode === 'Login' ? validate(email, password, password) :
     validate(email, password, confPass);
     setErrMsg(res);
+    // if validate returned err then set err false, else true
     res === '' ? setErr(false) : setErr(true);
     if (res !== '') { return; }
     if (props.mode === 'Login') { return loginHandler(); }
@@ -86,11 +88,11 @@ const AuthPanel = props => {
     instance.defaults.headers.common['x-auth-token'] = data.token;
     if (remember) {
       localStorage['token'] = data.token;
-      // expires in 7 days
+      // token expires in 7 days
       localStorage['expirationDate'] = new Date(new Date().getTime() + 604800000);
       localStorage['expirationTime'] = '604800000';
     } else {
-      // expires in 1hr
+      // token expires in 1hr
       localStorage['token'] = data.token;
       localStorage['expirationDate'] = new Date(new Date().getTime() + 3600000);
       localStorage['expirationTime'] = '3600000';

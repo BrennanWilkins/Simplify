@@ -12,6 +12,7 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
+    // catches all errors & shows link back to home page
     if (this.state.hasError) {
       return (
         <div className={classes.Error}>

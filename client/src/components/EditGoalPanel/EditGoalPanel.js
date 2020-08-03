@@ -22,6 +22,7 @@ const EditGoalPanel = props => {
   }, []);
 
   const handleClick = (e) => {
+    // close panel on click outside
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
   };

@@ -21,6 +21,7 @@ const BuySellPanel = props => {
   const panelRef = useRef();
 
   useEffect(() => {
+    // change panel UI based on mode (buy/sell/stocks/cryptos)
     switch(props.mode) {
       case 'BuyStock':
         if (props.show) { setPanelClass(classes.BuyStock); }
@@ -52,6 +53,7 @@ const BuySellPanel = props => {
   }, []);
 
   const handleClick = (e) => {
+    // close panel on click outside
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
   };
@@ -71,6 +73,7 @@ const BuySellPanel = props => {
     setErrMsg('');
     let val = e.target.value;
     if (isNaN(val)) { return; }
+    // prevent leading zeros
     if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
       val = val.slice(1);
     }
@@ -80,11 +83,13 @@ const BuySellPanel = props => {
 
   const confirmHandler = async () => {
     if (selectedVal === 0) { return; }
+    // prevent update if selling more than have
     if ((props.mode === 'SellStock' || props.mode === 'SellCrypto') && selectedVal > selected.quantity) {
       setErr(true);
       return setErrMsg(`You do not own enough${props.mode === 'SellStock' ? ' shares of' : ''} ${selected.symbol} to sell that much.`);
     }
     if (selectedVal === selected.quantity) {
+      // if selling total value in portfolio then delete the stock/crypto from portfolio
       if (props.mode === 'SellStock') {
         const stocks = [...props.stocks];
         const index = stocks.findIndex(stock => stock.name === selected.name);
@@ -93,6 +98,7 @@ const BuySellPanel = props => {
         updatedPortfolio.stocks = [...stocks];
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         if (props.isDemo) {
+          // for demo mode only
           props.setNetWorthData(updatedNetWorth);
           props.changeStock(stocks);
           return closeHandler();
@@ -132,6 +138,7 @@ const BuySellPanel = props => {
         }
       }
     }
+    // not selling all of the stock/crypto, update portfolio & net worth
     const newPortfolio = props.mode === 'BuyStock' || props.mode === 'SellStock' ?
     [...props.stocks] : [...props.cryptos];
     const index = newPortfolio.findIndex(data => data.name === selected.name);

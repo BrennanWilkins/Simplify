@@ -9,6 +9,7 @@ let expirationTimeout;
 export const loginDispatch = () => ({ type: actionTypes.LOGIN });
 
 export const login = () => dispatch => {
+  // logs user out when token expiration reached
   expirationTimeout = setTimeout(() => dispatch(logout()), Number(localStorage['expirationTime']));
   dispatch(loginDispatch());
 };
@@ -16,6 +17,7 @@ export const login = () => dispatch => {
 export const logoutDispatch = () => ({ type: actionTypes.LOGOUT });
 
 export const logout = () => dispatch => {
+  // delete all local storage items & remove token from instance header on logout
   delete instance.defaults.headers.common['x-auth-token'];
   localStorage.removeItem('token');
   localStorage.removeItem('expirationDate');
@@ -42,6 +44,7 @@ export const removeError = () => ({ type: actionTypes.REMOVE_ERROR });
 export const autoLogin = () => dispatch => {
   if (!localStorage['token'] || !localStorage['expirationDate']) { return; }
   if (new Date(localStorage['expirationDate']) <= new Date()) {
+    // if token is expired dont login
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('expirationTime');
@@ -49,6 +52,7 @@ export const autoLogin = () => dispatch => {
   }
   dispatch(startLoading());
   instance.defaults.headers.common['x-auth-token'] = localStorage['token'];
+  // update timer for autologout
   const newTime = new Date(localStorage['expirationDate']).getTime() - new Date().getTime();
   localStorage['expirationTime'] = newTime;
   instance.get('/auth/autoLogin').then(res => {

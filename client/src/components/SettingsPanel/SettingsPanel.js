@@ -30,6 +30,7 @@ const SettingsPanel = props => {
   }, []);
 
   const handleClick = (e) => {
+    // close panel on outside click
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
   };
@@ -80,13 +81,9 @@ const SettingsPanel = props => {
     }
   };
 
-  const stockOptions = stocks.map(stock => {
-    return { value: stock.name, label: stock.name };
-  });
-
-  const cryptoOptions = cryptos.map(crypto => {
-    return { value: crypto.name, label: crypto.name };
-  });
+  // options used for the select element
+  const stockOptions = stocks.map(stock => ({ value: stock.name, label: stock.name }));
+  const cryptoOptions = cryptos.map(crypto => ({ value: crypto.name, label: crypto.name }));
 
   const confirmHandler = () => {
     const newPortfolio = props.mode === 'Stock' ? [...props.stocks] : [...props.cryptos];

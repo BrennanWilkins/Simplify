@@ -21,6 +21,7 @@ const HelpPanel = props => {
   };
 
   const nextHandler = () => {
+    // close panel if next arrow closed on last page
     if (currPage === 8) { return closeHandler(); }
     setCurrPage(prev => prev + 1);
     setHides(hides.concat(currPage));

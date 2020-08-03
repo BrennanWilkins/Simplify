@@ -9,6 +9,7 @@ const GoalChart = props => {
   (props.netWorthData[props.netWorthData.length - 1].value).toFixed(2);
 
   let percReached = ((netWorthVal / props.goal) * 100).toFixed(2);
+  // stops tracking after 100% of goal reached
   if (percReached > 100) { percReached = 100.00; }
 
   const dataPoints = [{ name: 'Current Net Worth', y: netWorthVal, color: 'rgb(26, 171, 152)' }];
@@ -20,6 +21,7 @@ const GoalChart = props => {
 		animationEnabled: true,
 		data: [{ type: "doughnut", dataPoints: dataPoints }]
 	};
+  // chart size changed to fit home page card
   if (props.mode === 'Small') { options.height = 200; options.width = 200; }
 
   return (

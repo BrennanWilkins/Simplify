@@ -13,6 +13,7 @@ const HomeCard = props => {
   );
 
   const linkHandler = () => {
+    // query params used to take user to correct position on page
     if (props.num === '1') {
       props.history.push('/portfolio');
     } else if (props.num === '2') {

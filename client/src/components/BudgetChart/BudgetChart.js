@@ -12,6 +12,7 @@ const BudgetChart = props => {
     totSpent += Number(budget.budget - budget.remaining);
   });
   let percReached = (totSpent / totBudget * 100).toFixed(2);
+  // stops tracking percent of budget reached if over 1000%
   if (percReached > 1000) { percReached = 'over 1000'; }
 
   const dataPoints = [{ name: 'Total Spent', y: totSpent, color: 'rgb(18, 152, 189)' }];
