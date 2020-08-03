@@ -47,7 +47,7 @@ const BudgetPage = props => {
       if (budg.category === addTransCateg) {
         const transactions = [...budg.transactions];
         if (transactions.length === 5) { transactions.splice(4, 1); }
-        transactions.unshift({ desc: transDesc, value: transCost, date: new Date() });
+        transactions.unshift({ desc: transDesc, val: transCost, date: String(new Date()) });
         return { ...budg, transactions };
       }
       return budg;
@@ -92,7 +92,7 @@ const BudgetPage = props => {
                         return (
                           <div className={classes.Transaction} key={i}>
                             <div>{transaction.desc}</div>
-                            <div>${Number(transaction.value).toFixed(2)}</div>
+                            <div>${Number(transaction.val).toFixed(2)}</div>
                             <div>{dateFormatted}</div>
                           </div>
                         );

@@ -62,6 +62,10 @@ const BudgetPanel = props => {
 
   const confirmHandler = () => {
     setErr(false);
+    if (budgetVals.length === hiddenInd.length) {
+      setErr(true);
+      return setErrMsg('You need to have at least one category.');
+    }
     const budgets = [...props.budget];
     for (let i = 0; i < budgetVals.length; i++) {
       if (hiddenInd.includes(i)) { continue; }

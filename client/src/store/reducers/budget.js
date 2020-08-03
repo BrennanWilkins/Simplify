@@ -15,7 +15,7 @@ const reducer = (state = initialState, action) => {
       const budgets = action.budget.map(budget => {
         let remaining = budget.budget;
         for (let i = 0; i < budget.transactions.length; i++) {
-          remaining -= budget.transactions[i].value;
+          remaining -= budget.transactions[i].val;
         }
         return { budget: budget.budget, category: budget.category, transactions: budget.transactions, remaining };
       });

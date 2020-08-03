@@ -62,15 +62,13 @@ router.post('/login',
       const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
       if (!goal && !budgets) { return res.status(200).json({ token, portfolio: updatedPortfolio, netWorth }); }
       if (goal && !budgets) { return res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal }); }
-      let newBudgets;
       if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
-        budgets.date = new Date();
-        newBudgets = [...budgets.budgets].map(budget => ({ ...budget, remaining: budget.budget, transactions: [] }));
-        budgets.budgets = newBudgets;
-        const budgetsResult = await budgets.save();
-      } else { newBudgets = budgets.budgets; }
-      if (!goal) { return res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, budgets: newBudgets }); }
-      res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, budgets: newBudgets, goal: goal.netWorthGoal });
+        budgets.date = String(new Date());
+        for (let budget of budgets.budgets) { budget.transactions = []; }
+        await budgets.save();
+      }
+      if (!goal) { return res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets }); }
+      res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets, goal: goal.netWorthGoal });
     } catch(e) { res.status(500).json({ msg: 'There was an error logging in.' }); }
 });
 
@@ -140,16 +138,14 @@ router.get('/autoLogin', auth, async (req, res) => {
     const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
     if (!goal && !budgets) { return res.status(200).json({ portfolio: updatedPortfolio, netWorth }); }
     if (goal && !budgets) { return res.status(200).json({ portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal }); }
-    let newBudgets;
     if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
-      budgets.date = new Date();
-      newBudgets = [...budgets.budgets].map(budget => ({ ...budget, remaining: budget.budget, transactions: [] }));
-      budgets.budgets = newBudgets;
-      const budgetsResult = await budgets.save();
-    } else { newBudgets = budgets.budgets; }
-    if (!goal) { return res.status(200).json({ portfolio: updatedPortfolio, netWorth, budgets: newBudgets }); }
-    res.status(200).json({ portfolio: updatedPortfolio, netWorth, budgets: newBudgets, goal: goal.netWorthGoal });
-  } catch(e) { console.log(e); res.sendStatus(500); }
+      budgets.date = String(new Date());
+      for (let budget of budgets.budgets) { budget.transactions = []; }
+      await budgets.save();
+    }
+    if (!goal) { return res.status(200).json({ portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets }); }
+    res.status(200).json({ portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets, goal: goal.netWorthGoal });
+  } catch(e) { res.sendStatus(500); }
 });
 
 router.post('/demoLogin', async (req, res) => {
@@ -178,7 +174,7 @@ router.post('/demoLogin', async (req, res) => {
     const combinedStocks = updatedStocks.concat([...req.body.portfolio.manualStocks]);
     const updatedPortfolio = { ...req.body.portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
     res.status(200).json({ portfolio: updatedPortfolio });
-  } catch (err) { console.log(err); res.sendStatus(500); }
+  } catch (err) { res.sendStatus(500); }
 });
 
 module.exports = router;

@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
 
+const TransactionSchema = new mongoose.Schema({
+  desc: String,
+  val: String,
+  date: String
+});
+
 const BudgetSchema = new mongoose.Schema({
-  transactions: [],
+  transactions: [TransactionSchema],
   category: String,
-  budget: Number,
-  remaining: Number
+  budget: Number
 });
 
 const BudgetsSchema = new mongoose.Schema({

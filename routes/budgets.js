@@ -4,26 +4,8 @@ const auth = require('../middleware/auth');
 const Budgets = require('../models/budgets');
 const { body } = require('express-validator');
 
-router.get('/', auth, async (req, res) => {
-  try {
-    const result = await Budgets.findOne({ userId: req.userId });
-    if (new Date().getMonth() !== new Date(result.date).getMonth()) {
-      result.date = new Date();
-      const newBudgets = [...result.budgets].map(budget => (
-        { ...budget, remaining: budget.budget, transactions: [] }
-      ));
-      result.budgets = newBudgets;
-      const result2 = await result.save();
-      return res.status(200).json({ budgets: newBudgets });
-    }
-    res.status(200).json({ budgets: result.budgets });
-  } catch(e) { res.sendStatus(500); }
-});
-
 router.post('/', auth,
-  [body('budgets.*.category').trim().isLength({ min: 1, max: 1000 }).escape(),
-  body('budgets.*.budget').trim().isLength({ min: 1, max: 1000 }).escape(),
-  body('budgets.*.transactions.*').trim().isLength({ min: 1, max: 1000 }).escape()],
+  [body('budgets').not().isEmpty()],
   async (req, res) => {
     try {
       if (await Budgets.findOne({ userId: req.userId })) { throw 'Already exists.' }
@@ -34,9 +16,8 @@ router.post('/', auth,
 });
 
 router.put('/', auth,
-  [body('budgets.*.category').trim().isLength({ min: 1, max: 1000 }).escape(),
-  body('budgets.*.budget').trim().isLength({ min: 1, max: 1000 }).escape(),
-  body('budgets.*.transactions.*').trim().isLength({ min: 1, max: 1000 }).escape()],
+  [body('budgets').not().isEmpty(),
+  body('budgets.budgets').not().isEmpty()],
   async (req, res) => {
     try {
       const result = await Budgets.findOneAndUpdate({ userId: req.userId }, { budgets: req.body.budgets }, {});

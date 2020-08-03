@@ -28,9 +28,9 @@
 }
 .ChartContainer h1, .SmallChartContainer h1 {
   position: absolute;
-  top: calc(50% - 60px);
-  left: calc(50% - 125px);
-  width: 250px;
+  top: calc(50% - 70px);
+  left: calc(50% - 115px);
+  width: 230px;
   height: 200px;
   text-align: center;
   color: rgb(26, 171, 152);

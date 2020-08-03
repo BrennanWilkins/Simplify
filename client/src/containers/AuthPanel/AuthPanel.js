@@ -47,6 +47,8 @@ const AuthPanel = props => {
     setErrMsg(msg);
   };
 
+  const keyPressHandler = e => { if (e.key === 'Enter') { submitHandler(); } }
+
   const submitHandler = () => {
     if (loading || props.loading) { return; }
     const res = props.mode === 'Login' ? validate(email, password, password) :
@@ -138,7 +140,8 @@ const AuthPanel = props => {
                 value={email}
                 placeholder="Email"
                 spellCheck="false"
-                onChange={(e) => { setEmail(e.target.value); setErr(false); }} />
+                onChange={(e) => { setEmail(e.target.value); setErr(false); }}
+                onKeyDown={keyPressHandler} />
             </div>
             <div className={focused === '2' ? classes.InputDivFocus : classes.InputDiv}>
               <span className={classes.Icon}>{lockIcon}</span>
@@ -147,7 +150,8 @@ const AuthPanel = props => {
                 value={password}
                 placeholder="Password"
                 spellCheck="false"
-                onChange={(e) => { setPassword(e.target.value); setErr(false); }} />
+                onChange={(e) => { setPassword(e.target.value); setErr(false); }}
+                onKeyDown={keyPressHandler} />
             </div>
             {props.mode === 'Signup' &&
               <div className={focused === '3' ? classes.InputDivFocus : classes.InputDiv}>
@@ -157,7 +161,8 @@ const AuthPanel = props => {
                   value={confPass}
                   placeholder="Confirm Password"
                   spellCheck="false"
-                  onChange={(e) => { setConfPass(e.target.value); setErr(false); }} />
+                  onChange={(e) => { setConfPass(e.target.value); setErr(false); }}
+                  onKeyDown={keyPressHandler} />
               </div>
             }
             <div className={classes.Remember}>
