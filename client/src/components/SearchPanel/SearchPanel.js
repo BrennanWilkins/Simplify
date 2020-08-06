@@ -29,22 +29,20 @@ const SearchPanel = props => {
   const panelRef = useRef();
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
-    if (props.show) { inputRef.current.focus(); }
+    if (props.show) {
+      document.addEventListener('mousedown', handleClick);
+      inputRef.current.focus();
+    }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.mode, props.show]);
 
-  useEffect(() => {
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
-
-  const handleClick = (e) => {
+  const handleClick = e => {
     // close panel if clicked outside
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
   };
 
-  const setSearchVal = (e) => {
+  const setSearchVal = e => {
     // searches for stock/crypto 600ms after user stops typing
     const value = e.target.value;
     setVal(value);
@@ -54,7 +52,7 @@ const SearchPanel = props => {
     setTimeout(() => searchCrypto(value), 600);
   };
 
-  const searchStock = (stock) => {
+  const searchStock = stock => {
     if (stock === '') { return setSearchRes([]); }
     setLoading(true);
     axios.get('portfolio/searchStock/' + stock).then(res => {
@@ -66,7 +64,7 @@ const SearchPanel = props => {
     });
   };
 
-  const searchCrypto = (crypto) => {
+  const searchCrypto = crypto => {
     if (crypto === '') { return setSearchRes([]); }
     setLoading(true);
     axios.get('portfolio/searchCrypto/' + crypto).then(res => {
@@ -99,7 +97,7 @@ const SearchPanel = props => {
     setLoading(false);
   };
 
-  const selectedHandler = (stock) => {
+  const selectedHandler = stock => {
     setShowInput(true);
     setSelectedRes(stock);
     props.mode === 'Stock' ?
@@ -107,7 +105,7 @@ const SearchPanel = props => {
     setSelectedTicker(stock.item.symbol);
   };
 
-  const inputValPriceHandler = (e) => {
+  const inputValPriceHandler = e => {
     let val = e.target.value;
     if (isNaN(val)) { return; }
     if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
@@ -117,7 +115,7 @@ const SearchPanel = props => {
     setInputValPrice(val);
   };
 
-  const inputValSharesHandler = (e) => {
+  const inputValSharesHandler = e => {
     let val = e.target.value;
     if (isNaN(val)) { return; }
     if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
@@ -127,7 +125,7 @@ const SearchPanel = props => {
     setInputValShares(val);
   };
 
-  const addHandler = async (manual) => {
+  const addHandler = async manual => {
     if (inputValShares === 0 || inputValShares === '') { return; }
     if (manual && (inputValName === '' || inputValTicker === '' || inputValPrice === '')) { return; }
     // identifier is Manual if stock/crypto added manually, else is Normal
@@ -171,6 +169,7 @@ const SearchPanel = props => {
       if (props.isDemo) {
         props.setNetWorthData(updatedNetWorth);
         props.addStock(data);
+        props.addNotif(`${data.symbol} added to portfolio`);
         return closeHandler();
       }
       try {
@@ -178,6 +177,7 @@ const SearchPanel = props => {
         const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
         props.setNetWorthData(resp.data.result.dataPoints);
         props.addStock(data);
+        props.addNotif(`${data.symbol} added to portfolio`);
         closeHandler();
       } catch(e) {
         setErr(true);
@@ -197,6 +197,7 @@ const SearchPanel = props => {
       if (props.isDemo) {
         props.setNetWorthData(updatedNetWorth);
         props.addCrypto(data);
+        props.addNotif(`${data.symbol} added to portfolio`);
         return closeHandler();
       }
       try {
@@ -204,6 +205,7 @@ const SearchPanel = props => {
         const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
         props.setNetWorthData(resp.data.result.dataPoints);
         props.addCrypto(data);
+        props.addNotif(`${data.symbol} added to portfolio`);
         closeHandler();
       } catch(e) {
         setErr(true);
@@ -289,7 +291,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addStock: (stock) => dispatch(actions.addStock(stock)),
   addCrypto: (crypto) => dispatch(actions.addCrypto(crypto)),
-  setNetWorthData: (data) => dispatch(actions.setNetWorthData(data))
+  setNetWorthData: (data) => dispatch(actions.setNetWorthData(data)),
+  addNotif: msg => dispatch(actions.addNotif(msg))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPanel);

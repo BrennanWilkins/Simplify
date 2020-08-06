@@ -13,15 +13,11 @@ const EditGoalPanel = props => {
   const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
+    if (props.show) { document.addEventListener('mousedown', handleClick); }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.show]);
 
-  useEffect(() => {
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
-
-  const handleClick = (e) => {
+  const handleClick = e => {
     // close panel on click outside
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
@@ -38,10 +34,12 @@ const EditGoalPanel = props => {
     if (inputVal === 0 || inputVal > 999999999999) { return; }
     if (props.isDemo) {
       props.setGoal(inputVal);
+      props.addNotif('Goal updated');
       return closeHandler();
     }
     axios.put('goals', { goal: inputVal }).then(res => {
       props.setGoal(inputVal);
+      props.addNotif('Goal updated');
       closeHandler();
     }).catch(err => {
       setErr(true);
@@ -52,10 +50,12 @@ const EditGoalPanel = props => {
   const deleteHandler = () => {
     if (props.isDemo) {
       props.setGoal(null);
+      props.addNotif('Goal deleted');
       return closeHandler();
     }
     axios.delete('goals').then(res => {
       props.setGoal(null);
+      props.addNotif('Goal deleted');
       closeHandler();
     }).catch(err => {
       setErr(true);
@@ -104,7 +104,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setGoal: (goal) => dispatch(actions.setGoal(goal))
+  setGoal: goal => dispatch(actions.setGoal(goal)),
+  addNotif: msg => dispatch(actions.addNotif(msg))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditGoalPanel);

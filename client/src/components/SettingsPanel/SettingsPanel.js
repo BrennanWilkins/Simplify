@@ -21,15 +21,11 @@ const SettingsPanel = props => {
   const panelRef = useRef();
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
+    if (props.show) { document.addEventListener('mousedown', handleClick); }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.mode, props.show]);
 
-  useEffect(() => {
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
-
-  const handleClick = (e) => {
+  const handleClick = e => {
     // close panel on outside click
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
@@ -100,12 +96,14 @@ const SettingsPanel = props => {
       if (props.isDemo) {
         props.setNetWorthData(updatedNetWorth);
         props.changeStock(newPortfolio);
+        props.addNotif('Stock price updated');
         return closeHandler();
       } else {
         axios.put('portfolio/changeStock', { ...newData }).then(res => {
           axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
             props.setNetWorthData(resp.data.result.dataPoints);
             props.changeStock(newPortfolio);
+            props.addNotif('Stock price updated');
             closeHandler();
           }).catch(err => {
             setErr(true);
@@ -122,12 +120,14 @@ const SettingsPanel = props => {
       if (props.isDemo) {
         props.setNetWorthData(updatedNetWorth);
         props.changeCrypto(newPortfolio);
+        props.addNotif('Crypto price updated');
         return closeHandler();
       }
       axios.put('portfolio/changeCrypto', { ...newData }).then(res => {
         axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
           props.setNetWorthData(resp.data.result.dataPoints);
           props.changeCrypto(newPortfolio);
+          props.addNotif('Crypto price updated');
           closeHandler();
         }).catch(err => {
           setErr(true);
@@ -175,7 +175,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   changeCrypto: (cryptos) => dispatch(actions.changeCrypto(cryptos)),
   changeStock: (stocks) => dispatch(actions.changeStock(stocks)),
-  setNetWorthData: (data) => dispatch(actions.setNetWorthData(data))
+  setNetWorthData: (data) => dispatch(actions.setNetWorthData(data)),
+  addNotif: msg => dispatch(actions.addNotif(msg))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPanel);

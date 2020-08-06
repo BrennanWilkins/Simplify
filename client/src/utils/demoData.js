@@ -30,45 +30,45 @@ export const getDemoData = () => {
   const budget = [
     {
       transactions: [
-        { desc: "Summer Trip", value: "100", date: String(date1) }
+        { desc: "Summer Trip", val: "100", date: String(date1) }
       ],
       category: 'Travel',
       budget: 150
     },
     {
       transactions: [
-        { desc: "Concert", value: "150", date: String(date2) },
-        { desc: "Netflix", value: "10", date: String(date3) },
-        { desc: "Movie", value: "15", date: String(date5) }
+        { desc: "Concert", val: "150", date: String(date2) },
+        { desc: "Netflix", val: "10", date: String(date3) },
+        { desc: "Movie", val: "15", date: String(date5) }
       ],
       category: 'Entertainment',
       budget: 300
     },
     {
       transactions: [
-        { desc: "Clothes", value: "50", date: String(date4) }
+        { desc: "Clothes", val: "50", date: String(date4) }
       ],
       category: 'Shopping',
       budget: 100
     },
     {
       transactions: [
-        { desc: "Car Payment", value: "400", date: String(date5) }
+        { desc: "Car Payment", val: "400", date: String(date5) }
       ],
       category: 'Transportation',
       budget: 500
     },
     {
       transactions: [
-        { desc: "Gym Membership", value: "30", date: String(date6) },
-        { desc: "Haircut", value: "20", date: String(date7) }
+        { desc: "Gym Membership", val: "30", date: String(date6) },
+        { desc: "Haircut", val: "20", date: String(date7) }
       ],
       category: 'Personal',
       budget: 150
     },
     {
       transactions: [
-        { desc: "Tuition Loan", value: "300", date: String(date3) },
+        { desc: "Tuition Loan", val: "300", date: String(date3) },
       ],
       category: 'Education',
       budget: 400
@@ -113,10 +113,10 @@ export const getDemoData = () => {
     ],
     otherAssets: [
       { name: 'Bank Accnt', desc: 'Capital One Savings', value: 30000 },
-      { name: 'Real Estate', desc: 'My apartment #1', value: 175000 }
+      { name: 'Real Estate', desc: 'My apartment', value: 175000 }
     ],
     liabilities: [
-      { name: 'Credit Card Debt', desc: 'My credit card #1', value: 3000 }
+      { name: 'Credit Card Debt', desc: 'My credit card', value: 3000 }
     ],
     manualStocks: [],
     manualCryptos: []

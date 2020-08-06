@@ -45,15 +45,20 @@ const BudgetPage = props => {
     const budgets = props.budget.map((budg, i) => {
       if (budg.category === addTransCateg) {
         const transactions = [...budg.transactions];
-        if (transactions.length === 5) { transactions.splice(4, 1); }
+        if (transactions.length === 20) { transactions.pop(); }
         transactions.unshift({ desc: transDesc, val: transCost, date: String(new Date()) });
         return { ...budg, transactions };
       }
       return budg;
     });
-    if (props.isDemo) { setAddTransCateg(''); return props.setBudget(budgets); }
+    if (props.isDemo) {
+      setAddTransCateg('');
+      props.addNotif('Transaction Added');
+      return props.setBudget(budgets);
+    }
     axios.put('budgets', { budgets }).then(res => {
       setAddTransCateg('');
+      props.addNotif('Transaction Added');
       props.setBudget(budgets);
     }).catch(err => {
       console.log(err);
@@ -66,10 +71,12 @@ const BudgetPage = props => {
         <h1 className={classes.Title}>Budgeting</h1>
         {props.budget.length > 0 ? (
           <div className={classes.Content}>
-            <BudgetChart mode="Normal" />
-            <div className={classes.Btns}>
-              <BlueBtn big noMargin clicked={() => setShowBudgetPanel(true)}>Edit Budget</BlueBtn>
-              <BudgetPanel show={showBudgetPanel} close={() => setShowBudgetPanel(false)} />
+            <div className={classes.LeftContent}>
+              <BudgetChart mode="Normal" />
+              <div className={classes.Btns}>
+                <BlueBtn big noMargin clicked={() => setShowBudgetPanel(true)}>Edit Budget</BlueBtn>
+                <BudgetPanel show={showBudgetPanel} close={() => setShowBudgetPanel(false)} />
+              </div>
             </div>
             <div className={classes.Budget}>
               {props.budget.map((budget, i) => {
@@ -135,7 +142,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setBudget: (budget) => dispatch(actions.setBudget(budget))
+  setBudget: budget => dispatch(actions.setBudget(budget)),
+  addNotif: notif => dispatch(actions.addNotif(notif))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BudgetPage);

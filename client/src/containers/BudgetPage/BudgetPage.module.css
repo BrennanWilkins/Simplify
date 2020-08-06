@@ -15,6 +15,15 @@
 .Content {
   width: 100%;
   display: flex;
+}
+.Budget {
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  margin: 18px 0 0 20px;
+}
+.LeftContent {
+  display: flex;
   flex-direction: column;
   align-items: center;
 }
@@ -28,12 +37,6 @@
 .Title {
   color: rgb(15, 119, 147);
   margin-bottom: 10px;
-}
-.Budget {
-  width: 1000px;
-  margin: 20px auto 30px;
-  display: flex;
-  flex-direction: column;
 }
 .BudgetDiv {
   border-bottom: 2px solid rgb(18, 152, 189, 0.2);
@@ -148,6 +151,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media (max-width: 1430px) {
+  .Content {
+    flex-direction: column;
+    align-items: center;
+  }
+  .Budget {
+    margin: 20px auto 30px;
+  }
 }
 @media (max-width: 1040px) {
   .InnerBudgetDiv {

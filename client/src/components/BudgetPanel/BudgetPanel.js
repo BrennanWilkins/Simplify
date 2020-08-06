@@ -18,14 +18,10 @@ const BudgetPanel = props => {
     if (props.show) {
       setCategVals(props.budget.map(budget => budget.category));
       setBudgetVals(props.budget.map(budget => budget.budget));
+      document.addEventListener('mousedown', handleClick);
     }
-    document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.show]);
-
-  useEffect(() => {
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
 
   const handleClick = e => {
     // closes panel if click outside
@@ -97,10 +93,12 @@ const BudgetPanel = props => {
     if (props.isDemo) {
       // for demo mode only
       props.setBudget(newBudget);
+      props.addNotif('Budget updated');
       return closeHandler();
     }
     axios.put('budgets', { budgets: newBudget }).then(res => {
       props.setBudget(newBudget);
+      props.addNotif('Budget updated');
       closeHandler();
     }).catch(err => {
       console.log(err);
@@ -114,10 +112,12 @@ const BudgetPanel = props => {
     if (props.isDemo) {
       // for demo mode only
       props.deleteBudget();
+      props.addNotif('Budget deleted');
       return closeHandler();
     }
     axios.delete('budgets').then(res => {
       props.deleteBudget();
+      props.addNotif('Budget deleted');
       closeHandler();
     }).catch(err => {
       console.log(err);
@@ -131,7 +131,7 @@ const BudgetPanel = props => {
     setBudgetVals(budgetVals.concat([0]));
   };
 
-  const deleteOneHandler = (i) => {
+  const deleteOneHandler = i => {
     // hiddenInd used to keep track of deleted categories
     setHiddenInd(hiddenInd.concat([i]));
   };
@@ -164,9 +164,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setNewBudget: (budget) => dispatch(actions.setNewBudget(budget)),
-  setBudget: (budget) => dispatch(actions.setBudget(budget)),
-  deleteBudget: () => dispatch(actions.deleteBudget())
+  setNewBudget: budget => dispatch(actions.setNewBudget(budget)),
+  setBudget: budget => dispatch(actions.setBudget(budget)),
+  deleteBudget: () => dispatch(actions.deleteBudget()),
+  addNotif: msg => dispatch(actions.addNotif(msg))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BudgetPanel);

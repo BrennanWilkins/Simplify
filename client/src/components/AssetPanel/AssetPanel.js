@@ -60,15 +60,11 @@ const AssetPanel = props => {
         setOptions(props.liabilities.map(debt => ({ value: debt.name, label: debt.name })));
         break;
     }
-    document.addEventListener('mousedown', handleClick);
+    if (props.show) { document.addEventListener('mousedown', handleClick); }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.mode, props.show]);
 
-  useEffect(() => {
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
-
-  const handleClick = (e) => {
+  const handleClick = e => {
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
   };
@@ -88,7 +84,7 @@ const AssetPanel = props => {
     props.close();
   };
 
-  const selectHandler = (option) => {
+  const selectHandler = option => {
     if (!option) {
       setSelectedName('');
       setConfirmClass(classes.HideConfirm);
@@ -109,7 +105,7 @@ const AssetPanel = props => {
     }
   };
 
-  const inputNameHandler = (e) => {
+  const inputNameHandler = e => {
     setInputName(e.target.value);
     setErr(false);
     setErrMsg('');
@@ -118,7 +114,7 @@ const AssetPanel = props => {
     } else { setConfirmClass(classes.HideConfirm); }
   };
 
-  const inputDescHandler = (e) => {
+  const inputDescHandler = e => {
     setInputDesc(e.target.value);
     setErr(false);
     setErrMsg('');
@@ -127,7 +123,7 @@ const AssetPanel = props => {
     } else { setConfirmClass(classes.HideConfirm); }
   };
 
-  const inputValueHandler = (e) => {
+  const inputValueHandler = e => {
     let val = e.target.value;
     if (isNaN(val)) { return; }
     if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
@@ -142,7 +138,7 @@ const AssetPanel = props => {
     } else { setConfirmClass(classes.HideConfirm); }
   };
 
-  const newValueHandler = (e) => {
+  const newValueHandler = e => {
     let val = e.target.value;
     if (isNaN(val)) { return; }
     if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
@@ -179,6 +175,7 @@ const AssetPanel = props => {
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         props.setNetWorthData(updatedNetWorth);
         props.updateAssets(otherAssets);
+        props.addNotif('Asset added to portfolio');
         return closeHandler();
       }
       try {
@@ -188,6 +185,7 @@ const AssetPanel = props => {
         const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
         props.setNetWorthData(resp.data.result.dataPoints);
         props.updateAssets(res.data.assets);
+        props.addNotif('Asset added to portfolio');
         return closeHandler();
       } catch(e) { return errHandler(); }
     } else if (props.mode === 'RemoveAsset') {
@@ -201,6 +199,7 @@ const AssetPanel = props => {
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         props.setNetWorthData(updatedNetWorth);
         props.updateAssets(otherAssets);
+        props.addNotif('Asset removed from portfolio');
         return closeHandler();
       }
       try {
@@ -210,6 +209,7 @@ const AssetPanel = props => {
         const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
         props.setNetWorthData(resp.data.result.dataPoints);
         props.updateAssets(res.data.assets);
+        props.addNotif('Asset removed from portfolio');
         return closeHandler();
       } catch(e) { return errHandler(); }
     } else if (props.mode === 'AddDebt') {
@@ -229,6 +229,7 @@ const AssetPanel = props => {
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         props.setNetWorthData(updatedNetWorth);
         props.updateDebts(liabilities);
+        props.addNotif('Liability added to portfolio');
         return closeHandler();
       }
       try {
@@ -238,6 +239,7 @@ const AssetPanel = props => {
         const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
         props.setNetWorthData(resp.data.result.dataPoints);
         props.updateDebts(res.data.debts);
+        props.addNotif('Liability added to portfolio');
         return closeHandler();
       } catch(e) { return errHandler(); }
     } else if (props.mode === 'RemoveDebt') {
@@ -251,6 +253,7 @@ const AssetPanel = props => {
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         props.setNetWorthData(updatedNetWorth);
         props.updateDebts(liabilities);
+        props.addNotif('Liability removed from portfolio');
         return closeHandler();
       }
       try {
@@ -260,6 +263,7 @@ const AssetPanel = props => {
         const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
         props.setNetWorthData(resp.data.result.dataPoints);
         props.updateDebts(res.data.debts);
+        props.addNotif('Liability removed from portfolio');
         return closeHandler();
       } catch(e) { return errHandler(); }
     } else if (props.mode === 'SettingsAsset') {
@@ -274,6 +278,7 @@ const AssetPanel = props => {
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         props.setNetWorthData(updatedNetWorth);
         props.updateAssets(otherAssets);
+        props.addNotif('Asset updated in portfolio');
         return closeHandler();
       }
       try {
@@ -283,6 +288,7 @@ const AssetPanel = props => {
         const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
         props.setNetWorthData(resp.data.result.dataPoints);
         props.updateAssets(res.data.assets);
+        props.addNotif('Asset updated in portfolio');
         return closeHandler();
       } catch(e) { return errHandler(); }
     } else {
@@ -297,6 +303,7 @@ const AssetPanel = props => {
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         props.setNetWorthData(updatedNetWorth);
         props.updateDebts(liabilities);
+        props.addNotif('Liability updated in portfolio');
         return closeHandler();
       }
       try {
@@ -306,6 +313,7 @@ const AssetPanel = props => {
         const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
         props.setNetWorthData(resp.data.result.dataPoints);
         props.updateDebts(res.data.debts);
+        props.addNotif('Liability updated in portfolio');
         return closeHandler();
       } catch(e) { return errHandler(); }
     }
@@ -354,9 +362,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setNetWorthData: (data) => dispatch(actions.setNetWorthData(data)),
-  updateAssets: (assets) => dispatch(actions.updateAssets(assets)),
-  updateDebts: (debts) => dispatch(actions.updateDebts(debts))
+  setNetWorthData: data => dispatch(actions.setNetWorthData(data)),
+  updateAssets: assets => dispatch(actions.updateAssets(assets)),
+  updateDebts: debts => dispatch(actions.updateDebts(debts)),
+  addNotif: msg => dispatch(actions.addNotif(msg))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AssetPanel);

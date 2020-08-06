@@ -28,8 +28,9 @@ const GoalPage = props => {
 
   const createHandler = () => {
     if (goalValue === 0 || goalValue > 999999999999) { return; }
-    if (props.isDemo) { return props.setGoal(goalValue); }
+    if (props.isDemo) { props.addNotif('Goal created'); return props.setGoal(goalValue); }
     axios.post('goals', { goal: goalValue }).then(res => {
+      props.addNotif('Goal created');
       props.setGoal(goalValue);
     }).catch(err => {
       setErr(true);
@@ -76,7 +77,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setGoal: (goal) => dispatch(actions.setGoal(goal))
+  setGoal: goal => dispatch(actions.setGoal(goal)),
+  addNotif: msg => dispatch(actions.addNotif(msg))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GoalPage);

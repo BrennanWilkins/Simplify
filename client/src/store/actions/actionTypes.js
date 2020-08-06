@@ -25,3 +25,6 @@ export const SET_GOAL = 'SET_GOAL';
 export const SET_NEW_BUDGET = 'SET_NEW_BUDGET';
 export const SET_BUDGET = 'SET_BUDGET';
 export const DELETE_BUDGET = 'DELETE_BUDGET';
+
+export const SET_NOTIFS = 'SET_NOTIFS';
+export const DELETE_NOTIF = 'DELETE_NOTIF';

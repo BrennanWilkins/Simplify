@@ -6,6 +6,7 @@ import { autoLogin } from './store/actions/index';
 import NavBar from './components/NavBar/NavBar';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import Spinner from './components/UI/Spinner/Spinner';
+import Notifications from './components/Notifications/Notifications';
 const Portfolio = React.lazy(() => import('./containers/Portfolio/Portfolio'));
 const BudgetPage = React.lazy(() => import('./containers/BudgetPage/BudgetPage'));
 const HomePage = React.lazy(() => import('./containers/HomePage/HomePage'));
@@ -24,6 +25,7 @@ const App = props => {
         {props.isAuth || props.isDemo ?
           <React.Fragment>
             <NavBar />
+            <Notifications />
             <Switch>
               <Route exact path="/portfolio" render={() => <Suspense fallback={<Spinner />}><Portfolio /></Suspense>} />
               <Route exact path="/" render={() => <Suspense fallback=""><HomePage /></Suspense>}/>

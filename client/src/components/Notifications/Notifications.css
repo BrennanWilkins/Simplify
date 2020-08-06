@@ -1,0 +1,59 @@
+.Notifs-Notifs {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  min-width: 220px;
+  z-index: 10;
+}
+.Notifs-Icon {
+  position: relative;
+  top: 1px;
+  margin: 0 10px 0 5px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Notifs-Notif {
+  height: 30px;
+  background: rgb(63, 190, 173);
+  margin-top: 10px;
+  border-radius: 3px;
+  box-shadow: 0.5px 1px 3px 0 rgb(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.Notifs-Notif-enter {
+  opacity: 0;
+}
+.Notifs-Notif-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.Notifs-Notif-exit {
+  opacity: 1;
+}
+.Notifs-Notif-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+.Notifs-Btn {
+  border: 0;
+  margin: 0 5px 0 10px;
+  background: rgb(52, 163, 148);
+  font-size: 20px;
+  padding: 0;
+  border-radius: 3px;
+  transition: background 300ms;
+  cursor: pointer;
+}
+.Notifs-Btn:hover {
+  background: rgb(46, 145, 132);
+  transition: background 300ms;
+}
+.Notifs-Btn span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

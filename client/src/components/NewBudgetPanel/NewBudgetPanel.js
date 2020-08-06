@@ -15,15 +15,11 @@ const BudgetPage = props => {
   const panelRef = useRef();
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
+    if (props.show) { document.addEventListener('mousedown', handleClick); }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.show]);
 
-  useEffect(() => {
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
-
-  const handleClick = (e) => {
+  const handleClick = e => {
     // close panel if clicked outside
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
@@ -71,10 +67,12 @@ const BudgetPage = props => {
   const createHandler = () => {
     if (props.isDemo) {
       props.setNewBudget(budgets);
+      props.addNotif('Budget created');
       return closeHandler();
     }
     axios.post('budgets', { budgets }).then(res => {
       props.setNewBudget(budgets);
+      props.addNotif('Budget created');
       closeHandler();
     }).catch(err => {
       setErr(true);
@@ -121,7 +119,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setNewBudget: (budget) => dispatch(actions.setNewBudget(budget))
+  setNewBudget: budget => dispatch(actions.setNewBudget(budget)),
+  addNotif: msg => dispatch(actions.addNotif(msg))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BudgetPage);

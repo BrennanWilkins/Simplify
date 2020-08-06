@@ -44,15 +44,11 @@ const BuySellPanel = props => {
         setTitleText('Which cryptocurrency did you sell?');
         break;
     }
-    document.addEventListener('mousedown', handleClick);
+    if (props.show) { document.addEventListener('mousedown', handleClick); }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.mode, props.show]);
 
-  useEffect(() => {
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
-
-  const handleClick = (e) => {
+  const handleClick = e => {
     // close panel on click outside
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
@@ -68,7 +64,7 @@ const BuySellPanel = props => {
     props.close();
   };
 
-  const setValHandler = (e) => {
+  const setValHandler = e => {
     setErr(false);
     setErrMsg('');
     let val = e.target.value;
@@ -91,9 +87,7 @@ const BuySellPanel = props => {
     if (selectedVal === selected.quantity) {
       // if selling total value in portfolio then delete the stock/crypto from portfolio
       if (props.mode === 'SellStock') {
-        const stocks = [...props.stocks];
-        const index = stocks.findIndex(stock => stock.name === selected.name);
-        stocks.splice(index, 1);
+        const stocks = props.stocks.filter(stock => stock.name !== selected.name);
         const updatedPortfolio = { ...props.portfolio };
         updatedPortfolio.stocks = [...stocks];
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
@@ -101,6 +95,7 @@ const BuySellPanel = props => {
           // for demo mode only
           props.setNetWorthData(updatedNetWorth);
           props.changeStock(stocks);
+          props.addNotif(`${selected.symbol} removed from portfolio`);
           return closeHandler();
         }
         try {
@@ -108,6 +103,7 @@ const BuySellPanel = props => {
           const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
           props.setNetWorthData(resp.data.result.dataPoints);
           props.changeStock(stocks);
+          props.addNotif(`${selected.symbol} removed from portfolio`);
           return closeHandler();
         } catch(e) {
           setErr(true);
@@ -115,15 +111,14 @@ const BuySellPanel = props => {
         }
       }
       if (props.mode === 'SellCrypto') {
-        const cryptos = [...props.cryptos];
-        const index = cryptos.findIndex(crypto => crypto.name === selected.name);
-        cryptos.splice(index, 1);
+        const cryptos = props.cryptos.filter(crypto => crypto.name !== selected.name);
         const updatedPortfolio = { ...props.portfolio };
         updatedPortfolio.cryptos = [...cryptos];
         const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
         if (props.isDemo) {
           props.setNetWorthData(updatedNetWorth);
           props.changeCrypto(cryptos);
+          props.addNotif(`${selected.symbol} removed from portfolio`);
           return closeHandler();
         }
         try {
@@ -131,6 +126,7 @@ const BuySellPanel = props => {
           const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
           props.setNetWorthData(resp.data.result.dataPoints);
           props.changeCrypto(cryptos);
+          props.addNotif(`${selected.symbol} removed from portfolio`);
           return closeHandler();
         } catch(e) {
           setErr(true);
@@ -156,6 +152,7 @@ const BuySellPanel = props => {
       if (props.isDemo) {
         props.setNetWorthData(updatedNetWorth);
         props.changeStock(newPortfolio);
+        props.addNotif(`${selected.symbol} updated in portfolio`);
         return closeHandler();
       }
       try {
@@ -163,6 +160,7 @@ const BuySellPanel = props => {
         const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
         props.setNetWorthData(resp.data.result.dataPoints);
         props.changeStock(newPortfolio);
+        props.addNotif(`${selected.symbol} updated in portfolio`);
         closeHandler();
       } catch(e) {
         setErr(true);
@@ -174,6 +172,7 @@ const BuySellPanel = props => {
       if (props.isDemo) {
         props.setNetWorthData(updatedNetWorth);
         props.changeCrypto(newPortfolio);
+        props.addNotif(`${selected.symbol} updated in portfolio`);
         return closeHandler();
       }
       try {
@@ -181,6 +180,7 @@ const BuySellPanel = props => {
         const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
         props.setNetWorthData(resp.data.result.dataPoints);
         props.changeCrypto(newPortfolio);
+        props.addNotif(`${selected.symbol} updated in portfolio`);
         closeHandler();
       } catch(e) {
         setErr(true);
@@ -189,7 +189,7 @@ const BuySellPanel = props => {
     }
   };
 
-  const selectHandler = (selectedOption) => {
+  const selectHandler = selectedOption => {
     if (!selectedOption) {
       setSelectedName('');
       return setSelected({ ...originalSelected });
@@ -251,9 +251,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  changeCrypto: (cryptos) => dispatch(actions.changeCrypto(cryptos)),
-  changeStock: (stocks) => dispatch(actions.changeStock(stocks)),
-  setNetWorthData: (data) => dispatch(actions.setNetWorthData(data))
+  changeCrypto: cryptos => dispatch(actions.changeCrypto(cryptos)),
+  changeStock: stocks => dispatch(actions.changeStock(stocks)),
+  setNetWorthData: data => dispatch(actions.setNetWorthData(data)),
+  addNotif: msg => dispatch(actions.addNotif(msg))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BuySellPanel);
