@@ -41,7 +41,7 @@ const Portfolio = props => {
     }
   }, []);
 
-  const showBuySellHandler = (mode) => {
+  const showBuySellHandler = mode => {
     if ((mode === 'BuyStock' || mode === 'SellStock') && props.stocks.length === 0) {
       return setShowStockSearch(true);
     }

@@ -5,6 +5,7 @@ import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import { instance as axios } from '../../axios';
 import * as actions from '../../store/actions/index';
 import BlueBtn from '../UI/BlueBtn/BlueBtn';
+import { Input, NumInput } from '../UI/Inputs/Inputs';
 
 const BudgetPage = props => {
   const [categVal, setCategVal] = useState('');
@@ -34,21 +35,15 @@ const BudgetPage = props => {
     props.close();
   };
 
-  const budgetValHandler = (e) => {
+  const budgetValHandler = val => {
     setErr(false);
-    let val = e.target.value;
-    if (isNaN(val)) { return; }
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    if (val === '') { val = 0; }
     setBudgetVal(val);
   };
 
-  const categValHandler = (e) => {
-    if (e.target.value.length > 100) { return; }
+  const categValHandler = val => {
+    if (val.length > 100) { return; }
     setErr(false);
-    setCategVal(e.target.value);
+    setCategVal(val);
   };
 
   const addHandler = () => {
@@ -86,11 +81,11 @@ const BudgetPage = props => {
       <div className={classes.InputDiv}>
         <div className={classes.Field}>
           <p className={classes.Text}>Category</p>
-          <input className={classes.Input} value={categVal} onChange={categValHandler} />
+          <Input val={categVal} change={categValHandler} />
         </div>
         <div className={classes.Field}>
           <p className={classes.Text}>Monthly budget</p>
-          <input className={classes.Input} value={budgetVal} onChange={budgetValHandler} />
+          <NumInput val={budgetVal} change={budgetValHandler} />
         </div>
       </div>
       <div className={classes.BtnDiv2}>

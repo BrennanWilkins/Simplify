@@ -30,16 +30,9 @@
   left: 150px;
   transform: scale(0);
 }
-.Input {
+.Input input {
   width: 200px;
-  padding: 5px;
-  font-size: 16px;
-  border-radius: 3px;
-  border: 1px solid rgb(18, 152, 189);
-  background: rgb(18, 152, 189, 0.03);
-  outline: none;
   margin: 20px;
-  transition: all 250ms;
 }
 .BtnDiv2 {
   display: flex;

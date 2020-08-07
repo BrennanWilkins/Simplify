@@ -22,12 +22,6 @@
 }
 .Budgets input {
   width: 120px;
-  padding: 5px;
-  font-size: 16px;
-  border-radius: 3px;
-  border: 1px solid rgb(18, 152, 189);
-  background: rgb(18, 152, 189, 0.03);
-  outline: none;
   margin: 10px;
 }
 .BtnDiv {

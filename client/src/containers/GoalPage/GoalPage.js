@@ -6,6 +6,7 @@ import { instance as axios } from '../../axios';
 import EditGoalPanel from '../../components/EditGoalPanel/EditGoalPanel';
 import GoalChart from '../../components/GoalChart/GoalChart';
 import GreenBtn from '../../components/UI/GreenBtn/GreenBtn';
+import { NumInput } from '../../components/UI/Inputs/Inputs';
 
 const GoalPage = props => {
   const [goalValue, setGoalValue] = useState(0);
@@ -14,15 +15,9 @@ const GoalPage = props => {
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
-  const goalValueHandler = (e) => {
+  const goalValueHandler = val => {
     setErr(false);
     setErrMsg('');
-    let val = e.target.value;
-    if (isNaN(val)) { return; }
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    if (val === '') { val = 0; }
     setGoalValue(val);
   };
 
@@ -61,7 +56,7 @@ const GoalPage = props => {
             <p className={classes.SubTitle}>
               ${Number(Number(goalValue).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
-            <input className={classes.Input} value={goalValue} onChange={goalValueHandler} />
+            <div className={classes.Input}><NumInput val={goalValue} change={goalValueHandler} /></div>
             <GreenBtn big clicked={createHandler}>Create</GreenBtn>
             <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
           </div>

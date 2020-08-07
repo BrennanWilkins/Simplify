@@ -61,15 +61,6 @@
 .HideText {
   opacity: 0;
 }
-.Input {
-  width: 60%;
-  padding: 5px;
-  font-size: 16px;
-  border-radius: 3px;
-  border: 1px solid rgb(18, 152, 189);
-  background: rgb(18, 152, 189, 0.03);
-  outline: none;
-}
 .ConfirmBtn, .HideConfirmBtn {
   margin: 20px 0 0;
   color: white;
@@ -82,9 +73,6 @@
   opacity: 1;
   transition: all 250ms;
   font-size: 14px;
-}
-.HideConfirmBtn {
-  opacity: 0;
 }
 .AllBtn {
   color: white;
@@ -123,8 +111,12 @@
   opacity: 1;
   transition: opacity 250ms;
 }
-.HideInputDiv {
+.InputDiv input {
+  width: 60%;
+}
+.HideInputDiv, .HideConfirmBtn {
   opacity: 0;
+  visibility: hidden;
 }
 .Dropdown {
   width: 230px;

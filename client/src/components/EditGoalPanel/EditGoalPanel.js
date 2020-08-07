@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { instance as axios } from '../../axios';
 import * as actions from '../../store/actions/index';
 import GreenBtn from '../UI/GreenBtn/GreenBtn';
+import { NumInput } from '../UI/Inputs/Inputs';
 
 const EditGoalPanel = props => {
   const panelRef = useRef();
@@ -63,15 +64,15 @@ const EditGoalPanel = props => {
     });
   };
 
-  const inputValHandler = (e) => {
+  const inputValHandler = val => {
     setErr(false);
     setErrMsg('');
-    let val = e.target.value;
-    if (isNaN(val)) { return; }
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    if (val === '') { val = 0; }
+    // let val = e.target.value;
+    // if (isNaN(val)) { return; }
+    // if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
+    //   val = val.slice(1);
+    // }
+    // if (val === '') { val = 0; }
     setInputVal(val);
   };
 
@@ -81,7 +82,7 @@ const EditGoalPanel = props => {
       <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
       {props.mode === 'Edit' ? (
         <React.Fragment>
-          <input className={classes.Input} value={inputVal} onChange={inputValHandler} />
+          <div className={classes.Input}><NumInput val={inputVal} change={inputValHandler} /></div>
           <div className={classes.BtnDiv2}>
             <GreenBtn clicked={editHandler}>Change</GreenBtn>
           </div>

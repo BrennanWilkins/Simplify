@@ -51,16 +51,6 @@
   margin: 5px 20px 0;
   width: 200px;
   height: 80px;
-}
-.InputField input {
-  padding: 5px;
-  font-size: 16px;
-  border-radius: 3px;
-  border: 1px solid rgb(18, 152, 189);
-  background: rgb(18, 152, 189, 0.03);
-  outline: none;
-}
-.InputField p {
   text-align: center;
   color: rgb(15, 119, 147);
 }

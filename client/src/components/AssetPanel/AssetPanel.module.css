@@ -86,19 +86,13 @@
 .Inputs p {
   display: inline-block;
 }
-.Inputs input, .NewValueInput {
+.Inputs input {
   width: 200px;
-  padding: 5px;
-  font-size: 16px;
-  border-radius: 3px;
-  border: 1px solid rgb(18, 152, 189);
-  background: rgb(18, 152, 189, 0.03);
-  outline: none;
   position: absolute;
   right: 0;
 }
-.NewValueInput {
-  position: static;
+.NewValueInput input {
+  width: 200px;
   margin: 40px 0 0;
 }
 .Confirm, .HideConfirm {

@@ -7,6 +7,7 @@ import { calcNetWorth } from '../../utils/valueCalcs';
 import Select from 'react-select';
 import '../UI/ReactSelectStyles.css';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
+import { Input, NumInput } from '../UI/Inputs/Inputs';
 
 const AssetPanel = props => {
   const [titleText, setTitleText] = useState('');
@@ -64,6 +65,8 @@ const AssetPanel = props => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.mode, props.show]);
 
+  useEffect(() => btnClassHandler(), [inputName, inputDesc, inputValue]);
+
   const handleClick = e => {
     if (panelRef.current.contains(e.target)) { return; }
     closeHandler();
@@ -105,46 +108,16 @@ const AssetPanel = props => {
     }
   };
 
-  const inputNameHandler = e => {
-    setInputName(e.target.value);
+  const btnClassHandler = () => {
     setErr(false);
     setErrMsg('');
-    if (e.target.value.length > 0 && inputDesc.length > 0 && inputValue.length > 0) {
+    // show confirm btn if all fields arent empty
+    if (inputName.length > 0 && inputDesc.length > 0 && inputValue.length > 0) {
       setConfirmClass(classes.Confirm);
     } else { setConfirmClass(classes.HideConfirm); }
   };
 
-  const inputDescHandler = e => {
-    setInputDesc(e.target.value);
-    setErr(false);
-    setErrMsg('');
-    if (e.target.value.length > 0 && inputName.length > 0 && inputValue.length > 0) {
-      setConfirmClass(classes.Confirm);
-    } else { setConfirmClass(classes.HideConfirm); }
-  };
-
-  const inputValueHandler = e => {
-    let val = e.target.value;
-    if (isNaN(val)) { return; }
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    if (val === '') { val = 0; }
-    setInputValue(val);
-    setErr(false);
-    setErrMsg('');
-    if (val.length > 0 && inputDesc.length > 0 && inputName.length > 0) {
-      setConfirmClass(classes.Confirm);
-    } else { setConfirmClass(classes.HideConfirm); }
-  };
-
-  const newValueHandler = e => {
-    let val = e.target.value;
-    if (isNaN(val)) { return; }
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    if (val === '') { val = 0; }
+  const newValueHandler = val => {
     setNewValue(val);
     setErr(false);
     setErrMsg('');
@@ -332,20 +305,22 @@ const AssetPanel = props => {
         <div className={classes.Inputs}>
           <div>
             <p>Name</p>
-            <input value={inputName} onChange={inputNameHandler} />
+            <Input val={inputName} change={val => setInputName(val)} />
           </div>
           <div>
             <p>Description</p>
-            <input value={inputDesc} onChange={inputDescHandler} />
+            <Input val={inputDesc} change={val => setInputDesc(val)} />
           </div>
           <div>
             <p>Value</p>
-            <input value={inputValue} onChange={inputValueHandler} />
+            <NumInput val={inputValue} change={val => setInputValue(val)} />
           </div>
         </div>
       }
       {(props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') && selectedName !== '' ?
-        <input className={classes.NewValueInput} value={newValue} onChange={newValueHandler} />
+        <div className={classes.NewValueInput}>
+          <NumInput val={newValue} change={newValueHandler} />
+        </div>
       : null}
       <button onClick={confirmHandler} className={confirmClass}>Confirm</button>
       <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>

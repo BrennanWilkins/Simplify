@@ -17,14 +17,8 @@
   top: -200px;
   transform: scale(0);
 }
-.Input {
+.Field input {
   width: 60%;
-  padding: 5px;
-  font-size: 16px;
-  border-radius: 3px;
-  border: 1px solid rgb(18, 152, 189);
-  background: rgb(18, 152, 189, 0.03);
-  outline: none;
 }
 .InputDiv {
   display: flex;

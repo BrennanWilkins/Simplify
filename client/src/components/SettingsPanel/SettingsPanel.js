@@ -8,6 +8,7 @@ import Select from 'react-select';
 import { instance as axios } from '../../axios';
 import { calcNetWorth } from '../../utils/valueCalcs';
 import BlueBtn from '../UI/BlueBtn/BlueBtn';
+import { NumInput } from '../UI/Inputs/Inputs';
 
 const originalSelected = { name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Manual' };
 
@@ -41,15 +42,9 @@ const SettingsPanel = props => {
     props.close();
   };
 
-  const setValHandler = (e) => {
+  const setValHandler = val => {
     setErr(false);
     setErrMsg('');
-    let val = e.target.value;
-    if (isNaN(val)) { return; }
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    if (val === '') { val = 0; }
     setPriceVal(val);
   };
 
@@ -156,7 +151,7 @@ const SettingsPanel = props => {
         className={classes.Dropdown} onChange={selectHandler} isSearchable
         value={selectedName} classNamePrefix="react-select" />
       <div className={showInput ? classes.ShowInput : classes.HideInput}>
-        <input value={priceVal} onChange={setValHandler} />
+        <NumInput val={priceVal} change={setValHandler} />
         <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>

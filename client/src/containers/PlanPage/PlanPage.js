@@ -3,6 +3,7 @@ import classes from './PlanPage.module.css';
 import Compound from 'compound-interest-calc';
 import CanvasJSReact from '../../components/canvasjs/canvasjs.react';
 import BlueBtn from '../../components/UI/BlueBtn/BlueBtn';
+import { NumInput } from '../../components/UI/Inputs/Inputs';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const PlanPage = props => {
@@ -16,14 +17,7 @@ const PlanPage = props => {
   const [dataPoints, setDataPoints] = useState([]);
   const [finalVal, setFinalVal] = useState('');
 
-  const setInputsHandler = (e) => {
-    let val = e.target.value;
-    if (isNaN(val)) { return; }
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    setInputVals({ ...inputVals, [e.target.name]: val });
-  };
+  const setInputsHandler = (val, field) => setInputVals({ ...inputVals, [field]: val });
 
   const resetHandler = () => {
     const updatedVals = { ...inputVals };
@@ -69,21 +63,21 @@ const PlanPage = props => {
           <div className={classes.InputRow}>
             <div className={classes.InputField}>
               <p>Principal Investment</p>
-              <input value={inputVals.principal} name="principal" onChange={setInputsHandler} />
+              <NumInput val={inputVals.principal} change={val => setInputsHandler(val, 'principal')} />
             </div>
             <div className={classes.InputField}>
               <p>Monthly Contribution</p>
-              <input value={inputVals.contrib} name="contrib" onChange={setInputsHandler} />
+              <NumInput val={inputVals.contrib} change={val => setInputsHandler(val, 'contrib')} />
             </div>
             </div>
           <div className={classes.InputRow}>
             <div className={classes.InputField}>
               <p>Years Compounded</p>
-              <input value={inputVals.years} name="years" onChange={setInputsHandler} />
+              <NumInput val={inputVals.years} change={val => setInputsHandler(val, 'years')} />
             </div>
             <div className={classes.InputField}>
               <p>Yearly return in %</p>
-              <input value={inputVals.interest} name="interest" onChange={setInputsHandler} />
+              <NumInput val={inputVals.interest} change={val => setInputsHandler(val, 'interest')} />
             </div>
           </div>
         </div>

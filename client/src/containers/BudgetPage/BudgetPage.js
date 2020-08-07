@@ -10,6 +10,7 @@ import { instance as axios } from '../../axios';
 import CloseBtn from '../../components/UI/CloseBtn/CloseBtn';
 import BudgetBars from '../../components/BudgetBars/BudgetBars';
 import BlueBtn from '../../components/UI/BlueBtn/BlueBtn';
+import { Input, NumInput } from '../../components/UI/Inputs/Inputs';
 
 const BudgetPage = props => {
   const [showCreate, setShowCreate] = useState(false);
@@ -19,25 +20,16 @@ const BudgetPage = props => {
   const [transDesc, setTransDesc] = useState('');
   const [transCost, setTransCost] = useState('');
 
-  const showTransHandler = (categ) => {
+  const showTransHandler = categ => {
     const i = showCategs.findIndex(val => val === categ);
     if (i === -1) { return setShowCategs(showCategs.concat([categ])); }
     setShowCategs(showCategs.filter(val => val !== categ));
   };
 
-  const addTransHandler = (categ) => {
+  const addTransHandler = categ => {
     setTransDesc('');
     setTransCost('');
     setAddTransCateg(categ);
-  };
-
-  const transCostHandler = (e) => {
-    let val = e.target.value;
-    if (isNaN(val)) { return; }
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    setTransCost(val);
   };
 
   const confirmAddTransHandler = () => {
@@ -48,8 +40,7 @@ const BudgetPage = props => {
         if (transactions.length === 20) { transactions.pop(); }
         transactions.unshift({ desc: transDesc, val: transCost, date: String(new Date()) });
         return { ...budg, transactions };
-      }
-      return budg;
+      } else { return budg; }
     });
     if (props.isDemo) {
       setAddTransCateg('');
@@ -105,16 +96,8 @@ const BudgetPage = props => {
                       })}
                     </div>
                     <div className={addTransCateg === budget.category ? classes.ShowAddTrans : classes.HideAddTrans}>
-                      <input className={classes.Input1} value={transDesc}
-                        onChange={e => setTransDesc(e.target.value)} placeholder="Transaction Description" />
-                      <input className={classes.Input2} value={transCost} onChange={transCostHandler} placeholder="Cost" />
-                      <BlueBtn big noMargin clicked={confirmAddTransHandler}>Add</BlueBtn>
-                      <CloseBtn budget close={() => setAddTransCateg('')} />
-                    </div>
-                    <div className={addTransCateg === budget.category ? classes.SmallShowAddTrans : classes.SmallHideAddTrans}>
-                      <input className={classes.Input1} value={transDesc}
-                        onChange={e => setTransDesc(e.target.value)} placeholder="Transaction Description" />
-                      <input className={classes.Input2} value={transCost} onChange={transCostHandler} placeholder="Cost" />
+                      <Input val={transDesc} change={val => setTransDesc(val)} ph="Transaction Description" />
+                      <NumInput val={transCost} change={val => setTransCost(val)} ph="Cost" />
                       <div className={classes.BtnDiv}>
                         <BlueBtn big noMargin clicked={confirmAddTransHandler}>Add</BlueBtn>
                         <CloseBtn budget close={() => setAddTransCateg('')} />

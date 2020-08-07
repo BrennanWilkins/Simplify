@@ -8,11 +8,12 @@ import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import BackBtn from '../UI/BackBtn/BackBtn';
 import Spinner from '../UI/Spinner/Spinner';
 import BlueBtn from '../UI/BlueBtn/BlueBtn';
+import { NumInput } from '../UI/Inputs/Inputs';
 
 let typingTimeout;
 
 const SearchPanel = props => {
-  const [val, setVal] = useState('');
+  const [query, setQuery] = useState('');
   const [searchRes, setSearchRes] = useState([]);
   const [showInput, setShowInput] = useState(false);
   const [showManual, setShowManual] = useState(false);
@@ -42,10 +43,10 @@ const SearchPanel = props => {
     closeHandler();
   };
 
-  const setSearchVal = e => {
+  const setSearchQuery = e => {
     // searches for stock/crypto 600ms after user stops typing
     const value = e.target.value;
-    setVal(value);
+    setQuery(value);
     clearTimeout(typingTimeout);
     typingTimeout = props.mode === 'Stock' ?
     setTimeout(() => searchStock(value), 600) :
@@ -78,7 +79,7 @@ const SearchPanel = props => {
 
   const closeHandler = () => {
     props.close();
-    setVal('');
+    setQuery('');
     setSearchRes([]);
     resetInputsHandler();
   };
@@ -103,26 +104,6 @@ const SearchPanel = props => {
     props.mode === 'Stock' ?
     setSelectedTicker(stock.ticker) :
     setSelectedTicker(stock.item.symbol);
-  };
-
-  const inputValPriceHandler = e => {
-    let val = e.target.value;
-    if (isNaN(val)) { return; }
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    if (val === '') { val = '0'; }
-    setInputValPrice(val);
-  };
-
-  const inputValSharesHandler = e => {
-    let val = e.target.value;
-    if (isNaN(val)) { return; }
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    if (val === '') { val = 0; }
-    setInputValShares(val);
   };
 
   const addHandler = async manual => {
@@ -228,7 +209,7 @@ const SearchPanel = props => {
         'Search for a cryptocurrency by entering its symbol or name'}
       </p>
       <input className={classes.SearchInput}
-        value={val} onChange={setSearchVal} ref={inputRef}
+        value={query} onChange={setSearchQuery} ref={inputRef}
         placeholder={props.mode === 'Stock' ? 'AAPL, Apple, ...' : 'BTC, Bitcoin, ...'} />
       {loading && <Spinner mode="Search" />}
       <div className={classes.Results}>
@@ -250,7 +231,7 @@ const SearchPanel = props => {
           `How many shares of ${selectedTicker} do you own?` :
           `How much ${selectedTicker} do you own?`}
         </p>
-        <input value={inputValShares} onChange={inputValSharesHandler} />
+        <NumInput val={inputValShares} change={val => setInputValShares(val)} />
         <BlueBtn clicked={() => addHandler(false)}>Add</BlueBtn>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
@@ -267,11 +248,11 @@ const SearchPanel = props => {
         </div>
         <div>
           <p>Current price:</p>
-          <input value={inputValPrice} onChange={inputValPriceHandler} />
+          <NumInput val={inputValPrice} change={val => setInputValPrice(val)} />
         </div>
         <div>
           <p>{props.mode === 'Stock' ? 'Number of shares:' : 'Quantity:'}</p>
-          <input value={inputValShares} onChange={inputValSharesHandler} />
+          <NumInput val={inputValShares} change={val => setInputValShares(val)} />
         </div>
         <BlueBtn clicked={() => addHandler(true)}>Add</BlueBtn>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>

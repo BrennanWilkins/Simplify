@@ -7,6 +7,7 @@ import { instance as axios } from '../../axios';
 import { calcNetWorth } from '../../utils/valueCalcs';
 import Select from 'react-select';
 import '../UI/ReactSelectStyles.css';
+import { NumInput } from '../UI/Inputs/Inputs';
 
 const originalSelected = { name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Normal' };
 
@@ -64,16 +65,9 @@ const BuySellPanel = props => {
     props.close();
   };
 
-  const setValHandler = e => {
+  const setValHandler = val => {
     setErr(false);
     setErrMsg('');
-    let val = e.target.value;
-    if (isNaN(val)) { return; }
-    // prevent leading zeros
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    if (val === '') { val = 0; }
     setSelectedVal(val);
   };
 
@@ -228,8 +222,7 @@ const BuySellPanel = props => {
         `How much ${selected.symbol} did you sell?`}
       </p>
       <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
-        <input disabled={selectedName === ''} type="text" className={classes.Input}
-          value={selectedVal} onChange={setValHandler} />
+        <NumInput val={selectedVal} change={setValHandler} />
         {props.mode === 'SellStock' || props.mode === 'SellCrypto' ? (
           <button className={classes.AllBtn} onClick={() => setSelectedVal(selected.quantity)}>All</button>
         ) : null}

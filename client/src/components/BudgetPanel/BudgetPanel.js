@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import { instance as axios } from '../../axios';
 import * as actions from '../../store/actions/index';
+import { Input, NumInput } from '../UI/Inputs/Inputs';
 
 const BudgetPanel = props => {
   const [categVals, setCategVals] = useState([]);
@@ -38,24 +39,17 @@ const BudgetPanel = props => {
     props.close();
   };
 
-  const budgetValHandler = (i, e) => {
+  const budgetValHandler = (i, val) => {
     setErr(false);
-    let val = e.target.value;
-    // prevents leading zeros
-    if (isNaN(val)) { return; }
-    if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-      val = val.slice(1);
-    }
-    if (val === '') { val = 0; }
     const newVals = [...budgetVals];
     newVals[i] = val;
     setBudgetVals(newVals);
   };
 
-  const categValHandler = (i, e) => {
+  const categValHandler = (i, val) => {
     setErr(false);
     const newVals = [...categVals];
-    newVals[i] = e.target.value;
+    newVals[i] = val;
     setCategVals(newVals);
   };
 
@@ -142,8 +136,8 @@ const BudgetPanel = props => {
       <div className={classes.Budgets}>
         {budgetVals.map((val, i) => (
           <div key={i} className={hiddenInd.includes(i) ? classes.Hidden : undefined}>
-            <input value={categVals[i]} onChange={e => categValHandler(i, e)} />
-            <input value={val} onChange={e => budgetValHandler(i, e)} />
+            <Input val={categVals[i]} change={val => categValHandler(i, val)} />
+            <NumInput val={val} change={val => budgetValHandler(i, val)} />
             <CloseBtn close={() => deleteOneHandler(i)} />
           </div>
         ))}
