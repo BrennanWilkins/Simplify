@@ -81,8 +81,7 @@ const AssetPanel = props => {
     setInputName('');
     setInputDesc('');
     setInputValue('');
-    setErr(false);
-    setErrMsg('');
+    errHandler(false);
     setNewValue('');
     props.close();
   };
@@ -94,8 +93,7 @@ const AssetPanel = props => {
       return setSelected(null);
     }
     setSelectedName(option);
-    setErr(false);
-    setErrMsg('');
+    errHandler(false);
     setConfirmClass(classes.Confirm);
     if (props.mode === 'SettingsAsset' || props.mode === 'RemoveAsset') {
       const assetMatch = props.otherAssets.find(asset => asset.name === option.value);
@@ -109,8 +107,7 @@ const AssetPanel = props => {
   };
 
   const btnClassHandler = () => {
-    setErr(false);
-    setErrMsg('');
+    errHandler(false);
     // show confirm btn if all fields arent empty
     if (inputName.length > 0 && inputDesc.length > 0 && inputValue.length > 0) {
       setConfirmClass(classes.Confirm);
@@ -119,177 +116,127 @@ const AssetPanel = props => {
 
   const newValueHandler = val => {
     setNewValue(val);
-    setErr(false);
-    setErrMsg('');
+    errHandler(false);
   };
 
-  const errHandler = () => {
-    setErr(true);
-    setErrMsg('Error connecting to the server.');
+  const errHandler = bool => {
+    if (bool) {setErr(true); return setErrMsg('Error connecting to the server.'); }
+    setErr(false); setErrMsg('');
   };
 
-  const confirmHandler = async () => {
-    const updatedPortfolio = { ...props.portfolio };
+  const confirmValid = data => {
     if (props.mode === 'AddAsset') {
-      // add asset & update net worth
-      const data = { name: inputName, desc: inputDesc, value: inputValue };
       for (let asset of props.otherAssets) {
         // must have diff names
         if (asset.name === data.name) {
           setErr(true);
-          return setErrMsg(`You already have ${data.name} in your portfolio`);
+          setErrMsg(`You already have ${data.name} in your portfolio`);
+          return false;
         }
       }
-      if (props.isDemo) {
-        // for demo mode only
-        const otherAssets = [...updatedPortfolio.otherAssets];
-        otherAssets.unshift({ ...data });
-        updatedPortfolio.otherAssets = otherAssets;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        props.setNetWorthData(updatedNetWorth);
-        props.updateAssets(otherAssets);
-        props.addNotif('Asset added to portfolio');
-        return closeHandler();
-      }
-      try {
-        const res = await axios.put('portfolio/addAsset', { ...data });
-        updatedPortfolio.otherAssets = res.data.assets;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
-        props.setNetWorthData(resp.data.result.dataPoints);
-        props.updateAssets(res.data.assets);
-        props.addNotif('Asset added to portfolio');
-        return closeHandler();
-      } catch(e) { return errHandler(); }
-    } else if (props.mode === 'RemoveAsset') {
-      // remove asset & update net worth
-      if (props.isDemo) {
-        // for demo mode only
-        const otherAssets = [...updatedPortfolio.otherAssets];
-        const index = otherAssets.findIndex(asset => asset.name === selected.name);
-        otherAssets.splice(index, 1);
-        updatedPortfolio.otherAssets = otherAssets;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        props.setNetWorthData(updatedNetWorth);
-        props.updateAssets(otherAssets);
-        props.addNotif('Asset removed from portfolio');
-        return closeHandler();
-      }
-      try {
-        const res = await axios.put('portfolio/removeAsset', { name: selected.name });
-        updatedPortfolio.otherAssets = res.data.assets;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
-        props.setNetWorthData(resp.data.result.dataPoints);
-        props.updateAssets(res.data.assets);
-        props.addNotif('Asset removed from portfolio');
-        return closeHandler();
-      } catch(e) { return errHandler(); }
-    } else if (props.mode === 'AddDebt') {
-      // add liability & update net worth
-      const data = { name: inputName, desc: inputDesc, value: inputValue };
+    }
+    if (props.mode === 'AddDebt') {
       for (let debt of props.liabilities) {
         if (debt.name === data.name) {
           setErr(true);
-          return setErrMsg(`You already have ${data.name} in your portfolio`);
+          setErrMsg(`You already have ${data.name} in your portfolio`);
+          return false;
         }
       }
-      if (props.isDemo) {
-        // for demo mode only
-        const liabilities = [...updatedPortfolio.liabilities];
-        liabilities.unshift({ ...data });
-        updatedPortfolio.liabilities = liabilities;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        props.setNetWorthData(updatedNetWorth);
-        props.updateDebts(liabilities);
-        props.addNotif('Liability added to portfolio');
-        return closeHandler();
+    }
+    return true;
+  };
+
+  const confirmHandler = async () => {
+    const updatedPortfolio = { ...props.portfolio };
+    const data = props.mode.includes('Settings') ? { value: newValue, name: selected.name, desc: selected.desc } :
+    { name: inputName, desc: inputDesc, value: inputValue };
+    // return if fields not valid
+    if (!confirmValid(data)) { return; }
+    const curr = props.mode.includes('Asset') ? [...updatedPortfolio.otherAssets] :
+    [...updatedPortfolio.liabilities];
+    if (props.isDemo) {
+      let msg = '';
+      if (props.mode === 'AddAsset') {
+        curr.unshift({ ...data });
+        updatedPortfolio.otherAssets = curr;
+        msg = 'Asset added to portfolio';
       }
-      try {
+      if (props.mode === 'RemoveAsset') {
+        updatedPortfolio.otherAssets = curr.filter(asset => asset.name !== selected.name);
+        msg = 'Asset removed from portfolio';
+      }
+      if (props.mode === 'AddDebt') {
+        curr.unshift({ ...data });
+        updatedPortfolio.liabilities = curr;
+        msg = 'Liability added to portfolio';
+      }
+      if (props.mode === 'RemoveDebt') {
+        updatedPortfolio.liabilities = curr.filter(debt => debt.name !== selected.name);
+        msg = 'Liability removed from portfolio';
+      }
+      if (props.mode === 'SettingsAsset') {
+        const index = curr.findIndex(asset => asset.name === data.name);
+        curr[index].value = data.value;
+        updatedPortfolio.otherAssets = curr;
+        msg = 'Asset updated in portfolio';
+      }
+      if (props.mode === 'SettingsDebt') {
+        const index = curr.findIndex(debt => debt.name === data.name);
+        curr[index].value = data.value;
+        updatedPortfolio.liabilities = curr;
+        msg = 'Liability updated in portfolio';
+      }
+      // update net worth
+      const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+      if (props.mode.includes('Asset')) { props.updateAssets(updatedPortfolio.otherAssets); }
+      else { props.updateDebts(updatedPortfolio.liabilities); }
+      props.setNetWorthData(updatedNetWorth);
+      props.addNotif(msg);
+      return closeHandler();
+    }
+    try {
+      let msg = '';
+      if (props.mode === 'AddAsset') {
+        // add asset to portfolio
+        const res = await axios.put('portfolio/addAsset', { ...data });
+        updatedPortfolio.otherAssets = res.data.assets;
+        msg = 'Asset added to portfolio';
+      } else if (props.mode === 'RemoveAsset') {
+        // remove asset from portfolio
+        const res = await axios.put('portfolio/removeAsset', { name: selected.name });
+        updatedPortfolio.otherAssets = res.data.assets;
+        msg = 'Asset removed from portfolio';
+      } else if (props.mode === 'AddDebt') {
+        // add liability to portfolio
         const res = await axios.put('portfolio/addDebt', { ...data });
         updatedPortfolio.liabilities = res.data.debts;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
-        props.setNetWorthData(resp.data.result.dataPoints);
-        props.updateDebts(res.data.debts);
-        props.addNotif('Liability added to portfolio');
-        return closeHandler();
-      } catch(e) { return errHandler(); }
-    } else if (props.mode === 'RemoveDebt') {
-      // remove liability & update net worth
-      if (props.isDemo) {
-        // for demo mode only
-        const liabilities = [...updatedPortfolio.liabilities];
-        const index = liabilities.findIndex(debt => debt.name === selected.name);
-        liabilities.splice(index, 1);
-        updatedPortfolio.liabilities = liabilities;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        props.setNetWorthData(updatedNetWorth);
-        props.updateDebts(liabilities);
-        props.addNotif('Liability removed from portfolio');
-        return closeHandler();
-      }
-      try {
+        msg = 'Liability added to portfolio';
+      } else if (props.mode === 'RemoveDebt') {
+        // remove liability from portfolio
         const res = await axios.put('portfolio/removeDebt', { name: selected.name });
         updatedPortfolio.liabilities = res.data.debts;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
-        props.setNetWorthData(resp.data.result.dataPoints);
-        props.updateDebts(res.data.debts);
-        props.addNotif('Liability removed from portfolio');
-        return closeHandler();
-      } catch(e) { return errHandler(); }
-    } else if (props.mode === 'SettingsAsset') {
-      // update price of asset & update net worth
-      const data = { name: selected.name, desc: selected.desc, value: newValue };
-      if (props.isDemo) {
-        // for demo mode only
-        const otherAssets = [...updatedPortfolio.otherAssets];
-        const index = otherAssets.findIndex(asset => asset.name === data.name);
-        otherAssets[index].value = data.value;
-        updatedPortfolio.otherAssets = otherAssets;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        props.setNetWorthData(updatedNetWorth);
-        props.updateAssets(otherAssets);
-        props.addNotif('Asset updated in portfolio');
-        return closeHandler();
-      }
-      try {
+        msg = 'Liability removed from portfolio';
+      } else if (props.mode === 'SettingsAsset') {
+        // update price of asset in portfolio
         const res = await axios.put('portfolio/updateAsset', { ...data });
         updatedPortfolio.otherAssets = res.data.assets;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
-        props.setNetWorthData(resp.data.result.dataPoints);
-        props.updateAssets(res.data.assets);
-        props.addNotif('Asset updated in portfolio');
-        return closeHandler();
-      } catch(e) { return errHandler(); }
-    } else {
-      // update value of liability & update net worth
-      const data = { name: selected.name, desc: selected.desc, value: newValue };
-      if (props.isDemo) {
-        // for demo mode only
-        const liabilities = [...updatedPortfolio.liabilities];
-        const index = liabilities.findIndex(debt => debt.name === data.name);
-        liabilities[index].value = data.value;
-        updatedPortfolio.liabilities = liabilities;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        props.setNetWorthData(updatedNetWorth);
-        props.updateDebts(liabilities);
-        props.addNotif('Liability updated in portfolio');
-        return closeHandler();
-      }
-      try {
+        msg = 'Asset updated in portfolio';
+      } else {
+        // update value of liability in portfolio
         const res = await axios.put('portfolio/updateDebt', { ...data });
         updatedPortfolio.liabilities = res.data.debts;
-        const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-        const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
-        props.setNetWorthData(resp.data.result.dataPoints);
-        props.updateDebts(res.data.debts);
-        props.addNotif('Liability updated in portfolio');
-        return closeHandler();
-      } catch(e) { return errHandler(); }
-    }
+        msg = 'Liability updated in portfolio';
+      }
+      // update net worth
+      const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+      const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
+      props.setNetWorthData(resp.data.result.dataPoints);
+      if (props.mode.includes('Asset')) { props.updateAssets(updatedPortfolio.otherAssets); }
+      if (props.mode.includes('Debt')) { props.updateDebts(updatedPortfolio.liabilities); }
+      props.addNotif(msg);
+      return closeHandler();
+    } catch(e) { return errHandler(true); }
   };
 
   return (

@@ -5,24 +5,22 @@ import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import { instance as axios } from '../../axios';
 import * as actions from '../../store/actions/index';
 import { Input, NumInput } from '../UI/Inputs/Inputs';
+import { v4 as uuid } from 'uuid';
 
 const BudgetPanel = props => {
-  const [categVals, setCategVals] = useState([]);
-  const [budgetVals, setBudgetVals] = useState([]);
+  const [budgets, setBudgets] = useState([]);
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const [hiddenInd, setHiddenInd] = useState([]);
   const panelRef = useRef();
 
   useEffect(() => {
     // sync state to props
     if (props.show) {
-      setCategVals(props.budget.map(budget => budget.category));
-      setBudgetVals(props.budget.map(budget => budget.budget));
+      setBudgets(props.budget.map(budget => ({ ...budget, id: uuid() })));
       document.addEventListener('mousedown', handleClick);
     }
     return () => document.removeEventListener('mousedown', handleClick);
-  }, [props.show]);
+  }, [props.show, props.budget]);
 
   const handleClick = e => {
     // closes panel if click outside
@@ -31,114 +29,105 @@ const BudgetPanel = props => {
   };
 
   const closeHandler = () => {
-    setErr(false);
-    setErrMsg('');
-    setCategVals([]);
-    setBudgetVals([]);
-    setHiddenInd([]);
+    errHandler(false);
+    setBudgets([]);
     props.close();
   };
 
-  const budgetValHandler = (i, val) => {
+  const errHandler = bool => {
+    if (bool) { setErr(true); return setErrMsg('Error connecting to the server.'); }
+    setErr(false); setErrMsg('');
+  }
+
+  const budgetValHandler = (val, id) => {
     setErr(false);
-    const newVals = [...budgetVals];
-    newVals[i] = val;
-    setBudgetVals(newVals);
+    setBudgets(budgets.map(budg => {
+      if (budg.id === id) { return { ...budg, budget: val }; }
+      return budg;
+    }));
   };
 
-  const categValHandler = (i, val) => {
+  const categValHandler = (val, id) => {
     setErr(false);
-    const newVals = [...categVals];
-    newVals[i] = val;
-    setCategVals(newVals);
+    setBudgets(budgets.map(budg => {
+      if (budg.id === id) { return { ...budg, category: val }; }
+      return budg;
+    }));
+  };
+
+  const confirmValidation = () => {
+    // cant have empty budget
+    if (!budgets.length) {
+      setErr(true);
+      setErrMsg('You need to have at least one category.');
+      return false;
+    }
+    // can't have two budget categories w the same name
+    if (new Set(budgets.map(budg => budg.category)).size !== budgets.length) {
+      setErr(true);
+      setErrMsg('You cannot have categories with the same names.');
+      return false;
+    }
+    for (let i = 0; i < budgets.length; i++) {
+      if (budgets[i].budget === 0) {
+        setErr(true);
+        setErrMsg('Budget values cannot be zero.');
+        return false;
+      }
+      if (budgets[i].category === '') {
+        setErr(true);
+        setErrMsg('Category names cannot be empty.');
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const confirmHelper = () => {
+    props.setBudget([...budgets]);
+    props.addNotif('Budget updated');
+    closeHandler();
   };
 
   const confirmHandler = () => {
     setErr(false);
-    // cant have budget w no categories
-    if (budgetVals.length === hiddenInd.length) {
-      setErr(true);
-      return setErrMsg('You need to have at least one category.');
-    }
-    const budgets = [...props.budget];
-    for (let i = 0; i < budgetVals.length; i++) {
-      // dont include deleted budget categories
-      if (hiddenInd.includes(i)) { continue; }
-      if (budgetVals[i] === 0) {
-        setErr(true);
-        return setErrMsg('Budget values cannot be zero.');
-      }
-      if (categVals[i] === '') {
-        setErr(true);
-        return setErrMsg('Category names cannot be empty.');
-      }
-      if (budgets[i]) {
-        budgets[i].budget = budgetVals[i];
-        budgets[i].category = categVals[i];
-      }
-    }
-    for (let i = props.budget.length; i < budgetVals.length; i++) {
-      if (hiddenInd.includes(i)) { continue; }
-      budgets.push({ category: categVals[i], budget: Number(budgetVals[i]), transactions: [] });
-    }
-    const newBudget = budgets.map(budget => (
-      { category: budget.category, budget: budget.budget, transactions: budget.transactions }
-    )).filter((budget, i) => !hiddenInd.includes(i));
-    if (props.isDemo) {
-      // for demo mode only
-      props.setBudget(newBudget);
-      props.addNotif('Budget updated');
-      return closeHandler();
-    }
-    axios.put('budgets', { budgets: newBudget }).then(res => {
-      props.setBudget(newBudget);
-      props.addNotif('Budget updated');
-      closeHandler();
-    }).catch(err => {
-      console.log(err);
-      setErr(true);
-      setErrMsg('Error connecting to the server.');
-    });
+    // error in budget fields, return
+    if (!confirmValidation()) { return; }
+    if (props.isDemo) { return confirmHelper(); }
+    axios.put('budgets', { budgets }).then(res => { confirmHelper(); })
+    .catch(err => { errHandler(true); });
+  };
+
+  const deleteHelper = () => {
+    props.deleteBudget();
+    props.addNotif('Budget deleted');
+    closeHandler();
   };
 
   const deleteHandler = () => {
     setErr(false);
-    if (props.isDemo) {
-      // for demo mode only
-      props.deleteBudget();
-      props.addNotif('Budget deleted');
-      return closeHandler();
-    }
-    axios.delete('budgets').then(res => {
-      props.deleteBudget();
-      props.addNotif('Budget deleted');
-      closeHandler();
-    }).catch(err => {
-      console.log(err);
-      setErr(true);
-      setErrMsg('Error connecting to the server.');
-    });
+    if (props.isDemo) { return deleteHelper(); }
+    axios.delete('budgets').then(res => { deleteHelper(); })
+    .catch(err => { errHandler(true); });
   };
 
   const addHandler = () => {
-    setCategVals(categVals.concat(['']));
-    setBudgetVals(budgetVals.concat([0]));
+    setBudgets(budgets.concat({ category: '', budget: 0, transactions: [] }));
   };
 
-  const deleteOneHandler = i => {
-    // hiddenInd used to keep track of deleted categories
-    setHiddenInd(hiddenInd.concat([i]));
+  const deleteOneHandler = id => {
+    setBudgets(budgets.filter(budget => budget.id !== id));
   };
 
   return (
     <div className={props.show ? classes.Panel : classes.HidePanel} ref={panelRef}>
       <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
       <div className={classes.Budgets}>
-        {budgetVals.map((val, i) => (
-          <div key={i} className={hiddenInd.includes(i) ? classes.Hidden : undefined}>
-            <Input val={categVals[i]} change={val => categValHandler(i, val)} />
-            <NumInput val={val} change={val => budgetValHandler(i, val)} />
-            <CloseBtn close={() => deleteOneHandler(i)} />
+        {budgets.map(budget => (
+          <div key={budget.id}>
+            <Input val={budget.category} change={val => categValHandler(val, budget.id)} />
+            <NumInput val={budget.budget} change={val => budgetValHandler(val, budget.id)} />
+            <CloseBtn close={() => deleteOneHandler(budget.id)} />
           </div>
         ))}
         <div className={classes.BtnDiv2}>

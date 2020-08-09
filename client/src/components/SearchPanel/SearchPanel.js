@@ -110,89 +110,39 @@ const SearchPanel = props => {
     if (inputValShares === 0 || inputValShares === '') { return; }
     if (manual && (inputValName === '' || inputValTicker === '' || inputValPrice === '')) { return; }
     // identifier is Manual if stock/crypto added manually, else is Normal
-    const data = manual ?
-    {
-      name: inputValName,
-      symbol: inputValTicker.toUpperCase(),
-      price: Number(inputValPrice).toFixed(2),
-      quantity: inputValShares,
-      value: (inputValPrice * inputValShares).toFixed(2),
-      identifier: 'Manual'
-    } :
-    props.mode === 'Stock' ?
-    {
-      name: selectedRes.name,
-      symbol: selectedRes.ticker,
-      price: (selectedRes.price).toFixed(2),
-      quantity: inputValShares,
-      value: (inputValShares * selectedRes.price).toFixed(2),
-      identifier: 'Normal'
-    } :
-    {
-      name: selectedRes.item.name,
-      symbol: selectedRes.item.symbol,
-      price: (selectedRes.item.price).toFixed(2),
-      quantity: inputValShares,
-      value: (inputValShares * selectedRes.item.price).toFixed(2),
-      identifier: 'Normal'
-    };
-    if (props.mode === 'Stock') {
-      for (let stock of props.stocks) {
-        if (stock.symbol === data.symbol) {
-          setErr(true);
-          return setErrMsg(`You already have ${stock.symbol} in your portfolio.`);
-        }
-      }
-      const updatedStocks = [...props.stocks];
-      updatedStocks.unshift({ ...data });
-      const updatedPortfolio = { ...props.portfolio, stocks: updatedStocks };
-      const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-      if (props.isDemo) {
-        props.setNetWorthData(updatedNetWorth);
-        props.addStock(data);
-        props.addNotif(`${data.symbol} added to portfolio`);
-        return closeHandler();
-      }
-      try {
-        const res = await axios.put('portfolio/updateStocks', { data });
-        const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
-        props.setNetWorthData(resp.data.result.dataPoints);
-        props.addStock(data);
-        props.addNotif(`${data.symbol} added to portfolio`);
-        closeHandler();
-      } catch(e) {
-        setErr(true);
-        return setErrMsg('Error connecting to the server.');
-      }
-    } else {
-      for (let crypto of props.cryptos) {
-        if (crypto.symbol === data.symbol) {
-          setErr(true);
-          return setErrMsg(`You already have ${crypto.symbol} in your portfolio.`);
-        }
-      }
-      const updatedCryptos = [...props.cryptos];
-      updatedCryptos.unshift({ ...data });
-      const updatedPortfolio = { ...props.portfolio, cryptos: updatedCryptos };
-      const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-      if (props.isDemo) {
-        props.setNetWorthData(updatedNetWorth);
-        props.addCrypto(data);
-        props.addNotif(`${data.symbol} added to portfolio`);
-        return closeHandler();
-      }
-      try {
-        const res = await axios.put('portfolio/updateCryptos', { data });
-        const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
-        props.setNetWorthData(resp.data.result.dataPoints);
-        props.addCrypto(data);
-        props.addNotif(`${data.symbol} added to portfolio`);
-        closeHandler();
-      } catch(e) {
-        setErr(true);
-        return setErrMsg('Error connecting to the server.');
-      }
+    const isStock = props.mode === 'Stock';
+    const data = { name: '', symbol: '', price: 0, quantity: '', value: 0, identifier: '' };
+    data.name = manual ? inputValName : isStock ? selectedRes.name : selectedRes.item.name;
+    data.symbol = manual ? inputValTicker.toUpperCase() : isStock ? selectedRes.ticker : selectedRes.item.symbol;
+    data.price = manual ? Number(inputValPrice).toFixed(2) : isStock ? (selectedRes.price).toFixed(2) : (selectedRes.item.price).toFixed(2);
+    data.quantity = inputValShares;
+    data.value = (data.quantity * data.price).toFixed(2);
+    data.identifier = manual ? 'Manual' : 'Normal';
+    // check if user has the stock/crypto already in portfolio
+    const curr = isStock ? [...props.stocks] : [...props.cryptos];
+    const check = curr.filter(inv => inv.symbol === data.symbol);
+    if (check.length) { setErr(true); return setErrMsg(`You already have ${data.symbol} in your portfolio.`); }
+    // add stock/crypto to portfolio
+    curr.unshift({ ...data });
+    const updatedPortfolio = { ...props.portfolio };
+    if (isStock) { updatedPortfolio.stocks = curr; }
+    else { updatedPortfolio.cryptos = curr; }
+    const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+    if (props.isDemo) {
+      props.setNetWorthData(updatedNetWorth);
+      isStock ? props.addStock(data) : props.addCrypto(data);
+      props.addNotif(`${data.symbol} added to portfolio`);
+      return closeHandler();
     }
+    try {
+      const res = isStock ? await axios.put('portfolio/updateStocks', { data }) :
+      await axios.put('portfolio/updateCryptos', { data });
+      const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
+      props.setNetWorthData(resp.data.result.dataPoints);
+      isStock ? props.addStock(data) : props.addCrypto(data);
+      props.addNotif(`${data.symbol} added to portfolio`);
+      closeHandler();
+    } catch(e) { setErr(true); return setErrMsg('Error connecting to the server.'); }
   };
 
   return (

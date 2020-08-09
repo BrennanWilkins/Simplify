@@ -9,7 +9,7 @@ import { NumInput } from '../UI/Inputs/Inputs';
 
 const EditGoalPanel = props => {
   const panelRef = useRef();
-  const [inputVal, setInputVal] = useState(props.goal);
+  const [inputVal, setInputVal] = useState('');
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
 
@@ -17,6 +17,10 @@ const EditGoalPanel = props => {
     if (props.show) { document.addEventListener('mousedown', handleClick); }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.show]);
+
+  useEffect(() => {
+    setInputVal(props.goal);
+  }, [props.goal, props.show]);
 
   const handleClick = e => {
     // close panel on click outside
@@ -26,9 +30,18 @@ const EditGoalPanel = props => {
 
   const closeHandler = () => {
     setInputVal(props.goal);
-    setErr(false);
-    setErrMsg('');
+    errHandler(false);
     props.close();
+  };
+
+  const errHandler = bool => {
+    if (bool) {
+      setErr(true);
+      setErrMsg('Error connecting to the server.');
+    } else {
+      setErr(false);
+      setErrMsg('');
+    }
   };
 
   const editHandler = () => {
@@ -42,10 +55,7 @@ const EditGoalPanel = props => {
       props.setGoal(inputVal);
       props.addNotif('Goal updated');
       closeHandler();
-    }).catch(err => {
-      setErr(true);
-      setErrMsg('Error connecting to the server.');
-    });
+    }).catch(err => { errHandler(true); });
   };
 
   const deleteHandler = () => {
@@ -58,21 +68,11 @@ const EditGoalPanel = props => {
       props.setGoal(null);
       props.addNotif('Goal deleted');
       closeHandler();
-    }).catch(err => {
-      setErr(true);
-      setErrMsg('Error connecting to the server.');
-    });
+    }).catch(err => { errHandler(true); });
   };
 
   const inputValHandler = val => {
-    setErr(false);
-    setErrMsg('');
-    // let val = e.target.value;
-    // if (isNaN(val)) { return; }
-    // if (val.length === 2 && val.charAt(0) === '0' && val.charAt(1) !== '.') {
-    //   val = val.slice(1);
-    // }
-    // if (val === '') { val = 0; }
+    errHandler(false);
     setInputVal(val);
   };
 

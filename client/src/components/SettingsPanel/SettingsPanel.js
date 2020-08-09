@@ -51,7 +51,7 @@ const SettingsPanel = props => {
   const stocks = props.stocks.filter(stock => stock.identifier === 'Manual');
   const cryptos = props.cryptos.filter(crypto => crypto.identifier === 'Manual');
 
-  const selectHandler = (selectedOption) => {
+  const selectHandler = selectedOption => {
     if (!selectedOption) {
       setSelectedName('');
       setShowInput(false);
@@ -61,22 +61,14 @@ const SettingsPanel = props => {
     setSelectedName(selectedOption);
     setErr(false);
     setErrMsg('');
-    if (props.mode === 'Stock') {
-      const stockMatch = stocks.find(stock => stock.name === selectedOption.value);
-      setSelected({ ...stockMatch });
-      setPriceVal(stockMatch.price);
-    } else {
-      const cryptoMatch = cryptos.find(crypto => crypto.name === selectedOption.value);
-      setSelected({ ...cryptoMatch });
-      setPriceVal(cryptoMatch.price);
-    }
+    // find stock/crypto from the selected value & update price val
+    const curr = props.mode === 'Stock' ? stocks : cryptos;
+    const match = curr.find(inv => inv.name === selectedOption.value);
+    setSelected({ ...match });
+    setPriceVal(match.price);
   };
 
-  // options used for the select element
-  const stockOptions = stocks.map(stock => ({ value: stock.name, label: stock.name }));
-  const cryptoOptions = cryptos.map(crypto => ({ value: crypto.name, label: crypto.name }));
-
-  const confirmHandler = () => {
+  const confirmHandler = async () => {
     const newPortfolio = props.mode === 'Stock' ? [...props.stocks] : [...props.cryptos];
     const index = newPortfolio.findIndex(data => data.name === selected.name);
     const newData = { ...newPortfolio[index] };
@@ -85,55 +77,29 @@ const SettingsPanel = props => {
     newData.value = newPrice * newData.quantity;
     newPortfolio[index] = { ...newData };
     const updatedPortfolio = { ...props.portfolio };
-    if (props.mode === 'Stock') {
-      updatedPortfolio.stocks = [...newPortfolio];
-      const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-      if (props.isDemo) {
-        props.setNetWorthData(updatedNetWorth);
-        props.changeStock(newPortfolio);
-        props.addNotif('Stock price updated');
-        return closeHandler();
-      } else {
-        axios.put('portfolio/changeStock', { ...newData }).then(res => {
-          axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
-            props.setNetWorthData(resp.data.result.dataPoints);
-            props.changeStock(newPortfolio);
-            props.addNotif('Stock price updated');
-            closeHandler();
-          }).catch(err => {
-            setErr(true);
-            setErrMsg('Error connecting to the server.');
-          });
-        }).catch(err => {
-          setErr(true);
-          setErrMsg('Error connecting to the server.');
-        });
-      }
-    } else {
-      updatedPortfolio.cryptos = [...newPortfolio];
-      const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
-      if (props.isDemo) {
-        props.setNetWorthData(updatedNetWorth);
-        props.changeCrypto(newPortfolio);
-        props.addNotif('Crypto price updated');
-        return closeHandler();
-      }
-      axios.put('portfolio/changeCrypto', { ...newData }).then(res => {
-        axios.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
-          props.setNetWorthData(resp.data.result.dataPoints);
-          props.changeCrypto(newPortfolio);
-          props.addNotif('Crypto price updated');
-          closeHandler();
-        }).catch(err => {
-          setErr(true);
-          setErrMsg('Error connecting to the server.');
-        });
-      }).catch(err => {
-        setErr(true);
-        setErrMsg('Error connecting to the server.');
-      });
+    if (props.mode === 'Stock') { updatedPortfolio.stocks = [...newPortfolio]; }
+    else { updatedPortfolio.cryptos = [...newPortfolio]; }
+    const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
+    if (props.isDemo) {
+      props.setNetWorthData(updatedNetWorth);
+      props.mode === 'Stock' ? props.changeStock(newPortfolio) : props.changeCrypto(newPortfolio);
+      props.addNotif(`${props.mode} price updated`);
+      return closeHandler();
     }
+    try {
+      const res = props.mode === 'Stock' ? await axios.put('portfolio/changeStock', { ...newData }) :
+      await axios.put('portfolio/changeCrypto', { ...newData });
+      const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
+      props.setNetWorthData(resp.data.result.dataPoints);
+      props.mode === 'Stock' ? props.changeStock(newPortfolio) : props.changeCrypto(newPortfolio);
+      props.addNotif(`${props.mode} price updated`);
+      closeHandler();
+    } catch(e) { setErr(true); setErrMsg('Error connecting to the server.'); }
   };
+
+  // options used for the select element
+  const stockOptions = stocks.map(stock => ({ value: stock.name, label: stock.name }));
+  const cryptoOptions = cryptos.map(crypto => ({ value: crypto.name, label: crypto.name }));
 
   return (
     <div ref={panelRef} className={props.mode === 'Stock' ?
