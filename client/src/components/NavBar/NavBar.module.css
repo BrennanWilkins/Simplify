@@ -22,8 +22,12 @@
 }
 .Link:hover .FocusBorder, .LogoutLink:hover .FocusBorder {
   width: 100%;
-  transition: 300ms ease-out;
+  transition: width 300ms ease-out, left 300ms ease-out;
   left: 0;
+  opacity: 1;
+}
+.LinkActive {
+  color: rgb(26, 171, 152);
 }
 .FocusBorder {
   position: absolute;
@@ -32,7 +36,8 @@
   width: 0;
   height: 2px;
   background: rgb(26, 171, 152);
-  transition: 300ms ease-out;
+  transition: all 300ms ease-out;
+  opacity: 0;
 }
 .LeftNavBar {
   display: none;
@@ -74,7 +79,7 @@
   visibility: hidden;
 }
 .QuestionIcon {
-  margin-left: 5px;
+  margin-right: 5px;
   position: relative;
   top: 3px;
 }

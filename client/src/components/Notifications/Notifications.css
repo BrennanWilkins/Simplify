@@ -16,10 +16,10 @@
 }
 .Notifs-Notif {
   height: 30px;
-  background: rgb(63, 190, 173);
+  background: rgb(29, 198, 175);
   margin-top: 10px;
   border-radius: 3px;
-  box-shadow: 0.5px 1px 3px 0 rgb(0, 0, 0, 0.25);
+  box-shadow: 0.5px 1px 3px 0.5px rgb(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,7 +41,7 @@
 .Notifs-Btn {
   border: 0;
   margin: 0 5px 0 10px;
-  background: rgb(52, 163, 148);
+  background: rgb(26, 171, 152);
   font-size: 20px;
   padding: 0;
   border-radius: 3px;

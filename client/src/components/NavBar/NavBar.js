@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import classes from './NavBar.module.css';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import SideNav from '../SideNav/SideNav';
@@ -28,25 +28,25 @@ const NavBar = props => {
           </div>
         </div>
         <Title />
-        <Link className={classes.Link} to="/portfolio">
+        <Link className={props.location.pathname === '/portfolio' ? [classes.LinkActive, classes.Link].join(' ') : classes.Link} to="/portfolio">
           Portfolio
           <div className={classes.FocusBorder}></div>
         </Link>
-        <Link className={classes.Link} to="/budget">
+        <Link className={props.location.pathname === '/budget' ? [classes.LinkActive, classes.Link].join(' ') : classes.Link} to="/budget">
           Budgeting
           <div className={classes.FocusBorder}></div>
         </Link>
-        <Link className={classes.Link} to="/plan">
+        <Link className={props.location.pathname === '/plan' ? [classes.LinkActive, classes.Link].join(' ') : classes.Link} to="/plan">
           Plan
           <div className={classes.FocusBorder}></div>
         </Link>
-        <Link className={classes.Link} to="/goals">
+        <Link className={props.location.pathname === '/goals' ? [classes.LinkActive, classes.Link].join(' ') : classes.Link} to="/goals">
           Goals
           <div className={classes.FocusBorder}></div>
         </Link>
         <div className={classes.Link} onClick={() => setShowHelp(true)}>
-          Help
           <span className={classes.QuestionIcon}>{questionIcon}</span>
+          Help
           <div className={classes.FocusBorder}></div>
         </div>
         <div className={classes.LogoutLink} onClick={props.logout}>
@@ -69,4 +69,4 @@ const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(actions.logout())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NavBar));

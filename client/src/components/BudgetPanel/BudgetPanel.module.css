@@ -75,7 +75,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  margin: 0 10px;
 }
 .ShowErr, .HideErr {
   opacity: 1;

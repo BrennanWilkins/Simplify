@@ -23,7 +23,7 @@ const InvestmentTable = props => (
             <tr key={i}>
               <td className={classes.Symbol}>{stock.symbol}</td>
               <td>{stock.name}</td>
-              <td>{stock.quantity}</td>
+              <td>{Number(stock.quantity).toLocaleString(undefined, { maximumFractionDigits: 5 })}</td>
               <td>{stock.price === '?' ? '?' : `$${Number(stock.price).toFixed(2)}`}</td>
               <td className={classes.Value}>{stock.value === '?' ? '?' : `$${Number(stock.value).toFixed(2)}`}</td>
             </tr>
@@ -37,7 +37,7 @@ const InvestmentTable = props => (
                 crypto.symbol}
               </td>
               <td>{crypto.name}</td>
-              <td>{crypto.quantity}</td>
+              <td>{Number(crypto.quantity).toLocaleString(undefined, { maximumFractionDigits: 5 })}</td>
               <td>{crypto.price === '?' ? '?' : `$${Number(crypto.price).toFixed(2)}`}</td>
               <td className={classes.Value}>{crypto.value === '?' ? '?' : `$${Number(crypto.value).toFixed(2)}`}</td>
             </tr>

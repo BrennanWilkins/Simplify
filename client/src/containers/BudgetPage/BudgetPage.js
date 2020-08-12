@@ -11,6 +11,7 @@ import CloseBtn from '../../components/UI/CloseBtn/CloseBtn';
 import BudgetBars from '../../components/BudgetBars/BudgetBars';
 import BlueBtn from '../../components/UI/BlueBtn/BlueBtn';
 import { Input, NumInput } from '../../components/UI/Inputs/Inputs';
+import BudgetByCateg from '../../components/BudgetByCateg/BudgetByCateg';
 
 const BudgetPage = props => {
   const [showCreate, setShowCreate] = useState(false);
@@ -56,6 +57,10 @@ const BudgetPage = props => {
     });
   };
 
+  // get total budget to display
+  let totBudget = 0;
+  for (let budg of props.budget) { totBudget += budg.budget; }
+
   return (
     <div className={classes.Container}>
       <div className={classes.OuterContent}>
@@ -63,13 +68,17 @@ const BudgetPage = props => {
         {props.budget.length > 0 ? (
           <div className={classes.Content}>
             <div className={classes.LeftContent}>
-              <BudgetChart mode="Normal" />
+              <div className={classes.Charts}>
+                <BudgetChart mode="Normal" />
+                <BudgetByCateg budget={props.budget} />
+              </div>
               <div className={classes.Btns}>
                 <BlueBtn big noMargin clicked={() => setShowBudgetPanel(true)}>Edit Budget</BlueBtn>
                 <BudgetPanel show={showBudgetPanel} close={() => setShowBudgetPanel(false)} />
               </div>
             </div>
             <div className={classes.Budget}>
+              <h1 className={classes.TotalBudget}>Total monthly budget: ${totBudget.toFixed(2)}</h1>
               {props.budget.map((budget, i) => {
                 return (
                   <div className={classes.BudgetDiv} key={i}>

@@ -15,14 +15,14 @@ const BudgetChart = props => {
   // stops tracking percent of budget reached if over 1000%
   if (percReached > 1000) { percReached = 'over 1000'; }
 
-  const dataPoints = [{ name: 'Total Spent', y: totSpent, color: 'rgb(18, 152, 189)' }];
+  const dataPoints = [{ name: 'Total Spent', y: Number(totSpent).toFixed(2), color: 'rgb(18, 152, 189)' }];
   if (percReached !== 'over 1000') {
-    dataPoints.push({ name: 'Remaining Budget', y: Number(totBudget - totSpent), color: 'rgb(26, 171, 152)' });
+    dataPoints.push({ name: 'Remaining Budget', y: Number(totBudget - totSpent).toFixed(2), color: 'rgb(26, 171, 152)' });
   }
 
-  const options = { animationEnabled: true, data: [{ type: "doughnut", dataPoints: dataPoints }] };
+  const options = { animationEnabled: true, data: [{ type: "doughnut", dataPoints, toolTipContent: "{name}: ${y}" }] };
   if (props.mode === 'Small') { options.height = 200; options.width = 200; }
-
+  
   return (
     <div className={props.mode === 'Small' ? classes.SmallChartContainer : classes.ChartContainer}>
       <CanvasJSChart options={options} />

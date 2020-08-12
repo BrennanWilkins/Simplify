@@ -1,0 +1,18 @@
+.ChartContainer {
+  height: 400px;
+  width: 400px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.ChartContainer a {
+  display: none;
+}
+.Block {
+  position: absolute;
+  background: white;
+  width: 100px;
+  height: 20px;
+  bottom: 0;
+  left: 0;
+}
