@@ -6,19 +6,15 @@
   overflow: auto;
 }
 .Content {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
   min-width: 500px;
 }
 .Chart {
   width: 80%;
   transition: all 250ms;
   position: relative;
-  margin: 0 0 30px;
+  margin: 0 auto 30px;
 }
-.Chart a {
+.Chart a, .HideChart a, .Hide {
   display: none;
 }
 .Block {
@@ -82,23 +78,21 @@
 }
 .SelectBar {
   width: 100%;
-  height: 40px;
   background: rgb(18, 152, 189, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
 }
 .Btn, .ActiveBtn {
   outline: none;
-  border: 0;
+  border: 0.5px solid rgb(18, 152, 189);
   padding: 5px 8px;
   margin: 5px;
   background: rgb(18, 152, 189, 0.5);
   cursor: pointer;
   transition: 300ms;
   font-weight: bold;
-  box-shadow: 0 0 1px 1px rgb(18, 152, 189);
+  box-shadow: 0.5px 0.5px 1px 0px rgb(18, 152, 189, 0.5);
 }
 .ActiveBtn {
   background: rgb(18, 152, 189, 0.8);
@@ -107,75 +101,14 @@
   background: rgb(18, 152, 189, 0.8);
   transition: 300ms;
 }
-.Hide {
-  display: none;
-}
 .HideChart {
   visibility: hidden;
   opacity: 0;
   position: absolute;
 }
-.HideChart a {
-  display: none;
-}
-.TaxRow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.TaxField {
-  margin: 0 5px;
-  text-align: center;
-}
-.TaxField p {
-  margin: 10px 0;
-}
-.TaxField input {
-  width: 150px;
-}
-.TaxField button {
-  margin: 40px 0 0;
-  padding: 6px 7px;
-}
-.TaxField select {
-  padding: 5px 3px;
-  font-size: 14px;
-  border: 1px solid rgb(18, 152, 189);
-  border-radius: 3px;
-}
-.TaxStocks {
-  min-width: 485px;
-  margin: 10px 0;
-}
-.TaxStocksTitle {
-  margin: 15px 0;
-  text-align: center;
-  color: rgb(10, 77, 96);
-}
-.TaxStocksHeader, .TaxStocksField {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  border-bottom: 1px solid rgb(15, 119, 147);
-  padding: 2px 0;
-  word-wrap: break-word;
-}
-.TaxStocksHeader {
-  background: rgb(18, 152, 189, 0.4);
-}
-.TaxStocksField {
-  background: rgb(18, 152, 189, 0.2);
-}
 @media (max-width: 730px) {
   .InputRow2 {
     flex-direction: column;
-  }
-}
-@media (max-width: 550px) {
-  .TaxRow {
-    width: 400px;
-    flex-wrap: wrap;
   }
 }
 @media (max-width: 520px) {

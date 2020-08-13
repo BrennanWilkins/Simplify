@@ -1,0 +1,196 @@
+.Hide {
+  display: none;
+}
+.Title {
+  text-align: center;
+}
+.Title h1 {
+  margin: 10px 0 0;
+  color: rgb(10, 77, 96);
+}
+.Title span {
+  font-size: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 300ms ease-out;
+  margin-left: 10px;
+  position: relative;
+  top: 1px;
+}
+.Title span:hover {
+  color: rgb(18, 152, 189);
+  transition: 300ms ease-out;
+}
+.ShowInfo, .HideInfo {
+  font-size: 16px;
+  width: 70%;
+  margin: 10px auto;
+  position: absolute;
+  background: white;
+  border-radius: 3px;
+  padding: 10px;
+  left: 15%;
+  transition: 250ms ease-out;
+  border: 1px solid rgb(18, 152, 189);
+  box-shadow: 0.5px 0.5px 5px 0 rgb(0, 0, 0, 0.5);
+}
+.HideInfo {
+  visibility: hidden;
+  opacity: 0;
+}
+.Boxes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.InputBox {
+  border-radius: 3px;
+  border: 1px solid rgb(18, 152, 189);
+  box-shadow: 0.5px 0.5px 5px 0 rgb(0, 0, 0, 0.5);
+  width: 400px;
+  margin: 20px 0;
+  height: 380px;
+}
+.InputBox h3 {
+  text-align: center;
+  margin: 30px 0 5px;
+  color: rgb(10, 77, 96);
+}
+.Row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+.Field p {
+  margin: 10px 0;
+}
+.Field input {
+  width: 170px;
+  box-sizing: border-box;
+}
+.Field button {
+  padding: 5px 20px;
+  font-size: 16px;
+  color: white;
+  background: rgb(15, 119, 147);
+  transition: 300ms ease-out;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  margin: 42px 9.3px 0;
+}
+.Field button:hover {
+  background: rgb(10, 77, 96);
+  transition: 300ms ease-out;
+}
+.Field select {
+  width: 170px;
+  padding: 5px 3px;
+  font-size: 14px;
+  border: 1px solid rgb(18, 152, 189);
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+.TransBox {
+  border-radius: 3px;
+  border: 1px solid rgb(18, 152, 189);
+  box-shadow: 0.5px 0.5px 5px 0 rgb(0, 0, 0, 0.5);
+  width: 400px;
+  height: 381px;
+  background: rgb(15, 119, 147);
+  margin-left: 40px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+.Transactions {
+  background: white;
+  margin: 10px auto;
+  font-size: 13px;
+  text-align: center;
+  width: 100%;
+  height: 285px;
+  overflow-y: auto;
+}
+.TransBox h2 {
+  padding: 10px 0;
+  margin: 0;
+  color: white;
+  text-align: center;
+}
+.Btns {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 100px;
+}
+.CalcBtn, .ResetBtn {
+  margin: 0 20px 20px;
+  padding: 5px 20px;
+  font-size: 16px;
+  color: white;
+  background: rgb(15, 119, 147);
+  transition: 300ms ease-out;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+}
+.ResetBtn {
+  padding: 5px 31px;
+}
+.TransHeader, .TransField {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-bottom: 1px solid rgb(15, 119, 147);
+  padding: 2px 0;
+  word-wrap: break-word;
+}
+.TransHeader {
+  background: rgb(18, 152, 189, 0.4);
+}
+.TransField {
+  background: rgb(18, 152, 189, 0.2);
+}
+.Table {
+  width: 80%;
+  text-align: center;
+  border-collapse: collapse;
+  margin: 20px auto;
+  max-width: 850px;
+}
+.Table td, .Table th {
+  border: 1px solid rgb(18, 152, 189);
+  background: rgb(18, 152, 189, 0.04);
+  padding: 8px 4px;
+  box-sizing: border-box;
+  text-align: center;
+  word-wrap: break-word;
+}
+.Table td {
+  width: 19%;
+}
+.Table th {
+  color: rgb(15, 119, 147);
+  background: rgb(18, 152, 189, 0.1);
+}
+.TableTotals td {
+  font-weight: bold;
+  color: rgb(15, 119, 147);
+}
+@media (max-width: 870px) {
+  .Boxes {
+    flex-direction: column;
+  }
+  .TransBox {
+    margin: 0;
+  }
+}
+@media (max-width: 550px) {
+  .Title h1 {
+    font-size: 24px;
+  }
+}

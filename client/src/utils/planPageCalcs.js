@@ -62,17 +62,18 @@ export const calcCapGains = taxVals => {
   // , or 125000 if married filing separately
   let totIncome = income + longProfit;
   if (taxVals.filingStatus === 'Jointly') {
-    if (totIncome > 250000) { shortRate += 3.8; longRate += 3.8; }
+    if (totIncome > 250000) { shortRate += 3.8; }
   } else if (taxVals.filingStatus === 'Separately') {
-    if (totIncome > 125000) { shortRate += 3.8; longRate += 3.8; }
+    if (totIncome > 125000) { shortRate += 3.8; }
   } else {
     // for single or head of household
-    if (totIncome > 200000) { shortRate += 3.8; longRate += 3.8; }
+    if (totIncome > 200000) { shortRate += 3.8; }
   }
   let shortTax = 0;
   if (taxVals.filingStatus === 'Single') {
     // Single filing status short term rates
-    if (income < 9876) { shortRate = 10; }
+    if (income <= 0) { shortRate += 0; }
+    else if (income < 9876) { shortRate = 10; }
     else if (income < 40126) { shortRate += 12; }
     else if (income < 85526) { shortRate += 22; }
     else if (income < 163301) { shortRate += 24; }
@@ -92,7 +93,8 @@ export const calcCapGains = taxVals => {
     }
   } else if (taxVals.filingStatus === 'Head') {
     // Head of household short term rates
-    if (income < 14101) { shortRate += 10; }
+    if (income <= 0) { shortRate += 0; }
+    else if (income < 14101) { shortRate += 10; }
     else if (income < 53701) { shortRate += 12; }
     else if (income < 85501) { shortRate += 22; }
     else if (income < 163301) { shortRate += 24; }
@@ -112,7 +114,8 @@ export const calcCapGains = taxVals => {
     }
   } else if (taxVals.filingStatus === 'Jointly') {
     // Married filing jointly short term rates
-    if (income < 19751) { shortRate += 10; }
+    if (income <= 0) { shortRate += 0; }
+    else if (income < 19751) { shortRate += 10; }
     else if (income < 80251) { shortRate += 12; }
     else if (income < 171051) { shortRate += 22; }
     else if (income < 326601) { shortRate += 24; }
@@ -132,7 +135,8 @@ export const calcCapGains = taxVals => {
     }
   } else {
     // Married filing separately short term rates
-    if (income < 9876) { shortRate += 10; }
+    if (income <= 0) { shortRate += 0; }
+    else if (income < 9876) { shortRate += 10; }
     else if (income < 40126) { shortRate += 12; }
     else if (income < 85526) { shortRate += 22; }
     else if (income < 163301) { shortRate += 24; }
@@ -153,11 +157,16 @@ export const calcCapGains = taxVals => {
   }
   shortRate = shortProfit === 0 ? 0 : shortRate;
   longRate = longProfit === 0 ? 0 : longRate;
-  let shortEffective = shortProfit === 0 ? 0 : shortTax / shortProfit;
-  let longEffective = longTax / longProfit;
-  let totalTax = shortTax + longTax;
-  let totEffectiveRate = totalTax / (shortProfit + longProfit);
-  const results = { shortRate, longRate, shortTax, longTax, totalTax,
+  let shortEffective = shortProfit <= 0 ? 0 : ((shortTax / shortProfit) * 100).toLocaleString(undefined, { maximumFractionDigits: 2 });
+  let longEffective = longProfit <= 0 ? 0 : ((longTax / longProfit) * 100).toLocaleString(undefined, { maximumFractionDigits: 2 });
+  let totalTax = (shortTax + longTax).toFixed(2);
+  let totEffectiveRate = shortProfit + longProfit <= 0 ? 0 : ((totalTax / (shortProfit + longProfit)) * 100).toLocaleString(undefined, { maximumFractionDigits: 2 });
+  shortProfit = shortProfit.toFixed(2);
+  longProfit = longProfit.toFixed(2);
+  shortTax = shortTax.toFixed(2);
+  longTax = longTax.toFixed(2);
+  let totalProfit = (Number(shortProfit) + Number(longProfit)).toFixed(2);
+  const results = { shortRate, longRate, shortTax, longTax, totalTax, totalProfit,
     shortProfit, longProfit, shortEffective, longEffective, totEffectiveRate };
   return results;
 };
