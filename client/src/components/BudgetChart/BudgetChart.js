@@ -21,10 +21,9 @@ const BudgetChart = props => {
   }
 
   const options = { animationEnabled: true, data: [{ type: "doughnut", dataPoints, toolTipContent: "{name}: ${y}" }] };
-  if (props.mode === 'Small') { options.height = 200; options.width = 200; }
-  
+
   return (
-    <div className={props.mode === 'Small' ? classes.SmallChartContainer : classes.ChartContainer}>
+    <div className={classes.ChartContainer}>
       <CanvasJSChart options={options} />
       <div className={classes.Block}></div>
       <h1>You've reached {percReached}% of your budget this month</h1>

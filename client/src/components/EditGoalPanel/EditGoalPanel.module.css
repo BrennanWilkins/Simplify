@@ -1,4 +1,4 @@
-.EditPanel, .HideEditPanel, .DeletePanel, .HideDeletePanel {
+.Panel, .Hide {
   position: absolute;
   top: -250px;
   width: 250px;
@@ -12,22 +12,10 @@
   left: 65px;
   transition: all 400ms;
 }
-.DeletePanel, .HideDeletePanel {
-  height: 150px;
-  width: 200px;
-  left: 90px;
-  top: -200px;
-}
-.HideEditPanel {
+.Hide {
   opacity: 0;
   top: -80px;
   left: 0;
-  transform: scale(0);
-}
-.HideDeletePanel {
-  opacity: 0;
-  top: -50px;
-  left: 150px;
   transform: scale(0);
 }
 .Input input {
@@ -53,9 +41,4 @@
 }
 .BtnDiv {
   width: 100%;
-}
-.Title {
-  margin-top: 35px;
-  text-align: center;
-  color: rgb(10, 77, 96);
 }

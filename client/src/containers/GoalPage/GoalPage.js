@@ -7,6 +7,7 @@ import EditGoalPanel from '../../components/EditGoalPanel/EditGoalPanel';
 import GoalChart from '../../components/GoalChart/GoalChart';
 import GreenBtn from '../../components/UI/GreenBtn/GreenBtn';
 import { NumInput } from '../../components/UI/Inputs/Inputs';
+import DeletePanel from '../../components/DeletePanel/DeletePanel';
 
 const GoalPage = props => {
   const [goalValue, setGoalValue] = useState(0);
@@ -33,6 +34,17 @@ const GoalPage = props => {
     });
   };
 
+  const deleteHelper = () => {
+    props.setGoal(null);
+    props.addNotif('Goal deleted');
+    setShowDelete(false);
+  };
+
+  const deleteHandler = () => {
+    if (props.isDemo) { return deleteHelper(); }
+    axios.delete('goals').then(res => { deleteHelper(); }).catch(err => { return; });
+  };
+
   return (
     <div className={classes.Container}>
       <div className={classes.Content}>
@@ -46,8 +58,8 @@ const GoalPage = props => {
             <div className={classes.Btns}>
               <GreenBtn big clicked={() => setShowEdit(true)}>Edit goal</GreenBtn>
               <GreenBtn big clicked={() => setShowDelete(true)}>Delete goal</GreenBtn>
-              <EditGoalPanel show={showEdit} mode="Edit" close={() => setShowEdit(false)} goal={props.goal} />
-              <EditGoalPanel show={showDelete} mode="Delete" close={() => { setShowDelete(false); setGoalValue(0); }} goal={props.goal} />
+              <EditGoalPanel show={showEdit} close={() => setShowEdit(false)} goal={props.goal} />
+              <DeletePanel showUp={true} show={showDelete} mode="goal" close={() => setShowDelete(false)} delete={deleteHandler} />
             </div>
           </div>
         ) : (

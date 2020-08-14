@@ -1,0 +1,43 @@
+.PanelUp, .PanelDown, .HideUp, .HideDown {
+  position: absolute;
+  top: -250px;
+  width: 250px;
+  height: 200px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  background: white;
+  z-index: 2;
+  padding: 10px;
+  overflow: hidden;
+  left: calc(50% - 135px);
+  transition: 400ms;
+}
+.PanelDown, .HideDown {
+  top: 50px;
+}
+.HideUp, .HideDown {
+  opacity: 0;
+  top: -90px;
+  transform: scale(0);
+}
+.Title {
+  margin-top: 35px;
+  text-align: center;
+  color: rgb(10, 77, 96);
+  padding: 5px;
+}
+.CloseBtn button {
+  margin: 0;
+}
+.DeleteBtn {
+  display: flex;
+  justify-content: center;
+}
+.DeleteBtn button {
+  margin: 20px 0 0;
+}
+.Input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

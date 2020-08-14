@@ -98,19 +98,6 @@ const BudgetPanel = props => {
     .catch(err => { errHandler(true); });
   };
 
-  const deleteHelper = () => {
-    props.deleteBudget();
-    props.addNotif('Budget deleted');
-    closeHandler();
-  };
-
-  const deleteHandler = () => {
-    setErr(false);
-    if (props.isDemo) { return deleteHelper(); }
-    axios.delete('budgets').then(res => { deleteHelper(); })
-    .catch(err => { errHandler(true); });
-  };
-
   const addHandler = () => {
     setBudgets(budgets.concat({ category: '', budget: 0, transactions: [] }));
   };
@@ -120,8 +107,8 @@ const BudgetPanel = props => {
   };
 
   return (
-    <div className={props.show ? classes.Panel : classes.HidePanel} ref={panelRef}>
-      <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
+    <div className={props.showUp ? (props.show ? classes.PanelUp : classes.HidePanelUp) : (props.show ? classes.PanelDown : classes.HidePanelDown)} ref={panelRef}>
+      <div><CloseBtn close={closeHandler} /></div>
       <div className={classes.Budgets}>
         {budgets.map(budget => (
           <div key={budget.id}>
@@ -130,13 +117,10 @@ const BudgetPanel = props => {
             <CloseBtn close={() => deleteOneHandler(budget.id)} />
           </div>
         ))}
-        <div className={classes.BtnDiv2}>
-          <button className={classes.AddBtn} onClick={addHandler}>Add a new category</button>
-        </div>
+        <div className={classes.AddBtn}><button onClick={addHandler}>Add a new category</button></div>
       </div>
-      <button onClick={confirmHandler} className={classes.ConfirmBtn}>Confirm</button>
+      <div className={classes.ConfirmBtn}><button onClick={confirmHandler}>Confirm</button></div>
       <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-      <button className={classes.DeleteBtn} onClick={deleteHandler}>Delete Budget</button>
     </div>
   );
 };
@@ -149,7 +133,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setNewBudget: budget => dispatch(actions.setNewBudget(budget)),
   setBudget: budget => dispatch(actions.setBudget(budget)),
-  deleteBudget: () => dispatch(actions.deleteBudget()),
   addNotif: msg => dispatch(actions.addNotif(msg))
 });
 

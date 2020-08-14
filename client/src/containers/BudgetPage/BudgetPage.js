@@ -12,14 +12,17 @@ import BudgetBars from '../../components/BudgetBars/BudgetBars';
 import BlueBtn from '../../components/UI/BlueBtn/BlueBtn';
 import { Input, NumInput } from '../../components/UI/Inputs/Inputs';
 import BudgetByCateg from '../../components/BudgetByCateg/BudgetByCateg';
+import DeletePanel from '../../components/DeletePanel/DeletePanel';
 
 const BudgetPage = props => {
   const [showCreate, setShowCreate] = useState(false);
   const [showBudgetPanel, setShowBudgetPanel] = useState(false);
+  const [showDeletePanel, setShowDeletePanel] = useState(false);
   const [showCategs, setShowCategs] = useState([]);
   const [addTransCateg, setAddTransCateg] = useState('');
   const [transDesc, setTransDesc] = useState('');
   const [transCost, setTransCost] = useState('');
+  const [showCharts, setShowCharts] = useState(true);
 
   const showTransHandler = categ => {
     const i = showCategs.findIndex(val => val === categ);
@@ -57,6 +60,17 @@ const BudgetPage = props => {
     });
   };
 
+  const deleteHelper = () => {
+    props.deleteBudget();
+    props.addNotif('Budget deleted');
+    setShowDeletePanel(false);
+  };
+
+  const deleteHandler = () => {
+    if (props.isDemo) { return deleteHelper(); }
+    axios.delete('budgets').then(res => { deleteHelper(); }).catch(err => { return; });
+  };
+
   // get total budget to display
   let totBudget = 0;
   for (let budg of props.budget) { totBudget += budg.budget; }
@@ -67,18 +81,24 @@ const BudgetPage = props => {
         <h1 className={classes.Title}>Budgeting</h1>
         {props.budget.length > 0 ? (
           <div className={classes.Content}>
-            <div className={classes.LeftContent}>
-              <div className={classes.Charts}>
-                <BudgetChart mode="Normal" />
-                <BudgetByCateg budget={props.budget} />
-              </div>
-              <div className={classes.Btns}>
-                <BlueBtn big noMargin clicked={() => setShowBudgetPanel(true)}>Edit Budget</BlueBtn>
-                <BudgetPanel show={showBudgetPanel} close={() => setShowBudgetPanel(false)} />
+            <div className={showCharts ? classes.Charts : classes.HideCharts}>
+              <div className={classes.Chart}><BudgetChart mode="Normal" /></div>
+              <div className={classes.Chart}><BudgetByCateg budget={props.budget} /></div>
+              <div className={classes.ChartBtn}>
+                <button onClick={() => setShowCharts(prev => !prev)}>
+                  {showCharts ? 'Hide Charts' : 'Show Charts'}
+                  <span className={showCharts ? classes.CaretDown : classes.CaretRight}>{caretIcon}</span>
+                </button>
               </div>
             </div>
             <div className={classes.Budget}>
               <h1 className={classes.TotalBudget}>Total monthly budget: ${totBudget.toFixed(2)}</h1>
+              <div className={classes.Btns}>
+                <div className={classes.BtnsBtn}><BlueBtn big noMargin clicked={() => setShowBudgetPanel(true)}>Edit Budget</BlueBtn></div>
+                <div className={classes.BtnsBtn}><BlueBtn big noMargin clicked={() => setShowDeletePanel(true)}>Delete Budget</BlueBtn></div>
+                <BudgetPanel showUp={showCharts} show={showBudgetPanel} close={() => setShowBudgetPanel(false)} />
+                <DeletePanel showUp={showCharts} show={showDeletePanel} mode="budget" close={() => setShowDeletePanel(false)} delete={deleteHandler} />
+              </div>
               {props.budget.map((budget, i) => {
                 return (
                   <div className={classes.BudgetDiv} key={i}>
@@ -106,7 +126,7 @@ const BudgetPage = props => {
                     </div>
                     <div className={addTransCateg === budget.category ? classes.ShowAddTrans : classes.HideAddTrans}>
                       <Input val={transDesc} change={val => setTransDesc(val)} ph="Transaction Description" />
-                      <NumInput val={transCost} change={val => setTransCost(val)} ph="Cost" />
+                      <div className={classes.CostInput}><NumInput val={transCost} change={val => setTransCost(val)} ph="Cost" /></div>
                       <div className={classes.BtnDiv}>
                         <BlueBtn big noMargin clicked={confirmAddTransHandler}>Add</BlueBtn>
                         <CloseBtn budget close={() => setAddTransCateg('')} />
@@ -135,7 +155,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setBudget: budget => dispatch(actions.setBudget(budget)),
-  addNotif: notif => dispatch(actions.addNotif(notif))
+  addNotif: notif => dispatch(actions.addNotif(notif)),
+  deleteBudget: () => dispatch(actions.deleteBudget())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BudgetPage);

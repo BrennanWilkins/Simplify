@@ -1,7 +1,4 @@
-.Panel, .HidePanel {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+.PanelUp, .HidePanelUp, .PanelDown, .HidePanelDown {
   position: absolute;
   top: -450px;
   width: 350px;
@@ -15,19 +12,21 @@
   transition: all 400ms;
   left: calc(50% - 185px);
 }
-.HidePanel {
+.PanelDown, .HidePanelDown {
+  top: 40px;
+  margin-bottom: 20px;
+}
+.HidePanelUp, .HidePanelDown {
   opacity: 0;
-  top: -180px;
+  top: -185px;
   transform: scale(0);
 }
 .Budgets input {
   width: 120px;
   margin: 10px;
+  background: white;
 }
-.BtnDiv {
-  width: 100%;
-}
-.ConfirmBtn, .DeleteBtn, .AddBtn {
+.ConfirmBtn button, .AddBtn button {
   margin: 20px 0 15px;
   color: white;
   background: rgb(26, 171, 152, 0.7);
@@ -37,39 +36,40 @@
   outline: none;
   padding: 8px 10px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
 }
-.AddBtn {
+.AddBtn button {
   margin: 5px 0;
+  font-size: 14px;
   background: rgb(15, 119, 147);
 }
-.AddBtn:hover {
+.AddBtn button:hover {
   background: rgb(10, 77, 96);
   transition: background 250ms;
 }
-.DeleteBtn {
-  margin: 20px 0 10px;
-  background: rgb(230, 29, 29, 0.5);
-}
-.DeleteBtn:hover {
-  background: rgb(230, 29, 29, 0.8);
-  transition: background 250ms;
-}
-.ConfirmBtn:hover {
+.ConfirmBtn button:hover {
   background: rgb(26, 171, 152);
   transition: background 250ms;
+}
+.ConfirmBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.AddBtn {
+  width: 335px;
 }
 .Budgets {
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  margin-top: 30px;
-  height: 200px;
-}
-.BtnDiv2 {
-  width: 335px;
-  display: flex;
-  justify-content: center;
+  margin-top: 40px;
+  height: 260px;
+
+  background: rgb(18, 152, 189, 0.1);
+  border: 1px solid rgb(18, 152, 189);
+  box-shadow: 0.5px 0.5px 2px 0 rgb(0, 0, 0, 0.5);
 }
 .Budgets div {
   display: flex;
@@ -88,11 +88,4 @@
 }
 .HideErr {
   opacity: 0;
-}
-.Hidden {
-  height: 0;
-  position: absolute;
-}
-.Hidden, .Hidden input, .Hidden button {
-  display: none;
 }

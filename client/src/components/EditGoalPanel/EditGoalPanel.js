@@ -58,43 +58,18 @@ const EditGoalPanel = props => {
     }).catch(err => { errHandler(true); });
   };
 
-  const deleteHandler = () => {
-    if (props.isDemo) {
-      props.setGoal(null);
-      props.addNotif('Goal deleted');
-      return closeHandler();
-    }
-    axios.delete('goals').then(res => {
-      props.setGoal(null);
-      props.addNotif('Goal deleted');
-      closeHandler();
-    }).catch(err => { errHandler(true); });
-  };
-
   const inputValHandler = val => {
     errHandler(false);
     setInputVal(val);
   };
 
   return (
-    <div ref={panelRef} className={props.mode === 'Edit' ? (props.show ? classes.EditPanel : classes.HideEditPanel) :
-    (props.show ? classes.DeletePanel : classes.HideDeletePanel)}>
+    <div ref={panelRef} className={props.show ? classes.Panel : classes.Hide}>
       <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
-      {props.mode === 'Edit' ? (
-        <React.Fragment>
-          <div className={classes.Input}><NumInput val={inputVal} change={inputValHandler} /></div>
-          <div className={classes.BtnDiv2}>
-            <GreenBtn clicked={editHandler}>Change</GreenBtn>
-          </div>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <p className={classes.Title}>Are you sure?</p>
-          <div className={classes.BtnDiv2}>
-            <GreenBtn clicked={deleteHandler}>Delete</GreenBtn>
-          </div>
-        </React.Fragment>
-      )}
+      <div className={classes.Input}><NumInput val={inputVal} change={inputValHandler} /></div>
+      <div className={classes.BtnDiv2}>
+        <GreenBtn clicked={editHandler}>Change</GreenBtn>
+      </div>
       <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
     </div>
   );
