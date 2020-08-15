@@ -8,13 +8,13 @@ const GoalChart = props => {
   const netWorthVal = props.netWorthData.length === 0 ? '0.00' :
   (props.netWorthData[props.netWorthData.length - 1].value).toFixed(2);
 
-  let percReached = ((netWorthVal / props.goal) * 100).toFixed(2);
+  let percReached = ((netWorthVal / props.netWorthGoal) * 100).toFixed(2);
   // stops tracking after 100% of goal reached
   if (percReached > 100) { percReached = 100.00; }
 
   const dataPoints = [{ name: 'Current Net Worth', y: netWorthVal, color: 'rgb(26, 171, 152)' }];
   if (percReached < 100) {
-    dataPoints.push({ name: 'Remaining', y: props.goal - netWorthVal, color: 'rgb(15, 119, 147)' });
+    dataPoints.push({ name: 'Remaining', y: props.netWorthGoal - netWorthVal, color: 'rgb(15, 119, 147)' });
   }
 
   const options = {
@@ -35,7 +35,7 @@ const GoalChart = props => {
 
 const mapStateToProps = state => ({
   netWorthData: state.netWorth.netWorthData,
-  goal: state.goal.goal
+  netWorthGoal: state.goals.netWorthGoal
 });
 
 export default connect(mapStateToProps)(GoalChart);

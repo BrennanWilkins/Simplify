@@ -19,8 +19,8 @@ const EditGoalPanel = props => {
   }, [props.show]);
 
   useEffect(() => {
-    setInputVal(props.goal);
-  }, [props.goal, props.show]);
+    setInputVal(props.netWorthGoal);
+  }, [props.netWorthGoal, props.show]);
 
   const handleClick = e => {
     // close panel on click outside
@@ -29,7 +29,7 @@ const EditGoalPanel = props => {
   };
 
   const closeHandler = () => {
-    setInputVal(props.goal);
+    setInputVal(props.netWorthGoal);
     errHandler(false);
     props.close();
   };
@@ -47,12 +47,12 @@ const EditGoalPanel = props => {
   const editHandler = () => {
     if (inputVal === 0 || inputVal > 999999999999) { return; }
     if (props.isDemo) {
-      props.setGoal(inputVal);
+      props.setNetWorthGoal(inputVal);
       props.addNotif('Goal updated');
       return closeHandler();
     }
     axios.put('goals', { goal: inputVal }).then(res => {
-      props.setGoal(inputVal);
+      props.setNetWorthGoal(inputVal);
       props.addNotif('Goal updated');
       closeHandler();
     }).catch(err => { errHandler(true); });
@@ -76,11 +76,12 @@ const EditGoalPanel = props => {
 };
 
 const mapStateToProps = state => ({
-  isDemo: state.auth.isDemo
+  isDemo: state.auth.isDemo,
+  netWorthGoal: state.goals.netWorthGoal
 });
 
 const mapDispatchToProps = dispatch => ({
-  setGoal: goal => dispatch(actions.setGoal(goal)),
+  setNetWorthGoal: goal => dispatch(actions.setNetWorthGoal(goal)),
   addNotif: msg => dispatch(actions.addNotif(msg))
 });
 

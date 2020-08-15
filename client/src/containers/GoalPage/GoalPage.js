@@ -8,26 +8,28 @@ import GoalChart from '../../components/GoalChart/GoalChart';
 import GreenBtn from '../../components/UI/GreenBtn/GreenBtn';
 import { NumInput } from '../../components/UI/Inputs/Inputs';
 import DeletePanel from '../../components/DeletePanel/DeletePanel';
+import NewGoalPanel from '../../components/NewGoalPanel/NewGoalPanel';
 
 const GoalPage = props => {
-  const [goalValue, setGoalValue] = useState(0);
+  const [netWorthGoalVal, setNetWorthGoalVal] = useState(0);
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showNewGoal, setShowNewGoal] = useState(false);
 
-  const goalValueHandler = val => {
+  const netWorthGoalValHandler = val => {
     setErr(false);
     setErrMsg('');
-    setGoalValue(val);
+    setNetWorthGoalVal(val);
   };
 
   const createHandler = () => {
-    if (goalValue === 0 || goalValue > 999999999999) { return; }
-    if (props.isDemo) { props.addNotif('Goal created'); return props.setGoal(goalValue); }
-    axios.post('goals', { goal: goalValue }).then(res => {
+    if (netWorthGoalVal === 0 || netWorthGoalVal > 999999999999) { return; }
+    if (props.isDemo) { props.addNotif('Goal created'); return props.setNetWorthGoal(netWorthGoalVal); }
+    axios.post('goals', { goal: netWorthGoalVal }).then(res => {
       props.addNotif('Goal created');
-      props.setGoal(goalValue);
+      props.setNetWorthGoal(netWorthGoalVal);
     }).catch(err => {
       setErr(true);
       setErrMsg('Error connecting to the server.');
@@ -35,7 +37,7 @@ const GoalPage = props => {
   };
 
   const deleteHelper = () => {
-    props.setGoal(null);
+    props.setNetWorthGoal(null);
     props.addNotif('Goal deleted');
     setShowDelete(false);
   };
@@ -48,43 +50,58 @@ const GoalPage = props => {
   return (
     <div className={classes.Container}>
       <div className={classes.Content}>
-        {props.goal ? (
-          <div>
-            <h1 className={classes.Title}>Net Worth Goal</h1>
-            <h1 className={classes.Title2}>
-              ${Number(Number(props.goal).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </h1>
-            <GoalChart mode="Normal" />
-            <div className={classes.Btns}>
-              <GreenBtn big clicked={() => setShowEdit(true)}>Edit goal</GreenBtn>
-              <GreenBtn big clicked={() => setShowDelete(true)}>Delete goal</GreenBtn>
-              <EditGoalPanel show={showEdit} close={() => setShowEdit(false)} goal={props.goal} />
-              <DeletePanel showUp={true} show={showDelete} mode="goal" close={() => setShowDelete(false)} delete={deleteHandler} />
+        <div className={classes.NetWorthGoal}>
+          {props.netWorthGoal ? (
+            <div>
+              <h1 className={classes.Title}>Net Worth Goal</h1>
+              <h1 className={classes.Title2}>
+                ${Number(Number(props.netWorthGoal).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </h1>
+              <GoalChart mode="Normal" />
+              <div className={classes.Btns}>
+                <GreenBtn big clicked={() => setShowEdit(true)}>Edit goal</GreenBtn>
+                <GreenBtn big clicked={() => setShowDelete(true)}>Delete goal</GreenBtn>
+                <EditGoalPanel show={showEdit} close={() => setShowEdit(false)} goal={props.netWorthGoal} />
+                <DeletePanel showUp={true} show={showDelete} mode="goal" close={() => setShowDelete(false)} delete={deleteHandler} />
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className={classes.SetGoal}>
-            <h1 className={classes.Title}>Create a new net worth goal</h1>
-            <p className={classes.SubTitle}>
-              ${Number(Number(goalValue).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </p>
-            <div className={classes.Input}><NumInput val={goalValue} change={goalValueHandler} /></div>
-            <GreenBtn big clicked={createHandler}>Create</GreenBtn>
-            <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-          </div>
-        )}
+          ) : (
+            <div className={classes.SetGoal}>
+              <h1 className={classes.Title}>Create a new net worth goal</h1>
+              <p className={classes.SubTitle}>
+                ${Number(Number(netWorthGoalVal).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </p>
+              <div className={classes.Input}><NumInput val={netWorthGoalVal} change={netWorthGoalValHandler} /></div>
+              <GreenBtn big clicked={createHandler}>Create</GreenBtn>
+              <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+            </div>
+          )}
+        </div>
+        <div className={classes.OtherGoals}>
+          {props.otherGoals.length ? (
+            <div>
+            </div>
+          ) : (
+            <div className={classes.SetOtherGoal}>
+              <h2 className={classes.NewTitle}>Create a new custom goal</h2>
+              <GreenBtn big clicked={() => setShowNewGoal(true)}>Create</GreenBtn>
+              <NewGoalPanel show={showNewGoal} close={() => setShowNewGoal(false)} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  goal: state.goal.goal,
+  netWorthGoal: state.goals.netWorthGoal,
+  otherGoals: state.goals.otherGoals,
   isDemo: state.auth.isDemo
 });
 
 const mapDispatchToProps = dispatch => ({
-  setGoal: goal => dispatch(actions.setGoal(goal)),
+  setNetWorthGoal: goal => dispatch(actions.setNetWorthGoal(goal)),
   addNotif: msg => dispatch(actions.addNotif(msg))
 });
 

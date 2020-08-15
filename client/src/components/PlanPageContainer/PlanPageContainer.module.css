@@ -1,0 +1,42 @@
+.Hide {
+  display: none;
+}
+.Title {
+  text-align: center;
+}
+.Title h1 {
+  margin: 10px 0 0;
+  color: rgb(10, 77, 96);
+}
+.Title span {
+  font-size: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 300ms ease-out;
+  margin-left: 10px;
+  position: relative;
+  top: 1px;
+}
+.Title span:hover {
+  color: rgb(18, 152, 189);
+  transition: 300ms ease-out;
+}
+.ShowInfo, .HideInfo {
+  font-size: 16px;
+  width: 70%;
+  margin: 10px auto;
+  position: absolute;
+  background: white;
+  border-radius: 3px;
+  padding: 10px;
+  left: 15%;
+  transition: 250ms ease-out;
+  border: 1px solid rgb(18, 152, 189);
+  box-shadow: 0.5px 0.5px 5px 0 rgb(0, 0, 0, 0.5);
+}
+.HideInfo {
+  visibility: hidden;
+  opacity: 0;
+}

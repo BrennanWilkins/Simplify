@@ -20,7 +20,7 @@ export const CHANGE_CRYPTO = 'CHANGE_CRYPTO';
 export const UPDATE_ASSETS = 'UPDATE_ASSETS';
 export const UPDATE_DEBTS = 'UPDATE_DEBTS';
 
-export const SET_GOAL = 'SET_GOAL';
+export const SET_NET_WORTH_GOAL = 'SET_NET_WORTH_GOAL';
 
 export const SET_NEW_BUDGET = 'SET_NEW_BUDGET';
 export const SET_BUDGET = 'SET_BUDGET';

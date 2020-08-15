@@ -1,0 +1,129 @@
+.Panel, .HidePanel {
+  position: absolute;
+  top: calc(50% - 300px);
+  left: calc(50% - 185px);
+  width: 350px;
+  height: 400px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  background: white;
+  z-index: 2;
+  padding: 10px;
+  overflow: hidden;
+  transition: all 400ms;
+}
+.HidePanel {
+  opacity: 0;
+  transform: scale(0);
+}
+.BtnsDiv {
+  width: 150px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: auto;
+}
+.PrevBtn, .NextBtn, .DisPrevBtn, .DisNextBtn {
+  color: white;
+  background: rgb(15, 119, 147);
+  transition: background 250ms;
+  border: 0;
+  border-radius: 3px;
+  outline: none;
+  padding: 0 5px;
+  cursor: pointer;
+}
+.PrevBtn:hover, .NextBtn:hover {
+  background: rgb(10, 77, 96);
+  transition: background 250ms;
+}
+.Icon {
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.PrevBtn span, .DisPrevBtn span {
+  transform: rotate(180deg);
+}
+.DisPrevBtn {
+  background: rgb(15, 119, 147, 0.6);
+}
+.DisNextBtn {
+  background: rgb(26, 171, 152, 0.8);
+}
+.DisNextBtn:hover {
+  background: rgb(26, 171, 152);
+  transition: background 250ms;
+}
+.Content {
+  color: rgb(15, 119, 147);
+  height: 320px;
+  text-align: center;
+  padding: 5px;
+  width: 100%;
+  position: relative;
+  margin: auto;
+  box-sizing: border-box;
+  margin: 30px 0 10px;
+}
+.Content h3 {
+  font-size: 20px;
+}
+.SubTitle {
+  font-weight: bold;
+  margin: 20px 0 15px;
+}
+.Examples {
+  overflow: auto;
+  width: 100%;
+  background: rgb(18, 152, 189, 0.05);
+}
+.Examples p {
+  margin: 15px 0;
+}
+.Show, .HideLeft, .HideRight {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px 7px;
+  box-sizing: border-box;
+  transition: all 450ms ease-out;
+}
+.HideLeft, .Hide {
+  left: -740px;
+}
+.HideRight {
+  left: 740px;
+}
+.Content p {
+  font-size: 16px;
+  margin-left: 0;
+  margin-right: 0;
+}
+.P1 {
+  margin-top: 30px;
+}
+.ShowErrMsg, .HideErrMsg {
+  margin: 50px 0 0;
+  transition: 300ms;
+  cursor: default;
+}
+.HideErrMsg {
+  opacity: 0;
+}
+@media (max-width: 369px) {
+  .Panel {
+    transform: scale(0.9);
+  }
+}
+@media (max-width: 334px) {
+  .Panel {
+    transform: scale(0.8);
+  }
+}

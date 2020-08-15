@@ -111,7 +111,7 @@ const AuthPanel = props => {
       props.setNetWorthData(data.netWorth.dataPoints);
     }
     props.setPortfolio(calcPortfolioValue(data.portfolio));
-    if (data.goal) { props.setGoal(data.goal); }
+    if (data.goal) { props.setNetWorthGoal(data.goal); }
     if (data.budgets) { props.setBudget(data.budgets); }
     reset();
     props.login();
@@ -200,10 +200,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   login: () => dispatch(actions.login()),
-  setNetWorthData: (data) => dispatch(actions.setNetWorthData(data)),
-  setPortfolio: (data) => dispatch(actions.setPortfolio(data)),
-  setGoal: (goal) => dispatch(actions.setGoal(goal)),
-  setBudget: (budget) => dispatch(actions.setBudget(budget)),
+  setNetWorthData: data => dispatch(actions.setNetWorthData(data)),
+  setPortfolio: data => dispatch(actions.setPortfolio(data)),
+  setNetWorthGoal: goal => dispatch(actions.setNetWorthGoal(goal)),
+  setBudget: budget => dispatch(actions.setBudget(budget)),
   loadDemo: () => dispatch(actions.loadDemo())
 });
 

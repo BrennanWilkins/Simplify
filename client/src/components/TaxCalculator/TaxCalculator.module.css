@@ -1,7 +1,7 @@
-.Hide {
+/* .Hide {
   display: none;
-}
-.Title {
+} */
+/* .Title {
   text-align: center;
 }
 .Title h1 {
@@ -39,7 +39,7 @@
 .HideInfo {
   visibility: hidden;
   opacity: 0;
-}
+} */
 .Boxes {
   display: flex;
   justify-content: center;

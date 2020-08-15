@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   netWorth: netWorthReducer,
   portfolio: portfolioReducer,
-  goal: goalReducer,
+  goals: goalReducer,
   budget: budgetReducer,
   notifications: notifsReducer
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './BudgetByCateg.module.css';
 import CanvasJSReact from '../canvasjs/canvasjs.react';
 
-const colors = ['rgb(18, 152, 189)', 'rgb(13, 112, 139)', 'rgb(0, 162, 208)', 'rgb(74, 165, 190)', 'rgb(63, 190, 224)'];
+const COLORS = ['#29b6f6', '#03a9f4', '#039be5', '#0288d1', '#0277bd', '#01579b'];
 
 const Chart = props => {
   let totBudget = 0;
@@ -12,7 +12,7 @@ const Chart = props => {
       label: budg.category,
       y: ((budg.budget / totBudget) * 100).toFixed(2),
       val: Number(budg.budget).toFixed(2),
-      color: colors[i % 4]
+      color: COLORS[i % 6]
     };
   });
 

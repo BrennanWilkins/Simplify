@@ -20,3 +20,7 @@ export const NumInput = props => {
     <input value={props.val} onChange={changeHandler} className={classes.Input} placeholder={props.ph} />
   );
 };
+
+export const DateInput = props => (
+  <input type="date" value={props.val} onChange={e => props.change(e.target.value)} className={classes.DateInput} />
+);

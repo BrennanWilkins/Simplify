@@ -5,6 +5,7 @@ import BlueBtn from '../../components/UI/BlueBtn/BlueBtn';
 import { NumInput } from '../../components/UI/Inputs/Inputs';
 import { calcRetire, calcCompound } from '../../utils/planPageCalcs';
 import TaxCalculator from '../../components/TaxCalculator/TaxCalculator';
+import Container from '../../components/PlanPageContainer/PlanPageContainer';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const PlanPage = props => {
@@ -115,8 +116,7 @@ const PlanPage = props => {
           <button onClick={() => setCurrMode('Retire')} className={currMode === 'Retire' ? classes.ActiveBtn : classes.Btn}>Retirement Visualizer</button>
           <button onClick={() => setCurrMode('Tax')} className={currMode === 'Tax' ? classes.ActiveBtn : classes.Btn}>Capital Gains Calculator</button>
         </div>
-        <div className={currMode === 'Compound' ? undefined : classes.Hide}>
-          <h1 className={classes.Title}>Compound Interest Visualizer</h1>
+        <Container show={currMode === 'Compound'} currMode="Compound">
           <div className={classes.Inputs}>
             <div className={classes.InputRow}>
               <div className={classes.InputField}>
@@ -139,9 +139,8 @@ const PlanPage = props => {
               </div>
             </div>
           </div>
-        </div>
-        <div className={currMode === 'Retire' ? undefined : classes.Hide}>
-          <h1 className={classes.Title}>Retirement Goal Visualizer</h1>
+        </Container>
+        <Container show={currMode === 'Retire'} currMode="Retire">
           <div className={classes.Inputs}>
             <div className={classes.InputRow2}>
               <div className={classes.InputField}>
@@ -158,20 +157,20 @@ const PlanPage = props => {
               </div>
             </div>
           </div>
-        </div>
+        </Container>
         <div className={currMode !== 'Tax' ? classes.Btns : classes.Hide}>
           <BlueBtn clicked={calcHandler}>Calculate</BlueBtn>
           <BlueBtn clicked={resetHandler}>Reset</BlueBtn>
         </div>
         <div className={compoundVals.showChart && currMode === 'Compound' ? classes.Chart : classes.HideChart}>
-          <h1 className={classes.Title2}>
+          <h1 className={classes.Title}>
             ${Number(Number(compoundVals.finalVal).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </h1>
           <CanvasJSChart options={compoundOptions} />
           <div className={classes.Block}></div>
         </div>
         <div className={retireVals.showChart && currMode === 'Retire' ? classes.Chart : classes.HideChart}>
-          <h2 className={classes.Title3}>Monthly savings to reach goal by age {retireVals.shownAge}</h2>
+          <h2 className={classes.Title2}>Monthly savings to reach goal by age {retireVals.shownAge}</h2>
           <CanvasJSChart options={retireOptions} />
           <div className={classes.Block}></div>
           <p className={classes.SubTitle}>Starting age</p>

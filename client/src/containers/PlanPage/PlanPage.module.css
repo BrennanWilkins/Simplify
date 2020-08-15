@@ -56,18 +56,13 @@
 .Btns button {
   margin: 0 10px 0;
 }
-.Title {
-  margin: 10px 0 0;
-  text-align: center;
-  color: rgb(10, 77, 96);
-}
-.Title2, .Title3 {
+.Title, .Title2 {
   margin: 20px 0;
   text-align: center;
   color: rgb(26, 171, 152);
   word-wrap: break-word;
 }
-.Title3 {
+.Title2 {
   color: rgb(15, 119, 147);
 }
 .SubTitle {

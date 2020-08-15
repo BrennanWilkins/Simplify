@@ -79,7 +79,7 @@ const BudgetPage = props => {
     <div className={classes.Container}>
       <div className={classes.OuterContent}>
         <h1 className={classes.Title}>Budgeting</h1>
-        {props.budget.length > 0 ? (
+        {props.budget.length ? (
           <div className={classes.Content}>
             <div className={showCharts ? classes.Charts : classes.HideCharts}>
               <div className={classes.Chart}><BudgetChart mode="Normal" /></div>

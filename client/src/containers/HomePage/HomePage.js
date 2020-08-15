@@ -59,7 +59,7 @@ const HomePage = props => {
             <div className={classes.Card}>
               <h1 className={classes.Title}>Net Worth Goal</h1>
               <div className={classes.ChartContainer}>
-                {props.goal ? <GoalChart mode="Small" /> : (
+                {props.netWorthGoal ? <GoalChart mode="Small" /> : (
                   <p className={classes.SubTitle}>Create a new net worth goal!</p>
                 )}
               </div>
@@ -72,7 +72,7 @@ const HomePage = props => {
 };
 
 const mapStateToProps = state => ({
-  goal: state.goal.goal,
+  netWorthGoal: state.goals.netWorthGoal,
   budget: state.budget.budget
 });
 

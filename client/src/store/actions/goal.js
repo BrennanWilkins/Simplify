@@ -1,3 +1,3 @@
 import * as actionTypes from './actionTypes';
 
-export const setGoal = (goal) => ({ type: actionTypes.SET_GOAL, goal });
+export const setNetWorthGoal = goal => ({ type: actionTypes.SET_NET_WORTH_GOAL, goal });

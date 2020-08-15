@@ -9,34 +9,50 @@
   width: 100%;
   display: flex;
   align-items: center;
-  flex-direction: column;
-  min-width: 400px;
+  justify-content: center;
+  min-width: 450px;
 }
-.SetGoal {
+.NetWorthGoal, .OtherGoals {
+  border: 1px solid rgb(18, 152, 189);
+  box-shadow: 0.5px 0.5px 5px 0 rgb(0, 0, 0, 0.5);
+  border-radius: 3px;
+  padding: 5px 10px;
+  margin: 20px 15px;
+}
+.OtherGoals {
+  width: 440px;
+  height: 600px;
+}
+.SetGoal, .SetOtherGoal {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.Title {
-  color: rgb(10, 77, 96);
-  text-align: center;
+.SetOtherGoal {
+  padding: 5px 0 10px;
 }
-.Title2 {
+.Title, .Title2, .SubTitle, .NewTitle {
   text-align: center;
   color: rgb(26, 171, 152);
+}
+.Title {
+  color: rgb(10, 77, 96);
+  margin: 10px 0;
+}
+.NewTitle {
+  color: rgb(10, 77, 96);
+  margin: 15px 0;
+}
+.SubTitle {
+  font-size: 22px;
+  margin: 0;
+  font-weight: bold;
 }
 .Input input {
   width: 200px;
   margin: 20px;
   transition: 250ms;
-}
-.SubTitle {
-  text-align: center;
-  color: rgb(26, 171, 152);
-  font-size: 22px;
-  margin: 0;
-  font-weight: bold;
 }
 .Btns {
   width: 100%;
@@ -54,4 +70,9 @@
 }
 .HideErr {
   opacity: 0;
+}
+@media (max-width: 1000px) {
+  .Content {
+    flex-direction: column;
+  }
 }

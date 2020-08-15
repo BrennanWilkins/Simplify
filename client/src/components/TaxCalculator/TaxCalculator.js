@@ -1,13 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import classes from './TaxCalculator.module.css';
 import { calcCapGains } from '../../utils/planPageCalcs';
 import { NumInput } from '../UI/Inputs/Inputs';
-import { questionIcon } from '../UI/UIIcons';
+import Container from '../PlanPageContainer/PlanPageContainer';
 
 const TaxCalculator = props => {
-  const infoRef = useRef();
-  const qRef = useRef();
-  const [showInfo, setShowInfo] = useState(false);
   const [taxVals, setTaxVals] = useState({
     stocks: [],
     income: '',
@@ -19,17 +16,6 @@ const TaxCalculator = props => {
       longProfit: 0, totEffectiveRate: 0, shortEffective: 0, longEffective: 0, totalTax: 0, totalProfit: 0 },
     showChart: false
   });
-
-  const handleClick = e => {
-    // dont close info panel if clicking on panel or question icon
-    if (infoRef.current.contains(e.target) || qRef.current.contains(e.target)) { return; }
-    setShowInfo(false);
-  };
-
-  useEffect(() => {
-    if (showInfo) { document.addEventListener('mousedown', handleClick); }
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [showInfo]);
 
   const resetHandler = () => {
     setTaxVals({
@@ -66,14 +52,7 @@ const TaxCalculator = props => {
   };
 
   return (
-    <div className={props.show ? undefined : classes.Hide}>
-      <div className={classes.Title}>
-        <h1>Capital Gains Tax Calculator<span onClick={()=> setShowInfo(true)} ref={qRef}>{questionIcon}</span></h1>
-        <p ref={infoRef} className={showInfo ? classes.ShowInfo : classes.HideInfo}>
-        Capital gains taxes are estimated based on the Tax Cuts and Jobs Act and 2020 federal income tax brackets.
-        Investments held for longer than a year are taxed at a different rate than investments held for less than a year,
-        which are taxed in the ordinary income tax brackets.</p>
-      </div>
+    <Container show={props.show} currMode="Tax">
       <div className={classes.Boxes}>
         <div className={classes.InputBox}>
           <div className={classes.Row}>
@@ -173,7 +152,7 @@ const TaxCalculator = props => {
           </tr>
         </tbody>
       </table>
-    </div>
+    </Container>
   );
 };
 

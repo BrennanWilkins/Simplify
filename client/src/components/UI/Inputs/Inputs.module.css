@@ -1,8 +1,11 @@
-.Input {
+.Input, .DateInput {
   padding: 5px;
   font-size: 16px;
   border-radius: 3px;
   border: 1px solid rgb(18, 152, 189);
   background: rgb(18, 152, 189, 0.03);
   outline: none;
+}
+.DateInput {
+  padding: 2px 3px;
 }
