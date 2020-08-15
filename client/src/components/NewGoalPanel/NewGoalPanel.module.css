@@ -1,13 +1,13 @@
 .Panel, .HidePanel {
-  position: absolute;
-  top: calc(50% - 300px);
+  position: fixed;
+  top: calc(50% - 200px);
   left: calc(50% - 185px);
   width: 350px;
   height: 400px;
   border-radius: 3px;
   box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
   background: white;
-  z-index: 2;
+  z-index: 20;
   padding: 10px;
   overflow: hidden;
   transition: all 400ms;
@@ -15,6 +15,20 @@
 .HidePanel {
   opacity: 0;
   transform: scale(0);
+}
+.Backdrop {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  height: calc(100% - 70px);
+  width: 100%;
+  background: rgb(0, 0, 0, 0.15);
+  transition: 400ms;
+  z-index: 10;
+}
+.HideBackdrop {
+  opacity: 0;
+  visibility: hidden;
 }
 .BtnsDiv {
   width: 150px;
