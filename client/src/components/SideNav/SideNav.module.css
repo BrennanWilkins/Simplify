@@ -1,7 +1,6 @@
 .SideNav, .HideSideNav {
-  position: absolute;
+  position: fixed;
   width: 240px;
-  height: calc(100% - 25px);
   left: 0;
   transform: translateX(0);
   transition: all 400ms;
@@ -10,7 +9,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 25px;
+  padding: 25px 0;
+  overflow: auto;
+  height: calc(100% - 50px);
 }
 .HideSideNav {
   transform: translateX(-100%);

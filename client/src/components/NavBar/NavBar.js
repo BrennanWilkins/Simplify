@@ -27,7 +27,7 @@ const NavBar = props => {
             <div></div>
           </div>
         </div>
-        <Title />
+        <div className={classes.Title}><Title /></div>
         <Link className={props.location.pathname === '/portfolio' ? [classes.LinkActive, classes.Link].join(' ') : classes.Link} to="/portfolio">
           Portfolio
           <div className={classes.FocusBorder}></div>

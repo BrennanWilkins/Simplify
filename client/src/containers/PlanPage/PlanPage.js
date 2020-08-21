@@ -6,6 +6,7 @@ import { NumInput } from '../../components/UI/Inputs/Inputs';
 import { calcRetire, calcCompound } from '../../utils/planPageCalcs';
 import TaxCalculator from '../../components/TaxCalculator/TaxCalculator';
 import Container from '../../components/PlanPageContainer/PlanPageContainer';
+import { formatNum } from '../../utils/formatNum';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const PlanPage = props => {
@@ -163,9 +164,7 @@ const PlanPage = props => {
           <BlueBtn clicked={resetHandler}>Reset</BlueBtn>
         </div>
         <div className={compoundVals.showChart && currMode === 'Compound' ? classes.Chart : classes.HideChart}>
-          <h1 className={classes.Title}>
-            ${Number(Number(compoundVals.finalVal).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          </h1>
+          <h1 className={classes.Title}>${formatNum(compoundVals.finalVal)}</h1>
           <CanvasJSChart options={compoundOptions} />
           <div className={classes.Block}></div>
         </div>

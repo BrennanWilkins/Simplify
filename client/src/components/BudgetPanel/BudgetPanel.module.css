@@ -66,10 +66,21 @@
   overflow-x: hidden;
   margin-top: 40px;
   height: 260px;
-
   background: rgb(18, 152, 189, 0.1);
   border: 1px solid rgb(18, 152, 189);
   box-shadow: 0.5px 0.5px 2px 0 rgb(0, 0, 0, 0.5);
+  border-radius: 3px;
+}
+.Budgets::-webkit-scrollbar-track {
+  background: rgb(18, 152, 189, 0.1);
+}
+.Budgets::-webkit-scrollbar {
+  width: 12px;
+  background: transparent;
+}
+.Budgets::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgb(15, 119, 147, 0.4);
 }
 .Budgets div {
   display: flex;

@@ -1,0 +1,175 @@
+.Card {
+  box-shadow: 0.5px 0.5px 7px 0 rgb(0,0,0,0.5);
+  margin: 10px;
+  width: 370px;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+  position: relative;
+}
+.Backdrop, .HideBackdrop {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: rgb(0,0,0,0.05);
+  transition: 300ms;
+}
+.HideBackdrop {
+  opacity: 0;
+  visibility: hidden;
+}
+.Title {
+  color: rgb(10, 77, 96);
+  margin: 5px 0 0;
+  word-wrap: break-word;
+}
+.Title2 {
+  margin: 15px 0 20px;
+  font-size: 20px;
+}
+.Curr {
+  color: rgb(26, 171, 152);
+}
+.Goal {
+  color: rgb(10, 77, 96);
+}
+.DateDiv {
+  margin: 20px 0 10px;
+  color: rgb(15, 119, 147);
+  font-weight: bold;
+}
+.Date {
+  background: rgb(18, 152, 189, 0.2);
+  padding: 5px 10px;
+  border-radius: 20px;
+  margin-left: 3px;
+}
+.Date span {
+  margin-right: 10px;
+  position: relative;
+  top: 2.5px;
+}
+.ShowMoreContent {
+  margin: 0 0 30px;
+  transition: max-height 700ms ease-in, opacity 300ms ease-in 200ms;
+  max-height: 2000px;
+}
+.HideMoreContent {
+  opacity: 0;
+  margin: 0 0 30px;
+  max-height: 0;
+  overflow: hidden;
+  transition: 400ms ease-out;
+}
+.BtnDiv {
+  position: relative;
+}
+.Btns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Btns button {
+  margin: 5px;
+}
+.ShowBtn {
+  position: absolute;
+  bottom: 5px;
+  transition: 300ms;
+  padding: 5px;
+  font-size: 14px;
+  background: rgb(15, 119, 147, 0.1);
+  color: rgb(15, 119, 147);
+  cursor: pointer;
+  font-weight: bold;
+  width: 100px;
+  left: calc(50% - 55px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ShowBtn:hover {
+  background: rgb(15, 119, 147, 0.2);
+  transition: 300ms;
+}
+.IconDown, .IconUp, .ExpandIcons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 400ms ease-out;
+  margin-right: 5px;
+  position: relative;
+  top: 2px;
+}
+.ExpandIcons {
+  margin-right: 3px;
+  left: -2px;
+  top: 1px;
+  font-size: 17px;
+}
+.IconUp {
+  top: 0;
+  transform: rotate(180deg);
+}
+.CheckMark {
+  position: absolute;
+  left: 10px;
+  top: 7px;
+  font-size: 22px;
+  color: rgb(26, 171, 152);
+}
+.CurrRate {
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  color: rgb(15, 119, 147);
+  font-weight: 500;
+}
+.Contribs {
+  position: relative;
+  margin-bottom: 10px;
+}
+.AddContribBtn {
+  margin: 25px 0 15px;
+}
+.AddContribBtn button {
+  padding: 5px 8px 5px 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+.PlusIcon {
+  font-size: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 4px;
+}
+.CompleteBtn {
+  margin: 10px 0 40px;
+}
+.CompleteBtn button {
+  padding: 7px;
+}
+@media (min-width: 796px) {
+  .Card {
+    height: 230px;
+    max-height: none;
+  }
+  .Backdrop, .HideBackdrop {
+    display: none;
+  }
+  .CompleteBtn {
+    margin: 10px 0 5px;
+  }
+  .Title {
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

@@ -1,0 +1,49 @@
+.Panel, .HidePanel {
+  position: absolute;
+  top: 70px;
+  left: calc(50% - 185px);
+  width: 350px;
+  height: 340px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  background: white;
+  z-index: 20;
+  padding: 10px;
+  transition: 400ms;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.HidePanel {
+  opacity: 0;
+  transform: scale(0);
+  top: -160px;
+}
+.ShowErr, .HideErr {
+  opacity: 1;
+  transition: opacity 300ms;
+  text-align: center;
+  font-size: 16px;
+  margin: 0 0 20px;
+  height: 24px;
+}
+.HideErr {
+  opacity: 0;
+}
+.Title {
+  color: rgb(10, 77, 96);
+  margin: 35px 0 15px;
+}
+.Title2 {
+  color: rgb(15, 119, 147);
+  margin: 15px 0;
+  padding: 0 10px;
+}
+.Title3 {
+  color: rgb(26, 171, 152);
+  margin: 0;
+  overflow: hidden;
+}
+.Input input {
+  width: 200px;
+  margin: 20px;
+}

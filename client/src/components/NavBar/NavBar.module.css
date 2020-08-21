@@ -100,3 +100,18 @@
     margin-right: 20px;
   }
 }
+@media (max-width: 345px) {
+  .LogoutLink {
+    display: none;
+  }
+  .Title {
+    position: absolute;
+    left: calc(50% - 75px);
+    width: 160px;
+  }
+}
+@media (max-width: 280px) {
+  .Title {
+    display: none;
+  }
+}

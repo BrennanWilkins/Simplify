@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './Inputs.module.css';
 
 export const Input = props => (
-  <input value={props.val} onChange={e => props.change(e.target.value)} className={classes.Input} placeholder={props.ph} />
+  <input value={props.val} onChange={e => props.change(e.target.value)} className={classes.Input} placeholder={props.ph} tabIndex={props.noTab ? -1 : 0} />
 );
 
 export const NumInput = props => {
@@ -17,10 +17,10 @@ export const NumInput = props => {
   };
 
   return (
-    <input value={props.val} onChange={changeHandler} className={classes.Input} placeholder={props.ph} />
+    <input value={props.val} onChange={changeHandler} className={classes.Input} placeholder={props.ph} tabIndex={props.noTab ? -1 : 0} />
   );
 };
 
 export const DateInput = props => (
-  <input type="date" value={props.val} onChange={e => props.change(e.target.value)} className={classes.DateInput} />
+  <input type="date" value={props.val} onChange={e => props.change(e.target.value)} className={classes.DateInput} tabIndex={props.noTab ? -1 : 0} />
 );

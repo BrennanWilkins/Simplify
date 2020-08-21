@@ -2,87 +2,98 @@ import React, { useState, useRef, useEffect } from 'react';
 import classes from './EditGoalPanel.module.css';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import { connect } from 'react-redux';
-import { instance as axios } from '../../axios';
 import * as actions from '../../store/actions/index';
 import GreenBtn from '../UI/GreenBtn/GreenBtn';
-import { NumInput } from '../UI/Inputs/Inputs';
+import { NumInput, DateInput, Input } from '../UI/Inputs/Inputs';
 
 const EditGoalPanel = props => {
-  const panelRef = useRef();
-  const [inputVal, setInputVal] = useState('');
+  const [goalName, setGoalName] = useState('');
+  const [goalVal, setGoalVal] = useState('');
+  const [goalDate, setGoalDate] = useState('');
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-
-  useEffect(() => {
-    if (props.show) { document.addEventListener('mousedown', handleClick); }
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [props.show]);
-
-  useEffect(() => {
-    setInputVal(props.netWorthGoal);
-  }, [props.netWorthGoal, props.show]);
-
-  const handleClick = e => {
-    // close panel on click outside
-    if (panelRef.current.contains(e.target)) { return; }
-    closeHandler();
-  };
+  const panelRef = useRef();
 
   const closeHandler = () => {
-    setInputVal(props.netWorthGoal);
-    errHandler(false);
+    setGoalName('');
+    setGoalVal('');
+    setGoalDate('');
+    setErr(false);
+    setErrMsg('');
     props.close();
   };
 
-  const errHandler = bool => {
-    if (bool) {
-      setErr(true);
-      setErrMsg('Error connecting to the server.');
-    } else {
-      setErr(false);
-      setErrMsg('');
+  useEffect(() => {
+    const handleClick = e => {
+      // close panel on click outside
+      if (panelRef.current.contains(e.target)) { return; }
+      closeHandler();
+    };
+    if (props.show) {
+      document.addEventListener('mousedown', handleClick);
+      // find goal by id and sync state
+      const findGoal = props.otherGoals.find(goal => goal.id === props.id);
+      setGoalName(findGoal.name);
+      setGoalVal(findGoal.goal);
+      setGoalDate(findGoal.date);
     }
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [props.show]);
+
+  const editHelper = goal => {
+    props.editGoal(goal);
+    props.addNotif('Goal updated');
+    closeHandler();
+  };
+
+  const isValid = () => {
+    // returns false if inputs not valid
+    if (goalName === '') {
+      setErr(true);
+      setErrMsg('Please enter a valid name.');
+      return false;
+    }
+    if (goalName.length > 70) {
+      setErr(true);
+      setErrMsg('The goal name must be less than 70 characters.');
+      return false;
+    }
+    if (goalVal === '' || goalVal === 0 || goalVal > 999999999999) {
+      setErr(true);
+      setErrMsg('Please enter a valid goal value.');
+      return false;
+    }
+    return true;
   };
 
   const editHandler = () => {
-    if (inputVal === 0 || inputVal > 999999999999) { return; }
-    if (props.isDemo) {
-      props.setNetWorthGoal(inputVal);
-      props.addNotif('Goal updated');
-      return closeHandler();
-    }
-    axios.put('goals', { goal: inputVal }).then(res => {
-      props.setNetWorthGoal(inputVal);
-      props.addNotif('Goal updated');
-      closeHandler();
-    }).catch(err => { errHandler(true); });
-  };
-
-  const inputValHandler = val => {
-    errHandler(false);
-    setInputVal(val);
+    if (!isValid()) { return; }
+    const goal = { name: goalName, val: goalVal, date: goalDate, id: props.id };
+    if (props.isDemo) { return editHelper(goal); }
   };
 
   return (
     <div ref={panelRef} className={props.show ? classes.Panel : classes.Hide}>
-      <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
-      <div className={classes.Input}><NumInput val={inputVal} change={inputValHandler} /></div>
-      <div className={classes.BtnDiv2}>
-        <GreenBtn clicked={editHandler}>Change</GreenBtn>
+      <CloseBtn close={closeHandler} />
+      <div className={classes.Inputs}>
+        <div>Name<Input val={goalName} change={val => { setGoalName(val); setErr(false); }} /></div>
+        <div>Amount<NumInput val={goalVal} change={val => { setGoalVal(val); setErr(false); }} /></div>
+        <div className={classes.DateInput}>Target date<DateInput val={goalDate} change={val => { setGoalDate(val); setErr(false); }} /></div>
       </div>
       <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+      <div className={classes.BtnDiv}><GreenBtn clicked={editHandler}>Change</GreenBtn></div>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
   isDemo: state.auth.isDemo,
-  netWorthGoal: state.goals.netWorthGoal
+  otherGoals: state.goals.otherGoals
 });
 
 const mapDispatchToProps = dispatch => ({
-  setNetWorthGoal: goal => dispatch(actions.setNetWorthGoal(goal)),
-  addNotif: msg => dispatch(actions.addNotif(msg))
+  addNotif: msg => dispatch(actions.addNotif(msg)),
+  editGoal: goal => dispatch(actions.editGoal(goal))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditGoalPanel);

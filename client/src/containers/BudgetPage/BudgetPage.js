@@ -92,7 +92,7 @@ const BudgetPage = props => {
               </div>
             </div>
             <div className={classes.Budget}>
-              <h1 className={classes.TotalBudget}>Total monthly budget: ${totBudget.toFixed(2)}</h1>
+              <h1 className={classes.TotalBudget}>Total monthly budget: ${Number(totBudget).toFixed(2)}</h1>
               <div className={classes.Btns}>
                 <div className={classes.BtnsBtn}><BlueBtn big noMargin clicked={() => setShowBudgetPanel(true)}>Edit Budget</BlueBtn></div>
                 <div className={classes.BtnsBtn}><BlueBtn big noMargin clicked={() => setShowDeletePanel(true)}>Delete Budget</BlueBtn></div>

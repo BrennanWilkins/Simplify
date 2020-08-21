@@ -11,6 +11,7 @@
   overflow: hidden;
   transition: all 400ms;
   left: calc(50% - 185px);
+  margin-bottom: 20px;
 }
 .HidePanel {
   opacity: 0;

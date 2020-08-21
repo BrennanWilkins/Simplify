@@ -1,6 +1,6 @@
 .Panel, .HidePanel {
-  position: fixed;
-  top: calc(50% - 200px);
+  position: absolute;
+  top: 70px;
   left: calc(50% - 185px);
   width: 350px;
   height: 400px;
@@ -10,25 +10,13 @@
   z-index: 20;
   padding: 10px;
   overflow: hidden;
-  transition: all 400ms;
+  transition: 400ms;
+  margin-bottom: 20px;
 }
 .HidePanel {
   opacity: 0;
   transform: scale(0);
-}
-.Backdrop {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  height: calc(100% - 70px);
-  width: 100%;
-  background: rgb(0, 0, 0, 0.15);
-  transition: 400ms;
-  z-index: 10;
-}
-.HideBackdrop {
-  opacity: 0;
-  visibility: hidden;
+  top: -190px;
 }
 .BtnsDiv {
   width: 150px;
@@ -92,6 +80,19 @@
   overflow: auto;
   width: 100%;
   background: rgb(18, 152, 189, 0.05);
+  border-radius: 3px;
+}
+.Examples::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f3f3f3;
+}
+.Examples::-webkit-scrollbar {
+  width: 12px;
+  background-color: white;
+}
+.Examples::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #dbdbdb;
 }
 .Examples p {
   margin: 15px 0;
@@ -124,9 +125,10 @@
   margin-top: 30px;
 }
 .ShowErrMsg, .HideErrMsg {
-  margin: 50px 0 0;
+  margin: 100px 0 0;
   transition: 300ms;
   cursor: default;
+  font-weight: bold;
 }
 .HideErrMsg {
   opacity: 0;

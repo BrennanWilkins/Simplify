@@ -8,15 +8,15 @@ const SideNav = props => {
   const navRef = useRef();
 
   useEffect(() => {
+    const handleClick = e => {
+      // close side nav on outside click
+      if (navRef.current.contains(e.target)) { return; }
+      props.close();
+    };
+
     if (props.show) { document.addEventListener('mousedown', handleClick); }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.show]);
-
-  const handleClick = e => {
-    // close side nav on outside click
-    if (navRef.current.contains(e.target)) { return; }
-    props.close();
-  };
 
   return (
     <div ref={navRef} className={props.show ? classes.SideNav : classes.HideSideNav}>

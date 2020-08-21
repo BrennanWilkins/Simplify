@@ -13,19 +13,20 @@ const DeletePanel = props => {
     if (text === 'DELETE') { props.delete(); }
   };
 
-  const handleClick = e => {
-    // close panel on click outside
-    if (panelRef.current.contains(e.target)) { return; }
-    props.close();
-  };
-
   useEffect(() => {
+    const handleClick = e => {
+      // close panel on click outside
+      if (panelRef.current.contains(e.target)) { return; }
+      props.close();
+    };
+
     if (props.show) { document.addEventListener('mousedown', handleClick); }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.show]);
 
   return (
-    <div className={props.showUp ? (props.show ? classes.PanelUp : classes.HideUp) : (props.show ? classes.PanelDown : classes.HideDown)} ref={panelRef}>
+    <div ref={panelRef} className={props.mode === 'goal' ? (props.show ? classes.GoalPanel : classes.HideDown) :
+      (props.showUp ? (props.show ? classes.PanelUp : classes.HideUp) : (props.show ? classes.PanelDown : classes.HideDown))}>
       <div className={classes.CloseBtn}><CloseBtn close={props.close} /></div>
       <p className={classes.Title}>Please type 'DELETE' to delete your {props.mode}.</p>
       <div className={classes.Input}><Input val={text} change={val => setText(val)} /></div>

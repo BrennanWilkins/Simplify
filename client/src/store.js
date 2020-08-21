@@ -2,7 +2,7 @@ import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import authReducer from './store/reducers/auth';
 import netWorthReducer from './store/reducers/netWorth';
 import portfolioReducer from './store/reducers/portfolio';
-import goalReducer from './store/reducers/goal';
+import goalReducer from './store/reducers/goals';
 import budgetReducer from './store/reducers/budget';
 import notifsReducer from './store/reducers/notifications';
 import thunk from 'redux-thunk';

@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './BudgetBars.module.css';
+import { formatNum } from '../../utils/formatNum';
 
 const BudgetBars = props => {
   let budgetWidth = ((props.budget.budget - props.budget.remaining) / props.budget.budget) * 300;
@@ -25,7 +26,7 @@ const BudgetBars = props => {
         </div>
       </div>
       <span className={props.small ? classes.SmallBudgetVal : classes.BudgetVal}>
-        ${Number(Number(props.budget.budget).toFixed(2)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        ${formatNum(props.budget.budget)}
       </span>
     </React.Fragment>
   );

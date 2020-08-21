@@ -6,7 +6,7 @@
   position: relative;
 }
 .Title h1 {
-  margin: 10px 0 0;
+  margin: 20px 0 15px;
   color: rgb(10, 77, 96);
 }
 .Title span {
@@ -27,7 +27,7 @@
 .ShowInfo, .HideInfo {
   font-size: 16px;
   width: 400px;
-  margin: 10px auto;
+  top: 45px;
   position: absolute;
   background: white;
   border-radius: 3px;

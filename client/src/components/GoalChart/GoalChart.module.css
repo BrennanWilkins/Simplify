@@ -1,22 +1,26 @@
 .ChartContainer {
-  height: 400px;
-  width: 400px;
-  margin-bottom: 20px;
+  height: 330px;
+  width: 330px;
   position: relative;
   z-index: 1;
+  margin: 5px auto 20px;
+  text-align: center;
+  color: rgb(26, 171, 152);
 }
 .SmallChartContainer {
   height: 200px;
   width: 200px;
   position: relative;
   z-index: 1;
+  text-align: center;
+  color: rgb(26, 171, 152);
 }
 .ChartContainer a, .SmallChartContainer a {
   display: none;
 }
 .Block {
   position: absolute;
-  background: white;
+  background: rgb(184, 217, 226);
   width: 100px;
   height: 20px;
   bottom: 0;
@@ -24,19 +28,19 @@
 }
 .SmallChartContainer .Block {
   width: 59px;
+  background: white;
 }
-.ChartContainer h1, .SmallChartContainer h1 {
+.ChartContainer h1 {
   position: absolute;
-  top: calc(50% - 40px);
-  left: calc(50% - 125px);
-  width: 250px;
-  height: 200px;
-  text-align: center;
-  color: rgb(26, 171, 152);
+  width: 190px;
+  left: calc(50% - 95px);
+  top: 130px;
   margin: 0;
-  font-size: 26px;
+  font-size: 20px;
 }
 .SmallChartContainer h1 {
+  position: absolute;
+  margin: 0;
   font-size: 14px;
   height: 50px;
   width: 120px;

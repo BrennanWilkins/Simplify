@@ -1,9 +1,5 @@
 .Panel, .HidePanel {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
   position: absolute;
-  top: calc(50% - 300px);
   left: calc(50% - 185px);
   width: 350px;
   height: 600px;
@@ -12,12 +8,35 @@
   background: white;
   z-index: 100;
   padding: 10px;
-  overflow: hidden;
   transition: all 400ms;
+  top: 80px;
+  box-sizing: border-box;
+  max-width: 370px;
+  max-height: 620px;
+  width: 90%;
+  height: calc(98% - 80px);
+  overflow: auto;
+}
+@media (max-width: 410px) {
+  .Panel {
+    left: 5%;
+  }
+  .TopDiv {
+    box-sizing: border-box;
+    padding: 0 10px;
+  }
 }
 .HidePanel {
   opacity: 0;
   transform: scale(0);
+}
+.InnerPanel {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  width: 350px;
+  height: 600px;
 }
 .TopDiv {
   width: 100%;
@@ -139,14 +158,4 @@
 }
 .P3 {
   margin: 0 0 6px;
-}
-@media (max-width: 369px) {
-  .Panel {
-    transform: scale(0.9);
-  }
-}
-@media (max-width: 334px) {
-  .Panel {
-    transform: scale(0.8);
-  }
 }

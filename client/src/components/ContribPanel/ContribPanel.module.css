@@ -1,24 +1,24 @@
 .Panel, .Hide {
   position: absolute;
-  top: -270px;
-  width: 300px;
-  height: 250px;
+  top: 40px;
+  width: 270px;
+  height: 200px;
   border-radius: 3px;
   box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
   background: white;
   z-index: 2;
   padding: 10px;
   overflow: hidden;
-  left: calc(50% - 160px);
+  left: calc(50% - 145px);
   transition: all 400ms;
 }
 .Hide {
   opacity: 0;
-  top: -110px;
+  top: -100px;
   transform: scale(0);
 }
 .Inputs {
-  margin: 35px 0 12px;
+  margin: 40px 0 10px;
 }
 .Inputs div {
   margin: 15px 0;
@@ -35,9 +35,8 @@
   opacity: 1;
   transition: opacity 300ms;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   height: 24px;
-  margin-bottom: 22px;
 }
 .HideErr {
   opacity: 0;

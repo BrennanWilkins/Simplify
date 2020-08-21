@@ -1,8 +1,8 @@
-.PanelUp, .PanelDown, .HideUp, .HideDown {
+.PanelUp, .PanelDown, .HideUp, .HideDown, .GoalPanel, .HideGoalPanel {
   position: absolute;
-  top: -250px;
+  top: -240px;
   width: 250px;
-  height: 200px;
+  height: 190px;
   border-radius: 3px;
   box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
   background: white;
@@ -11,14 +11,18 @@
   overflow: hidden;
   left: calc(50% - 135px);
   transition: 400ms;
+  margin-bottom: 20px;
 }
-.PanelDown, .HideDown {
+.PanelDown {
   top: 50px;
 }
 .HideUp, .HideDown {
   opacity: 0;
-  top: -90px;
+  top: -80px;
   transform: scale(0);
+}
+.GoalPanel {
+  top: -210px;
 }
 .Title {
   margin-top: 35px;

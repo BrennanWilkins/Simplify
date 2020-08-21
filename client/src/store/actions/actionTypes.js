@@ -21,6 +21,11 @@ export const UPDATE_ASSETS = 'UPDATE_ASSETS';
 export const UPDATE_DEBTS = 'UPDATE_DEBTS';
 
 export const SET_NET_WORTH_GOAL = 'SET_NET_WORTH_GOAL';
+export const ADD_NEW_GOAL = 'ADD_NEW_GOAL';
+export const EDIT_GOAL = 'EDIT_GOAL';
+export const UPDATE_COMPLETE = 'UPDATE_COMPLETE';
+export const ADD_CONTRIB = 'ADD_CONTRIB';
+export const DELETE_GOAL = 'DELETE_GOAL';
 
 export const SET_NEW_BUDGET = 'SET_NEW_BUDGET';
 export const SET_BUDGET = 'SET_BUDGET';
