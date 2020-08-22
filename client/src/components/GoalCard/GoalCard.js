@@ -57,30 +57,47 @@ const GoalCard = props => {
     props.setNetWorthGoal(null);
     props.addNotif('Goal deleted');
     setShowDelete(false);
+    setShowMore(false);
   };
 
   const deleteHelper = () => {
-    props.deleteGoal(props.id);
     props.addNotif('Goal deleted');
     setShowDelete(false);
+    setShowMore(false);
   };
 
   const deleteHandler = () => {
     if (props.isNW) {
+      // delete net worth goal
       if (props.isDemo) { return deleteNWHelper(); }
-      axios.delete('goals').then(res => { deleteNWHelper(); }).catch(err => { return; });
+      axios.delete('goals/netWorthGoal').then(res => { deleteNWHelper(); }).catch(err => { return; });
     } else {
-      if (props.isDemo) { return deleteHelper(); }
+      // delete other goal
+      if (props.isDemo) {
+        props.deleteGoal(props._id);
+        return deleteHelper();
+      }
+      axios.delete('goals/otherGoals/' + props._id).then(res => {
+        props.setOtherGoals(res.data.goals);
+        deleteHelper();
+      }).catch(err => { return; });
     }
   };
 
   const completeHelper = () => {
-    props.updateComplete(props.id);
+    // props.updateComplete(props._id);
     props.addNotif('Goal updated');
   };
 
   const completeHandler = () => {
-    if (props.isDemo) { return completeHelper(); }
+    if (props.isDemo) {
+      props.updateComplete(props._id);
+      return completeHelper();
+    }
+    axios.put('goals/otherGoals/updateComplete', { _id: props._id }).then(res => {
+      props.setOtherGoals(res.data.goals);
+      completeHelper();
+    }).catch(err => { return; });
   };
 
   const showHandler = target => {
@@ -101,7 +118,7 @@ const GoalCard = props => {
             </GreenBtn>
           </div>
           <ContribChart data={props.contributions} blue={width > 795} />
-          <ContribPanel show={showAddContrib} close={() => setShowAddContrib(false)} id={props.id} isDemo={props.isDemo} />
+          <ContribPanel show={showAddContrib} close={() => setShowAddContrib(false)} _id={props._id} isDemo={props.isDemo} />
         </div>}
       <div className={classes.CurrRate}>{reachDate}</div>
       <div className={classes.BtnDiv}>
@@ -111,7 +128,7 @@ const GoalCard = props => {
         </div>
         {props.isNW ?
           <EditNWGoalPanel show={showEdit} close={() => setShowEdit(false)} goal={props.goal} /> :
-          <EditGoalPanel show={showEdit} close={() => setShowEdit(false)} id={props.id} />}
+          <EditGoalPanel show={showEdit} close={() => setShowEdit(false)} _id={props._id} />}
         <DeletePanel showUp={true} show={showDelete} mode="goal" close={() => setShowDelete(false)} delete={deleteHandler} />
       </div>
       {!props.isNW &&
@@ -156,7 +173,8 @@ const mapDispatchToProps = dispatch => ({
   setNetWorthGoal: goal => dispatch(actions.setNetWorthGoal(goal)),
   addNotif: msg => dispatch(actions.addNotif(msg)),
   updateComplete: id => dispatch(actions.updateComplete(id)),
-  deleteGoal: id => dispatch(actions.deleteGoal(id))
+  deleteGoal: id => dispatch(actions.deleteGoal(id)),
+  setOtherGoals: goals => dispatch(actions.setOtherGoals(goals))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GoalCard);

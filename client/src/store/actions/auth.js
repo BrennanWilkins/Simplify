@@ -26,7 +26,7 @@ export const logout = () => dispatch => {
   dispatch(logoutDispatch());
   dispatch(actions.resetPortfolio());
   dispatch(actions.resetNetWorth());
-  dispatch(actions.setNetWorthGoal(null));
+  dispatch(actions.resetGoals());
   dispatch(actions.deleteBudget());
   dispatch(endLoading());
 };
@@ -60,7 +60,10 @@ export const autoLogin = () => dispatch => {
     instance.put('netWorth', { netWorthData: updatedNetWorth }).then(resp => {
       dispatch(actions.setNetWorthData(resp.data.result.dataPoints));
       dispatch(actions.setPortfolio(calcPortfolioValue(res.data.portfolio)));
-      if (res.data.goal) { dispatch(actions.setNetWorthGoal(res.data.goal)); }
+      let NWGoal = Number(res.data.goals.netWorthGoal);
+      NWGoal = NWGoal === 0 ? null : NWGoal;
+      dispatch(actions.setNetWorthGoal(NWGoal));
+      dispatch(actions.setOtherGoals(res.data.goals.otherGoals));
       if (res.data.budgets) { dispatch(actions.setBudget(res.data.budgets)); }
       dispatch(endLoading());
       dispatch(removeError());

@@ -41,7 +41,7 @@ const AuthPanel = props => {
     }
   }, [props.demoError]);
 
-  const showErr = (msg) => {
+  const showErr = msg => {
     setErr(true);
     setLoading(false);
     setErrMsg(msg);
@@ -76,15 +76,16 @@ const AuthPanel = props => {
 
   const signupHandler = () => {
     setLoading(true);
-    axios.post('signup', { email, password, confirmPassword: confPass, remember }).then(res => {
+    axios.post('signup', { email, password, confirmPassword: confPass, remember })
+    .then(res => {
       successHandler(res.data);
     }).catch(err => {
       if (err.response) { return showErr(err.response.data.msg); }
-      showErr('Error signing up.');
+      showErr('There was an error signing up.');
     });
   };
 
-  const successHandler = (data) => {
+  const successHandler = data => {
     instance.defaults.headers.common['x-auth-token'] = data.token;
     if (remember) {
       localStorage['token'] = data.token;
@@ -101,17 +102,15 @@ const AuthPanel = props => {
     if (props.mode === 'Login') {
       instance.put('netWorth', { netWorthData: updatedNetWorth }).then(res => {
         props.setNetWorthData(res.data.result.dataPoints);
-      }).catch(err => {
-        setErr(true);
-        setErrMsg('Error connecting to the server.');
-        setLoading(false);
-        return;
-      });
+      }).catch(err => { return showErr('There was an error logging in.'); });
+      const NWGoal = Number(data.goals.netWorthGoal);
+      if (NWGoal === 0) { props.setNetWorthGoal(null); }
+      else { props.setNetWorthGoal(NWGoal); }
+      props.setOtherGoals(data.goals.otherGoals);
     } else {
       props.setNetWorthData(data.netWorth.dataPoints);
     }
     props.setPortfolio(calcPortfolioValue(data.portfolio));
-    if (data.goal) { props.setNetWorthGoal(data.goal); }
     if (data.budgets) { props.setBudget(data.budgets); }
     reset();
     props.login();
@@ -204,7 +203,8 @@ const mapDispatchToProps = dispatch => ({
   setPortfolio: data => dispatch(actions.setPortfolio(data)),
   setNetWorthGoal: goal => dispatch(actions.setNetWorthGoal(goal)),
   setBudget: budget => dispatch(actions.setBudget(budget)),
-  loadDemo: () => dispatch(actions.loadDemo())
+  loadDemo: () => dispatch(actions.loadDemo()),
+  setOtherGoals: goals => dispatch(actions.setOtherGoals(goals))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPanel);

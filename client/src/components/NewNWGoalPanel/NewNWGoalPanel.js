@@ -50,7 +50,7 @@ const NewNWGoalPanel = props => {
       return setErrMsg('Please enter a valid goal.');
     }
     if (props.isDemo) { return createHelper(); }
-    axios.post('goals', { goal: goalVal }).then(res => {
+    axios.put('goals/netWorthGoal', { goal: goalVal }).then(res => {
       createHelper();
     }).catch(err => {
       setErr(true);

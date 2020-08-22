@@ -6,6 +6,7 @@ import { arrowRight } from '../UI/UIIcons';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import { v4 as uuid } from 'uuid';
+import { instance as axios } from '../../axios';
 
 class NewGoalPanel extends React.Component {
   state = {
@@ -81,21 +82,26 @@ class NewGoalPanel extends React.Component {
     return true;
   }
 
-  createHelper = goal => {
-    this.props.addNewGoal(goal);
+  createHelper = () => {
     this.props.addNotif('Goal created');
     this.closeHandler();
   }
 
   createHandler = () => {
     if (!this.isValid()) { return; }
-    const goal = { name: this.state.goalName, goal: this.state.goalVal, date: this.state.goalDate, id: '', contributions: [], isComplete: false };
+    const goal = { name: this.state.goalName, goal: this.state.goalVal, date: this.state.goalDate, contributions: [], isComplete: false };
     if (this.props.isDemo) {
       // if in demo mode create id using uuid, if logged in then mongoDB id used
-      goal.id = uuid();
-      return this.createHelper(goal);
+      goal._id = uuid();
+      this.props.addNewGoal(goal);
+      return this.createHelper();
     }
-
+    axios.post('goals/otherGoals', { goal }).then(res => {
+      this.props.setOtherGoals(res.data.goals);
+      this.createHelper();
+    }).catch(err => {
+      this.setState({ err: true, errMsg: 'Error connecting to the server.' });
+    });
   }
 
   render() {
@@ -147,7 +153,8 @@ class NewGoalPanel extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   addNewGoal: goal => dispatch(actions.addNewGoal(goal)),
-  addNotif: msg => dispatch(actions.addNotif(msg))
+  addNotif: msg => dispatch(actions.addNotif(msg)),
+  setOtherGoals: goals => dispatch(actions.setOtherGoals(goals))
 });
 
 export default connect(null, mapDispatchToProps)(NewGoalPanel);

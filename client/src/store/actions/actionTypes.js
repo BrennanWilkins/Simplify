@@ -26,6 +26,8 @@ export const EDIT_GOAL = 'EDIT_GOAL';
 export const UPDATE_COMPLETE = 'UPDATE_COMPLETE';
 export const ADD_CONTRIB = 'ADD_CONTRIB';
 export const DELETE_GOAL = 'DELETE_GOAL';
+export const RESET_GOALS = 'RESET_GOALS';
+export const SET_OTHER_GOALS = 'SET_OTHER_GOALS';
 
 export const SET_NEW_BUDGET = 'SET_NEW_BUDGET';
 export const SET_BUDGET = 'SET_BUDGET';

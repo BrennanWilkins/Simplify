@@ -35,7 +35,7 @@ router.post('/login',
       const portfolio = await Portfolio.findOne({ userId: user._id }).lean();
       const netWorth = await NetWorth.findOne({ userId: user._id });
       if (!netWorth || !portfolio) { return res.status(404).json({ msg: 'Could not retrieve user data.' }); }
-      const goal = await Goals.findOne({ userId: user._id });
+      const goals = await Goals.findOne({ userId: user._id }).lean();
       const budgets = await Budgets.findOne({ userId: user._id });
       const updatedStocks = [...portfolio.stocks];
       const promises = updatedStocks.map(stock => yf.quote({ symbol: stock.symbol, modules: ['price'] }));
@@ -64,16 +64,14 @@ router.post('/login',
         return { ...crypto, price: matchingCrypto.price };
       }).concat([...portfolio.manualCryptos]);
       const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
-      if (!goal && !budgets) { return res.status(200).json({ token, portfolio: updatedPortfolio, netWorth }); }
-      if (goal && !budgets) { return res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal }); }
+      if (!budgets) { return res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, goals }); }
       // if its a new month then reset all budget transactions
       if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
         budgets.date = String(new Date());
         for (let budget of budgets.budgets) { budget.transactions = []; }
         await budgets.save();
       }
-      if (!goal) { return res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets }); }
-      res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets, goal: goal.netWorthGoal });
+      res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets, goals });
     } catch(e) { res.status(500).json({ msg: 'There was an error logging in.' }); }
 });
 
@@ -98,6 +96,8 @@ router.post('/signup',
       const portfolio = await newPortfolio.save();
       const newNetWorth = new NetWorth({ dataPoints: [{ date: new Date(), value: 0}], userId: newUser._id });
       const netWorth = await newNetWorth.save();
+      const newGoals = new Goals({ netWorthGoal: 0, otherGoals: [], userId: newUser._id });
+      await newGoals.save();
       // update cryptos if last updated >1hr ago else return the cryptos
       const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
       if (new Date(cryptos.date).getTime() - new Date().getTime() >= 3600000) {
@@ -117,7 +117,7 @@ router.get('/autoLogin', auth, async (req, res) => {
     const portfolio = await Portfolio.findOne({ userId: req.userId }).lean();
     const netWorth = await NetWorth.findOne({ userId: req.userId });
     if (!portfolio || !netWorth) { throw 'could not retrieve user data.'; }
-    const goal = await Goals.findOne({ userId: req.userId });
+    const goals = await Goals.findOne({ userId: req.userId }).lean();
     const budgets = await Budgets.findOne({ userId: req.userId });
     const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
     const updatedStocks = [...portfolio.stocks];
@@ -145,16 +145,14 @@ router.get('/autoLogin', auth, async (req, res) => {
       return { ...crypto, price: matchingCrypto.price };
     }).concat([...portfolio.manualCryptos]);
     const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
-    if (!goal && !budgets) { return res.status(200).json({ portfolio: updatedPortfolio, netWorth }); }
-    if (goal && !budgets) { return res.status(200).json({ portfolio: updatedPortfolio, netWorth, goal: goal.netWorthGoal }); }
+    if (!budgets) { return res.status(200).json({ portfolio: updatedPortfolio, netWorth, goals }); }
     // if new month then reset budget transactions
     if (new Date().getMonth() !== new Date(budgets.date).getMonth()) {
       budgets.date = String(new Date());
       for (let budget of budgets.budgets) { budget.transactions = []; }
       await budgets.save();
     }
-    if (!goal) { return res.status(200).json({ portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets }); }
-    res.status(200).json({ portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets, goal: goal.netWorthGoal });
+    res.status(200).json({ portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets, goals });
   } catch(e) { res.sendStatus(500); }
 });
 

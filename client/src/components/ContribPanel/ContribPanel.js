@@ -5,6 +5,7 @@ import GreenBtn from '../UI/GreenBtn/GreenBtn';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
+import { instance as axios } from '../../axios';
 
 const ContribPanel = props => {
   const panelRef = useRef();
@@ -44,17 +45,29 @@ const ContribPanel = props => {
     props.close();
   };
 
-  const addHelper = contrib => {
-    props.addContrib(contrib, props.id);
+  const addHelper = () => {
     props.addNotif('Contribution added');
     closeHandler();
   };
 
   const addHandler = () => {
     // validate inputs
-    if (contribVal === 0 || contribVal === '' || contribDate === '') { setErr(true); return setErrMsg('Please enter a valid value.'); }
+    if (contribVal === 0 || contribVal === '' || contribDate === '') {
+      setErr(true);
+      return setErrMsg('Please enter a valid value.');
+    }
     const contrib = { val: contribVal, date: contribDate };
-    if (props.isDemo) { return addHelper(contrib); }
+    if (props.isDemo) {
+      props.addContrib(contrib, props._id);
+      return addHelper();
+    }
+    axios.put('goals/otherGoals/addContrib', { contrib, _id: props._id }).then(res => {
+      props.setOtherGoals(res.data.goals);
+      addHelper();
+    }).catch(err => {
+      setErr(true);
+      setErrMsg('Error connecting to the server.');
+    });
   };
 
   return (
@@ -72,7 +85,8 @@ const ContribPanel = props => {
 
 const mapDispatchToProps = dispatch => ({
   addNotif: msg => dispatch(actions.addNotif(msg)),
-  addContrib: (contrib, id) => dispatch(actions.addContrib(contrib, id))
+  addContrib: (contrib, id) => dispatch(actions.addContrib(contrib, id)),
+  setOtherGoals: goals => dispatch(actions.setOtherGoals(goals))
 });
 
 export default connect(null, mapDispatchToProps)(ContribPanel);

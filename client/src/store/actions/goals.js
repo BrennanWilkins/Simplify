@@ -11,3 +11,7 @@ export const updateComplete = id => ({ type: actionTypes.UPDATE_COMPLETE, id });
 export const addContrib = (contrib, id) => ({ type: actionTypes.ADD_CONTRIB, contrib, id });
 
 export const deleteGoal = id => ({ type: actionTypes.DELETE_GOAL, id });
+
+export const resetGoals = () => ({ type: actionTypes.RESET_GOALS });
+
+export const setOtherGoals = goals => ({ type: actionTypes.SET_OTHER_GOALS, goals });

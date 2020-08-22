@@ -57,7 +57,7 @@ const EditNWGoalPanel = props => {
       return setErrMsg('Please enter a valid goal.');
     }
     if (props.isDemo) { return editHelper(); }
-    axios.put('goals', { goal: inputVal }).then(res => { editHelper(); })
+    axios.put('goals/netWorthGoal', { goal: inputVal }).then(res => { editHelper(); })
     .catch(err => { errHandler(true); });
   };
 

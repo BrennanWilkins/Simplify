@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import GreenBtn from '../UI/GreenBtn/GreenBtn';
 import { NumInput, DateInput, Input } from '../UI/Inputs/Inputs';
+import { instance as axios } from '../../axios';
 
 const EditGoalPanel = props => {
   const [goalName, setGoalName] = useState('');
@@ -32,19 +33,13 @@ const EditGoalPanel = props => {
     if (props.show) {
       document.addEventListener('mousedown', handleClick);
       // find goal by id and sync state
-      const findGoal = props.otherGoals.find(goal => goal.id === props.id);
+      const findGoal = props.otherGoals.find(goal => goal._id === props._id);
       setGoalName(findGoal.name);
       setGoalVal(findGoal.goal);
       setGoalDate(findGoal.date);
     }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [props.show]);
-
-  const editHelper = goal => {
-    props.editGoal(goal);
-    props.addNotif('Goal updated');
-    closeHandler();
-  };
 
   const isValid = () => {
     // returns false if inputs not valid
@@ -66,10 +61,22 @@ const EditGoalPanel = props => {
     return true;
   };
 
+  const editHelper = () => {
+    props.addNotif('Goal updated');
+    closeHandler();
+  };
+
   const editHandler = () => {
     if (!isValid()) { return; }
-    const goal = { name: goalName, val: goalVal, date: goalDate, id: props.id };
-    if (props.isDemo) { return editHelper(goal); }
+    const goal = { name: goalName, val: goalVal, date: goalDate, _id: props._id };
+    if (props.isDemo) {
+      props.editGoal(goal);
+      return editHelper();
+    }
+    axios.put('goals/otherGoals', { goal }).then(res => {
+      props.setOtherGoals(res.data.goals);
+      editHelper();
+    }).catch(err => { setErr(true); setErrMsg('Error connecting to the server.'); });
   };
 
   return (
@@ -93,7 +100,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   addNotif: msg => dispatch(actions.addNotif(msg)),
-  editGoal: goal => dispatch(actions.editGoal(goal))
+  editGoal: goal => dispatch(actions.editGoal(goal)),
+  setOtherGoals: goals => dispatch(actions.setOtherGoals(goals))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditGoalPanel);

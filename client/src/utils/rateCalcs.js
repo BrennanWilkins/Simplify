@@ -3,6 +3,7 @@ import { formatNum } from './formatNum';
 export const calcNWRate = (data, goal) => {
   if (data.length === 0) { return ''; }
   let currVal = data[data.length - 1].value;
+  if (currVal <= 0) { return ''; }
   if (Number(currVal) === Number(goal)) { return `You've reached your net worth goal!`; }
   if (currVal > goal) {
     // goal reached, show overflow amount

@@ -10,7 +10,10 @@ const DeletePanel = props => {
 
   const deleteHandler = () => {
     // delete only if user types DELETE
-    if (text === 'DELETE') { props.delete(); }
+    if (text === 'DELETE') {
+      setText('');
+      props.delete();
+    }
   };
 
   useEffect(() => {
