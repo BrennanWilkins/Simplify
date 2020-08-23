@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './BudgetPanel.module.css';
 import { connect } from 'react-redux';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
@@ -6,27 +6,19 @@ import { instance as axios } from '../../axios';
 import * as actions from '../../store/actions/index';
 import { Input, NumInput } from '../UI/Inputs/Inputs';
 import { v4 as uuid } from 'uuid';
+import PanelContainer from '../PanelContainer/PanelContainer';
 
 const BudgetPanel = props => {
   const [budgets, setBudgets] = useState([]);
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const panelRef = useRef();
 
   useEffect(() => {
     // sync state to props
     if (props.show) {
       setBudgets(props.budget.map(budget => ({ ...budget, id: uuid() })));
-      document.addEventListener('mousedown', handleClick);
     }
-    return () => document.removeEventListener('mousedown', handleClick);
   }, [props.show, props.budget]);
-
-  const handleClick = e => {
-    // closes panel if click outside
-    if (panelRef.current.contains(e.target)) { return; }
-    closeHandler();
-  };
 
   const closeHandler = () => {
     errHandler(false);
@@ -107,21 +99,23 @@ const BudgetPanel = props => {
   };
 
   return (
-    <div className={props.showUp ? (props.show ? classes.PanelUp : classes.HidePanelUp) : (props.show ? classes.PanelDown : classes.HidePanelDown)} ref={panelRef}>
-      <div><CloseBtn close={closeHandler} /></div>
-      <div className={classes.Budgets}>
-        {budgets.map(budget => (
-          <div key={budget.id}>
-            <Input val={budget.category} change={val => categValHandler(val, budget.id)} />
-            <NumInput val={budget.budget} change={val => budgetValHandler(val, budget.id)} />
-            <CloseBtn close={() => deleteOneHandler(budget.id)} />
-          </div>
-        ))}
-        <div className={classes.AddBtn}><button onClick={addHandler}>Add a new category</button></div>
+    <PanelContainer show={props.show} close={closeHandler}>
+      <div className={props.showUp ? (props.show ? classes.PanelUp : classes.HidePanelUp) : (props.show ? classes.PanelDown : classes.HidePanelDown)}>
+        <div><CloseBtn close={closeHandler} /></div>
+        <div className={classes.Budgets}>
+          {budgets.map(budget => (
+            <div key={budget.id}>
+              <Input val={budget.category} change={val => categValHandler(val, budget.id)} />
+              <NumInput val={budget.budget} change={val => budgetValHandler(val, budget.id)} />
+              <CloseBtn close={() => deleteOneHandler(budget.id)} />
+            </div>
+          ))}
+          <div className={classes.AddBtn}><button onClick={addHandler}>Add a new category</button></div>
+        </div>
+        <div className={classes.ConfirmBtn}><button onClick={confirmHandler}>Confirm</button></div>
+        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
-      <div className={classes.ConfirmBtn}><button onClick={confirmHandler}>Confirm</button></div>
-      <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-    </div>
+    </PanelContainer>
   );
 };
 

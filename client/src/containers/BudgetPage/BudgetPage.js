@@ -73,7 +73,7 @@ const BudgetPage = props => {
 
   // get total budget to display
   let totBudget = 0;
-  for (let budg of props.budget) { totBudget += budg.budget; }
+  for (let budg of props.budget) { totBudget += Number(budg.budget); }
 
   return (
     <div className={classes.Container}>

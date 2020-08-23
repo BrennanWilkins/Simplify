@@ -12,6 +12,7 @@ const GoalChart = props => {
   if (percReached < 100 && percReached > 99.99) { percReached = 99.99; }
   // stops tracking after 100% of goal reached
   else if (percReached > 100) { percReached = 'over 100'; }
+  else if (percReached < -100) { percReached = 'over -100'; }
   else { percReached = percReached.toFixed(2); }
 
   const dataPoints = [{ name: 'Current Net Worth', y: netWorthVal, color: 'rgb(26, 171, 152)' }];

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './EditGoalPanel.module.css';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import { connect } from 'react-redux';
@@ -6,6 +6,7 @@ import * as actions from '../../store/actions/index';
 import GreenBtn from '../UI/GreenBtn/GreenBtn';
 import { NumInput, DateInput, Input } from '../UI/Inputs/Inputs';
 import { instance as axios } from '../../axios';
+import PanelContainer from '../PanelContainer/PanelContainer';
 
 const EditGoalPanel = props => {
   const [goalName, setGoalName] = useState('');
@@ -13,7 +14,6 @@ const EditGoalPanel = props => {
   const [goalDate, setGoalDate] = useState('');
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const panelRef = useRef();
 
   const closeHandler = () => {
     setGoalName('');
@@ -25,20 +25,13 @@ const EditGoalPanel = props => {
   };
 
   useEffect(() => {
-    const handleClick = e => {
-      // close panel on click outside
-      if (panelRef.current.contains(e.target)) { return; }
-      closeHandler();
-    };
     if (props.show) {
-      document.addEventListener('mousedown', handleClick);
       // find goal by id and sync state
       const findGoal = props.otherGoals.find(goal => goal._id === props._id);
       setGoalName(findGoal.name);
       setGoalVal(findGoal.goal);
       setGoalDate(findGoal.date);
     }
-    return () => document.removeEventListener('mousedown', handleClick);
   }, [props.show]);
 
   const isValid = () => {
@@ -80,16 +73,18 @@ const EditGoalPanel = props => {
   };
 
   return (
-    <div ref={panelRef} className={props.show ? classes.Panel : classes.Hide}>
-      <CloseBtn close={closeHandler} />
-      <div className={classes.Inputs}>
-        <div>Name<Input val={goalName} change={val => { setGoalName(val); setErr(false); }} /></div>
-        <div>Amount<NumInput val={goalVal} change={val => { setGoalVal(val); setErr(false); }} /></div>
-        <div className={classes.DateInput}>Target date<DateInput val={goalDate} change={val => { setGoalDate(val); setErr(false); }} /></div>
+    <PanelContainer show={props.show} close={closeHandler}>
+      <div className={props.show ? classes.Panel : classes.Hide}>
+        <CloseBtn close={closeHandler} />
+        <div className={classes.Inputs}>
+          <div>Name<Input val={goalName} change={val => { setGoalName(val); setErr(false); }} /></div>
+          <div>Amount<NumInput val={goalVal} change={val => { setGoalVal(val); setErr(false); }} /></div>
+          <div className={classes.DateInput}>Target date<DateInput val={goalDate} change={val => { setGoalDate(val); setErr(false); }} /></div>
+        </div>
+        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        <div className={classes.BtnDiv}><GreenBtn clicked={editHandler}>Change</GreenBtn></div>
       </div>
-      <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-      <div className={classes.BtnDiv}><GreenBtn clicked={editHandler}>Change</GreenBtn></div>
-    </div>
+    </PanelContainer>
   );
 };
 

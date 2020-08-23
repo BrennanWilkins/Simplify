@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import classes from './SettingsPanel.module.css';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import '../UI/ReactSelectStyles.css';
@@ -9,6 +9,7 @@ import { instance as axios } from '../../axios';
 import { calcNetWorth } from '../../utils/valueCalcs';
 import BlueBtn from '../UI/BlueBtn/BlueBtn';
 import { NumInput } from '../UI/Inputs/Inputs';
+import PanelContainer from '../PanelContainer/PanelContainer';
 
 const originalSelected = { name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Manual' };
 
@@ -19,18 +20,6 @@ const SettingsPanel = props => {
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [showInput, setShowInput] = useState(false);
-  const panelRef = useRef();
-
-  useEffect(() => {
-    if (props.show) { document.addEventListener('mousedown', handleClick); }
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [props.mode, props.show]);
-
-  const handleClick = e => {
-    // close panel on outside click
-    if (panelRef.current.contains(e.target)) { return; }
-    closeHandler();
-  };
 
   const closeHandler = () => {
     setSelected({ ...originalSelected });
@@ -102,26 +91,28 @@ const SettingsPanel = props => {
   const cryptoOptions = cryptos.map(crypto => ({ value: crypto.name, label: crypto.name }));
 
   return (
-    <div ref={panelRef} className={props.mode === 'Stock' ?
-      (props.show ? classes.StockPanel : classes.StockPanelHide) :
-      (props.show ? classes.CryptoPanel : classes.CryptoPanelHide)}>
-      <div className={classes.BtnDiv}>
-        <CloseBtn close={closeHandler} />
+    <PanelContainer show={props.show} close={closeHandler}>
+      <div className={props.mode === 'Stock' ?
+        (props.show ? classes.StockPanel : classes.StockPanelHide) :
+        (props.show ? classes.CryptoPanel : classes.CryptoPanelHide)}>
+        <div className={classes.BtnDiv}>
+          <CloseBtn close={closeHandler} />
+        </div>
+        <p className={classes.Text}>
+          {props.mode === 'Stock' ?
+          'Change the price of a manually added stock' :
+          'Change the price of a manually added cryptocurrency'}
+        </p>
+        <Select options={props.mode === 'Stock' ? stockOptions : cryptoOptions}
+          className={classes.Dropdown} onChange={selectHandler} isSearchable
+          value={selectedName} classNamePrefix="react-select" />
+        <div className={showInput ? classes.ShowInput : classes.HideInput}>
+          <NumInput val={priceVal} change={setValHandler} />
+          <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
+          <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        </div>
       </div>
-      <p className={classes.Text}>
-        {props.mode === 'Stock' ?
-        'Change the price of a manually added stock' :
-        'Change the price of a manually added cryptocurrency'}
-      </p>
-      <Select options={props.mode === 'Stock' ? stockOptions : cryptoOptions}
-        className={classes.Dropdown} onChange={selectHandler} isSearchable
-        value={selectedName} classNamePrefix="react-select" />
-      <div className={showInput ? classes.ShowInput : classes.HideInput}>
-        <NumInput val={priceVal} change={setValHandler} />
-        <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-      </div>
-    </div>
+    </PanelContainer>
   );
 };
 

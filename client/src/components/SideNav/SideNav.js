@@ -1,25 +1,13 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import classes from './SideNav.module.css';
 import { Link, withRouter } from 'react-router-dom';
 import Title from '../UI/Title/Title';
 import { questionIcon } from '../UI/UIIcons';
+import PanelContainer from '../PanelContainer/PanelContainer';
 
-const SideNav = props => {
-  const navRef = useRef();
-
-  useEffect(() => {
-    const handleClick = e => {
-      // close side nav on outside click
-      if (navRef.current.contains(e.target)) { return; }
-      props.close();
-    };
-
-    if (props.show) { document.addEventListener('mousedown', handleClick); }
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [props.show]);
-
-  return (
-    <div ref={navRef} className={props.show ? classes.SideNav : classes.HideSideNav}>
+const SideNav = props => (
+  <PanelContainer show={props.show} close={props.close}>
+    <div className={props.show ? classes.SideNav : classes.HideSideNav}>
       <Title />
       <Link className={props.location.pathname === '/portfolio' ? [classes.LinkActive, classes.Link].join(' ') : classes.Link} to="/portfolio" onClick={props.close}>
         Portfolio
@@ -47,7 +35,7 @@ const SideNav = props => {
         <div className={classes.FocusBorder}></div>
       </div>
     </div>
-  );
-};
+  </PanelContainer>
+);
 
 export default withRouter(SideNav);

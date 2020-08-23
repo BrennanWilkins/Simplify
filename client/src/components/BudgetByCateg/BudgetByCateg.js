@@ -6,7 +6,7 @@ const COLORS = ['#29b6f6', '#03a9f4', '#039be5', '#0288d1', '#0277bd', '#01579b'
 
 const Chart = props => {
   let totBudget = 0;
-  for (let budg of props.budget) { totBudget += budg.budget; }
+  for (let budg of props.budget) { totBudget += Number(budg.budget); }
   const dataPoints = props.budget.map((budg, i) => {
     return {
       label: budg.category,

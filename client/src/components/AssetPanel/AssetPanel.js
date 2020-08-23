@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './AssetPanel.module.css';
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
@@ -8,6 +8,7 @@ import Select from 'react-select';
 import '../UI/ReactSelectStyles.css';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import { Input, NumInput } from '../UI/Inputs/Inputs';
+import PanelContainer from '../PanelContainer/PanelContainer';
 
 const AssetPanel = props => {
   const [titleText, setTitleText] = useState('');
@@ -22,7 +23,6 @@ const AssetPanel = props => {
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [newValue, setNewValue] = useState('');
-  const panelRef = useRef();
 
   useEffect(() => {
     switch(props.mode) {
@@ -61,16 +61,9 @@ const AssetPanel = props => {
         setOptions(props.liabilities.map(debt => ({ value: debt.name, label: debt.name })));
         break;
     }
-    if (props.show) { document.addEventListener('mousedown', handleClick); }
-    return () => document.removeEventListener('mousedown', handleClick);
   }, [props.mode, props.show]);
 
   useEffect(() => btnClassHandler(), [inputName, inputDesc, inputValue]);
-
-  const handleClick = e => {
-    if (panelRef.current.contains(e.target)) { return; }
-    closeHandler();
-  };
 
   const closeHandler = () => {
     setTitleText('');
@@ -240,38 +233,40 @@ const AssetPanel = props => {
   };
 
   return (
-    <div ref={panelRef} className={panelClass}>
-      <div className={classes.BtnDiv}>
-        <CloseBtn close={closeHandler} />
+    <PanelContainer show={props.show} close={closeHandler}>
+      <div className={panelClass}>
+        <div className={classes.BtnDiv}>
+          <CloseBtn close={closeHandler} />
+        </div>
+        <p className={classes.Text}>{titleText}</p>
+        {options ?
+          <Select options={options} className={classes.Dropdown} onChange={selectHandler}
+            isSearchable value={selectedName} classNamePrefix="react-select" />
+          :
+          <div className={classes.Inputs}>
+            <div>
+              <p>Name</p>
+              <Input val={inputName} change={val => setInputName(val)} />
+            </div>
+            <div>
+              <p>Description</p>
+              <Input val={inputDesc} change={val => setInputDesc(val)} />
+            </div>
+            <div>
+              <p>Value</p>
+              <NumInput val={inputValue} change={val => setInputValue(val)} />
+            </div>
+          </div>
+        }
+        {(props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') && selectedName !== '' ?
+          <div className={classes.NewValueInput}>
+            <NumInput val={newValue} change={newValueHandler} />
+          </div>
+        : null}
+        <button onClick={confirmHandler} className={confirmClass}>Confirm</button>
+        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
-      <p className={classes.Text}>{titleText}</p>
-      {options ?
-        <Select options={options} className={classes.Dropdown} onChange={selectHandler}
-          isSearchable value={selectedName} classNamePrefix="react-select" />
-        :
-        <div className={classes.Inputs}>
-          <div>
-            <p>Name</p>
-            <Input val={inputName} change={val => setInputName(val)} />
-          </div>
-          <div>
-            <p>Description</p>
-            <Input val={inputDesc} change={val => setInputDesc(val)} />
-          </div>
-          <div>
-            <p>Value</p>
-            <NumInput val={inputValue} change={val => setInputValue(val)} />
-          </div>
-        </div>
-      }
-      {(props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') && selectedName !== '' ?
-        <div className={classes.NewValueInput}>
-          <NumInput val={newValue} change={newValueHandler} />
-        </div>
-      : null}
-      <button onClick={confirmHandler} className={confirmClass}>Confirm</button>
-      <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-    </div>
+    </PanelContainer>
   );
 };
 

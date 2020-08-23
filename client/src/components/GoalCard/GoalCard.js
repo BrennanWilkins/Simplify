@@ -36,7 +36,12 @@ const GoalCard = props => {
     // show expanded net worth goal by default
     if (props.isNW) { setShowMore(true); }
 
-    const updateWidth = () => { setWidth(window.innerWidth); setShowMore(false); };
+    const updateWidth = () => {
+      setWidth(window.innerWidth);
+      setShowMore(false);
+      setShowEdit(false);
+      setShowDelete(false);
+    };
 
     // add window resize listener
     window.addEventListener('resize', updateWidth);

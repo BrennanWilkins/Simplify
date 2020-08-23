@@ -9,6 +9,7 @@ import BackBtn from '../UI/BackBtn/BackBtn';
 import Spinner from '../UI/Spinner/Spinner';
 import BlueBtn from '../UI/BlueBtn/BlueBtn';
 import { NumInput } from '../UI/Inputs/Inputs';
+import PanelContainer from '../PanelContainer/PanelContainer';
 
 let typingTimeout;
 
@@ -27,21 +28,10 @@ const SearchPanel = props => {
   const [errMsg, setErrMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const inputRef = useRef();
-  const panelRef = useRef();
 
   useEffect(() => {
-    if (props.show) {
-      document.addEventListener('mousedown', handleClick);
-      inputRef.current.focus();
-    }
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [props.mode, props.show]);
-
-  const handleClick = e => {
-    // close panel if clicked outside
-    if (panelRef.current.contains(e.target)) { return; }
-    closeHandler();
-  };
+    if (props.show) { inputRef.current.focus(); }
+  }, [props.show]);
 
   const setSearchQuery = e => {
     // searches for stock/crypto 600ms after user stops typing
@@ -146,68 +136,70 @@ const SearchPanel = props => {
   };
 
   return (
-    <div ref={panelRef} className={props.mode === 'Stock' ?
-      (props.show ? classes.StockPanel : classes.StockPanelHide) :
-      (props.show ? classes.CryptoPanel : classes.CryptoPanelHide)}>
-      <div className={classes.BtnDiv}>
-        <CloseBtn close={closeHandler} />
-        <BackBtn back={resetInputsHandler} mode={!showInput && !showManual ? 'Hide' : 'Show'} />
-      </div>
-      <p className={classes.Text}>
-        {props.mode === 'Stock' ?
-        'Search for a stock by entering its ticker or the company name' :
-        'Search for a cryptocurrency by entering its symbol or name'}
-      </p>
-      <input className={classes.SearchInput}
-        value={query} onChange={setSearchQuery} ref={inputRef}
-        placeholder={props.mode === 'Stock' ? 'AAPL, Apple, ...' : 'BTC, Bitcoin, ...'} />
-      {loading && <Spinner mode="Search" />}
-      <div className={classes.Results}>
-        {searchRes.map((stock, i) => (
-          <div className={classes.Result} key={i} onClick={() => selectedHandler(stock)}>
-            <div className={classes.SearchSymbol}>{props.mode === 'Stock' ? stock.ticker: stock.item.symbol}</div>
-            <div className={classes.SearchName}>{props.mode === 'Stock' ? stock.name : stock.item.name}</div>
-          </div>
-        ))}
-        <div className={classes.BtnDiv2}>
-          <BlueBtn clicked={() => setShowManual(true)}>
-            {`${props.mode === 'Stock' ? 'Stock' : 'Crypto'} not found? Add it manually`}
-          </BlueBtn>
+    <PanelContainer show={props.show} close={closeHandler}>
+      <div className={props.mode === 'Stock' ?
+        (props.show ? classes.StockPanel : classes.StockPanelHide) :
+        (props.show ? classes.CryptoPanel : classes.CryptoPanelHide)}>
+        <div className={classes.BtnDiv}>
+          <CloseBtn close={closeHandler} />
+          <BackBtn back={resetInputsHandler} mode={!showInput && !showManual ? 'Hide' : 'Show'} />
         </div>
-      </div>
-      <div className={showInput ? classes.ShowInput : classes.HideInput}>
-        <p className={classes.InputText}>
+        <p className={classes.Text}>
           {props.mode === 'Stock' ?
-          `How many shares of ${selectedTicker} do you own?` :
-          `How much ${selectedTicker} do you own?`}
+          'Search for a stock by entering its ticker or the company name' :
+          'Search for a cryptocurrency by entering its symbol or name'}
         </p>
-        <NumInput val={inputValShares} change={val => setInputValShares(val)} />
-        <BlueBtn clicked={() => addHandler(false)}>Add</BlueBtn>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-      </div>
-      <div className={showManual ? classes.ShowInput: classes.HideInput}>
-        <div>
-          <p>{props.mode === 'Stock' ? 'Ticker:' : 'Symbol:'}</p>
-          <input placeholder={props.mode === 'Stock' ? 'eg AAPL' : 'eg BTC'} value={inputValTicker}
-          onChange={e => setInputValTicker(e.target.value)} />
+        <input className={classes.SearchInput}
+          value={query} onChange={setSearchQuery} ref={inputRef}
+          placeholder={props.mode === 'Stock' ? 'AAPL, Apple, ...' : 'BTC, Bitcoin, ...'} />
+        {loading && <Spinner mode="Search" />}
+        <div className={classes.Results}>
+          {searchRes.map((stock, i) => (
+            <div className={classes.Result} key={i} onClick={() => selectedHandler(stock)}>
+              <div className={classes.SearchSymbol}>{props.mode === 'Stock' ? stock.ticker: stock.item.symbol}</div>
+              <div className={classes.SearchName}>{props.mode === 'Stock' ? stock.name : stock.item.name}</div>
+            </div>
+          ))}
+          <div className={classes.BtnDiv2}>
+            <BlueBtn clicked={() => setShowManual(true)}>
+              {`${props.mode === 'Stock' ? 'Stock' : 'Crypto'} not found? Add it manually`}
+            </BlueBtn>
+          </div>
         </div>
-        <div>
-          <p>{props.mode === 'Stock' ? 'Company name:' : 'Name:'}</p>
-          <input placeholder={props.mode === 'Stock' ? 'eg Apple' : 'eg Bitcoin'} value={inputValName}
-          onChange={e => setInputValName(e.target.value)} />
-        </div>
-        <div>
-          <p>Current price:</p>
-          <NumInput val={inputValPrice} change={val => setInputValPrice(val)} />
-        </div>
-        <div>
-          <p>{props.mode === 'Stock' ? 'Number of shares:' : 'Quantity:'}</p>
+        <div className={showInput ? classes.ShowInput : classes.HideInput}>
+          <p className={classes.InputText}>
+            {props.mode === 'Stock' ?
+            `How many shares of ${selectedTicker} do you own?` :
+            `How much ${selectedTicker} do you own?`}
+          </p>
           <NumInput val={inputValShares} change={val => setInputValShares(val)} />
+          <BlueBtn clicked={() => addHandler(false)}>Add</BlueBtn>
+          <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
         </div>
-        <BlueBtn clicked={() => addHandler(true)}>Add</BlueBtn>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        <div className={showManual ? classes.ShowInput: classes.HideInput}>
+          <div>
+            <p>{props.mode === 'Stock' ? 'Ticker:' : 'Symbol:'}</p>
+            <input placeholder={props.mode === 'Stock' ? 'eg AAPL' : 'eg BTC'} value={inputValTicker}
+            onChange={e => setInputValTicker(e.target.value)} />
+          </div>
+          <div>
+            <p>{props.mode === 'Stock' ? 'Company name:' : 'Name:'}</p>
+            <input placeholder={props.mode === 'Stock' ? 'eg Apple' : 'eg Bitcoin'} value={inputValName}
+            onChange={e => setInputValName(e.target.value)} />
+          </div>
+          <div>
+            <p>Current price:</p>
+            <NumInput val={inputValPrice} change={val => setInputValPrice(val)} />
+          </div>
+          <div>
+            <p>{props.mode === 'Stock' ? 'Number of shares:' : 'Quantity:'}</p>
+            <NumInput val={inputValShares} change={val => setInputValShares(val)} />
+          </div>
+          <BlueBtn clicked={() => addHandler(true)}>Add</BlueBtn>
+          <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        </div>
       </div>
-    </div>
+    </PanelContainer>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import classes from './NewBudgetPanel.module.css';
 import { connect } from 'react-redux';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
@@ -6,6 +6,7 @@ import { instance as axios } from '../../axios';
 import * as actions from '../../store/actions/index';
 import BlueBtn from '../UI/BlueBtn/BlueBtn';
 import { Input, NumInput } from '../UI/Inputs/Inputs';
+import PanelContainer from '../PanelContainer/PanelContainer';
 
 const BudgetPage = props => {
   const [categVal, setCategVal] = useState('');
@@ -13,18 +14,6 @@ const BudgetPage = props => {
   const [budgets, setBudgets] = useState([]);
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const panelRef = useRef();
-
-  useEffect(() => {
-    if (props.show) { document.addEventListener('mousedown', handleClick); }
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [props.show]);
-
-  const handleClick = e => {
-    // close panel if clicked outside
-    if (panelRef.current.contains(e.target)) { return; }
-    closeHandler();
-  };
 
   const closeHandler = () => {
     setCategVal('');
@@ -76,36 +65,38 @@ const BudgetPage = props => {
   };
 
   return (
-    <div className={props.show ? classes.Panel : classes.HidePanel} ref={panelRef}>
-      <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
-      <div className={classes.InputDiv}>
-        <div className={classes.Field}>
-          <p className={classes.Text}>Category</p>
-          <Input val={categVal} change={categValHandler} />
-        </div>
-        <div className={classes.Field}>
-          <p className={classes.Text}>Monthly budget</p>
-          <NumInput val={budgetVal} change={budgetValHandler} />
-        </div>
-      </div>
-      <div className={classes.BtnDiv2}>
-        <BlueBtn clicked={addHandler}>Add category</BlueBtn>
-      </div>
-      <div className={classes.Entries}>
-        {budgets.map((budget, i) => (
-          <div key={i}>
-            <span>{budget.category}</span>
-            <span>{budget.budget}</span>
+    <PanelContainer show={props.show} close={closeHandler}>
+      <div className={props.show ? classes.Panel : classes.HidePanel}>
+        <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
+        <div className={classes.InputDiv}>
+          <div className={classes.Field}>
+            <p className={classes.Text}>Category</p>
+            <Input val={categVal} change={categValHandler} />
           </div>
-        ))}
+          <div className={classes.Field}>
+            <p className={classes.Text}>Monthly budget</p>
+            <NumInput val={budgetVal} change={budgetValHandler} />
+          </div>
+        </div>
+        <div className={classes.BtnDiv2}>
+          <BlueBtn clicked={addHandler}>Add category</BlueBtn>
+        </div>
+        <div className={classes.Entries}>
+          {budgets.map((budget, i) => (
+            <div key={i}>
+              <span>{budget.category}</span>
+              <span>{budget.budget}</span>
+            </div>
+          ))}
+        </div>
+        <div className={classes.BtnDiv3}>
+          <button onClick={createHandler} className={budgets.length > 0 ? classes.CreateBtn : classes.HideCreateBtn}>
+            Create budget
+          </button>
+        </div>
+        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
-      <div className={classes.BtnDiv3}>
-        <button onClick={createHandler} className={budgets.length > 0 ? classes.CreateBtn : classes.HideCreateBtn}>
-          Create budget
-        </button>
-      </div>
-      <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-    </div>
+    </PanelContainer>
   );
 };
 

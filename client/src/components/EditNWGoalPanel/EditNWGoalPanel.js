@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './EditNWGoalPanel.module.css';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import { connect } from 'react-redux';
@@ -6,23 +6,12 @@ import { instance as axios } from '../../axios';
 import * as actions from '../../store/actions/index';
 import GreenBtn from '../UI/GreenBtn/GreenBtn';
 import { NumInput } from '../UI/Inputs/Inputs';
+import PanelContainer from '../PanelContainer/PanelContainer';
 
 const EditNWGoalPanel = props => {
-  const panelRef = useRef();
   const [inputVal, setInputVal] = useState('');
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-
-  useEffect(() => {
-    const handleClick = e => {
-      // close panel on click outside
-      if (panelRef.current.contains(e.target)) { return; }
-      closeHandler();
-    };
-
-    if (props.show) { document.addEventListener('mousedown', handleClick); }
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [props.show]);
 
   useEffect(() => {
     setInputVal(props.goal);
@@ -62,14 +51,16 @@ const EditNWGoalPanel = props => {
   };
 
   return (
-    <div ref={panelRef} className={props.show ? classes.Panel : classes.Hide}>
-      <CloseBtn close={closeHandler} />
-      <div className={classes.Input}><NumInput val={inputVal} change={val => { setErr(false); setInputVal(val); }} /></div>
-      <div className={classes.BtnDiv}>
-        <GreenBtn clicked={editHandler}>Change</GreenBtn>
+    <PanelContainer show={props.show} close={closeHandler}>
+      <div className={props.show ? classes.Panel : classes.Hide}>
+        <CloseBtn close={closeHandler} />
+        <div className={classes.Input}><NumInput val={inputVal} change={val => { setErr(false); setInputVal(val); }} /></div>
+        <div className={classes.BtnDiv}>
+          <GreenBtn clicked={editHandler}>Change</GreenBtn>
+        </div>
+        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
-      <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-    </div>
+    </PanelContainer>
   );
 };
 

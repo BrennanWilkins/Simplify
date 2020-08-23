@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './BuySellPanel.module.css';
 import { connect } from 'react-redux';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
@@ -8,6 +8,7 @@ import { calcNetWorth } from '../../utils/valueCalcs';
 import Select from 'react-select';
 import '../UI/ReactSelectStyles.css';
 import { NumInput } from '../UI/Inputs/Inputs';
+import PanelContainer from '../PanelContainer/PanelContainer';
 
 const originalSelected = { name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Normal' };
 
@@ -19,7 +20,6 @@ const BuySellPanel = props => {
   const [errMsg, setErrMsg] = useState('');
   const [panelClass, setPanelClass] = useState(classes.Hide);
   const [titleText, setTitleText] = useState('');
-  const panelRef = useRef();
 
   useEffect(() => {
     // change panel UI based on mode (buy/sell/stocks/cryptos)
@@ -45,15 +45,7 @@ const BuySellPanel = props => {
         setTitleText('Which cryptocurrency did you sell?');
         break;
     }
-    if (props.show) { document.addEventListener('mousedown', handleClick); }
-    return () => document.removeEventListener('mousedown', handleClick);
   }, [props.mode, props.show]);
-
-  const handleClick = e => {
-    // close panel on click outside
-    if (panelRef.current.contains(e.target)) { return; }
-    closeHandler();
-  };
 
   const closeHandler = () => {
     setSelected({ ...originalSelected });
@@ -164,33 +156,35 @@ const BuySellPanel = props => {
   const cryptoOptions = props.cryptos.map(crypto => ({ value: crypto.name, label: crypto.name }));
 
   return (
-    <div ref={panelRef} className={panelClass}>
-      <div className={classes.BtnDiv}>
-        <CloseBtn close={closeHandler} />
+    <PanelContainer show={props.show} close={closeHandler}>
+      <div className={panelClass}>
+        <div className={classes.BtnDiv}>
+          <CloseBtn close={closeHandler} />
+        </div>
+        <p className={classes.Text}>{titleText}</p>
+        <Select options={props.mode === 'BuyStock' || props.mode === 'SellStock' ? stockOptions : cryptoOptions}
+          className={classes.Dropdown} onChange={selectHandler} isSearchable value={selectedName} classNamePrefix="react-select" />
+        <p className={selectedName === '' ? classes.HideText : classes.Text}>
+          {props.mode === 'BuyStock' ?
+          `How many shares of ${selected.symbol} did you buy?` :
+          props.mode === 'SellStock' ?
+          `How many shares of ${selected.symbol} did you sell?` :
+          props.mode === 'BuyCrypto' ?
+          `How much ${selected.symbol} did you buy?` :
+          `How much ${selected.symbol} did you sell?`}
+        </p>
+        <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
+          <NumInput val={selectedVal} change={setValHandler} />
+          {props.mode === 'SellStock' || props.mode === 'SellCrypto' ? (
+            <button className={classes.AllBtn} onClick={() => setSelectedVal(selected.quantity)}>All</button>
+          ) : null}
+        </div>
+        <button onClick={confirmHandler} className={selectedName === '' ? classes.HideConfirmBtn : classes.ConfirmBtn}>
+          Confirm
+        </button>
+        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
-      <p className={classes.Text}>{titleText}</p>
-      <Select options={props.mode === 'BuyStock' || props.mode === 'SellStock' ? stockOptions : cryptoOptions}
-        className={classes.Dropdown} onChange={selectHandler} isSearchable value={selectedName} classNamePrefix="react-select" />
-      <p className={selectedName === '' ? classes.HideText : classes.Text}>
-        {props.mode === 'BuyStock' ?
-        `How many shares of ${selected.symbol} did you buy?` :
-        props.mode === 'SellStock' ?
-        `How many shares of ${selected.symbol} did you sell?` :
-        props.mode === 'BuyCrypto' ?
-        `How much ${selected.symbol} did you buy?` :
-        `How much ${selected.symbol} did you sell?`}
-      </p>
-      <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
-        <NumInput val={selectedVal} change={setValHandler} />
-        {props.mode === 'SellStock' || props.mode === 'SellCrypto' ? (
-          <button className={classes.AllBtn} onClick={() => setSelectedVal(selected.quantity)}>All</button>
-        ) : null}
-      </div>
-      <button onClick={confirmHandler} className={selectedName === '' ? classes.HideConfirmBtn : classes.ConfirmBtn}>
-        Confirm
-      </button>
-      <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-    </div>
+    </PanelContainer>
   );
 };
 
