@@ -1,5 +1,5 @@
 .BigBtn, .Btn, .NoBigBtn {
-  background: rgb(15, 119, 147);
+  background: rgb(var(--dark-blue));
   color: white;
   border: 0;
   outline: none;
@@ -17,6 +17,6 @@
   font-size: 14px;
 }
 .Btn:hover, .BigBtn:hover, .NoBigBtn:hover {
-  background: rgb(10, 77, 96);
+  background: rgb(var(--dark-blue2));
   transition: background 250ms;
 }

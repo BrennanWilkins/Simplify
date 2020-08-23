@@ -7,7 +7,7 @@
 }
 .Title h1 {
   margin: 20px 0 15px;
-  color: rgb(10, 77, 96);
+  color: rgb(var(--dark-blue2));
 }
 .Title span {
   font-size: 20px;
@@ -21,7 +21,7 @@
   top: 1px;
 }
 .Title span:hover {
-  color: rgb(18, 152, 189);
+  color: rgb(var(--blue));
   transition: 300ms ease-out;
 }
 .ShowInfo, .HideInfo {
@@ -34,8 +34,8 @@
   padding: 15px;
   left: calc(50% - 215px);
   transition: 250ms ease-out;
-  border: 1px solid rgb(18, 152, 189);
-  box-shadow: 0.5px 0.5px 5px 0 rgb(0, 0, 0, 0.5);
+  border: 1px solid rgb(var(--blue));
+  box-shadow: 0.5px 0.5px 5px 0 rgba(0, 0, 0, 0.5);
 }
 .HideInfo {
   visibility: hidden;

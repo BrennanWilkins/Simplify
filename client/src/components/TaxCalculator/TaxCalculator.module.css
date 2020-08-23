@@ -1,45 +1,3 @@
-/* .Hide {
-  display: none;
-} */
-/* .Title {
-  text-align: center;
-}
-.Title h1 {
-  margin: 10px 0 0;
-  color: rgb(10, 77, 96);
-}
-.Title span {
-  font-size: 20px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: 300ms ease-out;
-  margin-left: 10px;
-  position: relative;
-  top: 1px;
-}
-.Title span:hover {
-  color: rgb(18, 152, 189);
-  transition: 300ms ease-out;
-}
-.ShowInfo, .HideInfo {
-  font-size: 16px;
-  width: 70%;
-  margin: 10px auto;
-  position: absolute;
-  background: white;
-  border-radius: 3px;
-  padding: 10px;
-  left: 15%;
-  transition: 250ms ease-out;
-  border: 1px solid rgb(18, 152, 189);
-  box-shadow: 0.5px 0.5px 5px 0 rgb(0, 0, 0, 0.5);
-}
-.HideInfo {
-  visibility: hidden;
-  opacity: 0;
-} */
 .Boxes {
   display: flex;
   justify-content: center;
@@ -47,8 +5,8 @@
 }
 .InputBox {
   border-radius: 3px;
-  border: 1px solid rgb(18, 152, 189);
-  box-shadow: 0.5px 0.5px 5px 0 rgb(0, 0, 0, 0.5);
+  border: 1px solid rgb(var(--blue));
+  box-shadow: 0.5px 0.5px 5px 0 rgba(0, 0, 0, 0.5);
   width: 400px;
   margin: 20px 0;
   height: 380px;
@@ -56,7 +14,7 @@
 .InputBox h3 {
   text-align: center;
   margin: 30px 0 5px;
-  color: rgb(10, 77, 96);
+  color: rgb(var(--dark-blue2));
 }
 .Row {
   display: flex;
@@ -75,7 +33,7 @@
   padding: 5px 20px;
   font-size: 16px;
   color: white;
-  background: rgb(15, 119, 147);
+  background: rgb(var(--dark-blue));
   transition: 300ms ease-out;
   border: 0;
   outline: none;
@@ -83,24 +41,24 @@
   margin: 42px 9.3px 0;
 }
 .Field button:hover {
-  background: rgb(10, 77, 96);
+  background: rgb(var(--dark-blue2));
   transition: 300ms ease-out;
 }
 .Field select {
   width: 170px;
   padding: 5px 3px;
   font-size: 14px;
-  border: 1px solid rgb(18, 152, 189);
+  border: 1px solid rgb(var(--blue));
   border-radius: 3px;
   box-sizing: border-box;
 }
 .TransBox {
   border-radius: 3px;
-  border: 1px solid rgb(18, 152, 189);
-  box-shadow: 0.5px 0.5px 5px 0 rgb(0, 0, 0, 0.5);
+  border: 1px solid rgb(var(--blue));
+  box-shadow: 0.5px 0.5px 5px 0 rgba(0, 0, 0, 0.5);
   width: 400px;
   height: 381px;
-  background: rgb(15, 119, 147);
+  background: rgb(var(--dark-blue));
   margin-left: 40px;
   padding: 10px 20px;
   box-sizing: border-box;
@@ -131,7 +89,7 @@
   padding: 5px 20px;
   font-size: 16px;
   color: white;
-  background: rgb(15, 119, 147);
+  background: rgb(var(--dark-blue));
   transition: 300ms ease-out;
   border: 0;
   outline: none;
@@ -140,20 +98,24 @@
 .ResetBtn {
   padding: 5px 31px;
 }
+.CalcBtn:hover, .ResetBtn:hover {
+  transition: 300ms ease-out;
+  background: rgb(var(--dark-blue2));
+}
 .TransHeader, .TransField {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  border-bottom: 1px solid rgb(15, 119, 147);
+  border-bottom: 1px solid rgb(var(--dark-blue));
   padding: 2px 0;
   word-wrap: break-word;
 }
 .TransHeader {
-  background: rgb(18, 152, 189, 0.4);
+  background: rgba(var(--blue), 0.4);
 }
 .TransField {
-  background: rgb(18, 152, 189, 0.2);
+  background: rgba(var(--blue), 0.2);
 }
 .Table {
   width: 80%;
@@ -163,8 +125,8 @@
   max-width: 850px;
 }
 .Table td, .Table th {
-  border: 1px solid rgb(18, 152, 189);
-  background: rgb(18, 152, 189, 0.04);
+  border: 1px solid rgb(var(--blue));
+  background: rgba(var(--blue), 0.04);
   padding: 8px 4px;
   box-sizing: border-box;
   text-align: center;
@@ -174,12 +136,12 @@
   width: 19%;
 }
 .Table th {
-  color: rgb(15, 119, 147);
-  background: rgb(18, 152, 189, 0.1);
+  color: rgb(var(--dark-blue));
+  background: rgba(var(--blue), 0.1);
 }
 .TableTotals td {
   font-weight: bold;
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
 }
 @media (max-width: 870px) {
   .Boxes {

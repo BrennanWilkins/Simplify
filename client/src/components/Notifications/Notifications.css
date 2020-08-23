@@ -19,7 +19,7 @@
   background: rgb(29, 198, 175);
   margin-top: 10px;
   border-radius: 3px;
-  box-shadow: 0.5px 1px 3px 0.5px rgb(0, 0, 0, 0.25);
+  box-shadow: 0.5px 1px 3px 0.5px rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,7 +41,7 @@
 .Notifs-Btn {
   border: 0;
   margin: 0 5px 0 10px;
-  background: rgb(26, 171, 152);
+  background: rgb(var(--green));
   font-size: 20px;
   padding: 0;
   border-radius: 3px;

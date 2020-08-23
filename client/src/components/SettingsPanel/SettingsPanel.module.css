@@ -7,7 +7,7 @@
   width: 350px;
   height: 300px;
   border-radius: 3px;
-  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   background: white;
   z-index: 2;
   padding: 10px;
@@ -44,7 +44,7 @@
 }
 .Text {
   text-align: center;
-  color: rgb(10, 77, 96);
+  color: rgb(var(--dark-blue2));
   margin: 20px 0 15px;
 }
 .Dropdown {

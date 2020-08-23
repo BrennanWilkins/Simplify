@@ -8,12 +8,12 @@
   cursor: pointer;
   transition: background 250ms;
   margin: 5px;
-  background: rgb(26, 171, 152, 0.7);
+  background: rgba(var(--green), 0.7);
 }
 .Btn {
   font-size: 14px;
 }
 .BigBtn:hover, .Btn:hover {
-  background: rgb(26, 171, 152);
+  background: rgb(var(--green));
   transition: background 250ms;
 }

@@ -8,7 +8,7 @@
   float: right;
   font-size: 20px;
   padding: 2.5px;
-  background: rgb(15, 119, 147);
+  background: rgb(var(--dark-blue));
   transition: background 250ms;
   display: flex;
   justify-content: center;
@@ -23,6 +23,6 @@
   height: 28px;
 }
 .CloseBtn:hover, .CloseBudgetBtn:hover {
-  background: rgb(10, 77, 96);
+  background: rgb(var(--dark-blue2));
   transition: background 250ms;
 }

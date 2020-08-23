@@ -4,7 +4,7 @@
   width: 350px;
   height: 600px;
   border-radius: 3px;
-  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   background: white;
   z-index: 100;
   padding: 10px;
@@ -52,7 +52,7 @@
 }
 .PrevBtn, .NextBtn, .DisPrevBtn, .DisNextBtn {
   color: white;
-  background: rgb(15, 119, 147);
+  background: rgb(var(--dark-blue));
   transition: background 250ms;
   border: 0;
   border-radius: 3px;
@@ -61,7 +61,7 @@
   cursor: pointer;
 }
 .PrevBtn:hover, .NextBtn:hover {
-  background: rgb(10, 77, 96);
+  background: rgb(var(--dark-blue2));
   transition: background 250ms;
 }
 .Icon {
@@ -74,21 +74,21 @@
   transform: rotate(180deg);
 }
 .DisPrevBtn {
-  background: rgb(15, 119, 147, 0.6);
+  background: rgba(var(--dark-blue), 0.6);
 }
 .DisNextBtn {
-  background: rgb(26, 171, 152, 0.8);
+  background: rgba(var(--green), 0.8);
 }
 .DisNextBtn:hover {
-  background: rgb(26, 171, 152);
+  background: rgb(var(--green));
   transition: background 250ms;
 }
 .PageNum {
-  color: rgb(10, 77, 96, 0.6);
+  color: rgba(var(--dark-blue2), 0.6);
   font-size: 18px;
 }
 .Content {
-  color: rgb(10, 77, 96);
+  color: rgb(var(--dark-blue2));
   height: 460px;
   text-align: center;
   padding: 5px;
@@ -97,10 +97,10 @@
 }
 .Content a {
   text-decoration: none;
-  color: rgb(26, 171, 152, 0.8);
+  color: rgba(var(--green), 0.8);
 }
 .Content a:hover {
-  color: rgb(26, 171, 152);
+  color: rgb(var(--green));
 }
 .Show, .HideLeft, .HideRight {
   width: 100%;

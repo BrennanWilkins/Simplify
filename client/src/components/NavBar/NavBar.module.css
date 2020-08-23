@@ -1,5 +1,5 @@
 .NavBar {
-  background: rgb(42, 69, 92);
+  background: rgb(var(--dark-blue3));
   position: fixed;
   width: 100%;
   height: 70px;
@@ -17,7 +17,7 @@
   position: relative;
 }
 .Link:hover, .LogoutLink:hover {
-  color: rgb(26, 171, 152);
+  color: rgb(var(--green));
   transition: color 300ms;
 }
 .Link:hover .FocusBorder, .LogoutLink:hover .FocusBorder {
@@ -27,7 +27,7 @@
   opacity: 1;
 }
 .LinkActive {
-  color: rgb(26, 171, 152);
+  color: rgb(var(--green));
 }
 .FocusBorder {
   position: absolute;
@@ -35,7 +35,7 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: rgb(26, 171, 152);
+  background: rgb(var(--green));
   transition: all 300ms ease-out;
   opacity: 0;
 }
@@ -61,14 +61,14 @@
   transition: background 300ms;
 }
 .SideToggle:hover div {
-  background: rgb(26, 171, 152);
+  background: rgb(var(--green));
   transition: background 300ms;
 }
 .Backdrop, .HideBackdrop {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgb(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.25);
   opacity: 1;
   visibility: visible;
   z-index: 50;

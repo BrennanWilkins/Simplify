@@ -1,5 +1,5 @@
 .Loader {
-  color: rgb(18, 152, 189);
+  color: rgb(var(--blue));
   font-size: 20px;
   margin: 230px auto 0;
   width: 1em;
@@ -14,7 +14,7 @@
   transform: translateZ(0);
 }
 .LoginLoader, .SignupLoader {
-  color: rgb(18, 152, 189);
+  color: rgb(var(--blue));
   font-size: 11px;
   width: 1em;
   height: 1em;
@@ -28,7 +28,7 @@
   animation: load4 1.3s infinite linear;
 }
 .SearchLoader {
-  color: rgb(18, 152, 189);
+  color: rgb(var(--blue));
   font-size: 4px;
   width: 1em;
   height: 1em;

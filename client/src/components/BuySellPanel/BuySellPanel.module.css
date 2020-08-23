@@ -11,7 +11,7 @@
   width: 350px;
   height: 300px;
   border-radius: 3px;
-  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   background: white;
   z-index: 2;
   padding: 10px;
@@ -53,7 +53,7 @@
 }
 .Text, .HideText {
   text-align: center;
-  color: rgb(10, 77, 96);
+  color: rgb(var(--dark-blue2));
   opacity: 1;
   transition: opacity 250ms;
   cursor: default;
@@ -64,7 +64,7 @@
 .ConfirmBtn, .HideConfirmBtn {
   margin: 20px 0 0;
   color: white;
-  background: rgb(15, 119, 147);
+  background: rgb(var(--dark-blue));
   border: 0;
   border-radius: 3px;
   outline: none;
@@ -76,7 +76,7 @@
 }
 .AllBtn {
   color: white;
-  background: rgb(15, 119, 147);
+  background: rgb(var(--dark-blue));
   border: 0;
   border-radius: 3px;
   outline: none;
@@ -88,7 +88,7 @@
   font-size: 14px;
 }
 .ConfirmBtn:hover, .AllBtn:hover {
-  background: rgb(10, 77, 96);
+  background: rgb(var(--dark-blue2));
   transition: background 250ms;
 }
 .ShowErr, .HideErr {

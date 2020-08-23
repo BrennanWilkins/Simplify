@@ -2,7 +2,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(rgb(18, 152, 189), rgb(26, 171, 152));
+  background-image: linear-gradient(rgb(var(--blue)), rgb(var(--green)));
   overflow: auto;
 }
 .OuterContent {
@@ -15,7 +15,7 @@
 }
 .LoginPanel, .SignupPanel {
   background: white;
-  box-shadow: 0 0 10px 0 rgb(0,0,0,0.75);
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.75);
   border-radius: 3px;
   width: 350px;
   text-align: center;
@@ -44,7 +44,7 @@
   height: 560px;
 }
 .Demo {
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
   font-weight: bold;
   margin-bottom: 15px;
   display: flex;
@@ -55,7 +55,7 @@
 }
 .Demo:hover {
   transition: color 250ms;
-  color: rgb(18, 152, 189);
+  color: rgb(var(--blue));
 }
 .Demo span {
   margin-left: 2px;
@@ -67,21 +67,21 @@
 .SwitchAuth {
   position: absolute;
   bottom: 15px;
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
 }
 .SwitchAuth a {
   margin-left: 5px;
   text-decoration: none;
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
   font-weight: bold;
 }
 .SwitchAuth a:hover {
-  color: rgb(10, 77, 96);
+  color: rgb(var(--dark-blue2));
 }
 .SubTitle {
   text-align: center;
   margin: 0 30px 20px;
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
 }
 .InputDiv, .InputDivFocus {
   padding: 10px;
@@ -89,19 +89,19 @@
   font-size: 18px;
   height: 27px;
   border-radius: 10px;
-  border: 1px solid rgb(18, 152, 189, 0.1);
-  background: rgb(18, 152, 189, 0.08);
+  border: 1px solid rgba(var(--blue), 0.1);
+  background: rgba(var(--blue), 0.08);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .InputDivFocus {
-  border: 1px solid rgb(18, 152, 189, 0.3);
-  box-shadow: 0 0 10px 4px rgb(235, 242, 251, 0.5);
+  border: 1px solid rgba(var(--blue), 0.3);
+  box-shadow: 0 0 10px 4px rgba(235, 242, 251, 0.5);
 }
 .Icon {
   font-size: 18px;
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,12 +115,12 @@
   background: 0;
 }
 .InputDivFocus .Icon {
-  color: rgb(26, 171, 152);
+  color: rgb(var(--green));
 }
 .Content button {
   cursor: pointer;
   color: white;
-  background: rgb(15, 119, 147);
+  background: rgb(var(--dark-blue));
   border: 0;
   border-radius: 3px;
   font-size: 16px;
@@ -131,7 +131,7 @@
 }
 .Content button:hover {
   transition: background 300ms;
-  background: rgb(18, 152, 189);
+  background: rgb(var(--blue));
 }
 .Remember {
   margin-top: 10px;
@@ -139,7 +139,7 @@
 }
 .Remember span {
   margin-left: 2px;
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
 }
 .Remember input {
   position: relative;
@@ -152,15 +152,13 @@
   height: 30px;
   margin: 15px 0 10px;
 }
-.ErrMsgShow {
+.ErrMsgShow, .ErrMsgHide {
   opacity: 1;
   transition: opacity 300ms;
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
 }
 .ErrMsgHide {
   opacity: 0;
-  transition: opacity 300ms;
-  color: rgb(15, 119, 147);
 }
 @media (max-height: 751px) {
   .SignupPanel {

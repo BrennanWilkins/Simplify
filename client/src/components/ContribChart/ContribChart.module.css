@@ -1,5 +1,5 @@
 .Title {
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
   margin: 15px 0 10px;
 }
 .Chart {

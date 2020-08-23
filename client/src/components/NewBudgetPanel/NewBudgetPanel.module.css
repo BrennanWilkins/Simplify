@@ -4,7 +4,7 @@
   width: 350px;
   height: 400px;
   border-radius: 3px;
-  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   background: white;
   z-index: 2;
   padding: 10px;
@@ -42,7 +42,7 @@
 .CreateBtn, .HideCreateBtn {
   margin: 10px 0;
   color: white;
-  background: rgb(26, 171, 152, 0.7);
+  background: rgba(var(--green), 0.7);
   transition: all 250ms;
   border: 0;
   border-radius: 3px;
@@ -57,7 +57,7 @@
   transition: all 250ms;
 }
 .CreateBtn:hover {
-  background: rgb(26, 171, 152);
+  background: rgb(var(--green));
   transition: background 250ms;
 }
 .Entries {
@@ -68,21 +68,21 @@
 .Entries div {
   width: 80%;
   padding: 5px 10px;
-  border-bottom: 1px solid rgb(15, 119, 147);
+  border-bottom: 1px solid rgb(var(--dark-blue));
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
 }
 .Entries span {
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
   width: 50%;
   padding: 5px;
   text-align: center;
   word-wrap: break-word;
 }
 .Text {
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
   cursor: default;
   text-align: center;
 }
@@ -92,7 +92,7 @@
   text-align: center;
   font-size: 16px;
   height: 25px;
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
   margin: 0 0 10px;
 }
 .HideErr {

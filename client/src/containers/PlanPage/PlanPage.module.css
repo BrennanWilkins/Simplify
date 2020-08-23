@@ -44,7 +44,7 @@
   width: 200px;
   height: 80px;
   text-align: center;
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
 }
 .Btns {
   display: flex;
@@ -59,11 +59,11 @@
 .Title, .Title2 {
   margin: 20px 0;
   text-align: center;
-  color: rgb(26, 171, 152);
   word-wrap: break-word;
+  color: rgb(var(--green));
 }
 .Title2 {
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
 }
 .SubTitle {
   position: absolute;
@@ -73,27 +73,27 @@
 }
 .SelectBar {
   width: 100%;
-  background: rgb(18, 152, 189, 0.2);
+  background: rgba(var(--blue), 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .Btn, .ActiveBtn {
   outline: none;
-  border: 0.5px solid rgb(18, 152, 189);
+  border: 0.5px solid rgb(var(--blue));
   padding: 5px 8px;
   margin: 5px;
-  background: rgb(18, 152, 189, 0.5);
+  background: rgba(var(--blue), 0.5);
   cursor: pointer;
   transition: 300ms;
   font-weight: bold;
-  box-shadow: 0.5px 0.5px 1px 0px rgb(18, 152, 189, 0.5);
+  box-shadow: 0.5px 0.5px 1px 0 rgba(var(--blue), 0.5);
 }
 .ActiveBtn {
-  background: rgb(18, 152, 189, 0.8);
+  background: rgba(var(--blue), 0.8);
 }
 .Btn:hover {
-  background: rgb(18, 152, 189, 0.8);
+  background: rgba(var(--blue), 0.8);
   transition: 300ms;
 }
 .HideChart {

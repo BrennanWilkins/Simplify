@@ -28,15 +28,16 @@
   border-collapse: collapse;
   font-size: 12px;
   margin: auto;
+  box-shadow: 0.5px 0.5px 1px 0.5px rgba(0, 0, 0, 0.25);
 }
 .NormalTable {
   width: 500px;
   border-collapse: collapse;
-  box-shadow: 0.5px 0.5px 1px 0.5px rgb(0, 0, 0, 0.25);
+  box-shadow: 0.5px 0.5px 1px 0.5px rgba(0, 0, 0, 0.25);
 }
 .Table td, .NormalTable td {
-  border: 1px solid rgb(18, 152, 189);
-  background: rgb(18, 152, 189, 0.04);
+  border: 1px solid rgb(var(--blue));
+  background: rgba(var(--blue), 0.04);
   padding: 8px 2px;
   box-sizing: border-box;
   text-align: center;
@@ -47,12 +48,12 @@
   max-width: 100px;
 }
 .Value {
-  color: rgb(26, 171, 152);
+  color: rgb(var(--green));
   font-weight: bold;
 }
 .HeaderFields {
-  color: rgb(15, 119, 147);
-  background: rgb(18, 152, 189, 0.1);
+  color: rgb(var(--dark-blue));
+  background: rgba(var(--blue), 0.1);
 }
 .HeaderFields th {
   padding: 10px 0;
@@ -60,6 +61,7 @@
 .Symbol {
   font-weight: bold;
   position: relative;
+  color: rgb(var(--dark-blue2));
 }
 .Symbol img {
   position: absolute;

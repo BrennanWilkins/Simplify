@@ -12,18 +12,18 @@
 }
 .NetWorthValue {
   margin-left: 50px;
-  color: rgb(26, 171, 152);
+  color: rgb(var(--green));
 }
 .NetWorthText {
-  color: rgb(10, 77, 96);
+  color: rgb(var(--dark-blue2));
 }
 .NetWorthValueSmall {
   margin-left: 30px;
-  color: rgb(26, 171, 152);
+  color: rgb(var(--green));
   font-size: 22px;
 }
 .NetWorthTextSmall {
-  color: rgb(10, 77, 96);
+  color: rgb(var(--dark-blue2));
   font-size: 22px;
 }
 .NetWorthChart, .NetWorthChartSmall {

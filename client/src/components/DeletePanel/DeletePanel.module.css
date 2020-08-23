@@ -4,7 +4,7 @@
   width: 250px;
   height: 190px;
   border-radius: 3px;
-  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   background: white;
   z-index: 2;
   padding: 10px;
@@ -27,7 +27,7 @@
 .Title {
   margin-top: 35px;
   text-align: center;
-  color: rgb(10, 77, 96);
+  color: rgb(var(--dark-blue2));
   padding: 5px;
 }
 .CloseBtn button {

@@ -23,10 +23,10 @@
   flex-direction: column;
 }
 .Title, .Title2 {
-  color: rgb(10, 77, 96);
   font-size: 22px;
   text-align: center;
   margin: 24px 0 10px;
+  color: rgb(var(--dark-blue2));
 }
 .Title2 {
   margin: 15px 0 5px;
@@ -38,8 +38,8 @@
   justify-content: center;
 }
 .SubTitle {
-  color: rgb(18, 152, 189);
   text-align: center;
+  color: rgb(var(--blue));
 }
 .BudgetContainer {
   width: 100%;
@@ -62,7 +62,7 @@
   background-color: #ddd;
 }
 .BudgetDiv {
-  border-bottom: 2px solid rgb(18, 152, 189, 0.2);
+  border-bottom: 2px solid rgba(var(--blue), 0.2);
   padding: 10px;
   width: 320px;
 }

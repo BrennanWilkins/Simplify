@@ -30,20 +30,20 @@
   transition: background 300ms;
 }
 .AuthTitle:hover .Bar2 {
-  background: rgb(32, 208, 185, 0.8);
+  background: rgba(32, 208, 185, 0.8);
   transition: background 300ms 50ms;
 }
 .AuthTitle:hover .Bar3 {
-  background: rgb(32, 208, 185, 0.6);
+  background: rgba(32, 208, 185, 0.6);
   transition: background 300ms 100ms;
 }
 .AuthTitle:hover .Bar4 {
-  background: rgb(32, 208, 185, 0.4);
+  background: rgba(32, 208, 185, 0.4);
   transition: background 300ms 150ms;
 }
 .Title h1, .AuthTitle h1 {
   font-size: 25px;
-  background: linear-gradient(to right, rgb(18, 152, 189), rgb(26, 171, 152));
+  background: linear-gradient(to right, rgb(var(--blue)), rgb(var(--green)));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   position: relative;
@@ -65,21 +65,21 @@
 }
 .Bar1 {
   height: 25px;
-  background: rgb(18, 152, 189);
+  background: rgb(var(--blue));
   transition: background 300ms 150ms;
 }
 .Bar2 {
   height: 30px;
-  background: rgb(18, 152, 189, 0.8);
+  background: rgba(var(--blue), 0.8);
   transition: background 300ms 100ms;
 }
 .Bar3 {
   height: 40px;
-  background: rgb(18, 152, 189, 0.6);
+  background: rgba(var(--blue), 0.6);
   transition: background 300ms 50ms;
 }
 .Bar4 {
   height: 50px;
-  background: rgb(18, 152, 189, 0.4);
+  background: rgba(var(--blue), 0.4);
   transition: background 300ms;
 }

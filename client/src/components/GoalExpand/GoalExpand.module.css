@@ -2,7 +2,7 @@
   width: 370px;
   left: 0;
   transition: 400ms ease-in 100ms;
-  background: rgb(184, 217, 226);
+  background: rgb(var(--light-blue));
   text-align: center;
   padding: 0 0 20px;
   overflow: auto;
@@ -13,11 +13,11 @@
   height: calc(100% - 70px);
 }
 .Container::-webkit-scrollbar-track {
-  background: rgb(184, 217, 226);
+  background: rgb(var(--light-blue));
 }
 .Container::-webkit-scrollbar {
   width: 12px;
-  background: rgb(184, 217, 226);
+  background: rgb(var(--light-blue));
 }
 .Container::-webkit-scrollbar-thumb {
   border-radius: 10px;
@@ -27,7 +27,7 @@
   transform: translateX(-100%);
 }
 .Title {
-  color: rgb(10, 77, 96);
+  color: rgb(var(--dark-blue2));
   margin-bottom: 0;
   word-wrap: break-word;
   padding: 0 10px;

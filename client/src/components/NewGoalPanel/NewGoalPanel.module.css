@@ -5,7 +5,7 @@
   width: 350px;
   height: 400px;
   border-radius: 3px;
-  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   background: white;
   z-index: 20;
   padding: 10px;
@@ -27,7 +27,7 @@
 }
 .PrevBtn, .NextBtn, .DisPrevBtn, .DisNextBtn {
   color: white;
-  background: rgb(15, 119, 147);
+  background: rgb(var(--dark-blue));
   transition: background 250ms;
   border: 0;
   border-radius: 3px;
@@ -36,7 +36,7 @@
   cursor: pointer;
 }
 .PrevBtn:hover, .NextBtn:hover {
-  background: rgb(10, 77, 96);
+  background: rgb(var(--dark-blue2));
   transition: background 250ms;
 }
 .Icon {
@@ -49,17 +49,17 @@
   transform: rotate(180deg);
 }
 .DisPrevBtn {
-  background: rgb(15, 119, 147, 0.6);
+  background: rgba(var(--dark-blue), 0.6);
 }
 .DisNextBtn {
-  background: rgb(26, 171, 152, 0.8);
+  background: rgba(var(--green), 0.8);
 }
 .DisNextBtn:hover {
-  background: rgb(26, 171, 152);
+  background: rgb(var(--green));
   transition: background 250ms;
 }
 .Content {
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
   height: 320px;
   text-align: center;
   padding: 5px;
@@ -79,7 +79,7 @@
 .Examples {
   overflow: auto;
   width: 100%;
-  background: rgb(18, 152, 189, 0.05);
+  background: rgba(var(--blue), 0.05);
   border-radius: 3px;
 }
 .Examples::-webkit-scrollbar-track {

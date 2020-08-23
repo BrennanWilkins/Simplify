@@ -1,7 +1,7 @@
 .Category, .SmallCategory {
   width: 200px;
   word-wrap: break-word;
-  color: rgb(18, 152, 189);
+  color: rgb(var(--blue));
   font-weight: bold;
 }
 .SmallCategory {
@@ -13,7 +13,7 @@
   border-radius: 20px;
   height: 25px;
   width: 300px;
-  border: 2px solid rgb(18, 152, 189);
+  border: 2px solid rgb(var(--blue));
   overflow: hidden;
 }
 .SmallBudgetOval {
@@ -21,7 +21,7 @@
   height: 20px;
 }
 .BudgetOverlay, .SmallBudgetOverlay {
-  background: linear-gradient(to right, rgb(18, 152, 189), rgb(26, 171, 152));
+  background: linear-gradient(to right, rgb(var(--blue)), rgb(var(--green)));
   height: 25px;
   border-radius: 20px;
 }
@@ -31,7 +31,7 @@
 .OverlaySpan, .SmallOverlaySpan, .ShowRight, .SmallShowRight {
   margin: 0 10px;
   float: right;
-  color: rgb(10, 77, 96);
+  color: rgb(var(--dark-blue2));
   font-weight: bold;
   width: 120px;
   height: 25px;
@@ -55,7 +55,7 @@
 }
 .BudgetVal, .SmallBudgetVal {
   width: 150px;
-  color: rgb(15, 119, 147);
+  color: rgb(var(--dark-blue));
   font-weight: bold;
   word-wrap: break-word;
 }

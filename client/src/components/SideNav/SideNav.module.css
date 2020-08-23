@@ -4,7 +4,7 @@
   left: 0;
   transform: translateX(0);
   transition: all 400ms;
-  background: rgb(42, 69, 92);
+  background: rgb(var(--dark-blue3));
   z-index: 100;
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@
   margin: 25px 0 0;
 }
 .Link:hover, .LogoutLink:hover {
-  color: rgb(26, 171, 152);
+  color: rgb(var(--green));
   transition: color 300ms;
 }
 .Link:hover .FocusBorder, .LogoutLink:hover .FocusBorder {
@@ -36,7 +36,7 @@
   opacity: 1;
 }
 .LinkActive {
-  color: rgb(26, 171, 152);
+  color: rgb(var(--green));
 }
 .FocusBorder {
   position: absolute;
@@ -44,7 +44,7 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: rgb(26, 171, 152);
+  background: rgb(var(--green));
   transition: 300ms ease-out;
   opacity: 0;
 }

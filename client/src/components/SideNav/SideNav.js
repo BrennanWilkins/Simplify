@@ -8,7 +8,7 @@ import PanelContainer from '../PanelContainer/PanelContainer';
 const SideNav = props => (
   <PanelContainer show={props.show} close={props.close}>
     <div className={props.show ? classes.SideNav : classes.HideSideNav}>
-      <Title />
+      <div onClick={props.close}><Title /></div>
       <Link className={props.location.pathname === '/portfolio' ? [classes.LinkActive, classes.Link].join(' ') : classes.Link} to="/portfolio" onClick={props.close}>
         Portfolio
         <div className={classes.FocusBorder}></div>
