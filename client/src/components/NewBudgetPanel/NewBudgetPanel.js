@@ -36,7 +36,15 @@ const BudgetPage = props => {
   };
 
   const addHandler = () => {
-    if (categVal === '' || budgetVal === 0) { return; }
+    // validate inputs
+    if (categVal === '') {
+      setErr(true);
+      return setErrMsg('The category name cannot be empty.');
+    }
+    if (budgetVal === 0 || budgetVal >= 9999999999) {
+      setErr(true);
+      return setErrMsg('Please enter a valid budget value.');
+    }
     for (let budget of budgets) {
       if (budget.category === categVal) {
         setErr(true);

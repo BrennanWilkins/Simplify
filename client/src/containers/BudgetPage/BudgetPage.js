@@ -13,6 +13,7 @@ import BlueBtn from '../../components/UI/BlueBtn/BlueBtn';
 import { Input, NumInput } from '../../components/UI/Inputs/Inputs';
 import BudgetByCateg from '../../components/BudgetByCateg/BudgetByCateg';
 import DeletePanel from '../../components/DeletePanel/DeletePanel';
+import { formatNum } from '../../utils/formatNum';
 
 const BudgetPage = props => {
   const [showCreate, setShowCreate] = useState(false);
@@ -92,7 +93,7 @@ const BudgetPage = props => {
               </div>
             </div>
             <div className={classes.Budget}>
-              <h1 className={classes.TotalBudget}>Total monthly budget: ${Number(totBudget).toFixed(2)}</h1>
+              <h1 className={classes.TotalBudget}>Total monthly budget: ${formatNum(totBudget)}</h1>
               <div className={classes.Btns}>
                 <div className={classes.BtnsBtn}><BlueBtn big noMargin clicked={() => setShowBudgetPanel(true)}>Edit Budget</BlueBtn></div>
                 <div className={classes.BtnsBtn}><BlueBtn big noMargin clicked={() => setShowDeletePanel(true)}>Delete Budget</BlueBtn></div>

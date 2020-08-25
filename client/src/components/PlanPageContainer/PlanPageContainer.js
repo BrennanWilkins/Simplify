@@ -7,13 +7,13 @@ const PlanPageContainer = props => {
   const qRef = useRef();
   const [showInfo, setShowInfo] = useState(false);
 
-  const handleClick = e => {
-    // dont close info panel if clicking on panel or question icon
-    if (infoRef.current.contains(e.target) || qRef.current.contains(e.target)) { return; }
-    setShowInfo(false);
-  };
-
   useEffect(() => {
+    const handleClick = e => {
+      // dont close info panel if clicking on panel or question icon
+      if (infoRef.current.contains(e.target) || qRef.current.contains(e.target)) { return; }
+      setShowInfo(false);
+    };
+
     if (showInfo) { document.addEventListener('mousedown', handleClick); }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [showInfo]);
@@ -37,7 +37,7 @@ const PlanPageContainer = props => {
         based on the values you enter. The earlier you start saving towards your goal, the less you have to save per month
         due to the compounding effect of holding your investments over time.`
         :
-        `'Principal Investment' refers to your initial funds that you are starting with. 'Monthly Contribution' refers to the 
+        `'Principal Investment' refers to your initial funds that you are starting with. 'Monthly Contribution' refers to the
         amount you add to your investments each month. 'Years Compounded' refers to how many years you are investing for.
         'Yearly return in %' is thevpercentage return on your investments you expect to make per year.`}</p>
       </div>

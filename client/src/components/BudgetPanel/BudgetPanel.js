@@ -66,6 +66,11 @@ const BudgetPanel = props => {
         setErrMsg('Budget values cannot be zero.');
         return false;
       }
+      if (budgets[i].budget >= 9999999999) {
+        setErr(true);
+        setErrMsg('One of your budgets is too high.');
+        return false;
+      }
       if (budgets[i].category === '') {
         setErr(true);
         setErrMsg('Category names cannot be empty.');

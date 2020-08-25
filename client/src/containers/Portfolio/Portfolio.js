@@ -39,7 +39,7 @@ const Portfolio = props => {
       case '?pos=assets': return assetRef.current.scrollIntoView();
       default: return contentRef.current.scrollIntoView();
     }
-  }, []);
+  }, [props.location.search]);
 
   const showBuySellHandler = mode => {
     if ((mode === 'BuyStock' || mode === 'SellStock') && props.stocks.length === 0) {

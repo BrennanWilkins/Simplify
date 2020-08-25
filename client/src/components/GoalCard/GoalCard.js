@@ -30,7 +30,7 @@ const GoalCard = props => {
     // set date that goal will be reached in state
     if (props.isNW) { setReachDate(calcNWRate(props.data, props.goal)); }
     else { setReachDate(calcGoalRate(props.contributions, props.goal, props.curr)); }
-  }, [props.goal, props.data, props.contributions]);
+  }, [props.goal, props.data, props.contributions, props.isNW]);
 
   useEffect(() => {
     // show expanded net worth goal by default
@@ -46,7 +46,7 @@ const GoalCard = props => {
     // add window resize listener
     window.addEventListener('resize', updateWidth);
     return () => window.removeEventListener('resize', updateWidth);
-  }, []);
+  }, [props.isNW]);
 
   useEffect(() => {
     // get formatted date

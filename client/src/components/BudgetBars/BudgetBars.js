@@ -3,15 +3,15 @@ import classes from './BudgetBars.module.css';
 import { formatNum } from '../../utils/formatNum';
 
 const BudgetBars = props => {
-  let budgetWidth = ((props.budget.budget - props.budget.remaining) / props.budget.budget) * 300;
+  let budgetWidth = ((props.budget.budget - props.budget.remaining) / props.budget.budget) * 304;
   // prevent budget bar from overflowing max width
-  if (budgetWidth > 300) { budgetWidth = 300; }
+  if (budgetWidth > 304) { budgetWidth = 304; }
   if (props.small) {
     // adjust budget bars for home screen
-    budgetWidth = ((props.budget.budget - props.budget.remaining) / props.budget.budget) * 150;
-    if (budgetWidth > 150) { budgetWidth = 150; }
+    budgetWidth = ((props.budget.budget - props.budget.remaining) / props.budget.budget) * 152;
+    if (budgetWidth > 152) { budgetWidth = 152; }
   }
-  let budgetSpent = (props.budget.budget - props.budget.remaining).toFixed(2);
+  let budgetSpent = '$' + formatNum((props.budget.budget - props.budget.remaining));
   // doesn't show budget spent if over $1,000,000
   if (budgetSpent > 1000000) { budgetSpent = ''; }
   return (
@@ -21,7 +21,7 @@ const BudgetBars = props => {
         <div className={props.small ? classes.SmallBudgetOverlay : classes.BudgetOverlay} style={{ width: `${budgetWidth}px` }}>
           <span className={props.small ? (budgetWidth < 70 ? classes.SmallShowRight : classes.SmallOverlaySpan)
             : budgetWidth < 140 ? classes.ShowRight : classes.OverlaySpan}>
-            ${budgetSpent}
+            {budgetSpent}
           </span>
         </div>
       </div>

@@ -15,7 +15,7 @@ const NavBar = props => {
   useEffect(() => {
     // auto shows help panel if in demo mode
     if (props.isDemo) { setShowHelp(true); }
-  }, []);
+  }, [props.isDemo]);
 
   return (
     <div>
