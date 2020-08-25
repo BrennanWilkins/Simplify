@@ -11,6 +11,8 @@ import NetWorthChart from '../NetWorthChart/NetWorthChart';
 import InvestmentTable from '../InvestmentTable/InvestmentTable';
 import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
+import NWPopup from '../NWPopup/NWPopup';
+import { hideNWPopup } from '../../../store/actions';
 
 const Portfolio = props => {
   const [showStockSearch, setShowStockSearch] = useState(false);
@@ -54,9 +56,18 @@ const Portfolio = props => {
     setShowSellCrypto(true);
   };
 
+  useEffect(() => {
+    if (props.showNWPopup) {
+      // hide NWPopup after 6 sec or on unmount
+      setTimeout(() => props.hideNWPopup(), 6000);
+      return () => props.hideNWPopup();
+    }
+  }, []);
+
   return (
     <div className={classes.Container}>
       <div className={classes.Content} ref={contentRef}>
+        <NWPopup show={props.showNWPopup} close={props.hideNWPopup} />
         <NetWorthChart small={false} />
         <div className={classes.Investments}>
           <div className={classes.Stocks} ref={stockRef}>
@@ -129,7 +140,12 @@ const Portfolio = props => {
 
 const mapStateToProps = state => ({
   stocks: state.portfolio.stocks,
-  cryptos: state.portfolio.cryptos
+  cryptos: state.portfolio.cryptos,
+  showNWPopup: state.notifications.showNWPopup
 });
 
-export default connect(mapStateToProps)(withRouter(Portfolio));
+const mapDispatchToProps = dispatch => ({
+  hideNWPopup: () => dispatch(hideNWPopup())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Portfolio));

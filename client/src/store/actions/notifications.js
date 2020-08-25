@@ -9,6 +9,7 @@ export const addNotif = notif => (dispatch, getState) => {
 };
 
 export const removeNotif = id => (dispatch, getState) => {
+  // delete notification after 6 sec
   setTimeout(() => {
     const notifs = getState().notifications.notifs.filter(notif => notif.id !== id);
     dispatch(setNotifs(notifs));
@@ -18,3 +19,5 @@ export const removeNotif = id => (dispatch, getState) => {
 export const setNotifs = notifs => ({ type: actionTypes.SET_NOTIFS, notifs });
 
 export const deleteNotif = id => ({ type: actionTypes.DELETE_NOTIF, id });
+
+export const hideNWPopup = () => ({ type: actionTypes.HIDE_NWPOPUP });

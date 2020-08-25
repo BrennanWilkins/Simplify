@@ -1,0 +1,67 @@
+.Panel, .Hide {
+  position: absolute;
+  width: 250px;
+  height: 175px;
+  border-radius: 3px;
+  box-shadow: var(--box-shadow1);
+  background: white;
+  z-index: 2;
+  padding: 10px;
+  overflow: hidden;
+  top: 100px;
+  opacity: 0;
+  visibility: hidden;
+  left: -250px;
+}
+.Panel {
+  animation: fadeIn 400ms ease-in 800ms forwards;
+}
+.Hide {
+  animation: fadeOut 400ms ease-in forwards;
+}
+@keyframes fadeIn {
+  0% {
+    left: -250px;
+    opacity: 0;
+    visibility: hidden;
+  }
+  25% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    left: 10px;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    left: 10px;
+    opacity: 1;
+    visibility: visible;
+  }
+  75% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    left: -250px;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.Info {
+  margin-top: 35px;
+  padding: 10px;
+  text-align: center;
+  font-size: 1.05em;
+}
+.Green {
+  color: rgb(var(--green));
+  font-weight: bold;
+}
+.Red {
+  color: red;
+  font-weight: bold;
+}
