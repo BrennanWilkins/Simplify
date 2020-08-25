@@ -1,17 +1,17 @@
 import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
-import AuthPanel from './containers/AuthPanel/AuthPanel';
+import AuthPanel from './components/AuthPage/AuthPanel/AuthPanel';
 import { connect } from 'react-redux';
 import { autoLogin } from './store/actions/index';
-import NavBar from './components/NavBar/NavBar';
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import NavBar from './components/UI/NavBar/NavBar';
+import ErrorBoundary from './components/UI/ErrorBoundary/ErrorBoundary';
 import Spinner from './components/UI/Spinner/Spinner';
-import Notifications from './components/Notifications/Notifications';
-const Portfolio = React.lazy(() => import('./containers/Portfolio/Portfolio'));
-const BudgetPage = React.lazy(() => import('./containers/BudgetPage/BudgetPage'));
-const HomePage = React.lazy(() => import('./containers/HomePage/HomePage'));
-const GoalPage = React.lazy(() => import('./containers/GoalPage/GoalPage'));
-const PlanPage = React.lazy(() => import('./containers/PlanPage/PlanPage'));
+import Notifications from './components/UI/Notifications/Notifications';
+const Portfolio = React.lazy(() => import('./components/PortfolioPage/Portfolio/Portfolio'));
+const BudgetPage = React.lazy(() => import('./components/BudgetPage/BudgetPage/BudgetPage'));
+const HomePage = React.lazy(() => import('./components/HomePage/HomePage/HomePage'));
+const GoalPage = React.lazy(() => import('./components/GoalPage/GoalPage/GoalPage'));
+const PlanPage = React.lazy(() => import('./components/PlanPage/PlanPage/PlanPage'));
 
 const App = props => {
   useEffect(() => {
