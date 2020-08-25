@@ -21,7 +21,7 @@
   height: 24px;
 }
 .BudgetOverlay, .SmallBudgetOverlay {
-  background: linear-gradient(to right, rgb(var(--blue)), rgb(var(--green)));
+  background-image: linear-gradient(to right, rgb(var(--blue)), rgb(var(--green)));
   border-radius: 20px;
   height: 29px;
   margin-left: -2px;

@@ -1,5 +1,5 @@
 .Card {
-  box-shadow: 0.5px 0.5px 7px 0 rgba(0,0,0,0.5);
+  box-shadow: var(--box-shadow4);
   margin: 10px;
   width: 370px;
   text-align: center;

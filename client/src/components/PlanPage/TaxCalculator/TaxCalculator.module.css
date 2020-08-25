@@ -6,7 +6,7 @@
 .InputBox {
   border-radius: 3px;
   border: 1px solid rgb(var(--blue));
-  box-shadow: 0.5px 0.5px 5px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: var(--box-shadow3);
   width: 400px;
   margin: 20px 0;
   height: 380px;
@@ -55,7 +55,7 @@
 .TransBox {
   border-radius: 3px;
   border: 1px solid rgb(var(--blue));
-  box-shadow: 0.5px 0.5px 5px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: var(--box-shadow3);
   width: 400px;
   height: 381px;
   background: rgb(var(--dark-blue));

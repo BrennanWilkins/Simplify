@@ -35,7 +35,7 @@
   left: calc(50% - 215px);
   transition: 250ms ease-out;
   border: 1px solid rgb(var(--blue));
-  box-shadow: 0.5px 0.5px 5px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: var(--box-shadow3);
 }
 .HideInfo {
   visibility: hidden;

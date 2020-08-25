@@ -8,7 +8,7 @@
   border-radius: 3px;
   margin: 0 0 10px;
   cursor: pointer;
-  transition: background 250ms;
+  transition: background 300ms;
 }
 .NoBigBtn {
   margin: 0;
@@ -18,5 +18,4 @@
 }
 .Btn:hover, .BigBtn:hover, .NoBigBtn:hover {
   background: rgb(var(--dark-blue2));
-  transition: background 250ms;
 }

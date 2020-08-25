@@ -4,7 +4,7 @@
   width: 350px;
   height: 600px;
   border-radius: 3px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: var(--box-shadow1);
   background: white;
   z-index: 100;
   padding: 10px;

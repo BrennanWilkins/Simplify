@@ -6,7 +6,7 @@
   font-size: 16px;
   border-radius: 3px;
   cursor: pointer;
-  transition: background 250ms;
+  transition: background 300ms;
   margin: 5px;
   background: rgba(var(--green), 0.7);
 }
@@ -15,5 +15,4 @@
 }
 .BigBtn:hover, .Btn:hover {
   background: rgb(var(--green));
-  transition: background 250ms;
 }
