@@ -43,7 +43,7 @@
   margin: 10px 0;
   color: white;
   background: rgba(var(--green), 0.7);
-  transition: all 250ms;
+  transition: 300ms;
   border: 0;
   border-radius: 3px;
   outline: none;
@@ -54,11 +54,9 @@
 .HideCreateBtn {
   opacity: 0;
   visibility: hidden;
-  transition: all 250ms;
 }
 .CreateBtn:hover {
   background: rgb(var(--green));
-  transition: background 250ms;
 }
 .Entries {
   width: 100%;

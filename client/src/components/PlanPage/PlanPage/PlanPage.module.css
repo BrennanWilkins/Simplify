@@ -94,7 +94,6 @@
 }
 .Btn:hover {
   background: rgba(var(--blue), 0.8);
-  transition: 300ms;
 }
 .HideChart {
   visibility: hidden;

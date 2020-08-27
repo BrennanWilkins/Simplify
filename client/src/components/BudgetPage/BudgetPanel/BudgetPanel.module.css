@@ -30,7 +30,7 @@
   margin: 20px 0 15px;
   color: white;
   background: rgba(var(--green), 0.7);
-  transition: background 250ms;
+  transition: background 300ms;
   border: 0;
   border-radius: 3px;
   outline: none;
@@ -45,11 +45,9 @@
 }
 .AddBtn button:hover {
   background: rgb(var(--dark-blue2));
-  transition: background 250ms;
 }
 .ConfirmBtn button:hover {
   background: rgb(var(--green));
-  transition: background 250ms;
 }
 .ConfirmBtn {
   width: 100%;

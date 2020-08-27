@@ -106,7 +106,7 @@
   cursor: pointer;
   opacity: 1;
   visibility: visible;
-  transition: all 250ms;
+  transition: all 300ms;
   font-size: 14px;
 }
 .HideConfirm {
@@ -119,7 +119,6 @@
 }
 .Confirm:hover {
   background: rgb(var(--dark-blue2));
-  transition: background 250ms;
 }
 .ShowErr, .HideErr {
   opacity: 1;

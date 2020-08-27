@@ -22,7 +22,6 @@
 }
 .Title span:hover {
   color: rgb(var(--blue));
-  transition: 300ms ease-out;
 }
 .ShowInfo, .HideInfo {
   font-size: 16px;

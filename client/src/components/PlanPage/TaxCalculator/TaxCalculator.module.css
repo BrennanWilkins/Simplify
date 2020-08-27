@@ -42,7 +42,6 @@
 }
 .Field button:hover {
   background: rgb(var(--dark-blue2));
-  transition: 300ms ease-out;
 }
 .Field select {
   width: 170px;
@@ -99,7 +98,6 @@
   padding: 5px 31px;
 }
 .CalcBtn:hover, .ResetBtn:hover {
-  transition: 300ms ease-out;
   background: rgb(var(--dark-blue2));
 }
 .TransHeader, .TransField {

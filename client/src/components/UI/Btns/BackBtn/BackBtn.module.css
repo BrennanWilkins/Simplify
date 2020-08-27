@@ -10,7 +10,7 @@
   font-size: 20px;
   padding: 2.5px;
   background: rgb(var(--dark-blue));
-  transition: background 250ms;
+  transition: background 300ms;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,7 +19,6 @@
 }
 .BackBtn:hover {
   background: rgb(var(--dark-blue2));
-  transition: background 250ms;
 }
 .Hide {
   display: none;

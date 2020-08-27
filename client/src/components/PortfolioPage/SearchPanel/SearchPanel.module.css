@@ -12,8 +12,6 @@
   z-index: 2;
   padding: 10px;
   overflow: hidden;
-  opacity: 1;
-  transform: scale(1);
   transition: all 400ms;
 }
 .StockPanel {

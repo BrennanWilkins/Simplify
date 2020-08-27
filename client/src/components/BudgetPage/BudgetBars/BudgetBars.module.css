@@ -9,24 +9,24 @@
   font-size: 12px;
   padding-right: 5px;
 }
-.BudgetOval, .SmallBudgetOval {
+.Oval, .SmallOval {
   border-radius: 20px;
   width: 300px;
   overflow: hidden;
   height: 29px;
   box-shadow: inset 0 0 0 2px rgb(var(--blue));
 }
-.SmallBudgetOval {
+.SmallOval {
   width: 150px;
   height: 24px;
 }
-.BudgetOverlay, .SmallBudgetOverlay {
+.Overlay, .SmallOverlay {
   background-image: linear-gradient(to right, rgb(var(--blue)), rgb(var(--green)));
   border-radius: 20px;
   height: 29px;
   margin-left: -2px;
 }
-.SmallBudgetOverlay {
+.SmallOverlay {
   height: 24px;
 }
 .OverlaySpan, .SmallOverlaySpan, .ShowRight, .SmallShowRight {
@@ -65,6 +65,55 @@
   width: 75px;
   font-size: 12px;
   text-align: center;
+}
+/* Overlay 2 used to prevent remaining from showing on overlay hover */
+.Overlay2 {
+  border-radius: 20px;
+  height: 29px;
+  position: absolute;
+  background: transparent;
+  top: 0;
+  left: 222px;
+}
+.Oval:hover .Remaining {
+  opacity: 1;
+  visibility: visible;
+}
+.Overlay2:hover .Remaining {
+  opacity: 0;
+  visibility: hidden;
+}
+.Hide {
+  display: none;
+}
+.Remaining {
+  position: absolute;
+  top: 36px;
+  border-radius: 25px;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.15);
+  font-size: 13px;
+  padding: 5px 10px;
+  background: rgb(var(--dark-blue));
+  color: white;
+  opacity: 0;
+  visibility: hidden;
+  transition: 450ms;
+  width: 120px;
+  word-wrap: break-word;
+  z-index: 2;
+  box-sizing: border-box;
+  font-weight: normal;
+  text-align: center;
+}
+.Remaining:after {
+  content: " ";
+  position: absolute;
+  left: calc(50% - 7px);
+  top: -7px;
+  border-top: none;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-bottom: 7px solid rgb(var(--dark-blue));
 }
 @media (max-width: 1040px) {
   .BudgetVal {

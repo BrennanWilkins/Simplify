@@ -22,7 +22,6 @@
 .Oval:hover .Remaining {
   opacity: 1;
   visibility: visible;
-  transition: 450ms;
 }
 .Overlay:hover .Remaining {
   opacity: 0;

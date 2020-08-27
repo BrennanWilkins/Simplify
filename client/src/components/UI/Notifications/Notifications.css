@@ -47,10 +47,10 @@
   border-radius: 3px;
   transition: background 300ms;
   cursor: pointer;
+  outline: none;
 }
 .Notifs-Btn:hover {
   background: rgb(46, 145, 132);
-  transition: background 300ms;
 }
 .Notifs-Btn span {
   display: flex;
