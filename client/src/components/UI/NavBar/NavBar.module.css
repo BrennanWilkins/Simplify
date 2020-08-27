@@ -18,7 +18,6 @@
 }
 .Link:hover, .LogoutLink:hover {
   color: rgb(var(--green));
-  transition: color 300ms;
 }
 .Link:hover .FocusBorder, .LogoutLink:hover .FocusBorder {
   width: 100%;

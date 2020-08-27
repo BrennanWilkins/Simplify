@@ -36,3 +36,4 @@ export const DELETE_BUDGET = 'DELETE_BUDGET';
 export const SET_NOTIFS = 'SET_NOTIFS';
 export const DELETE_NOTIF = 'DELETE_NOTIF';
 export const HIDE_NWPOPUP = 'HIDE_NWPOPUP';
+export const NWPOPUP_SHOWN = 'NWPOPUP_SHOWN';

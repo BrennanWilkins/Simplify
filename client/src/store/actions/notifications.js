@@ -21,3 +21,5 @@ export const setNotifs = notifs => ({ type: actionTypes.SET_NOTIFS, notifs });
 export const deleteNotif = id => ({ type: actionTypes.DELETE_NOTIF, id });
 
 export const hideNWPopup = () => ({ type: actionTypes.HIDE_NWPOPUP });
+
+export const setNWPopupShown = () => ({ type: actionTypes.NWPOPUP_SHOWN });

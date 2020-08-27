@@ -19,6 +19,9 @@
 .Hide {
   animation: fadeOut 400ms ease-in forwards;
 }
+.Shown {
+  display: none;
+}
 @keyframes fadeIn {
   0% {
     left: -250px;
