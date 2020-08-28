@@ -33,9 +33,6 @@ const GoalCard = props => {
   }, [props.goal, props.data, props.contributions, props.isNW]);
 
   useEffect(() => {
-    // show expanded net worth goal by default
-    if (props.isNW) { setShowMore(true); }
-
     const updateWidth = () => {
       setWidth(window.innerWidth);
       setShowMore(false);
@@ -46,7 +43,7 @@ const GoalCard = props => {
     // add window resize listener
     window.addEventListener('resize', updateWidth);
     return () => window.removeEventListener('resize', updateWidth);
-  }, [props.isNW]);
+  }, []);
 
   useEffect(() => {
     // get formatted date
@@ -145,7 +142,7 @@ const GoalCard = props => {
 
   return (
     <React.Fragment>
-      <div className={classes.Card}>
+      <div className={classes.Card} style={{ animationDelay: `${150 * props.ind}ms` }}>
         <div className={classes.CheckMark}>{props.isComplete && <span>{checkMarkIcon2}</span>}</div>
         <h2 className={classes.Title}>{props.name}</h2>
         <h2 className={classes.Title2}>

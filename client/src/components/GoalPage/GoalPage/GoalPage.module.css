@@ -83,3 +83,36 @@
     align-items: center;
   }
 }
+.SortBtns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0 10px;
+}
+.Active, .Inactive {
+  width: 100px;
+  margin: 0 10px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  color: rgb(var(--dark-blue));
+}
+.FocusBorder {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: rgb(var(--dark-blue));
+  transition: all 300ms ease-out;
+  opacity: 0;
+}
+.Active .FocusBorder, .Inactive:hover .FocusBorder {
+  width: 100%;
+  transition: width 300ms ease-out, left 300ms ease-out;
+  left: 0;
+  opacity: 1;
+}
+.Active {
+  font-weight: 600;
+}
