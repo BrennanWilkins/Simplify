@@ -40,7 +40,7 @@
   color: rgb(var(--dark-blue2));
 }
 .SearchInput input {
-  width: 250px;
+  width: 245px;
 }
 .Results {
   width: 100%;

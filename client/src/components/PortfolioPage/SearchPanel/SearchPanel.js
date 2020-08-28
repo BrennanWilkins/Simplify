@@ -11,8 +11,6 @@ import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import { NumInput, Input } from '../../UI/Inputs/Inputs';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
 
-let typingTimeout;
-
 const SearchPanel = props => {
   const [query, setQuery] = useState('');
   const [searchRes, setSearchRes] = useState([]);
@@ -27,6 +25,7 @@ const SearchPanel = props => {
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [loading, setLoading] = useState(false);
+  const [typingTimeout, setTypingTimeout] = useState();
   const inputRef = useRef();
   const isStock = props.mode === 'Stock';
 
@@ -38,9 +37,9 @@ const SearchPanel = props => {
     // searches for stock/crypto 600ms after user stops typing
     setQuery(val);
     clearTimeout(typingTimeout);
-    typingTimeout = isStock ?
-    setTimeout(() => searchStock(val), 600) :
-    setTimeout(() => searchCrypto(val), 600);
+    isStock ?
+    setTypingTimeout(setTimeout(() => searchStock(val), 600)) :
+    setTypingTimeout(setTimeout(() => searchCrypto(val), 600));
   };
 
   const searchStock = stock => {
