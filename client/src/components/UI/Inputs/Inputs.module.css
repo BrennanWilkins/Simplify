@@ -1,11 +1,19 @@
 .Input, .DateInput {
   padding: 5px;
   font-size: 16px;
-  border-radius: 3px;
-  border: 1px solid rgb(var(--blue));
-  background: rgba(var(--blue), 0.03);
+  background: rgba(var(--blue), 0.02);
   outline: none;
+  border: 1px solid rgba(var(--blue), 0.6);
+  border-radius: 2px;
+  transition: box-shadow 200ms ease-out, border 100ms ease-out;
 }
 .DateInput {
   padding: 2px 3px;
+}
+.Input:focus, .DateInput:focus {
+  border: 1px solid rgba(var(--blue), 0.9);
+  box-shadow: 0 0 2px 0 rgba(var(--blue), 0.9);
+}
+.Input:hover, .DateInput:hover {
+  box-shadow: 0 0 2px 0 rgba(var(--blue), 0.9);
 }
