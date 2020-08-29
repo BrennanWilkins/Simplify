@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classes from './AssetPanel.module.css';
 import * as actions from '../../../store/actions/index';
 import { connect } from 'react-redux';
@@ -23,6 +23,8 @@ const AssetPanel = props => {
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [newValue, setNewValue] = useState('');
+  const nameRef = useRef();
+  const valRef = useRef();
 
   useEffect(() => {
     switch(props.mode) {
@@ -30,6 +32,7 @@ const AssetPanel = props => {
         setTitleText('Add a new asset');
         if (props.show) { setPanelClass(classes.AddAsset); }
         else { setPanelClass(classes.HideAddAsset); }
+        nameRef.current.focus();
         break;
       case 'RemoveAsset':
         setTitleText('Select an asset to remove it from your portfolio');
@@ -41,6 +44,7 @@ const AssetPanel = props => {
         setTitleText('Add a new liability');
         if (props.show) { setPanelClass(classes.AddDebt); }
         else { setPanelClass(classes.HideAddDebt); }
+        nameRef.current.focus();
         break;
       case 'RemoveDebt':
         setTitleText('Select a liability to remove it from your portfolio');
@@ -64,6 +68,13 @@ const AssetPanel = props => {
   }, [props.mode, props.show]);
 
   useEffect(() => btnClassHandler(), [inputName, inputDesc, inputValue]);
+
+  useEffect(() => {
+    // focus input if asset/liability is selected
+    if ((props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') && selectedName !== '') {
+      valRef.current.focus();
+    }
+  }, [props.mode, selectedName]);
 
   const closeHandler = () => {
     setTitleText('');
@@ -246,7 +257,7 @@ const AssetPanel = props => {
           <div className={classes.Inputs}>
             <div>
               <p>Name</p>
-              <Input val={inputName} change={val => setInputName(val)} />
+              <Input val={inputName} change={val => setInputName(val)} ref={nameRef} />
             </div>
             <div>
               <p>Description</p>
@@ -260,7 +271,7 @@ const AssetPanel = props => {
         }
         {(props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') && selectedName !== '' ?
           <div className={classes.NewValueInput}>
-            <NumInput val={newValue} change={newValueHandler} />
+            <NumInput val={newValue} change={newValueHandler} ref={valRef} />
           </div>
         : null}
         <button onClick={confirmHandler} className={confirmClass}>Confirm</button>

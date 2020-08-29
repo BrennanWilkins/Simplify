@@ -46,14 +46,13 @@
 .ShowInput, .HideInput {
   background: white;
   width: 100%;
-  opacity: 1;
-  transition: all 250ms;
+  transition: opacity 300ms;
   margin: 30px 0 0;
-  visibility: visible;
 }
 .HideInput {
   opacity: 0;
-  visibility: hidden;
+  pointer-events: none;
+  cursor: default;
 }
 .ShowInput input, .HideInput input {
   width: 60%;

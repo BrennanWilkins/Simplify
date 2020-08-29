@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import classes from './SettingsPanel.module.css';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import '../../UI/ReactSelectStyles.css';
@@ -11,23 +11,22 @@ import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import { NumInput } from '../../UI/Inputs/Inputs';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
 
-const originalSelected = { name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Manual' };
-
 const SettingsPanel = props => {
   const [selectedName, setSelectedName] = useState('');
-  const [selected, setSelected] = useState({ ...originalSelected });
+  const [selected, setSelected] = useState({
+    name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Manual'
+  });
   const [priceVal, setPriceVal] = useState(0);
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const [showInput, setShowInput] = useState(false);
+  const priceRef = useRef();
 
   const closeHandler = () => {
-    setSelected({ ...originalSelected });
+    setSelected({ name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Manual' });
     setPriceVal(0);
     setSelectedName('');
     setErr(false);
     setErrMsg('');
-    setShowInput(false);
     props.close();
   };
 
@@ -43,10 +42,8 @@ const SettingsPanel = props => {
   const selectHandler = selectedOption => {
     if (!selectedOption) {
       setSelectedName('');
-      setShowInput(false);
-      return setSelected({ ...originalSelected });
+      return setSelected({ name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Manual' });
     }
-    setShowInput(true);
     setSelectedName(selectedOption);
     setErr(false);
     setErrMsg('');
@@ -55,6 +52,7 @@ const SettingsPanel = props => {
     const match = curr.find(inv => inv.name === selectedOption.value);
     setSelected({ ...match });
     setPriceVal(match.price);
+    priceRef.current.focus();
   };
 
   const confirmHandler = async () => {
@@ -106,8 +104,8 @@ const SettingsPanel = props => {
         <Select options={props.mode === 'Stock' ? stockOptions : cryptoOptions}
           className={classes.Dropdown} onChange={selectHandler} isSearchable
           value={selectedName} classNamePrefix="react-select" />
-        <div className={showInput ? classes.ShowInput : classes.HideInput}>
-          <NumInput val={priceVal} change={setValHandler} />
+        <div className={selectedName !== '' ? classes.ShowInput : classes.HideInput}>
+          <NumInput val={priceVal} change={setValHandler} ref={priceRef} />
           <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
           <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
         </div>

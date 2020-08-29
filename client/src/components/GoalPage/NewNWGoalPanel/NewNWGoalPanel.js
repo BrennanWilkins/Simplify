@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import classes from './NewNWGoalPanel.module.css';
 import { NumInput } from '../../UI/Inputs/Inputs';
@@ -13,6 +13,9 @@ const NewNWGoalPanel = props => {
   const [goalVal, setGoalVal] = useState('');
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const inputRef = useRef();
+
+  useEffect(() => { if (props.show) { inputRef.current.focus(); } }, [props.show]);
 
   const closeHandler = () => {
     setGoalVal('');
@@ -54,7 +57,7 @@ const NewNWGoalPanel = props => {
         <h2 className={classes.Title}>Create a new net worth goal</h2>
         <p className={classes.Title2}>This goal will be tracked based on the total value of your portfolio.</p>
         <h2 className={classes.Title3}>${formatNum(goalVal)}</h2>
-        <div className={classes.Input}><NumInput val={goalVal} change={goalValHandler} /></div>
+        <div className={classes.Input}><NumInput val={goalVal} change={goalValHandler} ref={inputRef} /></div>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
         <GreenBtn big clicked={createHandler}>Create</GreenBtn>
       </div>

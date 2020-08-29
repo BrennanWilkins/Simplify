@@ -108,14 +108,15 @@
   justify-content: center;
   align-items: center;
   opacity: 1;
-  transition: opacity 250ms;
+  transition: opacity 300ms;
 }
 .InputDiv input {
   width: 60%;
 }
 .HideInputDiv, .HideConfirmBtn {
   opacity: 0;
-  visibility: hidden;
+  cursor: default;
+  pointer-events: none;
 }
 .Dropdown {
   width: 230px;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classes from './BuySellPanel.module.css';
 import { connect } from 'react-redux';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
@@ -10,16 +10,15 @@ import '../../UI/ReactSelectStyles.css';
 import { NumInput } from '../../UI/Inputs/Inputs';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
 
-const originalSelected = { name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Normal' };
-
 const BuySellPanel = props => {
-  const [selected, setSelected] = useState({ ...originalSelected });
+  const [selected, setSelected] = useState({ name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Normal' });
   const [selectedName, setSelectedName] = useState('');
   const [selectedVal, setSelectedVal] = useState(0);
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [panelClass, setPanelClass] = useState(classes.Hide);
   const [titleText, setTitleText] = useState('');
+  const inputRef = useRef();
 
   useEffect(() => {
     // change panel UI based on mode (buy/sell/stocks/cryptos)
@@ -48,7 +47,7 @@ const BuySellPanel = props => {
   }, [props.mode, props.show]);
 
   const closeHandler = () => {
-    setSelected({ ...originalSelected });
+    setSelected({ name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Normal' });
     setSelectedVal(0);
     setSelectedName('');
     errHandler(false);
@@ -138,7 +137,7 @@ const BuySellPanel = props => {
   const selectHandler = selectedOption => {
     if (!selectedOption) {
       setSelectedName('');
-      return setSelected({ ...originalSelected });
+      return setSelected({ name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Normal' });
     }
     setSelectedName(selectedOption);
     errHandler(false);
@@ -150,6 +149,7 @@ const BuySellPanel = props => {
       const cryptoMatch = props.cryptos.find(crypto => crypto.name === selectedOption.value);
       setSelected({ ...cryptoMatch });
     }
+    inputRef.current.focus();
   };
 
   const stockOptions = props.stocks.map(stock => ({ value: stock.name, label: stock.name }));
@@ -174,7 +174,7 @@ const BuySellPanel = props => {
           `How much ${selected.symbol} did you sell?`}
         </p>
         <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
-          <NumInput val={selectedVal} change={setValHandler} />
+          <NumInput val={selectedVal} change={setValHandler} ref={inputRef} />
           {props.mode === 'SellStock' || props.mode === 'SellCrypto' ? (
             <button className={classes.AllBtn} onClick={() => setSelectedVal(selected.quantity)}>All</button>
           ) : null}

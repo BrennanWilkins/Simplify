@@ -106,7 +106,8 @@ const SearchPanel = props => {
     data.identifier = manual ? 'Manual' : 'Normal';
     // check if user has the stock/crypto already in portfolio
     const curr = isStock ? [...props.stocks] : [...props.cryptos];
-    const check = curr.filter(inv => inv.symbol === data.symbol);
+    // check if stock/cypto already in portfolio
+    const check = curr.filter(inv => inv.symbol === data.symbol || (inv.name === data.name && manual));
     if (check.length) { setErr(true); return setErrMsg(`You already have ${data.symbol} in your portfolio.`); }
     // add stock/crypto to portfolio
     curr.unshift({ ...data });

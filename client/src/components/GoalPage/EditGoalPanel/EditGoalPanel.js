@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classes from './EditGoalPanel.module.css';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ const EditGoalPanel = props => {
   const [goalDate, setGoalDate] = useState('');
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const nameRef = useRef();
 
   const closeHandler = () => {
     setGoalName('');
@@ -31,6 +32,7 @@ const EditGoalPanel = props => {
       setGoalName(findGoal.name);
       setGoalVal(findGoal.goal);
       setGoalDate(findGoal.date);
+      nameRef.current.focus();
     }
   }, [props.show]);
 
@@ -77,7 +79,7 @@ const EditGoalPanel = props => {
       <div className={props.show ? classes.Panel : classes.Hide}>
         <CloseBtn close={closeHandler} />
         <div className={classes.Inputs}>
-          <div>Name<Input val={goalName} change={val => { setGoalName(val); setErr(false); }} /></div>
+          <div>Name<Input val={goalName} change={val => { setGoalName(val); setErr(false); }} ref={nameRef} /></div>
           <div>Amount<NumInput val={goalVal} change={val => { setGoalVal(val); setErr(false); }} /></div>
           <div className={classes.DateInput}>Target date<DateInput val={goalDate} change={val => { setGoalDate(val); setErr(false); }} /></div>
         </div>

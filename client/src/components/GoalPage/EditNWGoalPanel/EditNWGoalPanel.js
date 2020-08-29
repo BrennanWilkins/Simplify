@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classes from './EditNWGoalPanel.module.css';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import { connect } from 'react-redux';
@@ -12,10 +12,13 @@ const EditNWGoalPanel = props => {
   const [inputVal, setInputVal] = useState('');
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const inputRef = useRef();
+
+  useEffect(() => setInputVal(props.goal), [props.goal]);
 
   useEffect(() => {
-    setInputVal(props.goal);
-  }, [props.goal, props.show]);
+    if (props.show) { inputRef.current.focus(); }
+  }, [props.show]);
 
   const closeHandler = () => {
     setInputVal(props.goal);
@@ -54,7 +57,9 @@ const EditNWGoalPanel = props => {
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : classes.Hide}>
         <CloseBtn close={closeHandler} />
-        <div className={classes.Input}><NumInput val={inputVal} change={val => { setErr(false); setInputVal(val); }} /></div>
+        <div className={classes.Input}>
+          <NumInput val={inputVal} change={val => { setErr(false); setInputVal(val); }} ref={inputRef} />
+        </div>
         <div className={classes.BtnDiv}>
           <GreenBtn clicked={editHandler}>Change</GreenBtn>
         </div>
