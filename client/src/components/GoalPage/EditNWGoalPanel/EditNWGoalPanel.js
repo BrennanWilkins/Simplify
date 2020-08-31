@@ -53,6 +53,14 @@ const EditNWGoalPanel = props => {
     .catch(err => { errHandler(true); });
   };
 
+  useEffect(() => {
+    // enter key submit handler
+    const enterHandler = e => { if (e.key === 'Enter') { editHandler(); } };
+
+    if (props.show) { document.addEventListener('keypress', enterHandler); }
+    return () => document.removeEventListener('keypress', enterHandler);
+  }, [props.show, editHandler]);
+
   return (
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : classes.Hide}>

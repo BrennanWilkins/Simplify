@@ -64,6 +64,14 @@ const ContribPanel = props => {
     });
   };
 
+  useEffect(() => {
+    const enterHandler = e => { if (e.key === 'Enter') { addHandler(); } };
+
+    // add enter key submit
+    if (props.show) { document.addEventListener('keypress', enterHandler); }
+    return () => document.removeEventListener('keypress', enterHandler);
+  }, [props.show, addHandler]);
+
   return (
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : classes.Hide}>

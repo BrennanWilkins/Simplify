@@ -83,3 +83,10 @@ export const minusIcon = (
     <path fillRule="evenodd" d="M3.5 8a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.5-.5z"/>
   </svg>
 );
+
+export const caretNeutralIcon = (
+  <span style={{ position: 'relative', marginRight: '12px' }}>
+    <span style={{ transform: 'rotate(-90deg)', top: '-15px', position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{caretIcon}</span>
+    <span style={{ transform: 'rotate(90deg)', top: '-8px', position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{caretIcon}</span>
+  </span>
+);

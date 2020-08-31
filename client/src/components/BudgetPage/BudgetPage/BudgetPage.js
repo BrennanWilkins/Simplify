@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './BudgetPage.module.css';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
@@ -60,6 +60,14 @@ const BudgetPage = props => {
       console.log(err);
     });
   };
+
+  useEffect(() => {
+    // add enter key submit listener if add transaction shown
+    const enterHandler = e => { if (e.key === 'Enter') { confirmAddTransHandler(); } }
+
+    if (addTransCateg !== '') { document.addEventListener('keypress', enterHandler); }
+    return () => document.removeEventListener('keypress', enterHandler);
+  }, [addTransCateg, confirmAddTransHandler]);
 
   const deleteHelper = () => {
     props.deleteBudget();

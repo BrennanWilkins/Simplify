@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import btcIcon from '../../../assets/btcIcon.png';
 import ethIcon from '../../../assets/ethIcon.png';
 import ltcIcon from '../../../assets/ltcIcon.png';
-import { caretIcon } from '../../UI/UIIcons';
+import { caretIcon, caretNeutralIcon } from '../../UI/UIIcons';
 
 const InvestmentTable = props => {
   const [data, setData] = useState([]);
@@ -89,19 +89,29 @@ const InvestmentTable = props => {
         <thead>
           <tr className={classes.HeaderFields}>
             <th>{props.mode === 'Stocks' ? 'Ticker' : props.mode === 'Cryptos' ? 'Symbol' : 'Name'}
-              {props.normal && <span onClick={() => sortHandler('symbol')} className={getClass('symbol')}>{caretIcon}</span>}
+              {props.normal && <span onClick={() => sortHandler('symbol')} className={getClass('symbol')}>
+                {sortMethods[getCorrectField('symbol')] === '' ? caretNeutralIcon : caretIcon}
+              </span>}
             </th>
             <th>{props.mode === 'Stocks' ? 'Company Name' : props.mode === 'Cryptos' ? 'Cryptocurrency' : 'Description'}
-              {props.normal && <span onClick={() => sortHandler('name')} className={getClass('name')}>{caretIcon}</span>}
+              {props.normal && <span onClick={() => sortHandler('name')} className={getClass('name')}>
+                {sortMethods[getCorrectField('name')] === '' ? caretNeutralIcon : caretIcon}
+              </span>}
             </th>
             <th>{props.mode === 'Stocks' ? 'Shares' : props.mode === 'Cryptos' ? 'Quantity': 'Value'}
-              {props.normal && <span onClick={() => sortHandler('quantity')} className={getClass('quantity')}>{caretIcon}</span>}
+              {props.normal && <span onClick={() => sortHandler('quantity')} className={getClass('quantity')}>
+                {sortMethods[getCorrectField('quantity')] === '' ? caretNeutralIcon : caretIcon}
+              </span>}
             </th>
             {props.mode === 'Stocks' || props.mode === 'Cryptos' ? <th>Price
-              {props.normal && <span onClick={() => sortHandler('price')} className={getClass('price')}>{caretIcon}</span>}
+              {props.normal && <span onClick={() => sortHandler('price')} className={getClass('price')}>
+                {sortMethods.price === '' ? caretNeutralIcon : caretIcon}
+              </span>}
             </th> : null}
             {props.mode === 'Stocks' || props.mode === 'Cryptos' ? <th>Value
-              {props.normal && <span onClick={() => sortHandler('value')} className={getClass('value')}>{caretIcon}</span>}
+              {props.normal && <span onClick={() => sortHandler('value')} className={getClass('value')}>
+                {sortMethods.value === '' ? caretNeutralIcon : caretIcon}
+              </span>}
             </th> : null}
           </tr>
         </thead>

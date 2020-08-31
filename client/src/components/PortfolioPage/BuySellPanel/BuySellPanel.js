@@ -46,6 +46,14 @@ const BuySellPanel = props => {
     }
   }, [props.mode, props.show]);
 
+  useEffect(() => {
+    // enter key submit if input field not 0
+    const enterHandler = e => { if (e.key === 'Enter') { confirmHandler(); } };
+
+    if (selectedVal !== 0) { document.addEventListener('keypress', enterHandler); }
+    return () => document.removeEventListener('keypress', enterHandler);
+  }, [selectedVal]);
+
   const closeHandler = () => {
     setSelected({ name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Normal' });
     setSelectedVal(0);
