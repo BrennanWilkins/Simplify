@@ -1,5 +1,5 @@
 .Card {
-  box-shadow: var(--box-shadow4);
+  box-shadow: var(--box-shadow5);
   margin: 10px;
   width: 370px;
   text-align: center;
@@ -36,10 +36,6 @@
 .Title2 {
   margin: 15px 0 20px;
   font-size: 20px;
-}
-.Title3 {
-  color: rgb(var(--dark-blue));
-  margin: 15px 0 10px;
 }
 .Curr {
   color: rgb(var(--green));

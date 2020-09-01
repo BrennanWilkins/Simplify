@@ -21,7 +21,7 @@
 }
 .Container::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background: rgb(139, 183, 195);
+  background: rgba(139, 183, 195, 0.7);
 }
 .Hide {
   transform: translateX(-100%);

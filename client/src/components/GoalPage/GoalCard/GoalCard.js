@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import classes from './GoalCard.module.css';
 import GoalBar from '../GoalBar/GoalBar';
 import { formatNum } from '../../../utils/formatNum';
+import { formatDate } from '../../../utils/formatDate';
 import EditNWGoalPanel from '../EditNWGoalPanel/EditNWGoalPanel';
 import DeletePanel from '../../UI/DeletePanel/DeletePanel';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
@@ -49,11 +50,7 @@ const GoalCard = props => {
   useEffect(() => {
     // get formatted date
     if (props.isNW || props.date === '') { return; }
-    let date = (props.date).split('-');
-    let m = date[1].charAt(0) === '0' ? date[1].slice(1) : date[1];
-    let d = date[2].charAt(0) === '0' ? date[2].slice(1) : date[2];
-    let y = date[0] === String(new Date().getFullYear()) ? date[0].slice(2) : date[0];
-    setGoalDate([m, d, y].join('/'));
+    setGoalDate(formatDate(props.date));
   }, [props.date]);
 
   const deleteNWHelper = () => {
@@ -124,11 +121,7 @@ const GoalCard = props => {
           <ContribPanel show={showAddContrib} close={() => setShowAddContrib(false)} _id={props._id} isDemo={props.isDemo} />
         </div>}
       <div className={classes.CurrRate}>{reachDate}</div>
-      {!props.isNW &&
-        <div>
-          <h3 className={classes.Title3}>Recent Contributions</h3>
-          <ContribTable data={props.contributions} />
-        </div>}
+      {!props.isNW && <ContribTable data={props.contributions} />}
       <div className={classes.BtnDiv}>
         <div className={classes.Btns}>
           <BlueBtn clicked={() => setShowEdit(true)}>Edit goal</BlueBtn>

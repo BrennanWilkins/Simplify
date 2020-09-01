@@ -7,6 +7,7 @@ import * as actions from '../../../store/actions/index';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import { instance as axios } from '../../../axios';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
+import { formatDate2 } from '../../../utils/formatDate';
 
 const ContribPanel = props => {
   const [contribVal, setContribVal] = useState('');
@@ -18,14 +19,7 @@ const ContribPanel = props => {
   useEffect(() => {
     if (props.show) {
       // get todays date in correct format
-      let date = new Date();
-      let y = date.getFullYear();
-      let m = '' + (date.getMonth() + 1);
-      if (m.length < 2) { m = '0' + m; }
-      let d = '' + date.getDate();
-      if (d.length < 2) { d = '0' + d; }
-      date = [y, m, d].join('-');
-      setContribDate(date);
+      setContribDate(formatDate2(new Date()));
 
       valRef.current.focus();
     }
@@ -46,11 +40,11 @@ const ContribPanel = props => {
 
   const addHandler = () => {
     // validate inputs
-    if (contribVal === 0 || contribVal === '' || contribDate === '') {
+    if (contribVal === 0 || contribVal === '' || contribDate === '' || contribVal > 999999999) {
       setErr(true);
       return setErrMsg('Please enter a valid value.');
     }
-    const contrib = { val: contribVal, date: contribDate };
+    const contrib = { val: String(contribVal), date: contribDate };
     if (props.isDemo) {
       props.addContrib(contrib, props._id);
       return addHelper();

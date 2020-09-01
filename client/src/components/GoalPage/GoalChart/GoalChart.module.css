@@ -8,12 +8,19 @@
   display: none;
 }
 .Block {
-  position: relative;
-  top: -11.9px;
-  width: 58px;
-  height: 10px;
+  position: absolute;
+  width: 35px;
+  height: 12.2px;
   background: white;
   z-index: 1;
-
-  display: none;
+  bottom: 0;
+}
+.Block::after {
+  content: ' ';
+  height: 5.4px;
+  width: 21px;
+  position: absolute;
+  left: 35px;
+  bottom: 4.5px;
+  background: inherit;
 }

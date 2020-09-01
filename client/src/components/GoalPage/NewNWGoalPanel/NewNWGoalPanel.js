@@ -37,7 +37,7 @@ const NewNWGoalPanel = props => {
 
   const createHandler = () => {
     // validate goal input value
-    if (goalVal === 0 || goalVal === '' || goalVal > 9999999999) {
+    if (goalVal === 0 || goalVal === '' || goalVal > 999999999999) {
       setErr(true);
       return setErrMsg('Please enter a valid goal.');
     }

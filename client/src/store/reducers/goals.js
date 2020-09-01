@@ -40,7 +40,7 @@ const addContrib = (state, action) => {
   // if contribution was made on same date then add it to that date else push to end
   const matchingIndex = contribs.findIndex(contrib => contrib.date === action.contrib.date);
   if (matchingIndex === -1) { contribs.push({ ...action.contrib }); }
-  else { contribs[matchingIndex].val = Number(contribs[matchingIndex].val) + Number(action.contrib.val); }
+  else { contribs[matchingIndex].val = String(Number(contribs[matchingIndex].val) + Number(action.contrib.val)); }
   goal.contributions = [...contribs];
   const otherGoals = [...state.otherGoals];
   otherGoals[index] = { ...goal };

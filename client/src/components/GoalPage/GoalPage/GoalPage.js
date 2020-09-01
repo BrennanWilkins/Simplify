@@ -77,7 +77,7 @@ const GoalPage = props => {
           isComplete={props.netWorthData[props.netWorthData.length - 1].value >= props.netWorthGoal}
           name="Net Worth Goal" />}
           {goals.map((goal, i) => (
-            <GoalCard key={i + props.otherGoals.length + filterMethod} {...goal} ind={i + 2} curr={goal.contributions.reduce((tot, curr) => tot + Number(curr.val), 0)} />))}
+            <GoalCard key={i + filterMethod + goals.length} {...goal} ind={i + 2} curr={goal.contributions.reduce((tot, curr) => tot + Number(curr.val), 0)} />))}
         </div>
         <div className={showCreateNWGoal || showCreateGoal ? classes.Backdrop : classes.HideBackdrop}></div>
       </div>

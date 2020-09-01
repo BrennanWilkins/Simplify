@@ -1,0 +1,45 @@
+.Title {
+  position: relative;
+  color: rgb(var(--dark-blue2));
+}
+.Title h3 {
+  margin: 0 0 14px;
+  display: inline-block;
+}
+.Title span {
+  font-size: 16px;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 400ms;
+  position: relative;
+  top: 2px;
+  margin-left: 5px;
+}
+.CaretDown {
+  top: 1px !important;
+  transform: rotate(90deg);
+}
+.Show, .Hide {
+  max-height: 400px;
+  transition: max-height 300ms ease-out;
+  overflow: hidden;
+  margin: 0 0 14px;
+}
+.Hide {
+  max-height: 0;
+}
+.Contrib {
+  border-bottom: 1.5px solid rgba(var(--dark-blue), 0.2);
+  width: 75%;
+  margin: 2px auto;
+  background: rgba(var(--blue), 0.2);
+  border-radius: 3px;
+}
+.Contrib span {
+  text-align: left;
+  padding: 7px 7px 7px 20px;
+  word-wrap: break-word;
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+}

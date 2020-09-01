@@ -32,14 +32,14 @@ const GoalChart = props => {
       dataPoints
     }],
     height: 300,
-    backgroundColor: props.blue ? 'rgb(231, 247, 251)' : 'transparent'
+    backgroundColor: props.blue ? 'rgb(224, 244, 249)' : 'transparent'
   };
 
   return (
     <div>
       <div className={classes.Chart}>
         <CanvasJSReact.CanvasJSChart options={options} />
-        <div className={classes.Block} style={props.blue ? { background: 'rgb(231, 247, 251)' } : undefined}></div>
+        <div className={classes.Block} style={props.blue ? { background: 'rgb(224, 244, 249)' } : undefined}></div>
       </div>
     </div>
   );

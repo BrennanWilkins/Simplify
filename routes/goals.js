@@ -14,7 +14,7 @@ router.get('/', auth, (req, res) => {
 router.put('/netWorthGoal', auth,
   [body('goal').isNumeric()],
   (req, res) => {
-    if (!validationResult(req).isEmpty() || Number(req.body.goal) <= 0) { return res.sendStatus(500); }
+    if (!validationResult(req).isEmpty() || Number(req.body.goal) <= 0 || Number(req.body.goal) > 999999999999) { return res.sendStatus(500); }
     Goals.findOneAndUpdate({ userId: req.userId }, { netWorthGoal: req.body.goal }, {}, (err, result) => {
       if (err) { return res.sendStatus(500); }
       res.sendStatus(200);
@@ -35,7 +35,7 @@ router.post('/otherGoals', auth,
   body('goal.date').trim().escape(),
   body('goal.name').not().isEmpty().trim().escape()],
   async (req, res) => {
-    if (!validationResult(req).isEmpty() || Number(req.body.goal) <= 0) { return res.sendStatus(500); }
+    if (!validationResult(req).isEmpty() || Number(req.body.goal) <= 0 || Number(req.body.goal) > 999999999999) { return res.sendStatus(500); }
     const newGoal = {
       name: req.body.goal.name,
       goal: Number(req.body.goal.goal),
@@ -61,7 +61,7 @@ router.put('/otherGoals', auth,
   body('goal.name').not().isEmpty().trim().escape(),
   body('goal._id').not().isEmpty().trim().escape()],
   async (req, res) => {
-    if (!validationResult(req).isEmpty() || Number(req.body.goal) <= 0) { return res.sendStatus(500); }
+    if (!validationResult(req).isEmpty() || Number(req.body.goal) <= 0 || Number(req.body.goal) > 999999999999) { return res.sendStatus(500); }
     try {
       const goals = await Goals.findOne({ userId: req.userId });
       const otherGoals = [...goals.otherGoals];
@@ -98,7 +98,7 @@ router.put('/otherGoals/addContrib', auth,
   body('contrib.val').isNumeric(),
   body('_id').not().isEmpty().trim().escape()],
   async (req, res) => {
-    if (!validationResult(req).isEmpty() || req.body.contrib.val <= 0) { return res.sendStatus(500); }
+    if (!validationResult(req).isEmpty() || Number(req.body.contrib.val) <= 0 || Number(req.body.contrib.val) > 999999999999) { return res.sendStatus(500); }
     try {
       const goals = await Goals.findOne({ userId: req.userId });
       const otherGoals = [...goals.otherGoals];

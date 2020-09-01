@@ -95,7 +95,7 @@ class NewGoalPanel extends React.Component {
       this.setState({ err: true, errMsg: 'The goal value cannot be zero.' });
       return false;
     }
-    if (this.state.goalVal > 9999999999) {
+    if (this.state.goalVal > 999999999999) {
       this.setState({ err: true, errMsg: 'Please enter a valid goal value.' });
       return false;
     }
