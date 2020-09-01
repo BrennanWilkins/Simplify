@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 import { instance } from '../../axios';
 import * as actions from './index';
 import { calcNetWorth, calcPortfolioValue } from '../../utils/valueCalcs';
-import { getDemoData } from '../../utils/demoData';
+import getDemoData from '../../utils/demoData';
 
 let expirationTimeout;
 
@@ -92,8 +92,9 @@ export const loadDemo = () => dispatch => {
     const updatedNetWorth = calcNetWorth(demoData.netWorthData, res.data.portfolio);
     dispatch(actions.setNetWorthData(updatedNetWorth));
     dispatch(actions.setPortfolio(calcPortfolioValue(res.data.portfolio)));
-    dispatch(actions.setNetWorthGoal(demoData.goal));
+    dispatch(actions.setNetWorthGoal(demoData.NWGoal));
     dispatch(actions.setBudget(demoData.budget));
+    dispatch(actions.setOtherGoals(demoData.otherGoals));
     dispatch(endLoading());
     dispatch(removeError());
     dispatch(demoLogin());

@@ -3,7 +3,7 @@ import classes from './HomePage.module.css';
 import HomeCard from '../HomeCard/HomeCard';
 import NetWorthChart from '../../PortfolioPage/NetWorthChart/NetWorthChart';
 import InvestmentTable from '../../PortfolioPage/InvestmentTable/InvestmentTable';
-import GoalChart from '../../GoalPage/GoalChart/GoalChart';
+import NWGoalChart from '../../GoalPage/NWGoalChart/NWGoalChart';
 import { connect } from 'react-redux';
 import BudgetBars from '../../BudgetPage/BudgetBars/BudgetBars';
 
@@ -59,7 +59,7 @@ const HomePage = props => {
             <div className={classes.Card}>
               <h1 className={classes.Title}>Net Worth Goal</h1>
               <div className={classes.ChartContainer}>
-                {props.netWorthGoal ? <GoalChart small /> : (
+                {props.netWorthGoal ? <NWGoalChart small /> : (
                   <p className={classes.SubTitle}>Create a new net worth goal!</p>
                 )}
               </div>

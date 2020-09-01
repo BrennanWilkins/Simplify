@@ -1,49 +1,19 @@
-.ChartContainer {
-  height: 330px;
+.Chart {
+  margin: auto;
   width: 330px;
   position: relative;
   z-index: 1;
-  margin: 5px auto 20px;
-  text-align: center;
-  color: rgb(var(--green));
 }
-.SmallChartContainer {
-  height: 200px;
-  width: 200px;
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  color: rgb(var(--green));
-}
-.ChartContainer a, .SmallChartContainer a {
+.Chart a {
   display: none;
 }
 .Block {
-  position: absolute;
-  background: rgb(var(--light-blue));
-  width: 100px;
-  height: 20px;
-  bottom: 0;
-  left: 0;
-}
-.SmallChartContainer .Block {
-  width: 59px;
+  position: relative;
+  top: -11.9px;
+  width: 58px;
+  height: 10px;
   background: white;
-}
-.ChartContainer h1 {
-  position: absolute;
-  width: 190px;
-  left: calc(50% - 95px);
-  top: 130px;
-  margin: 0;
-  font-size: 20px;
-}
-.SmallChartContainer h1 {
-  position: absolute;
-  margin: 0;
-  font-size: 14px;
-  height: 50px;
-  width: 120px;
-  left: 40px;
-  top: 75px;
+  z-index: 1;
+
+  display: none;
 }

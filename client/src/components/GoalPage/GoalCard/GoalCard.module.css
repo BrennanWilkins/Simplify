@@ -37,6 +37,10 @@
   margin: 15px 0 20px;
   font-size: 20px;
 }
+.Title3 {
+  color: rgb(var(--dark-blue));
+  margin: 15px 0 10px;
+}
 .Curr {
   color: rgb(var(--green));
 }

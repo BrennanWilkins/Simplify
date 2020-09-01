@@ -13,8 +13,9 @@ import { instance as axios } from '../../../axios';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
 import ContribPanel from '../ContribPanel/ContribPanel';
-import ContribChart from '../ContribChart/ContribChart';
+import GoalChart from '../GoalChart/GoalChart';
 import GoalExpand from '../GoalExpand/GoalExpand';
+import ContribTable from '../ContribTable/ContribTable';
 
 const GoalCard = props => {
   const [showMore, setShowMore] = useState(false);
@@ -119,10 +120,15 @@ const GoalCard = props => {
               <span className={classes.PlusIcon}>{plusIcon}</span>Add a contribution
             </GreenBtn>
           </div>
-          <ContribChart data={props.contributions} blue={width > 795} />
+          <GoalChart data={props.contributions} blue={width > 795} />
           <ContribPanel show={showAddContrib} close={() => setShowAddContrib(false)} _id={props._id} isDemo={props.isDemo} />
         </div>}
       <div className={classes.CurrRate}>{reachDate}</div>
+      {!props.isNW &&
+        <div>
+          <h3 className={classes.Title3}>Recent Contributions</h3>
+          <ContribTable data={props.contributions} />
+        </div>}
       <div className={classes.BtnDiv}>
         <div className={classes.Btns}>
           <BlueBtn clicked={() => setShowEdit(true)}>Edit goal</BlueBtn>

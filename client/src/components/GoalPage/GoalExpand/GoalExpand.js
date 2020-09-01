@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import classes from './GoalExpand.module.css';
-import GoalChart from '../GoalChart/GoalChart';
+import NWGoalChart from '../NWGoalChart/NWGoalChart';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 
 const GoalExpand = props => {
@@ -21,7 +21,7 @@ const GoalExpand = props => {
     <div ref={panelRef} className={props.show ? classes.Container : `${classes.Hide} ${classes.Container}`}>
       <div className={classes.CloseBtn}><CloseBtn close={props.hardClose} /></div>
       <h2 className={classes.Title}>{props.title}</h2>
-      {props.isNW && <GoalChart />}
+      {props.isNW && <NWGoalChart />}
       {props.children}
     </div>
   );
