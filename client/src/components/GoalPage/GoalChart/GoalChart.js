@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import classes from './GoalChart.module.css';
 import Chart from '../../UI/Chart/Chart';
 
 const GoalChart = props => {
-  // sort contributions & create goal value over time data
-  const data = [...props.data].sort((a, b) => new Date(a.date) - new Date(b.date));
-  const dataPoints = data.map((dataPt, i) => {
-    let date = dataPt.date.split('-');
-    let y = Number(data.slice(0, i + 1).reduce((acc, curr) => acc + Number(curr.val), 0).toFixed(2));
-    return { x: new Date(date[0], Number(date[1] - 1), date[2]), y };
-  });
+  const dataPoints = useMemo(() => {
+    // sort contributions & create goal value over time data
+    const data = [...props.data].sort((a, b) => new Date(a.date) - new Date(b.date));
+    const newData = data.map((dataPt, i) => {
+      let date = dataPt.date.split('-');
+      let y = Number(data.slice(0, i + 1).reduce((acc, curr) => acc + Number(curr.val), 0).toFixed(2));
+      return { x: new Date(date[0], Number(date[1] - 1), date[2]), y };
+    });
+    return newData;
+  }, [props.data]);
 
   const options = {
     animationEnabled: true,
@@ -34,6 +37,7 @@ const GoalChart = props => {
     <div>
       <div className={classes.Chart}>
         <Chart options={options} blue={props.blue} />
+        {props.data.length === 0 && <p className={classes.Text}>Add a contribution to see your goal progress here</p>}
       </div>
     </div>
   );

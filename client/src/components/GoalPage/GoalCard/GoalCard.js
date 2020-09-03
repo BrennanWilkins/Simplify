@@ -27,7 +27,15 @@ const GoalCard = props => {
   const [goalDate, setGoalDate] = useState('');
   const [reachDate, setReachDate] = useState('');
   const [width, setWidth] = useState(window.innerWidth);
+  const [showChart, setShowChart] = useState('');
   const showMoreBtn = useRef();
+
+  useEffect(() => {
+    if (!props.isNW) {
+      if (showMore) { setShowChart(true); }
+      else { setTimeout(() => setShowChart(false), 500); }
+    }
+  }, [props.isNW, showMore]);
 
   useEffect(() => {
     // set date that goal will be reached in state
@@ -118,7 +126,7 @@ const GoalCard = props => {
               <span className={classes.PlusIcon}>{plusIcon}</span>Add a contribution
             </GreenBtn>
           </div>
-          <GoalChart data={props.contributions} blue={width > 795} />
+          {showChart && <GoalChart data={props.contributions} blue={width > 795} />}
           <ContribPanel show={showAddContrib} close={() => setShowAddContrib(false)} _id={props._id} isDemo={props.isDemo} />
         </div>}
       <div className={classes.CurrRate}>{reachDate}</div>

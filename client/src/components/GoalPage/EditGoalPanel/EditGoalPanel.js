@@ -91,8 +91,8 @@ const EditGoalPanel = props => {
           <div>Amount<NumInput val={goalVal} change={val => { setGoalVal(val); setErr(false); }} /></div>
           <div className={classes.DateInput}>Target date<DateInput val={goalDate} change={val => { setGoalDate(val); setErr(false); }} /></div>
         </div>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
         <div className={classes.BtnDiv}><GreenBtn clicked={editHandler}>Change</GreenBtn></div>
+        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
     </PanelContainer>
   );

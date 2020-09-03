@@ -1,10 +1,18 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import classes from './GoalExpand.module.css';
 import NWGoalChart from '../NWGoalChart/NWGoalChart';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 
 const GoalExpand = props => {
   const panelRef = useRef();
+  const [showChart, setShowChart] = useState(false);
+
+  useEffect(() => {
+    if (props.isNW) {
+      if (props.show) { setShowChart(true); }
+      else { setTimeout(() => setShowChart(false), 500); }
+    }
+  }, [props.show, props.isNW]);
 
   useEffect(() => {
     const handleClick = e => {
@@ -21,7 +29,7 @@ const GoalExpand = props => {
     <div ref={panelRef} className={props.show ? classes.Container : `${classes.Hide} ${classes.Container}`}>
       <div className={classes.CloseBtn}><CloseBtn close={props.hardClose} /></div>
       <h2 className={classes.Title}>{props.title}</h2>
-      {props.isNW && <NWGoalChart />}
+      {showChart && <NWGoalChart />}
       {props.children}
     </div>
   );

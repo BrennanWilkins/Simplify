@@ -79,6 +79,8 @@ class NewGoalPanel extends React.Component {
     // if enter key pressed then dont over scroll
     if (isEnter) { this.contentRef.current.scrollTo({ left: 350 * (this.state.currPage - 1), behavior: 'smooth' }); }
     else { this.contentRef.current.scrollTo({ left: 350 * this.state.currPage, behavior: 'smooth' }); }
+    this.nameInput.current.blur();
+    this.valInput.current.blur();
   }
 
   isValid = () => {
