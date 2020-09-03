@@ -7,6 +7,8 @@ import * as actions from '../../../store/actions/index';
 import { Input, NumInput } from '../../UI/Inputs/Inputs';
 import { v4 as uuid } from 'uuid';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
+import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
+import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
 
 const BudgetPanel = props => {
   const [budgets, setBudgets] = useState([]);
@@ -115,9 +117,9 @@ const BudgetPanel = props => {
               <CloseBtn close={() => deleteOneHandler(budget.id)} />
             </div>
           ))}
-          <div className={classes.AddBtn}><button onClick={addHandler}>Add a new category</button></div>
+          <div className={classes.AddBtn}><BlueBtn clicked={addHandler}>Add a new category</BlueBtn></div>
         </div>
-        <div className={classes.ConfirmBtn}><button onClick={confirmHandler}>Confirm</button></div>
+        <div className={classes.ConfirmBtn}><GreenBtn big clicked={confirmHandler}>Confirm</GreenBtn></div>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
     </PanelContainer>

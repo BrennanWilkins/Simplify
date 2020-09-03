@@ -10,6 +10,7 @@ import { instance as axios } from '../../../axios';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import BudgetBars from '../BudgetBars/BudgetBars';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
+import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
 import { Input, NumInput } from '../../UI/Inputs/Inputs';
 import BudgetByCateg from '../BudgetByCateg/BudgetByCateg';
 import DeletePanel from '../../UI/DeletePanel/DeletePanel';
@@ -102,9 +103,9 @@ const BudgetPage = props => {
             </div>
             <div className={classes.Budget}>
               <h1 className={classes.TotalBudget}>Total monthly budget: ${formatNum(totBudget)}</h1>
-              <div className={classes.Btns}>
-                <div className={classes.BtnsBtn}><BlueBtn big noMargin clicked={() => setShowBudgetPanel(true)}>Edit Budget</BlueBtn></div>
-                <div className={classes.BtnsBtn}><BlueBtn big noMargin clicked={() => setShowDeletePanel(true)}>Delete Budget</BlueBtn></div>
+              <div className={classes.Options}>
+                <div className={classes.Btn}><BlueBtn big clicked={() => setShowBudgetPanel(true)}>Edit Budget</BlueBtn></div>
+                <div className={classes.Btn}><BlueBtn big clicked={() => setShowDeletePanel(true)}>Delete Budget</BlueBtn></div>
                 <BudgetPanel showUp={showCharts} show={showBudgetPanel} close={() => setShowBudgetPanel(false)} />
                 <DeletePanel showUp={showCharts} show={showDeletePanel} mode="budget" close={() => setShowDeletePanel(false)} delete={deleteHandler} />
               </div>
@@ -117,7 +118,7 @@ const BudgetPage = props => {
                         <button className={classes.ShowBtn} onClick={() => showTransHandler(budget.category)}>
                           Transactions<span className={showCategs.includes(budget.category) ? classes.CaretDown : classes.CaretRight}>{caretIcon}</span>
                         </button>
-                        <button className={classes.AddBtn} onClick={() => addTransHandler(budget.category)}>Add Transaction</button>
+                        <span className={classes.AddBtn}><GreenBtn big clicked={() => addTransHandler(budget.category)}>Add Transaction</GreenBtn></span>
                       </div>
                     </div>
                     <div className={showCategs.includes(budget.category) ? classes.Transactions : classes.HideTransactions}>
@@ -136,10 +137,7 @@ const BudgetPage = props => {
                     <div className={addTransCateg === budget.category ? classes.ShowAddTrans : classes.HideAddTrans}>
                       <Input val={transDesc} change={val => setTransDesc(val)} ph="Transaction Description" />
                       <div className={classes.CostInput}><NumInput val={transCost} change={val => setTransCost(val)} ph="Cost" /></div>
-                      <div className={classes.BtnDiv}>
-                        <BlueBtn big noMargin clicked={confirmAddTransHandler}>Add</BlueBtn>
-                        <CloseBtn budget close={() => setAddTransCateg('')} />
-                      </div>
+                      <div className={classes.ConfirmBtn}><BlueBtn big clicked={confirmAddTransHandler}>Add</BlueBtn></div>
                     </div>
                   </div>
                 );
@@ -148,7 +146,7 @@ const BudgetPage = props => {
           </div>
         ) : (
           <div className={classes.NewDiv}>
-            <BlueBtn big noMargin clicked={() => setShowCreate(true)}>Create a new budget</BlueBtn>
+            <BlueBtn big clicked={() => setShowCreate(true)}>Create a new budget</BlueBtn>
             <NewBudgetPanel show={showCreate} close={() => setShowCreate(false)} />
           </div>
         )}

@@ -1,4 +1,4 @@
-.BigBtn, .Btn, .NoBigBtn {
+.BigBtn, .Btn {
   background: rgb(var(--dark-blue));
   color: white;
   border: 0;
@@ -8,14 +8,13 @@
   border-radius: 3px;
   margin: 0 0 10px;
   cursor: pointer;
-  transition: background 300ms;
-}
-.NoBigBtn {
-  margin: 0;
+  transition: 300ms;
+  box-shadow: var(--box-shadow7);
 }
 .Btn {
   font-size: 14px;
 }
-.Btn:hover, .BigBtn:hover, .NoBigBtn:hover {
+.Btn:hover, .BigBtn:hover {
   background: rgb(var(--dark-blue2));
+  box-shadow: var(--box-shadow8);
 }

@@ -5,6 +5,7 @@ import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import { instance as axios } from '../../../axios';
 import * as actions from '../../../store/actions/index';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
+import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
 import { Input, NumInput } from '../../UI/Inputs/Inputs';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
 
@@ -75,7 +76,7 @@ const BudgetPage = props => {
   return (
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : classes.HidePanel}>
-        <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
+        <CloseBtn close={closeHandler} />
         <div className={classes.InputDiv}>
           <div className={classes.Field}>
             <p className={classes.Text}>Category</p>
@@ -86,7 +87,7 @@ const BudgetPage = props => {
             <NumInput val={budgetVal} change={budgetValHandler} />
           </div>
         </div>
-        <div className={classes.BtnDiv2}>
+        <div className={classes.AddBtn}>
           <BlueBtn clicked={addHandler}>Add category</BlueBtn>
         </div>
         <div className={classes.Entries}>
@@ -97,10 +98,8 @@ const BudgetPage = props => {
             </div>
           ))}
         </div>
-        <div className={classes.BtnDiv3}>
-          <button onClick={createHandler} className={budgets.length > 0 ? classes.CreateBtn : classes.HideCreateBtn}>
-            Create budget
-          </button>
+        <div className={budgets.length ? classes.CreateBtn : classes.HideCreateBtn}>
+          <GreenBtn clicked={createHandler}>Create budget</GreenBtn>
         </div>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>

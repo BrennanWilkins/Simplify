@@ -107,9 +107,9 @@
   width: 350px;
   display: flex;
   justify-content: center;
+  margin: 10px 0 0;
 }
 .Results button {
-  margin: 10px 0 0;
   padding: 5px 10px;
 }
 .ShowInput button, .HideInput button {

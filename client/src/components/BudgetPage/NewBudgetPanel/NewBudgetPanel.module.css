@@ -28,35 +28,20 @@
   align-items: center;
   margin-top: 25px;
 }
-.BtnDiv {
-  width: 100%;
+.AddBtn button {
+  display: block;
+  margin: 20px auto 10px;
 }
-.BtnDiv2, .BtnDiv3 {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-.BtnDiv2 button {
-  margin: 20px 0 10px;
+.CreateBtn button, .HideCreateBtn button {
+  display: block;
+  margin: 10px auto;
 }
 .CreateBtn, .HideCreateBtn {
-  margin: 10px 0;
-  color: white;
-  background: rgba(var(--green), 0.7);
   transition: 300ms;
-  border: 0;
-  border-radius: 3px;
-  outline: none;
-  padding: 8px 10px;
-  cursor: pointer;
-  font-size: 14px;
 }
 .HideCreateBtn {
   opacity: 0;
   visibility: hidden;
-}
-.CreateBtn:hover {
-  background: rgb(var(--green));
 }
 .Entries {
   width: 100%;
@@ -88,9 +73,9 @@
   opacity: 1;
   transition: opacity 300ms;
   text-align: center;
-  font-size: 16px;
+  font-size: 15px;
   height: 25px;
-  color: rgb(var(--dark-blue));
+  color: rgb(var(--dark-blue2));
   margin: 0 0 10px;
 }
 .HideErr {

@@ -5,8 +5,8 @@
 }
 .InputBox {
   border-radius: 3px;
-  border: 1px solid rgb(var(--blue));
-  box-shadow: var(--box-shadow3);
+  border: 1.5px solid rgb(var(--blue));
+  box-shadow: var(--box-shadow6);
   width: 400px;
   margin: 20px 0;
   height: 380px;
@@ -32,16 +32,8 @@
 .Field button {
   padding: 5px 20px;
   font-size: 16px;
-  color: white;
-  background: rgb(var(--dark-blue));
-  transition: 300ms ease-out;
-  border: 0;
-  outline: none;
-  cursor: pointer;
-  margin: 42px 9.3px 0;
-}
-.Field button:hover {
-  background: rgb(var(--dark-blue2));
+  margin: 40px 9.3px 0;
+  border-radius: 0;
 }
 .Field select {
   width: 170px;
@@ -54,7 +46,7 @@
 .TransBox {
   border-radius: 3px;
   border: 1px solid rgb(var(--blue));
-  box-shadow: var(--box-shadow3);
+  box-shadow: var(--box-shadow6);
   width: 400px;
   height: 381px;
   background: rgb(var(--dark-blue));
@@ -83,22 +75,14 @@
   align-items: flex-end;
   height: 100px;
 }
-.CalcBtn, .ResetBtn {
+.CalcBtn button, .ResetBtn button {
   margin: 0 20px 20px;
   padding: 5px 20px;
   font-size: 16px;
-  color: white;
-  background: rgb(var(--dark-blue));
-  transition: 300ms ease-out;
-  border: 0;
-  outline: none;
-  cursor: pointer;
+  border-radius: 0;
 }
-.ResetBtn {
+.ResetBtn button {
   padding: 5px 31px;
-}
-.CalcBtn:hover, .ResetBtn:hover {
-  background: rgb(var(--dark-blue2));
 }
 .TransHeader, .TransField {
   display: flex;

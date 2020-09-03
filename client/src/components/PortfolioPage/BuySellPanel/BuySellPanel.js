@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import classes from './BuySellPanel.module.css';
 import { connect } from 'react-redux';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
+import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import * as actions from '../../../store/actions/index';
 import { instance as axios } from '../../../axios';
 import { calcNetWorth } from '../../../utils/valueCalcs';
@@ -166,9 +167,7 @@ const BuySellPanel = props => {
   return (
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={panelClass}>
-        <div className={classes.BtnDiv}>
-          <CloseBtn close={closeHandler} />
-        </div>
+        <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
         <p className={classes.Text}>{titleText}</p>
         <Select options={props.mode === 'BuyStock' || props.mode === 'SellStock' ? stockOptions : cryptoOptions}
           className={classes.Dropdown} onChange={selectHandler} isSearchable value={selectedName} classNamePrefix="react-select" />
@@ -183,13 +182,12 @@ const BuySellPanel = props => {
         </p>
         <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
           <NumInput val={selectedVal} change={setValHandler} ref={inputRef} />
-          {props.mode === 'SellStock' || props.mode === 'SellCrypto' ? (
-            <button className={classes.AllBtn} onClick={() => setSelectedVal(selected.quantity)}>All</button>
-          ) : null}
+          {(props.mode === 'SellStock' || props.mode === 'SellCrypto') && (
+            <div className={classes.AllBtn}><BlueBtn clicked={() => setSelectedVal(selected.quantity)}>All</BlueBtn></div>)}
         </div>
-        <button onClick={confirmHandler} className={selectedName === '' ? classes.HideConfirmBtn : classes.ConfirmBtn}>
-          Confirm
-        </button>
+        <div className={selectedName === '' ? classes.HideConfirmBtn : classes.ConfirmBtn}>
+          <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
+        </div>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
     </PanelContainer>

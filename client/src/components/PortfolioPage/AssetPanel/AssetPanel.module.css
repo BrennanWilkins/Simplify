@@ -18,47 +18,31 @@
   padding: 10px;
   overflow: hidden;
   left: 247.5px;
-  opacity: 1;
-  transform: scale(1);
   transition: all 400ms;
 }
 .AddDebt, .RemoveDebt, .SettingsDebt {
   left: -292.5px;
 }
-.HideAddAsset {
+.HideAddAsset, .HideRemoveAsset, .HideAddDebt, .HideRemoveDebt,
+.HideSettingsAsset, .HideSettingsDebt {
   opacity: 0;
   top: -140px;
   transform: scale(0);
   left: -120px;
 }
 .HideRemoveAsset {
-  opacity: 0;
-  top: -140px;
-  transform: scale(0);
   left: 50px;
 }
 .HideAddDebt {
-  opacity: 0;
-  top: -140px;
-  transform: scale(0);
   left: -100px;
 }
 .HideRemoveDebt {
-  opacity: 0;
-  top: -140px;
-  transform: scale(0);
   left: 60px;
 }
 .HideSettingsAsset {
-  opacity: 0;
-  top: -140px;
-  transform: scale(0);
   left: 150px;
 }
 .HideSettingsDebt {
-  opacity: 0;
-  top: -140px;
-  transform: scale(0);
   left: 230px;
 }
 .BtnDiv {
@@ -97,17 +81,7 @@
 }
 .Confirm, .HideConfirm {
   margin: 20px 0 0;
-  color: white;
-  background: rgb(var(--dark-blue));
-  border: 0;
-  border-radius: 3px;
-  outline: none;
-  padding: 7px 10px;
-  cursor: pointer;
-  opacity: 1;
-  visibility: visible;
   transition: all 300ms;
-  font-size: 14px;
 }
 .HideConfirm {
   opacity: 0;
@@ -117,17 +91,13 @@
 .AddAsset .HideConfirm, .AddDebt .HideConfirm {
   margin: 5px 0 0;
 }
-.Confirm:hover {
-  background: rgb(var(--dark-blue2));
-}
 .ShowErr, .HideErr {
   opacity: 1;
   transition: opacity 300ms;
   text-align: center;
   font-size: 15px;
   height: 24px;
-  width: 85%;
-  margin: 15px 0 0;
+  margin: 5px 0 0;
 }
 .HideErr {
   opacity: 0;

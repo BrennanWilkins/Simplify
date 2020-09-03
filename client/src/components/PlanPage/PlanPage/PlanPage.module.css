@@ -14,7 +14,7 @@
   position: relative;
   margin: 0 auto 30px;
 }
-.Chart a, .HideChart a, .Hide {
+.Chart a, .Hide {
   display: none;
 }
 .Block {
@@ -94,11 +94,6 @@
 }
 .Btn:hover {
   background: rgba(var(--blue), 0.8);
-}
-.HideChart {
-  visibility: hidden;
-  opacity: 0;
-  position: absolute;
 }
 @media (max-width: 730px) {
   .InputRow2 {

@@ -8,36 +8,13 @@
 .Card {
   width: 350px;
   height: 300px;
-  box-shadow: 0 0 10px 0 rgba(0,0,0,0.75);
+  box-shadow: var(--box-shadow5);
   transform: scale(0);
   position: absolute;
   bottom: -70px;
   left: -80px;
   cursor: pointer;
-}
-.Card1 {
-  -webkit-animation: scaleUp 250ms forwards;
-  animation: scaleUp 250ms forwards;
-}
-.Card2 {
-  animation: scaleUp 250ms forwards 125ms;
-  -webkit-animation: scaleUp 250ms forwards 125ms;
-}
-.Card3 {
-  animation: scaleUp 250ms forwards 225ms;
-  -webkit-animation: scaleUp 250ms forwards 225ms;
-}
-.Card4 {
-  animation: scaleUp 250ms forwards 325ms;
-  -webkit-animation: scaleUp 250ms forwards 325ms;
-}
-.Card5 {
-  animation: scaleUp 250ms forwards 425ms;
-  -webkit-animation: scaleUp 250ms forwards 425ms;
-}
-.Card6 {
-  animation: scaleUp 250ms forwards 525ms;
-  -webkit-animation: scaleUp 250ms forwards 525ms;
+  animation: scaleUp 300ms forwards;
 }
 @keyframes scaleUp {
   from {

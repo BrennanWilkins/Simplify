@@ -4,7 +4,7 @@
   align-items: center;
   color: white;
 }
-.CloseBtn, .CloseBudgetBtn {
+.CloseBtn {
   float: right;
   font-size: 20px;
   padding: 2.5px;
@@ -17,11 +17,6 @@
   border-radius: 3px;
   cursor: pointer;
 }
-.CloseBudgetBtn {
-  margin-left: 10px;
-  width: 28px;
-  height: 28px;
-}
-.CloseBtn:hover, .CloseBudgetBtn:hover {
+.CloseBtn:hover {
   background: rgb(var(--dark-blue2));
 }

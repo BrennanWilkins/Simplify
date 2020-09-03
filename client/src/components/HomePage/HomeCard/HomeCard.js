@@ -3,15 +3,6 @@ import classes from './HomeCard.module.css';
 import { withRouter } from 'react-router-dom';
 
 const HomeCard = props => {
-  const cardClass = (
-    props.num === '1' ? classes.Card1 :
-    props.num === '2' ? classes.Card2 :
-    props.num === '3' ? classes.Card3 :
-    props.num === '4' ? classes.Card4 :
-    props.num === '5' ? classes.Card5 :
-    classes.Card6
-  );
-
   const linkHandler = () => {
     // query params used to take user to correct position on page
     if (props.num === '1') {
@@ -31,7 +22,7 @@ const HomeCard = props => {
 
   return (
     <div className={classes.CardContainer} onClick={linkHandler}>
-      <div className={[cardClass, classes.Card].join(' ')}>
+      <div className={classes.Card} style={{ animationDelay: `${props.num * 100}ms`}}>
         {props.children}
       </div>
     </div>

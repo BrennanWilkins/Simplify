@@ -163,17 +163,19 @@ const PlanPage = props => {
           <BlueBtn clicked={calcHandler}>Calculate</BlueBtn>
           <BlueBtn clicked={resetHandler}>Reset</BlueBtn>
         </div>
-        <div className={compoundVals.showChart && currMode === 'Compound' ? classes.Chart : classes.HideChart}>
-          <h1 className={classes.Title}>${formatNum(compoundVals.finalVal)}</h1>
-          <CanvasJSChart options={compoundOptions} />
-          <div className={classes.Block}></div>
-        </div>
-        <div className={retireVals.showChart && currMode === 'Retire' ? classes.Chart : classes.HideChart}>
-          <h2 className={classes.Title2}>Monthly savings to reach goal by age {retireVals.shownAge}</h2>
-          <CanvasJSChart options={retireOptions} />
-          <div className={classes.Block}></div>
-          <p className={classes.SubTitle}>Starting age</p>
-        </div>
+        {(compoundVals.showChart && currMode === 'Compound') &&
+          <div className={classes.Chart}>
+            <h1 className={classes.Title}>${formatNum(compoundVals.finalVal)}</h1>
+            <CanvasJSChart options={compoundOptions} />
+            <div className={classes.Block}></div>
+          </div>}
+        {(retireVals.showChart && currMode === 'Retire') &&
+          <div className={classes.Chart}>
+            <h2 className={classes.Title2}>Monthly savings to reach goal by age {retireVals.shownAge}</h2>
+            <CanvasJSChart options={retireOptions} />
+            <div className={classes.Block}></div>
+            <p className={classes.SubTitle}>Starting age</p>
+          </div>}
         <TaxCalculator show={currMode === 'Tax'} />
       </div>
     </div>

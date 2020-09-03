@@ -3,16 +3,18 @@
   border: 0;
   outline: none;
   padding: 8px 10px;
-  font-size: 16px;
+  font-size: 14px;
   border-radius: 3px;
   cursor: pointer;
-  transition: background 300ms;
   margin: 5px;
   background: rgba(var(--green), 0.7);
+  box-shadow: var(--box-shadow7);
+  transition: 300ms;
 }
-.Btn {
-  font-size: 14px;
+.BigBtn {
+  font-size: 16px;
 }
 .BigBtn:hover, .Btn:hover {
   background: rgb(var(--green));
+  box-shadow: var(--box-shadow8);
 }

@@ -7,6 +7,7 @@ import { calcNetWorth } from '../../../utils/valueCalcs';
 import Select from 'react-select';
 import '../../UI/ReactSelectStyles.css';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
+import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import { Input, NumInput } from '../../UI/Inputs/Inputs';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
 
@@ -134,7 +135,7 @@ const AssetPanel = props => {
         // must have diff names
         if (asset.name === data.name) {
           setErr(true);
-          setErrMsg(`You already have ${data.name} in your portfolio`);
+          setErrMsg(`You already have ${data.name.length < 15 ? data.name : 'that asset'} in your portfolio.`);
           return false;
         }
       }
@@ -143,7 +144,7 @@ const AssetPanel = props => {
       for (let debt of props.liabilities) {
         if (debt.name === data.name) {
           setErr(true);
-          setErrMsg(`You already have ${data.name} in your portfolio`);
+          setErrMsg(`You already have ${data.name.length < 15 ? data.name : 'that liability'} in your portfolio.`);
           return false;
         }
       }
@@ -246,9 +247,7 @@ const AssetPanel = props => {
   return (
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={panelClass}>
-        <div className={classes.BtnDiv}>
-          <CloseBtn close={closeHandler} />
-        </div>
+        <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
         <p className={classes.Text}>{titleText}</p>
         {options ?
           <Select options={options} className={classes.Dropdown} onChange={selectHandler}
@@ -274,7 +273,7 @@ const AssetPanel = props => {
             <NumInput val={newValue} change={newValueHandler} ref={valRef} />
           </div>
         : null}
-        <button onClick={confirmHandler} className={confirmClass}>Confirm</button>
+        <div className={confirmClass}><BlueBtn clicked={confirmHandler}>Confirm</BlueBtn></div>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
     </PanelContainer>

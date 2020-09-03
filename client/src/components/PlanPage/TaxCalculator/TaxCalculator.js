@@ -3,6 +3,7 @@ import classes from './TaxCalculator.module.css';
 import { calcCapGains } from '../../../utils/planPageCalcs';
 import { NumInput } from '../../UI/Inputs/Inputs';
 import Container from '../PlanPageContainer/PlanPageContainer';
+import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 
 const TaxCalculator = props => {
   const [taxVals, setTaxVals] = useState({
@@ -90,12 +91,12 @@ const TaxCalculator = props => {
               </select>
             </div>
             <div className={classes.Field}>
-              <button onClick={addStockHandler}>Add transaction</button>
+              <BlueBtn clicked={addStockHandler}>Add transaction</BlueBtn>
             </div>
           </div>
           <div className={classes.Btns}>
-            <button className={classes.CalcBtn} onClick={calcHandler}>Calculate</button>
-            <button className={classes.ResetBtn} onClick={resetHandler}>Reset</button>
+            <div className={classes.CalcBtn}><BlueBtn clicked={calcHandler}>Calculate</BlueBtn></div>
+            <div className={classes.ResetBtn}><BlueBtn clicked={resetHandler}>Reset</BlueBtn></div>
           </div>
         </div>
         <div className={classes.TransBox}>
