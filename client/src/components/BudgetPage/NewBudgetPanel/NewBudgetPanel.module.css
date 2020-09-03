@@ -48,19 +48,32 @@
   overflow: auto;
   height: 150px;
 }
+.Entries::-webkit-scrollbar-track {
+  background: rgba(var(--blue), 0.1);
+}
+.Entries::-webkit-scrollbar {
+  width: 12px;
+  background: transparent;
+}
+.Entries::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(var(--dark-blue), 0.4);
+}
 .Entries div {
-  width: 80%;
-  padding: 5px 10px;
-  border-bottom: 1px solid rgb(var(--dark-blue));
+  width: 98%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: auto;
+  border-bottom: 1.5px solid rgba(var(--dark-blue), 0.2);
+  margin: 3px auto;
+  background: rgba(var(--blue), 0.2);
+  border-radius: 3px;
 }
 .Entries span {
-  color: rgb(var(--dark-blue));
+  color: rgb(var(--dark-blue2));
   width: 50%;
-  padding: 5px;
+  padding: 6px 5px;
+  box-sizing: border-box;
   text-align: center;
   word-wrap: break-word;
 }

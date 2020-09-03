@@ -8,6 +8,7 @@ import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
 import { Input, NumInput } from '../../UI/Inputs/Inputs';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
+import { formatNum } from '../../../utils/formatNum';
 
 const BudgetPage = props => {
   const [categVal, setCategVal] = useState('');
@@ -94,7 +95,7 @@ const BudgetPage = props => {
           {budgets.map((budget, i) => (
             <div key={i}>
               <span>{budget.category}</span>
-              <span>{budget.budget}</span>
+              <span>${formatNum(budget.budget)}</span>
             </div>
           ))}
         </div>

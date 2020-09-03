@@ -59,7 +59,7 @@ const Portfolio = props => {
     <div className={classes.Container}>
       <div className={classes.Content} ref={contentRef}>
         <NWPopup />
-        <NetWorthChart small={false} />
+        <NetWorthChart />
         <div className={classes.Investments}>
           <div className={classes.Stocks} ref={stockRef}>
             <h1>Stocks</h1>
