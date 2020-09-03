@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import classes from './BudgetByCateg.module.css';
-import CanvasJSReact from '../../UI/canvasjs/canvasjs.react';
+import Chart from '../../UI/Chart/Chart';
 
-const Chart = props => {
+const CategChart = props => {
   const [dataPoints, setDataPoints] = useState([]);
 
   useEffect(() => {
@@ -35,10 +35,9 @@ const Chart = props => {
 
   return (
     <div className={classes.ChartContainer}>
-      <CanvasJSReact.CanvasJSChart options={options} />
-      <div className={classes.Block}></div>
+      <Chart options={options} />
     </div>
   );
 };
 
-export default Chart;
+export default CategChart;

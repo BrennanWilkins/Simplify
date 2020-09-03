@@ -35,23 +35,6 @@
 .NetWorthChart {
   min-width: 500px;
 }
-.NetWorthChart a, .NetWorthChartSmall a {
-  display: none;
-}
-.Block {
-  position: relative;
-  top: -12.5px;
-  width: 100px;
-  height: 10px;
-  background: white;
-}
-.Chart .Block {
-  position: relative;
-  top: -12px;
-  width: 56px;
-  height: 10px;
-  background: white;
-}
 @media (max-width: 500px) {
   .NetWorthTitle {
     justify-content: flex-start;

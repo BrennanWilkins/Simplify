@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classes from './BudgetChart.module.css';
-import CanvasJSReact from '../../UI/canvasjs/canvasjs.react';
+import Chart from '../../UI/Chart/Chart';
 import { connect } from 'react-redux';
 
 const BudgetChart = props => {
@@ -25,13 +25,12 @@ const BudgetChart = props => {
     setDataPoints(data);
     setPercent(percReached);
   }, [props.budget]);
-  
+
   const options = { animationEnabled: true, data: [{ type: "doughnut", dataPoints, toolTipContent: "{name}: ${y}" }] };
 
   return (
     <div className={classes.ChartContainer}>
-      <CanvasJSReact.CanvasJSChart options={options} />
-      <div className={classes.Block}></div>
+      <Chart options={options} />
       <h1>You've reached {percent}% of your budget this month</h1>
     </div>
   );

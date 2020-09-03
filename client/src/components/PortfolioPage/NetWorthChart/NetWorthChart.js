@@ -1,9 +1,8 @@
 import React from 'react';
 import classes from './NetWorthChart.module.css';
 import { connect } from 'react-redux';
-import CanvasJSReact from '../../UI/canvasjs/canvasjs.react';
+import Chart from '../../UI/Chart/Chart';
 import { formatNum } from '../../../utils/formatNum';
-const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const NetWorthChart = props => {
   const netWorthVal = props.netWorthData.length === 0 ? '0.00' :
@@ -37,8 +36,7 @@ const NetWorthChart = props => {
           <h1 className={classes.NetWorthValueSmall}>${netWorthVal}</h1>
         </div>
         <div className={classes.NetWorthChartSmall}>
-          <CanvasJSChart options={{ ...options, height: 200 }} />
-          <div className={classes.Block}></div>
+          <Chart options={{ ...options, height: 200 }} />
         </div>
       </div>
     ) : (
@@ -48,8 +46,7 @@ const NetWorthChart = props => {
           <h1 className={classes.NetWorthValue}>${netWorthVal}</h1>
         </div>
         <div className={classes.NetWorthChart}>
-          <CanvasJSChart options={options} />
-          <div className={classes.Block}></div>
+          <Chart options={options} />
         </div>
       </div>
     )

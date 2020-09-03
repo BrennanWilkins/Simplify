@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import classes from './PlanPage.module.css';
-import CanvasJSReact from '../../UI/canvasjs/canvasjs.react';
+import Chart from '../../UI/Chart/Chart';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import { NumInput } from '../../UI/Inputs/Inputs';
 import { calcRetire, calcCompound } from '../../../utils/planPageCalcs';
 import TaxCalculator from '../TaxCalculator/TaxCalculator';
 import Container from '../PlanPageContainer/PlanPageContainer';
 import { formatNum } from '../../../utils/formatNum';
-const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const PlanPage = props => {
   const [compoundVals, setCompoundVals] = useState({
@@ -82,7 +81,7 @@ const PlanPage = props => {
 
   const compoundOptions = {
     animationEnabled: true,
-    theme: 'light1',
+    theme: 'light2',
     exportEnabled: false,
     axisY: { valueFormatString: "'$'0" },
     axisX: { valueFormatString: "'Year '0", minimum: 0 },
@@ -166,14 +165,12 @@ const PlanPage = props => {
         {(compoundVals.showChart && currMode === 'Compound') &&
           <div className={classes.Chart}>
             <h1 className={classes.Title}>${formatNum(compoundVals.finalVal)}</h1>
-            <CanvasJSChart options={compoundOptions} />
-            <div className={classes.Block}></div>
+            <Chart options={compoundOptions} />
           </div>}
         {(retireVals.showChart && currMode === 'Retire') &&
           <div className={classes.Chart}>
             <h2 className={classes.Title2}>Monthly savings to reach goal by age {retireVals.shownAge}</h2>
-            <CanvasJSChart options={retireOptions} />
-            <div className={classes.Block}></div>
+            <Chart options={retireOptions} />
             <p className={classes.SubTitle}>Starting age</p>
           </div>}
         <TaxCalculator show={currMode === 'Tax'} />

@@ -4,23 +4,3 @@
   position: relative;
   z-index: 1;
 }
-.Chart a {
-  display: none;
-}
-.Block {
-  position: absolute;
-  width: 35px;
-  height: 12.2px;
-  background: white;
-  z-index: 1;
-  bottom: 0;
-}
-.Block::after {
-  content: ' ';
-  height: 5.4px;
-  width: 21px;
-  position: absolute;
-  left: 35px;
-  bottom: 4.5px;
-  background: inherit;
-}

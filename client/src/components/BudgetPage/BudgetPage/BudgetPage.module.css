@@ -60,6 +60,12 @@
 }
 .Btn button {
   margin: 0 5px 0;
+  padding-right: 12px;
+}
+.Btn svg {
+  margin-right: 7px;
+  position: relative;
+  top: 2px;
 }
 .Title {
   color: rgb(var(--dark-blue));
@@ -83,6 +89,8 @@
   outline: none;
   margin-right: 20px;
   font-size: 14px;
+  position: relative;
+  top: -2.5px;
 }
 .ShowBtn span {
   position: relative;
@@ -94,7 +102,14 @@
 }
 .AddBtn button {
   margin: 0;
-  padding: 5px 8px;
+  padding: 4px 10px 4px 4px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.AddBtn svg {
+  margin-right: 3px;
+  font-size: 20px;
 }
 .CaretDown {
   transform: rotate(90deg);
@@ -121,31 +136,16 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid rgba(var(--blue), 0.2);
+  border-bottom: 1.7px solid rgba(var(--blue), 0.2);
+  border-radius: 3px;
+  background: rgba(var(--blue), 0.1);
+  padding: 7px 5px;
+  margin: 5px 0;
 }
 .Transaction div {
   width: 250px;
   text-align: center;
   word-wrap: break-word;
-}
-.ShowAddTrans, .HideAddTrans {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 20px 10px;
-  transition: 300ms;
-}
-.HideAddTrans {
-  margin: 0;
-  height: 0;
-  visibility: hidden;
-  opacity: 0;
-  overflow: hidden;
-}
-.ShowAddTrans input, .HideAddTrans input {
-  width: 175px;
-  margin: 0 10px 0 0;
 }
 .TotalBudget {
   color: rgb(var(--green));
@@ -180,10 +180,6 @@
   justify-content: center;
   align-items: center;
 }
-.ConfirmBtn button {
-  padding: 5px 8px;
-  margin: 0;
-}
 @media (max-width: 1040px) {
   .InnerBudgetDiv {
     flex-direction: column;
@@ -206,10 +202,5 @@
 @media (max-width: 820px) {
   .Charts, .HideCharts {
     flex-direction: column;
-  }
-}
-@media (min-width: 1041px) {
-  .CostInput input {
-    width: 120px;
   }
 }

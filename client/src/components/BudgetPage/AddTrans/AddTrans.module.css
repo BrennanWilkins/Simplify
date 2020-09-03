@@ -1,0 +1,27 @@
+.ShowAddTrans, .HideAddTrans {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 20px 10px;
+  transition: 300ms;
+}
+.HideAddTrans {
+  margin: 0;
+  height: 0;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
+}
+.ShowAddTrans input, .HideAddTrans input {
+  width: 175px;
+  margin: 0 10px 0 0;
+}
+.ConfirmBtn button {
+  padding: 5px 8px;
+  margin: 0;
+}
+@media (min-width: 1041px) {
+  .CostInput input {
+    width: 120px;
+  }
+}

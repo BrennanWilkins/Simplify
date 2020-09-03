@@ -14,16 +14,8 @@
   position: relative;
   margin: 0 auto 30px;
 }
-.Chart a, .Hide {
+.Hide {
   display: none;
-}
-.Block {
-  position: absolute;
-  background: white;
-  width: 62px;
-  height: 10.5px;
-  bottom: 2px;
-  left: 0;
 }
 .Inputs {
   display: flex;

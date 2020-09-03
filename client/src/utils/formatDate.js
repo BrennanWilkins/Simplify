@@ -13,4 +13,12 @@ export const formatDate2 = date => {
   let d = '' + date.getDate();
   if (d.length < 2) { d = '0' + d; }
   return [y, m, d].join('-');
-}
+};
+
+export const formatDate3 = date => {
+  let y = '' + date.getFullYear();
+  if (y === '2020') { y = '20'; }
+  let m = '' + (date.getMonth() + 1);
+  let d = '' + date.getDate();
+  return [m, d, y].join('/');
+};

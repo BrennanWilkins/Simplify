@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classes from './GoalChart.module.css';
-import CanvasJSReact from '../../UI/canvasjs/canvasjs.react';
+import Chart from '../../UI/Chart/Chart';
 
 const GoalChart = props => {
   const [dataPoints, setDataPoints] = useState([]);
@@ -38,8 +38,7 @@ const GoalChart = props => {
   return (
     <div>
       <div className={classes.Chart}>
-        <CanvasJSReact.CanvasJSChart options={options} />
-        <div className={classes.Block} style={props.blue ? { background: 'rgb(224, 244, 249)' } : undefined}></div>
+        <Chart options={options} blue={props.blue} />
       </div>
     </div>
   );

@@ -1,0 +1,10 @@
+.Chart a {
+  display: none;
+}
+.Block {
+  height: 11px;
+  background: white;
+  position: absolute;
+  bottom: 2px;
+  width: 60px;
+}
