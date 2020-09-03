@@ -7,7 +7,8 @@ import EditNWGoalPanel from '../EditNWGoalPanel/EditNWGoalPanel';
 import DeletePanel from '../../UI/DeletePanel/DeletePanel';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
-import { plusIcon, chevronDownIcon, calendarIcon, checkMarkIcon2, minusIcon } from '../../UI/UIIcons';
+import { plusIcon, chevronDownIcon, calendarIcon, checkMarkIcon2,
+  minusIcon, pencilIcon, trashIcon } from '../../UI/UIIcons';
 import EditGoalPanel from '../EditGoalPanel/EditGoalPanel';
 import { calcNWRate, calcGoalRate } from '../../../utils/rateCalcs';
 import { instance as axios } from '../../../axios';
@@ -124,8 +125,8 @@ const GoalCard = props => {
       {!props.isNW && <ContribTable data={props.contributions} />}
       <div className={classes.BtnDiv}>
         <div className={classes.Btns}>
-          <BlueBtn clicked={() => setShowEdit(true)}>Edit goal</BlueBtn>
-          <BlueBtn clicked={() => setShowDelete(true)}>Delete goal</BlueBtn>
+          <BlueBtn clicked={() => setShowEdit(true)}>{pencilIcon}Edit goal</BlueBtn>
+          <BlueBtn clicked={() => setShowDelete(true)}>{trashIcon}Delete goal</BlueBtn>
         </div>
         {props.isNW ?
           <EditNWGoalPanel show={showEdit} close={() => setShowEdit(false)} goal={props.goal} /> :

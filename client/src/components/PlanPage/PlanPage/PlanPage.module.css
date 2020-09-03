@@ -37,6 +37,7 @@
   height: 80px;
   text-align: center;
   color: rgb(var(--dark-blue));
+  font-weight: 500;
 }
 .Btns {
   display: flex;

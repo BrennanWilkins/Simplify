@@ -35,12 +35,12 @@
   opacity: 1;
   transition: opacity 300ms;
   text-align: center;
-  font-size: 14px;
-  height: 24px;
+  font-size: 15px;
+  margin: 10px 0 0;
 }
 .HideErr {
   opacity: 0;
 }
-.BtnDiv button {
+.AddBtn button {
   margin: 0;
 }

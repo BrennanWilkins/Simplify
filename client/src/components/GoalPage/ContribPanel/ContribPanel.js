@@ -74,8 +74,8 @@ const ContribPanel = props => {
           <div>Value <NumInput val={contribVal} change={val => { setErr(false); setContribVal(val); }} ref={valRef} /></div>
           <div className={classes.DateInput}>Date <DateInput val={contribDate} change={val => { setErr(false); setContribDate(val); }} /></div>
         </div>
+        <div className={classes.AddBtn}><GreenBtn clicked={addHandler}>Add</GreenBtn></div>
         <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-        <div className={classes.BtnDiv}><GreenBtn clicked={addHandler}>Add</GreenBtn></div>
       </div>
     </PanelContainer>
   );

@@ -4,6 +4,7 @@ import { calcCapGains } from '../../../utils/planPageCalcs';
 import { NumInput } from '../../UI/Inputs/Inputs';
 import Container from '../PlanPageContainer/PlanPageContainer';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
+import { plusIcon } from '../../UI/UIIcons';
 
 const TaxCalculator = props => {
   const [taxVals, setTaxVals] = useState({
@@ -91,7 +92,9 @@ const TaxCalculator = props => {
               </select>
             </div>
             <div className={classes.Field}>
-              <BlueBtn clicked={addStockHandler}>Add transaction</BlueBtn>
+              <span className={classes.AddBtn}>
+                <BlueBtn clicked={addStockHandler}>{plusIcon}Add transaction</BlueBtn>
+              </span>
             </div>
           </div>
           <div className={classes.Btns}>

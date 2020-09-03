@@ -29,11 +29,18 @@
   width: 170px;
   box-sizing: border-box;
 }
-.Field button {
-  padding: 5px 20px;
+.AddBtn button {
   font-size: 16px;
-  margin: 40px 9.3px 0;
+  margin: 39px 5px 0;
   border-radius: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 14px 4px 7px;
+}
+.AddBtn svg {
+  margin-right: 5px;
+  font-size: 22px;
 }
 .Field select {
   width: 170px;
