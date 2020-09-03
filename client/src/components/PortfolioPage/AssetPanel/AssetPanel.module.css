@@ -40,10 +40,10 @@
   left: 60px;
 }
 .HideSettingsAsset {
-  left: 150px;
+  left: 170px;
 }
 .HideSettingsDebt {
-  left: 230px;
+  left: 250px;
 }
 .BtnDiv {
   width: 100%;
@@ -101,9 +101,6 @@
 }
 .HideErr {
   opacity: 0;
-}
-.Dropdown {
-  width: 230px;
 }
 @media (max-width: 1070px) {
   .AddAsset, .AddDebt, .RemoveAsset, .RemoveDebt,

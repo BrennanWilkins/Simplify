@@ -9,6 +9,7 @@ import { v4 as uuid } from 'uuid';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
+import TrashBtn from '../../UI/Btns/TrashBtn/TrashBtn';
 
 const BudgetPanel = props => {
   const [budgets, setBudgets] = useState([]);
@@ -114,7 +115,8 @@ const BudgetPanel = props => {
             <div key={budget.id}>
               <Input val={budget.category} change={val => categValHandler(val, budget.id)} />
               <NumInput val={budget.budget} change={val => budgetValHandler(val, budget.id)} />
-              <CloseBtn close={() => deleteOneHandler(budget.id)} />
+              {/*<CloseBtn close={() => deleteOneHandler(budget.id)} />*/}
+              <TrashBtn clicked={() => deleteOneHandler(budget.id)} />
             </div>
           ))}
           <div className={classes.AddBtn}><BlueBtn clicked={addHandler}>Add a new category</BlueBtn></div>

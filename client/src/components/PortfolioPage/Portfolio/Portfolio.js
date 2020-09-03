@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SearchPanel from '../SearchPanel/SearchPanel';
 import BuySellPanel from '../BuySellPanel/BuySellPanel';
-import { settingsIcon } from '../../UI/UIIcons';
+import { settingsIcon, plusIcon, trashIcon } from '../../UI/UIIcons';
 import SettingsPanel from '../SettingsPanel/SettingsPanel';
 import AssetPanel from '../AssetPanel/AssetPanel';
 import NetWorthChart from '../NetWorthChart/NetWorthChart';
@@ -63,7 +63,9 @@ const Portfolio = props => {
         <div className={classes.Investments}>
           <div className={classes.Stocks} ref={stockRef}>
             <h1>Stocks</h1>
-            <BlueBtn big clicked={() => setShowStockSearch(true)}>Add a new holding</BlueBtn>
+            <div className={classes.AddBtn}>
+              <BlueBtn big clicked={() => setShowStockSearch(true)}><span>{plusIcon}</span>Add a new holding</BlueBtn>
+            </div>
             <div className={classes.BuySellBtns}>
               <GreenBtn big clicked={() => showBuySellHandler('BuyStock')}>Buy</GreenBtn>
               <BuySellPanel mode="BuyStock" show={showBuyStock} close={() => setShowBuyStock(false)} />
@@ -79,7 +81,9 @@ const Portfolio = props => {
           </div>
           <div className={classes.Cryptos} ref={cryptoRef}>
             <h1>Cryptocurrencies</h1>
-            <BlueBtn big clicked={() => setShowCryptoSearch(true)}>Add a new holding</BlueBtn>
+            <div className={classes.AddBtn}>
+              <BlueBtn big clicked={() => setShowCryptoSearch(true)}><span>{plusIcon}</span>Add a new holding</BlueBtn>
+            </div>
             <div className={classes.BuySellBtns}>
               <GreenBtn big clicked={() => showBuySellHandler('BuyCrypto')}>Buy</GreenBtn>
               <BuySellPanel mode="BuyCrypto" show={showBuyCrypto} close={() => setShowBuyCrypto(false)} />
@@ -98,9 +102,13 @@ const Portfolio = props => {
           <div className={classes.Stocks} ref={assetRef}>
             <h1>Assets</h1>
             <div className={classes.AssetBtns}>
-              <BlueBtn big clicked={() => setShowAddAsset(true)}>Add a new asset</BlueBtn>
+              <div className={classes.AddBtn}>
+                <BlueBtn big clicked={() => setShowAddAsset(true)}><span>{plusIcon}</span>Add a new asset</BlueBtn>
+              </div>
               <AssetPanel mode="AddAsset" close={() => setShowAddAsset(false)} show={showAddAsset} />
-              <BlueBtn big clicked={() => setShowRemoveAsset(true)}>Remove an asset</BlueBtn>
+              <div className={classes.RemoveBtn}>
+                <BlueBtn big clicked={() => setShowRemoveAsset(true)}><span>{trashIcon}</span>Remove an asset</BlueBtn>
+              </div>
               <AssetPanel mode="RemoveAsset" close={() => setShowRemoveAsset(false)} show={showRemoveAsset} />
               <button className={classes.AssetSettingsBtn} onClick={() => setShowAssetSettings(true)}>
                 <span>{settingsIcon}</span>
@@ -112,9 +120,13 @@ const Portfolio = props => {
           <div className={classes.Cryptos}>
             <h1>Liabilities</h1>
             <div className={classes.AssetBtns}>
-              <BlueBtn big clicked={() => setShowAddDebt(true)}>Add a new liability</BlueBtn>
+              <div className={classes.AddBtn}>
+                <BlueBtn big clicked={() => setShowAddDebt(true)}><span>{plusIcon}</span>Add a new liability</BlueBtn>
+              </div>
               <AssetPanel mode="AddDebt" close={() => setShowAddDebt(false)} show={showAddDebt} />
-              <BlueBtn big clicked={() => setShowRemoveDebt(true)}>Remove a liability</BlueBtn>
+              <div className={classes.RemoveBtn}>
+                <BlueBtn big clicked={() => setShowRemoveDebt(true)}><span>{trashIcon}</span>Remove a liability</BlueBtn>
+              </div>
               <AssetPanel mode="RemoveDebt" close={() => setShowRemoveDebt(false)} show={showRemoveDebt} />
               <button className={classes.AssetSettingsBtn} onClick={() => setShowDebtSettings(true)}>
                 <span>{settingsIcon}</span>

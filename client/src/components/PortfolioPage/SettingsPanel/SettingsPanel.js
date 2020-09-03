@@ -1,10 +1,9 @@
 import React, { useState, useRef } from 'react';
 import classes from './SettingsPanel.module.css';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
-import '../../UI/ReactSelectStyles.css';
 import * as actions from '../../../store/actions/index';
 import { connect } from 'react-redux';
-import Select from 'react-select';
+import Select from '../../UI/Select/Select';
 import { instance as axios } from '../../../axios';
 import { calcNetWorth } from '../../../utils/valueCalcs';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
@@ -20,6 +19,7 @@ const SettingsPanel = props => {
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const priceRef = useRef();
+  const isStock = props.mode === 'Stock';
 
   const closeHandler = () => {
     setSelected({ name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Manual' });
@@ -48,7 +48,7 @@ const SettingsPanel = props => {
     setErr(false);
     setErrMsg('');
     // find stock/crypto from the selected value & update price val
-    const curr = props.mode === 'Stock' ? stocks : cryptos;
+    const curr = isStock ? stocks : cryptos;
     const match = curr.find(inv => inv.name === selectedOption.value);
     setSelected({ ...match });
     setPriceVal(match.price);
@@ -56,7 +56,7 @@ const SettingsPanel = props => {
   };
 
   const confirmHandler = async () => {
-    const newPortfolio = props.mode === 'Stock' ? [...props.stocks] : [...props.cryptos];
+    const newPortfolio = isStock ? [...props.stocks] : [...props.cryptos];
     const index = newPortfolio.findIndex(data => data.name === selected.name);
     const newData = { ...newPortfolio[index] };
     const newPrice = Number(priceVal);
@@ -64,21 +64,21 @@ const SettingsPanel = props => {
     newData.value = newPrice * newData.quantity;
     newPortfolio[index] = { ...newData };
     const updatedPortfolio = { ...props.portfolio };
-    if (props.mode === 'Stock') { updatedPortfolio.stocks = [...newPortfolio]; }
+    if (isStock) { updatedPortfolio.stocks = [...newPortfolio]; }
     else { updatedPortfolio.cryptos = [...newPortfolio]; }
     const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
     if (props.isDemo) {
       props.setNetWorthData(updatedNetWorth);
-      props.mode === 'Stock' ? props.changeStock(newPortfolio) : props.changeCrypto(newPortfolio);
+      isStock ? props.changeStock(newPortfolio) : props.changeCrypto(newPortfolio);
       props.addNotif(`${props.mode} price updated`);
       return closeHandler();
     }
     try {
-      const res = props.mode === 'Stock' ? await axios.put('portfolio/changeStock', { ...newData }) :
+      const res = isStock ? await axios.put('portfolio/changeStock', { ...newData }) :
       await axios.put('portfolio/changeCrypto', { ...newData });
       const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
       props.setNetWorthData(resp.data.result.dataPoints);
-      props.mode === 'Stock' ? props.changeStock(newPortfolio) : props.changeCrypto(newPortfolio);
+      isStock ? props.changeStock(newPortfolio) : props.changeCrypto(newPortfolio);
       props.addNotif(`${props.mode} price updated`);
       closeHandler();
     } catch(e) { setErr(true); setErrMsg('Error connecting to the server.'); }
@@ -90,20 +90,19 @@ const SettingsPanel = props => {
 
   return (
     <PanelContainer show={props.show} close={closeHandler}>
-      <div className={props.mode === 'Stock' ?
+      <div className={isStock ?
         (props.show ? classes.StockPanel : classes.StockPanelHide) :
         (props.show ? classes.CryptoPanel : classes.CryptoPanelHide)}>
         <div className={classes.BtnDiv}>
           <CloseBtn close={closeHandler} />
         </div>
         <p className={classes.Text}>
-          {props.mode === 'Stock' ?
+          {isStock ?
           'Change the price of a manually added stock' :
           'Change the price of a manually added cryptocurrency'}
         </p>
-        <Select options={props.mode === 'Stock' ? stockOptions : cryptoOptions}
-          className={classes.Dropdown} onChange={selectHandler} isSearchable
-          value={selectedName} classNamePrefix="react-select" />
+        <Select options={isStock ? stockOptions : cryptoOptions}
+          change={selectHandler} val={selectedName} />
         <div className={selectedName !== '' ? classes.ShowInput : classes.HideInput}>
           <NumInput val={priceVal} change={setValHandler} ref={priceRef} />
           <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>

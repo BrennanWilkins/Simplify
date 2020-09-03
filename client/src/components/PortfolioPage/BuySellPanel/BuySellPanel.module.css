@@ -85,9 +85,6 @@
   cursor: default;
   pointer-events: none;
 }
-.Dropdown {
-  width: 230px;
-}
 @media (max-width: 1070px) {
   .BuyStock, .SellStock, .BuyCrypto, .SellCrypto {
     left: calc(50% - 185px);

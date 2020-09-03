@@ -40,9 +40,9 @@
   color: rgb(var(--dark-blue2));
   margin: 20px 0 15px;
 }
-.Dropdown {
+/* .Dropdown {
   width: 230px;
-}
+} */
 .ShowInput, .HideInput {
   background: white;
   width: 100%;

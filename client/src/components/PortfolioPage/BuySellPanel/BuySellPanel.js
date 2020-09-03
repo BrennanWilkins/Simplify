@@ -6,8 +6,7 @@ import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import * as actions from '../../../store/actions/index';
 import { instance as axios } from '../../../axios';
 import { calcNetWorth } from '../../../utils/valueCalcs';
-import Select from 'react-select';
-import '../../UI/ReactSelectStyles.css';
+import Select from '../../UI/Select/Select';
 import { NumInput } from '../../UI/Inputs/Inputs';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
 
@@ -170,7 +169,7 @@ const BuySellPanel = props => {
         <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
         <p className={classes.Text}>{titleText}</p>
         <Select options={props.mode === 'BuyStock' || props.mode === 'SellStock' ? stockOptions : cryptoOptions}
-          className={classes.Dropdown} onChange={selectHandler} isSearchable value={selectedName} classNamePrefix="react-select" />
+          change={selectHandler} val={selectedName} />
         <p className={selectedName === '' ? classes.HideText : classes.Text}>
           {props.mode === 'BuyStock' ?
           `How many shares of ${selected.symbol} did you buy?` :

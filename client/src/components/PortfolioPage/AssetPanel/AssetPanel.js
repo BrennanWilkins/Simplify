@@ -4,8 +4,7 @@ import * as actions from '../../../store/actions/index';
 import { connect } from 'react-redux';
 import { instance as axios } from '../../../axios';
 import { calcNetWorth } from '../../../utils/valueCalcs';
-import Select from 'react-select';
-import '../../UI/ReactSelectStyles.css';
+import Select from '../../UI/Select/Select';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import { Input, NumInput } from '../../UI/Inputs/Inputs';
@@ -250,8 +249,7 @@ const AssetPanel = props => {
         <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
         <p className={classes.Text}>{titleText}</p>
         {options ?
-          <Select options={options} className={classes.Dropdown} onChange={selectHandler}
-            isSearchable value={selectedName} classNamePrefix="react-select" />
+          <Select options={options} change={selectHandler} val={selectedName} />
           :
           <div className={classes.Inputs}>
             <div>
