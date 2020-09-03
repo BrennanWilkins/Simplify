@@ -18,9 +18,9 @@ const ContribTable = props => {
 
   return (
     <div>
-      <div className={classes.Title}>
+      <div className={classes.Title} onClick={() => setShow(prev => !prev)}>
         <h3>Recent Contributions</h3>
-        <span className={show ? classes.CaretDown : undefined} onClick={() => setShow(prev => !prev)}>{caretIcon}</span>
+        <span className={show ? classes.CaretDown : undefined}>{caretIcon}</span>
       </div>
       <div className={show ? classes.Show : classes.Hide}>
         {data.map((dataPt, i) => (

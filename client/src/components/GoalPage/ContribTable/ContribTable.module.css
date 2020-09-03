@@ -1,6 +1,9 @@
 .Title {
   position: relative;
   color: rgb(var(--dark-blue2));
+  width: 80%;
+  margin: auto;
+  cursor: pointer;
 }
 .Title h3 {
   margin: 0 0 14px;
@@ -9,7 +12,6 @@
 .Title span {
   font-size: 16px;
   display: inline-block;
-  cursor: pointer;
   transition: transform 400ms;
   position: relative;
   top: 2px;
@@ -36,10 +38,10 @@
   border-radius: 3px;
 }
 .Contrib span {
-  text-align: left;
-  padding: 7px 7px 7px 20px;
   word-wrap: break-word;
   display: inline-block;
   width: 50%;
   box-sizing: border-box;
+  padding: 7px 3px;
+  text-align: center;
 }
