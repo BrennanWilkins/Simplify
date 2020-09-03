@@ -58,12 +58,6 @@ const BudgetPanel = props => {
       setErrMsg('You need to have at least one category.');
       return false;
     }
-    // can't have two budget categories w the same name
-    if (new Set(budgets.map(budg => budg.category)).size !== budgets.length) {
-      setErr(true);
-      setErrMsg('You cannot have categories with the same names.');
-      return false;
-    }
     for (let i = 0; i < budgets.length; i++) {
       if (budgets[i].budget === 0) {
         setErr(true);
@@ -81,11 +75,17 @@ const BudgetPanel = props => {
         return false;
       }
     }
+    // can't have two budget categories w the same name
+    if (new Set(budgets.map(budg => budg.category)).size !== budgets.length) {
+      setErr(true);
+      setErrMsg('You cannot have categories with the same names.');
+      return false;
+    }
     return true;
   };
 
-  const confirmHelper = () => {
-    props.setBudget([...budgets]);
+  const confirmHelper = updatedBudgets => {
+    props.setBudget([...updatedBudgets]);
     props.addNotif('Budget updated');
     closeHandler();
   };
@@ -94,13 +94,15 @@ const BudgetPanel = props => {
     setErr(false);
     // error in budget fields, return
     if (!confirmValidation()) { return; }
-    if (props.isDemo) { return confirmHelper(); }
-    axios.put('budgets', { budgets }).then(res => { confirmHelper(); })
+    const updatedBudgets = [...budgets];
+    updatedBudgets.forEach(budget => delete budget.id);
+    if (props.isDemo) { return confirmHelper(updatedBudgets); }
+    axios.put('budgets', { budgets: updatedBudgets }).then(res => { confirmHelper(updatedBudgets); })
     .catch(err => { errHandler(true); });
   };
 
   const addHandler = () => {
-    setBudgets(budgets.concat({ category: '', budget: 0, transactions: [] }));
+    setBudgets(budgets.concat({ category: '', budget: 0, transactions: [], id: uuid() }));
   };
 
   const deleteOneHandler = id => {
