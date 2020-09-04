@@ -27,7 +27,7 @@ const GoalCard = props => {
   const [goalDate, setGoalDate] = useState('');
   const [reachDate, setReachDate] = useState('');
   const [width, setWidth] = useState(window.innerWidth);
-  const [showChart, setShowChart] = useState('');
+  const [showChart, setShowChart] = useState(false);
   const showMoreBtn = useRef();
 
   useEffect(() => {

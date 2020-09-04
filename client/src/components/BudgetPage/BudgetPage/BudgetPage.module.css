@@ -5,18 +5,9 @@
   height: calc(100% - 70px);
   overflow: auto;
 }
-.OuterContent {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  min-width: 450px;
-}
 .Content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  min-width: 435px;
+  overflow: hidden;
 }
 .Budget {
   width: 1000px;
@@ -24,32 +15,13 @@
   flex-direction: column;
   margin: 20px auto 30px;
 }
-.Charts, .HideCharts {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid rgb(var(--blue));
-  box-shadow: var(--box-shadow3);
-  border-radius: 3px;
-  position: relative;
-  max-height: 1000px;
-  transition: max-height 400ms ease-out 300ms;
-  background: rgba(var(--dark-blue), 0.05);
-}
-.HideCharts {
-  max-height: 30px;
-}
-.Chart {
-  transition: 400ms ease-out 500ms;
-}
-.HideCharts .Chart {
-  visibility: hidden;
-  opacity: 0;
-  transition: 400ms ease-out;
-}
 .NewDiv {
   position: relative;
-  margin-top: 10px;
+  margin-top: 30px;
+}
+.CreateBtn button {
+  margin: auto;
+  display: block;
 }
 .Options {
   position: relative;
@@ -70,6 +42,7 @@
 .Title {
   color: rgb(var(--dark-blue));
   margin: 15px 0 20px;
+  text-align: center;
 }
 .BudgetDiv {
   border-bottom: 2px solid rgba(var(--blue), 0.2);
@@ -154,32 +127,6 @@
   width: 100%;
   word-wrap: break-word;
 }
-.ChartBtn {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  z-index: 2;
-  width: 110px;
-}
-.ChartBtn button {
-  outline: 0;
-  border: 0;
-  background: rgba(var(--dark-blue), 0.1);
-  color: rgb(var(--dark-blue));
-  transition: 300ms;
-  padding: 5px 7px;
-}
-.ChartBtn button:hover {
-  background: rgba(var(--dark-blue), 0.2);
-}
-.ChartBtn span {
-  position: relative;
-  top: 2px;
-  left: 5px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
 @media (max-width: 1040px) {
   .InnerBudgetDiv {
     flex-direction: column;
@@ -197,10 +144,5 @@
   }
   .ShowAddTrans input, .HideAddTrans input {
     margin: 0 0 10px;
-  }
-}
-@media (max-width: 820px) {
-  .Charts, .HideCharts {
-    flex-direction: column;
   }
 }

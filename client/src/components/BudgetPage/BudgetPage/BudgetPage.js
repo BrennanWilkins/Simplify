@@ -3,7 +3,6 @@ import classes from './BudgetPage.module.css';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
 import NewBudgetPanel from '../NewBudgetPanel/NewBudgetPanel';
-import BudgetChart from '../BudgetChart/BudgetChart';
 import { caretIcon, pencilIcon, trashIcon, plusIcon } from '../../UI/UIIcons';
 import BudgetPanel from '../BudgetPanel/BudgetPanel';
 import { instance as axios } from '../../../axios';
@@ -12,11 +11,11 @@ import BudgetBars from '../BudgetBars/BudgetBars';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
 import { Input, NumInput } from '../../UI/Inputs/Inputs';
-import BudgetByCateg from '../BudgetByCateg/BudgetByCateg';
 import DeletePanel from '../../UI/DeletePanel/DeletePanel';
 import { formatNum } from '../../../utils/formatNum';
 import { formatDate3 } from '../../../utils/formatDate';
 import AddTrans from '../AddTrans/AddTrans';
+import ChartContainer from '../ChartContainer/ChartContainer';
 
 const BudgetPage = props => {
   const [showCreate, setShowCreate] = useState(false);
@@ -93,20 +92,11 @@ const BudgetPage = props => {
 
   return (
     <div className={classes.Container}>
-      <div className={classes.OuterContent}>
+      <div className={classes.Content}>
         <h1 className={classes.Title}>Budgeting</h1>
         {props.budget.length ? (
-          <div className={classes.Content}>
-            <div className={showCharts ? classes.Charts : classes.HideCharts}>
-              <div className={classes.Chart}><BudgetChart mode="Normal" /></div>
-              <div className={classes.Chart}><BudgetByCateg budget={props.budget} /></div>
-              <div className={classes.ChartBtn}>
-                <button onClick={() => setShowCharts(prev => !prev)}>
-                  {showCharts ? 'Hide Charts' : 'Show Charts'}
-                  <span className={showCharts ? classes.CaretDown : classes.CaretRight}>{caretIcon}</span>
-                </button>
-              </div>
-            </div>
+          <React.Fragment>
+            <ChartContainer show={showCharts} change={() => setShowCharts(prev => !prev)} />
             <div className={classes.Budget}>
               <h1 className={classes.TotalBudget}>Total monthly budget: ${formatNum(totBudget)}</h1>
               <div className={classes.Options}>
@@ -142,10 +132,12 @@ const BudgetPage = props => {
                 );
               })}
             </div>
-          </div>
+          </React.Fragment>
         ) : (
           <div className={classes.NewDiv}>
-            <BlueBtn big clicked={() => setShowCreate(true)}>Create a new budget</BlueBtn>
+            <div className={classes.CreateBtn}>
+              <BlueBtn big clicked={() => setShowCreate(true)}>Create a new budget</BlueBtn>
+            </div>
             <NewBudgetPanel show={showCreate} close={() => setShowCreate(false)} />
           </div>
         )}

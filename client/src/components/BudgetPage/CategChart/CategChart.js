@@ -1,6 +1,7 @@
 import React from 'react';
-import classes from './BudgetByCateg.module.css';
+import classes from './CategChart.module.css';
 import Chart from '../../UI/Chart/Chart';
+import { connect } from 'react-redux';
 
 const CategChart = props => {
   // shows category percentage of total, cycles through colors
@@ -35,4 +36,8 @@ const CategChart = props => {
   );
 };
 
-export default CategChart;
+const mapStateToProps = state => ({
+  budget: state.budget.budget
+});
+
+export default connect(mapStateToProps)(CategChart);
