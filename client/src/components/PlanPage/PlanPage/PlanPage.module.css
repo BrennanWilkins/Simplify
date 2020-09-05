@@ -66,27 +66,19 @@
 }
 .SelectBar {
   width: 100%;
-  background: rgba(var(--blue), 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(var(--dark-blue3), 0.2);
 }
-.Btn, .ActiveBtn {
-  outline: none;
-  border: 0.5px solid rgb(var(--blue));
+.Btn button, .ActiveBtn button {
+  border-radius: 0;
   padding: 5px 8px;
-  margin: 5px;
-  background: rgba(var(--blue), 0.5);
-  cursor: pointer;
-  transition: 300ms;
-  font-weight: bold;
-  box-shadow: 0.5px 0.5px 1px 0 rgba(var(--blue), 0.5);
+  margin: 8px 5px;
+  font-size: 15px;
 }
-.ActiveBtn {
-  background: rgba(var(--blue), 0.8);
-}
-.Btn:hover {
-  background: rgba(var(--blue), 0.8);
+.ActiveBtn button {
+  background: rgb(var(--dark-blue2));
 }
 @media (max-width: 730px) {
   .InputRow2 {

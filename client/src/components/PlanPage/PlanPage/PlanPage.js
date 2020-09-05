@@ -112,9 +112,9 @@ const PlanPage = props => {
     <div className={classes.Container}>
       <div className={classes.Content}>
         <div className={classes.SelectBar}>
-          <button onClick={() => setCurrMode('Compound')} className={currMode === 'Compound' ? classes.ActiveBtn : classes.Btn}>Compount Interest Visualizer</button>
-          <button onClick={() => setCurrMode('Retire')} className={currMode === 'Retire' ? classes.ActiveBtn : classes.Btn}>Retirement Visualizer</button>
-          <button onClick={() => setCurrMode('Tax')} className={currMode === 'Tax' ? classes.ActiveBtn : classes.Btn}>Capital Gains Calculator</button>
+          <span className={currMode === 'Compound' ? classes.ActiveBtn : classes.Btn}><BlueBtn clicked={() => setCurrMode('Compound')}>Compount Interest Visualizer</BlueBtn></span>
+          <span className={currMode === 'Retire' ? classes.ActiveBtn : classes.Btn}><BlueBtn clicked={() => setCurrMode('Retire')}>Retirement Visualizer</BlueBtn></span>
+          <span className={currMode === 'Tax' ? classes.ActiveBtn : classes.Btn}><BlueBtn clicked={() => setCurrMode('Tax')}>Capital Gains Calculator</BlueBtn></span>
         </div>
         <Container show={currMode === 'Compound'} currMode="Compound">
           <div className={classes.Inputs}>

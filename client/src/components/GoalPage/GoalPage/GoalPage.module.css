@@ -37,35 +37,27 @@
 }
 .SelectBar {
   width: 100%;
-  background: rgba(var(--blue), 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  background: rgba(var(--dark-blue3), 0.2);
 }
-.Btn {
-  outline: none;
-  border: 0.5px solid rgb(var(--blue));
+.BtnTest button {
   padding: 4px 8px 4px 3px;
-  margin: 5px;
-  background: rgba(var(--blue), 0.5);
-  cursor: pointer;
-  transition: 300ms;
-  font-weight: bold;
-  box-shadow: 0.5px 0.5px 1px 0px rgba(var(--blue), 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 8px 5px;
+  border-radius: 0;
+  font-size: 15px;
 }
-.Btn:hover {
-  background: rgba(var(--blue), 0.8);
-}
-.Btn span {
+.BtnTest svg {
   font-size: 20px;
+  margin-right: 4px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  margin-right: 4px;
 }
 .Cards {
   display: flex;

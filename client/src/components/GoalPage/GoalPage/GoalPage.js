@@ -6,6 +6,7 @@ import NewNWGoalPanel from '../NewNWGoalPanel/NewNWGoalPanel';
 import { plusIcon } from '../../UI/UIIcons';
 import GoalCard from '../GoalCard/GoalCard';
 import { usePrevious } from '../../../utils/customHooks';
+import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 
 const GoalPage = props => {
   const [showCreateGoal, setShowCreateGoal] = useState(false);
@@ -49,8 +50,8 @@ const GoalPage = props => {
     <div className={classes.Container}>
       <div className={showCreateNWGoal ? `${classes.Content} ${classes.ExpandNW}` : showCreateGoal ? `${classes.Content} ${classes.ExpandGoal}` : classes.Content}>
         <div className={classes.SelectBar}>
-          <button className={classes.Btn} onClick={() => setShowCreateGoal(true)}><span>{plusIcon}</span>Add a new goal</button>
-          {!props.netWorthGoal && <button className={classes.Btn} onClick={() => setShowCreateNWGoal(true)}><span>{plusIcon}</span>Add a net worth goal</button>}
+          <span className={classes.BtnTest}><BlueBtn clicked={() => setShowCreateGoal(true)}>{plusIcon}Add a new goal</BlueBtn></span>
+          {!props.netWorthGoal && <span className={classes.BtnTest}><BlueBtn clicked={() => setShowCreateNWGoal(true)}>{plusIcon}Add a net worth goal</BlueBtn></span>}
           <NewNWGoalPanel show={showCreateNWGoal} close={() => setShowCreateNWGoal(false)} isDemo={props.isDemo} />
           <NewGoalPanel show={showCreateGoal} close={() => setShowCreateGoal(false)} isDemo={props.isDemo} />
         </div>
