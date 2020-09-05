@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import classes from './BudgetPanel.module.css';
+import classes from './EditBudgetPanel.module.css';
 import { connect } from 'react-redux';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import { instance as axios } from '../../../axios';
@@ -12,7 +12,7 @@ import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
 import TrashBtn from '../../UI/Btns/TrashBtn/TrashBtn';
 import { plusIcon } from '../../UI/UIIcons';
 
-const BudgetPanel = props => {
+const EditBudgetPanel = props => {
   const [budgets, setBudgets] = useState([]);
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
@@ -52,36 +52,29 @@ const BudgetPanel = props => {
   };
 
   const confirmValidation = () => {
-    // cant have empty budget
+    // validate budgets & categories
     if (!budgets.length) {
-      setErr(true);
-      setErrMsg('You need to have at least one category.');
-      return false;
+      return 'You need to have at least one category.';
     }
     for (let i = 0; i < budgets.length; i++) {
       if (budgets[i].budget === 0) {
-        setErr(true);
-        setErrMsg('Budget values cannot be zero.');
-        return false;
+        return 'Budget values cannot be zero.';
       }
-      if (budgets[i].budget >= 9999999999) {
-        setErr(true);
-        setErrMsg('One of your budgets is too high.');
-        return false;
+      if (budgets[i].budget > 999999999) {
+        return 'One of your budgets is too high.';
       }
       if (budgets[i].category === '') {
-        setErr(true);
-        setErrMsg('Category names cannot be empty.');
-        return false;
+        return 'Category names cannot be empty.';
+      }
+      if (budgets[i].category.length > 70) {
+        return 'One of your category names is too long.';
       }
     }
     // can't have two budget categories w the same name
     if (new Set(budgets.map(budg => budg.category)).size !== budgets.length) {
-      setErr(true);
-      setErrMsg('You cannot have categories with the same names.');
-      return false;
+      return 'You cannot have categories with the same names.';
     }
-    return true;
+    return '';
   };
 
   const confirmHelper = updatedBudgets => {
@@ -92,8 +85,8 @@ const BudgetPanel = props => {
 
   const confirmHandler = () => {
     setErr(false);
-    // error in budget fields, return
-    if (!confirmValidation()) { return; }
+    const validate = confirmValidation();
+    if (validate !== '') { setErr(true); return setErrMsg(validate); }
     const updatedBudgets = [...budgets];
     updatedBudgets.forEach(budget => delete budget.id);
     if (props.isDemo) { return confirmHelper(updatedBudgets); }
@@ -141,4 +134,4 @@ const mapDispatchToProps = dispatch => ({
   addNotif: msg => dispatch(actions.addNotif(msg))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(BudgetPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(EditBudgetPanel);

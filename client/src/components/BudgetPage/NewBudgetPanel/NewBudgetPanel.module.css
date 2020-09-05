@@ -34,7 +34,7 @@
 }
 .CreateBtn button, .HideCreateBtn button {
   display: block;
-  margin: 10px auto;
+  margin: 10px auto 13px;
 }
 .CreateBtn, .HideCreateBtn {
   transition: 300ms;

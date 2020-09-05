@@ -1,8 +1,15 @@
+.Bar, .SmallBar {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
 .Category, .SmallCategory {
   width: 200px;
   word-wrap: break-word;
   color: rgb(var(--blue));
   font-weight: bold;
+  font-size: 18px;
+  margin: 0;
 }
 .SmallCategory {
   width: 85px;
@@ -59,12 +66,15 @@
   color: rgb(var(--dark-blue));
   font-weight: bold;
   word-wrap: break-word;
+  margin-left: 12px;
+  padding: 0 5px;
+  box-sizing: border-box;
 }
 .SmallBudgetVal {
-  padding: 0 5px;
   width: 75px;
   font-size: 12px;
   text-align: center;
+  margin-left: 5px;
 }
 /* Overlay 2 used to prevent remaining from showing on overlay hover */
 .Overlay2 {
@@ -72,8 +82,8 @@
   height: 29px;
   position: absolute;
   background: transparent;
+  left: 0;
   top: 0;
-  left: 222px;
 }
 .Oval:hover .Remaining {
   opacity: 1;
@@ -88,7 +98,6 @@
 }
 .Remaining {
   position: absolute;
-  top: 36px;
   border-radius: 25px;
   box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.15);
   font-size: 13px;
@@ -104,6 +113,7 @@
   box-sizing: border-box;
   font-weight: normal;
   text-align: center;
+  top: calc(100% + 7px);
 }
 .Remaining:after {
   content: " ";
@@ -115,13 +125,33 @@
   border-left: 7px solid transparent;
   border-bottom: 7px solid rgb(var(--dark-blue));
 }
+.OvalContainer {
+  position: relative;
+}
 @media (max-width: 1040px) {
   .BudgetVal {
     text-align: center;
-    margin: 10px 0 20px;
   }
   .Category {
     text-align: center;
-    margin-bottom: 10px;
+    margin-right: 12px;
+  }
+  .Bar {
+    width: 100%;
+    margin: 5px 0 20px;
+  }
+}
+@media (max-width: 830px) {
+  .BudgetVal {
+    margin: 10px 0;
+    width: 100%;
+  }
+  .Category {
+    margin: 0 0 10px;
+    width: 100%;
+  }
+  .Bar {
+    flex-direction: column;
+    justify-content: flex-start;
   }
 }

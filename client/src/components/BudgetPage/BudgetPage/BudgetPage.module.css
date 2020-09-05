@@ -6,7 +6,7 @@
   overflow: auto;
 }
 .Content {
-  min-width: 435px;
+  min-width: 448px;
   overflow: hidden;
 }
 .Budget {
@@ -47,12 +47,6 @@
 .BudgetDiv {
   border-bottom: 2px solid rgba(var(--blue), 0.2);
   padding: 10px;
-}
-.InnerBudgetDiv {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
 }
 .ShowBtn {
   color: rgb(var(--blue));
@@ -116,9 +110,11 @@
   margin: 5px 0;
 }
 .Transaction div {
-  width: 250px;
   text-align: center;
   word-wrap: break-word;
+  width: 33%;
+  padding: 0 5px;
+  box-sizing: border-box;
 }
 .TotalBudget {
   color: rgb(var(--green));
@@ -127,22 +123,31 @@
   width: 100%;
   word-wrap: break-word;
 }
+.Btns {
+  display: inline-block;
+}
 @media (max-width: 1040px) {
-  .InnerBudgetDiv {
-    flex-direction: column;
+  .Budget {
+    width: 800px;
+  }
+  .Transactions {
+    width: 95%;
+  }
+  .Btns {
+    width: 100%;
+    display: flex;
     justify-content: center;
     align-items: center;
   }
+  .ShowBtn {
+    top: 0;
+  }
+}
+@media (max-width: 830px) {
   .Budget {
-    width: 350px;
+    width: 440px;
   }
   .Transactions {
     width: 100%;
-  }
-  .ShowAddTrans, .HideAddTrans {
-    flex-direction: column;
-  }
-  .ShowAddTrans input, .HideAddTrans input {
-    margin: 0 0 10px;
   }
 }

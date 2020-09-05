@@ -37,22 +37,28 @@ const BudgetPage = props => {
     setCategVal(val);
   };
 
-  const addHandler = () => {
+  const validateAdd = () => {
     // validate inputs
     if (categVal === '') {
-      setErr(true);
-      return setErrMsg('The category name cannot be empty.');
+      return 'The category name cannot be empty.';
     }
-    if (budgetVal === 0 || budgetVal >= 9999999999) {
-      setErr(true);
-      return setErrMsg('Please enter a valid budget value.');
+    if (categVal.length > 70) {
+      return 'Your category name is too long.';
+    }
+    if (budgetVal === 0 || budgetVal > 999999999) {
+      return 'Please enter a valid budget value.';
     }
     for (let budget of budgets) {
       if (budget.category === categVal) {
-        setErr(true);
-        return setErrMsg('You already have a category with that name.');
+        return 'You already have a category with that name.';
       }
     }
+    return '';
+  };
+
+  const addHandler = () => {
+    const validate = validateAdd();
+    if (validate !== '') { setErr(true); return setErrMsg(validate); }
     setBudgets([ ...budgets, { category: categVal, budget: budgetVal }]);
     setCategVal('');
     setBudgetVal(0);

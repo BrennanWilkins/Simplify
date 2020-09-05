@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
 import NewBudgetPanel from '../NewBudgetPanel/NewBudgetPanel';
 import { caretIcon, pencilIcon, trashIcon, plusIcon } from '../../UI/UIIcons';
-import BudgetPanel from '../BudgetPanel/BudgetPanel';
+import EditBudgetPanel from '../EditBudgetPanel/EditBudgetPanel';
 import { instance as axios } from '../../../axios';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import BudgetBars from '../BudgetBars/BudgetBars';
@@ -48,7 +48,8 @@ const BudgetPage = props => {
   };
 
   const confirmAddTransHandler = () => {
-    if (transCost === '' || transCost === 0 || transDesc === '') { return; }
+    if (transCost === '' || transCost === 0 || transDesc === '' ||
+     transCost > 999999999 || transDesc.length > 70) { return; }
     const budgets = props.budget.map((budg, i) => {
       if (budg.category === addTransCateg) {
         const transactions = [...budg.transactions];
@@ -102,26 +103,24 @@ const BudgetPage = props => {
               <div className={classes.Options}>
                 <div className={classes.Btn}><BlueBtn big clicked={() => setShowBudgetPanel(true)}>{pencilIcon}Edit Budget</BlueBtn></div>
                 <div className={classes.Btn}><BlueBtn big clicked={() => setShowDeletePanel(true)}>{trashIcon}Delete Budget</BlueBtn></div>
-                <BudgetPanel showUp={showCharts} show={showBudgetPanel} close={() => setShowBudgetPanel(false)} />
+                <EditBudgetPanel showUp={showCharts} show={showBudgetPanel} close={() => setShowBudgetPanel(false)} />
                 <DeletePanel showUp={showCharts} show={showDeletePanel} mode="budget" close={() => setShowDeletePanel(false)} delete={deleteHandler} />
               </div>
               {props.budget.map((budget, i) => {
                 return (
                   <div className={classes.BudgetDiv} key={i}>
-                    <div className={classes.InnerBudgetDiv}>
-                      <BudgetBars budget={budget} />
-                      <div>
-                        <button className={classes.ShowBtn} onClick={() => showTransHandler(budget.category)}>
-                          Transactions<span className={showCategs.includes(budget.category) ? classes.CaretDown : classes.CaretRight}>{caretIcon}</span>
-                        </button>
-                        <span className={classes.AddBtn}><GreenBtn big clicked={() => addTransHandler(budget.category)}>{plusIcon}Add Transaction</GreenBtn></span>
-                      </div>
+                    <BudgetBars budget={budget} />
+                    <div className={classes.Btns}>
+                      <button className={classes.ShowBtn} onClick={() => showTransHandler(budget.category)}>
+                        Transactions<span className={showCategs.includes(budget.category) ? classes.CaretDown : classes.CaretRight}>{caretIcon}</span>
+                      </button>
+                      <span className={classes.AddBtn}><GreenBtn big clicked={() => addTransHandler(budget.category)}>{plusIcon}Add Transaction</GreenBtn></span>
                     </div>
                     <div className={showCategs.includes(budget.category) ? classes.Transactions : classes.HideTransactions}>
                       {budget.transactions.map((transaction, i) => (
                         <div className={classes.Transaction} style={i === 0 ? { marginTop: '15px' } : null} key={i}>
                           <div>{transaction.desc}</div>
-                          <div>${Number(transaction.val).toFixed(2)}</div>
+                          <div>${formatNum(transaction.val)}</div>
                           <div>{formatDate3(new Date(transaction.date))}</div>
                         </div>
                       ))}
