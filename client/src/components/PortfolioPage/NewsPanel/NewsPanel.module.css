@@ -1,0 +1,34 @@
+.Panel, .HidePanel {
+  position: fixed;
+  top: calc(50% - 260px);
+  width: 510px;
+  height: 500px;
+  border-radius: 3px;
+  box-shadow: var(--box-shadow1);
+  background: white;
+  z-index: 2;
+  padding: 10px;
+  overflow: hidden;
+  left: calc(50% - 265px);
+  transition: 300ms ease-out;
+}
+.HidePanel {
+  opacity: 0;
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform 300ms ease-in, opacity 150ms ease-in 150ms, visibility 150ms ease-in 150ms;
+}
+.Backdrop, .HideBackdrop {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 70px);
+  background: rgba(0,0,0,0.2);
+  transition: 400ms;
+  z-index: 2;
+}
+.HideBackdrop {
+  opacity: 0;
+  visibility: hidden;
+}

@@ -97,12 +97,12 @@
   align-items: center;
   margin-right: 6px;
 }
-@media (min-width: 1070px) {
+@media (min-width: 1021px) {
   .ChartContainer {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 0 20px;
+    padding: 0 10px;
     max-width: 1200px;
     margin: auto;
   }

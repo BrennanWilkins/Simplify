@@ -39,37 +39,39 @@ const Highlights = props => {
     <div className={classes.Container}>
       <h1 className={classes.Title}>Today's Highlights</h1>
       <div className={classes.InfoContainer}>
-        <div className={classes.Info}>{
-          NWchange === 0 ? <span>Your net worth has not changed since the last time you logged in.</span> :
-          <span>Your net worth has {NWchange > 0 ? 'increased' : 'decreased'} by <span className={NWchange > 0 ? classes.Green : classes.Red}>
-          ${formatNum(Math.abs(NWchange))}</span> since you last logged in.</span>
-        }</div>
-        {props.highestStock.symbol !== '' &&
-          <div className={`${classes.Info} ${classes.AnimIn}`}>
-            <span className={classes.Bold}>{props.highestStock.symbol} </span>
-            is your highest performing stock this week, {props.highestStock.change > 0 ? 'increasing' : 'decreasing'} in price by
-            <span className={props.highestStock.change > 0 ? classes.Green : classes.Red}> {Math.abs((props.highestStock.change)).toFixed(2)}%.</span>
-          </div>}
-        {props.lowestStock.symbol !== '' &&
-          <div className={`${classes.Info} ${classes.AnimIn}`}>
-            <span className={classes.Bold}>{props.lowestStock.symbol} </span>
-            is your lowest performing stock this week, {props.lowestStock.change > 0 ? 'increasing' : 'decreasing'} in price by
-            <span className={props.lowestStock.change > 0 ? classes.Green : classes.Red}> {Math.abs((props.lowestStock.change)).toFixed(2)}%.</span>
-          </div>}
-        {props.highestCrypto.symbol !== '' &&
-          <div className={`${classes.Info} ${classes.AnimIn}`}>
-            <span className={classes.Bold}>{props.highestCrypto.symbol} </span>
-            is your highest performing cryptocurrency this week, {props.highestCrypto.change > 0 ? 'increasing' : 'decreasing'} in price by
-            <span className={props.highestCrypto.change > 0 ? classes.Green : classes.Red}> {Math.abs((props.highestCrypto.change)).toFixed(2)}%.</span>
-          </div>}
-        {props.lowestCrypto.symbol !== '' &&
-          <div className={`${classes.Info} ${classes.AnimIn}`}>
-            <span className={classes.Bold}>{props.lowestCrypto.symbol} </span>
-            is your lowest performing cryptocurrency this week, {props.lowestCrypto.change > 0 ? 'increasing' : 'decreasing'} in price by
-            <span className={props.lowestCrypto.change > 0 ? classes.Green : classes.Red}> {Math.abs((props.lowestCrypto.change)).toFixed(2)}%.</span>
-          </div>}
-        {showErr && <div className={classes.NoInfo}>{errMsg}</div>}
-        <div className={classes.NewsLink}>Get financial news{arrowRight}</div>
+        <div className={classes.InfoContent}>
+          <div className={classes.Info}>{
+            NWchange === 0 ? <span>Your net worth has not changed since the last time you logged in.</span> :
+            <span>Your net worth has {NWchange > 0 ? 'increased' : 'decreased'} by <span className={NWchange > 0 ? classes.Green : classes.Red}>
+            ${formatNum(Math.abs(NWchange))}</span> since you last logged in.</span>
+          }</div>
+          {props.highestStock.symbol !== '' &&
+            <div className={`${classes.Info} ${classes.AnimIn}`}>
+              <span className={classes.Bold}>{props.highestStock.symbol} </span>
+              is your highest performing stock this week, {props.highestStock.change > 0 ? 'increasing' : 'decreasing'} in price by
+              <span className={props.highestStock.change > 0 ? classes.Green : classes.Red}> {Math.abs((props.highestStock.change)).toFixed(2)}%.</span>
+            </div>}
+          {props.lowestStock.symbol !== '' &&
+            <div className={`${classes.Info} ${classes.AnimIn}`}>
+              <span className={classes.Bold}>{props.lowestStock.symbol} </span>
+              is your lowest performing stock this week, {props.lowestStock.change > 0 ? 'increasing' : 'decreasing'} in price by
+              <span className={props.lowestStock.change > 0 ? classes.Green : classes.Red}> {Math.abs((props.lowestStock.change)).toFixed(2)}%.</span>
+            </div>}
+          {props.highestCrypto.symbol !== '' &&
+            <div className={`${classes.Info} ${classes.AnimIn}`}>
+              <span className={classes.Bold}>{props.highestCrypto.symbol} </span>
+              is your highest performing cryptocurrency this week, {props.highestCrypto.change > 0 ? 'increasing' : 'decreasing'} in price by
+              <span className={props.highestCrypto.change > 0 ? classes.Green : classes.Red}> {Math.abs((props.highestCrypto.change)).toFixed(2)}%.</span>
+            </div>}
+          {props.lowestCrypto.symbol !== '' &&
+            <div className={`${classes.Info} ${classes.AnimIn}`}>
+              <span className={classes.Bold}>{props.lowestCrypto.symbol} </span>
+              is your lowest performing cryptocurrency this week, {props.lowestCrypto.change > 0 ? 'increasing' : 'decreasing'} in price by
+              <span className={props.lowestCrypto.change > 0 ? classes.Green : classes.Red}> {Math.abs((props.lowestCrypto.change)).toFixed(2)}%.</span>
+            </div>}
+          {showErr && <div className={classes.NoInfo}>{errMsg}</div>}
+        </div>
+        <div className={classes.NewsLink} onClick={props.openNews}>Get financial news{arrowRight}</div>
       </div>
     </div>
   );

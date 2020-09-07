@@ -12,6 +12,7 @@ import InvestmentTable from '../InvestmentTable/InvestmentTable';
 import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import Highlights from '../Highlights/Highlights';
+import NewsPanel from '../NewsPanel/NewsPanel';
 
 const Portfolio = props => {
   const [showStockSearch, setShowStockSearch] = useState(false);
@@ -28,6 +29,7 @@ const Portfolio = props => {
   const [showRemoveDebt, setShowRemoveDebt] = useState(false);
   const [showAssetSettings, setShowAssetSettings] = useState(false);
   const [showDebtSettings, setShowDebtSettings] = useState(false);
+  const [showNews, setShowNews] = useState(false);
   const stockRef = useRef();
   const cryptoRef = useRef();
   const assetRef = useRef();
@@ -59,8 +61,9 @@ const Portfolio = props => {
       <div className={classes.Content}>
         <div className={classes.ChartContainer}>
           <NetWorthChart />
-          <Highlights />
+          <Highlights openNews={() => setShowNews(true)}/>
         </div>
+        <NewsPanel show={showNews} close={() => setShowNews(false)} />
         <div className={classes.Investments}>
           <div className={classes.Stocks} ref={stockRef}>
             <h1>Stocks</h1>
