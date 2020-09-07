@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const CryptoSchema = new mongoose.Schema({
   symbol: String,
   name: String,
-  price: Number
+  price: Number,
+  change: Number
 });
 
 const CryptosSchema = new mongoose.Schema({

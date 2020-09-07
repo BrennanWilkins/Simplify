@@ -1,49 +1,37 @@
-.Chart {
-  width: 100%;
-  height: 100%;
-}
-.NetWorthTitle, .NetWorthTitleSmall {
+.TitleSmall, .Title {
+  color: rgb(var(--dark-blue2));
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  padding: 0 5px;
+  margin: 24px 0 20px;
 }
-.NetWorthTitleSmall {
-  margin: 10px 0 5px;
+.TitleSmall span {
+  font-size: 22px;
+  margin: 0 12px;
 }
-.NetWorthValue {
-  margin-left: 50px;
+.Value {
   color: rgb(var(--green));
 }
-.NetWorthText {
-  color: rgb(var(--dark-blue2));
-}
-.NetWorthValueSmall {
-  margin-left: 30px;
-  color: rgb(var(--green));
-  font-size: 22px;
-}
-.NetWorthTextSmall {
-  color: rgb(var(--dark-blue2));
-  font-size: 22px;
-}
-.NetWorthChart, .NetWorthChartSmall {
-  width: 80%;
+.ChartSmall {
+  width: 90%;
   margin: auto;
   z-index: 1;
   position: relative;
 }
-.NetWorthChart {
-  min-width: 500px;
+.Title span {
+  font-size: 34px;
+  margin: 0 25px;
 }
-@media (max-width: 500px) {
-  .NetWorthTitle {
-    justify-content: flex-start;
-    flex-direction: column;
-  }
-  .NetWorthValue {
-    margin: 0 0 20px;
-  }
-  .NetWorthText {
-    margin-bottom: 15px;
+.Chart {
+  width: calc(100% - 20px);
+  margin: 0 10px;
+  z-index: 1;
+  position: relative;
+}
+@media (min-width: 1070px) {
+  .Container {
+    width: calc(100% - 470px);
   }
 }

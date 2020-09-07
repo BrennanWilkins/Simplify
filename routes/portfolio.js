@@ -268,4 +268,45 @@ router.put('/updateDebt', auth,
     } catch(e) { res.sendStatus(500); }
 });
 
+// public route for getting highest/lowest 7 day price change of stocks/cryptos in portfolio
+router.post('/highlights',
+  [body('stocks.*').trim().escape(),
+  body('cryptos.*').trim().escape()],
+  async (req, res) => {
+    try {
+      if (!req.body.stocks.length && !req.body.cryptos.length) { throw 'err'; }
+      let highestStock = null; let lowestStock = null; let highestCrypto = null; let lowestCrypto = null;
+      if (req.body.stocks.length) {
+        const startDate = new Date(new Date().getTime() - (86400000 * 7));
+        const endDate = new Date();
+        // get historical data for past 7 days
+        const yfResult = await yf.historical({ symbols: [...req.body.stocks], from: startDate, to: endDate });
+        const changes = [];
+        for (let key in yfResult) {
+          changes.push({
+            symbol: key,
+            change: ((yfResult[key][0].close - yfResult[key][yfResult[key].length - 1].close) / yfResult[key][yfResult[key].length - 1].close) * 100
+          });
+        }
+        // sort price changes high to low
+        changes.sort((a,b) => b.change - a.change);
+        highestStock = changes[0];
+        lowestStock = changes.length > 1 ? changes[changes.length - 1] : null;
+      }
+      if (req.body.cryptos.length) {
+        const cryptos = await Cryptos.find({});
+        const changes = [];
+        for (let name of req.body.cryptos) {
+          let change = cryptos[0].cryptos.find(crypto => crypto.symbol === name).change;
+          changes.push({ symbol: name, change });
+        }
+        // sort price changes high to low
+        changes.sort((a,b) => b.change - a.change);
+        highestCrypto = changes[0];
+        lowestCrypto = changes.length > 1 ? changes[changes.length - 1] : null;
+      }
+      res.status(200).json({ highestStock, lowestStock, highestCrypto, lowestCrypto });
+    } catch(e) { res.sendStatus(500); }
+});
+
 module.exports = router;

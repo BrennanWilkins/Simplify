@@ -11,7 +11,7 @@ import NetWorthChart from '../NetWorthChart/NetWorthChart';
 import InvestmentTable from '../InvestmentTable/InvestmentTable';
 import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
-import NWPopup from '../NWPopup/NWPopup';
+import Highlights from '../Highlights/Highlights';
 
 const Portfolio = props => {
   const [showStockSearch, setShowStockSearch] = useState(false);
@@ -28,7 +28,6 @@ const Portfolio = props => {
   const [showRemoveDebt, setShowRemoveDebt] = useState(false);
   const [showAssetSettings, setShowAssetSettings] = useState(false);
   const [showDebtSettings, setShowDebtSettings] = useState(false);
-  const contentRef = useRef();
   const stockRef = useRef();
   const cryptoRef = useRef();
   const assetRef = useRef();
@@ -38,7 +37,7 @@ const Portfolio = props => {
       case '?pos=stocks': return stockRef.current.scrollIntoView();
       case '?pos=cryptos': return cryptoRef.current.scrollIntoView();
       case '?pos=assets': return assetRef.current.scrollIntoView();
-      default: return contentRef.current.scrollIntoView();
+      default: return;
     }
   }, [props.location.search]);
 
@@ -57,9 +56,11 @@ const Portfolio = props => {
 
   return (
     <div className={classes.Container}>
-      <div className={classes.Content} ref={contentRef}>
-        <NWPopup />
-        <NetWorthChart />
+      <div className={classes.Content}>
+        <div className={classes.ChartContainer}>
+          <NetWorthChart />
+          <Highlights />
+        </div>
         <div className={classes.Investments}>
           <div className={classes.Stocks} ref={stockRef}>
             <h1>Stocks</h1>

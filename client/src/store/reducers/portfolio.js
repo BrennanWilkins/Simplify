@@ -4,7 +4,14 @@ const initialState = {
   cryptos: [],
   stocks: [],
   otherAssets: [],
-  liabilities: []
+  liabilities: [],
+  wasMounted: false,
+  highlightData: {
+    highestStock: { symbol: '', change: 0 },
+    lowestStock: { symbol: '', change: 0 },
+    highestCrypto: { symbol: '', change: 0 },
+    lowestCrypto: { symbol: '', change: 0 }
+  }
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,6 +41,13 @@ const reducer = (state = initialState, action) => {
       return { ...state, otherAssets: action.assets };
     case actionTypes.UPDATE_DEBTS:
       return { ...state, liabilities: action.debts };
+    case actionTypes.SET_HIGHLIGHTS:
+      const highlightData = { ...state.highlightData };
+      if (action.data.highestStock) { highlightData.highestStock = action.data.highestStock; }
+      if (action.data.lowestStock) { highlightData.lowestStock = action.data.lowestStock; }
+      if (action.data.highestCrypto) { highlightData.highestCrypto = action.data.highestCrypto; }
+      if (action.data.lowestCrypto) { highlightData.lowestCrypto = action.data.lowestCrypto; }
+      return { ...state, wasMounted: true, highlightData };
     default: return state;
   }
 };

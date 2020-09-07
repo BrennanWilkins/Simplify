@@ -97,6 +97,16 @@
   align-items: center;
   margin-right: 6px;
 }
+@media (min-width: 1070px) {
+  .ChartContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 20px;
+    max-width: 1200px;
+    margin: auto;
+  }
+}
 @media (max-width: 1070px) {
   .Investments {
     flex-direction: column;

@@ -53,7 +53,7 @@ router.post('/login',
       if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) {
         console.log('Updating cryptos...');
         const resp = await axios.get(cmcUrl, cmcOptions);
-        mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price }));
+        mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d }));
         const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
         console.log('Crypto update successful');
       } else { mappedCryptos = cryptos.cryptos; }
@@ -103,7 +103,7 @@ router.post('/signup',
       if (new Date(cryptos.date).getTime() - new Date().getTime() >= 3600000) {
         console.log('Updating cryptos...');
         const resp = await axios.get(cmcUrl, cmcOptions);
-        const cmcCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price }));
+        const cmcCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d  }));
         const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: cmcCryptos }, {});
         console.log('Crypto update successful');
       }
@@ -135,7 +135,7 @@ router.get('/autoLogin', auth, async (req, res) => {
     if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) {
       console.log('Updating cryptos...');
       const resp = await axios.get(cmcUrl, cmcOptions);
-      mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price }));
+      mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d  }));
       const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
       console.log('Crypto update successful');
     } else { mappedCryptos = cryptos.cryptos; }
@@ -164,7 +164,7 @@ router.post('/demoLogin', async (req, res) => {
     if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) {
       console.log('Updating cryptos...');
       const resp = await axios.get(cmcUrl, cmcOptions);
-      mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price }));
+      mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d  }));
       const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
       console.log('Crypto update successful');
     } else { mappedCryptos = cryptos.cryptos; }

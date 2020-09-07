@@ -29,27 +29,15 @@ const NetWorthChart = props => {
 
   // props.small used for chart on home page
   return (
-    props.small ? (
-      <div className={classes.Chart}>
-        <div className={classes.NetWorthTitleSmall}>
-          <h1 className={classes.NetWorthTextSmall}>Net Worth</h1>
-          <h1 className={classes.NetWorthValueSmall}>${netWorthVal}</h1>
-        </div>
-        <div className={classes.NetWorthChartSmall}>
-          <Chart options={{ ...options, height: 200 }} />
-        </div>
+    <div className={props.small ? undefined : classes.Container}>
+      <h1 className={props.small ? classes.TitleSmall : classes.Title}>
+        <span>Net Worth</span>
+        <span className={classes.Value}>${netWorthVal}</span>
+      </h1>
+      <div className={props.small ? classes.ChartSmall : classes.Chart}>
+        <Chart options={props.small ? { ...options, height: 200 } : options} />
       </div>
-    ) : (
-      <div>
-        <div className={classes.NetWorthTitle}>
-          <h1 className={classes.NetWorthText}>Net Worth</h1>
-          <h1 className={classes.NetWorthValue}>${netWorthVal}</h1>
-        </div>
-        <div className={classes.NetWorthChart}>
-          <Chart options={options} />
-        </div>
-      </div>
-    )
+    </div>
   );
 };
 

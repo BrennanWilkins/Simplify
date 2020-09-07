@@ -19,6 +19,7 @@ export const CHANGE_STOCK = 'CHANGE_STOCK';
 export const CHANGE_CRYPTO = 'CHANGE_CRYPTO';
 export const UPDATE_ASSETS = 'UPDATE_ASSETS';
 export const UPDATE_DEBTS = 'UPDATE_DEBTS';
+export const SET_HIGHLIGHTS = 'SET_HIGHLIGHTS';
 
 export const SET_NET_WORTH_GOAL = 'SET_NET_WORTH_GOAL';
 export const ADD_NEW_GOAL = 'ADD_NEW_GOAL';
@@ -35,5 +36,3 @@ export const DELETE_BUDGET = 'DELETE_BUDGET';
 
 export const SET_NOTIFS = 'SET_NOTIFS';
 export const DELETE_NOTIF = 'DELETE_NOTIF';
-export const HIDE_NWPOPUP = 'HIDE_NWPOPUP';
-export const NWPOPUP_SHOWN = 'NWPOPUP_SHOWN';

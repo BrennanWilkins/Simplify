@@ -1,4 +1,59 @@
 .Container {
   width: 450px;
-  height: 400px;
+  text-align: center;
+  margin: 0 10px;
+}
+@media (max-width: 1070px) {
+  .Container {
+    margin: auto;
+  }
+}
+.Title {
+  color: rgb(var(--dark-blue2));
+  border-bottom: 1.5px solid rgba(var(--dark-blue), 0.2);
+  width: 85%;
+  padding: 0 0 15px;
+  margin: 25px auto 15px;
+  font-size: 28px;
+}
+.InfoContainer {
+  width: 100%;
+  box-shadow: var(--box-shadow4);
+  height: 350px;
+  border-radius: 2px;
+  padding: 10px 0;
+  overflow: auto;
+}
+.Info {
+  border-bottom: 1.5px solid rgba(var(--dark-blue), 0.2);
+  width: 90%;
+  margin: 5px auto;
+  background: rgba(var(--blue), 0.2);
+  border-radius: 3px;
+  padding: 5px 12px;
+  box-sizing: border-box;
+}
+.Green {
+  color: green;
+  font-weight: bold;
+}
+.Red {
+  color: red;
+  font-weight: bold;
+}
+.NoInfo {
+  width: 80%;
+  margin: 20px auto 0;
+  text-align: center;
+  color: rgb(var(--dark-blue3));
+}
+.Bold {
+  font-weight: 500;
+}
+.AnimIn {
+  animation: animIn 400ms ease-in forwards;
+}
+@keyframes animIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
