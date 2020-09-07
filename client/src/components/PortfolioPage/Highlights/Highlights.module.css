@@ -21,8 +21,8 @@
   box-shadow: var(--box-shadow4);
   height: 350px;
   border-radius: 2px;
-  padding: 10px 0;
-  overflow: auto;
+  padding: 10px 0 25px;
+  position: relative;
 }
 .Info {
   border-bottom: 1.5px solid rgba(var(--dark-blue), 0.2);
@@ -56,4 +56,30 @@
 @keyframes animIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+.NewsLink {
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 17px;
+  position: absolute;
+  bottom: 15px;
+  width: 90%;
+  left: 5%;
+  color: rgb(var(--dark-blue3));
+  background: rgb(var(--dark-blue), 0.1);
+  padding: 5px 0;
+  transition: 400ms ease-out;
+  border-radius: 3px;
+}
+.NewsLink:hover {
+  background: rgb(var(--dark-blue), 0.6);
+}
+.NewsLink svg {
+  font-size: 25px;
+  position: relative;
+  left: 1px;
+  top: 1px;
 }

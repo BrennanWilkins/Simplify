@@ -7,6 +7,7 @@ const Fuse = require('fuse.js');
 const StockSearch = require('stock-ticker-symbol');
 const yf = require('yahoo-finance');
 const { param, body, validationResult } = require('express-validator');
+const config = require('config');
 
 // public route for searching cryptos
 router.get('/searchCrypto/:searchVal',
@@ -282,30 +283,47 @@ router.post('/highlights',
         // get historical data for past 7 days
         const yfResult = await yf.historical({ symbols: [...req.body.stocks], from: startDate, to: endDate });
         const changes = [];
-        for (let key in yfResult) {
-          changes.push({
-            symbol: key,
-            change: ((yfResult[key][0].close - yfResult[key][yfResult[key].length - 1].close) / yfResult[key][yfResult[key].length - 1].close) * 100
-          });
+        for (let symbol in yfResult) {
+          // continue if stock not found
+          if (!yfResult[symbol].length) { continue; }
+          let change = ((yfResult[symbol][0].close - yfResult[symbol][yfResult[symbol].length - 1].close) / yfResult[symbol][yfResult[symbol].length - 1].close) * 100;
+          changes.push({ symbol, change });
         }
         // sort price changes high to low
-        changes.sort((a,b) => b.change - a.change);
-        highestStock = changes[0];
+        if (changes.length > 1) { changes.sort((a,b) => b.change - a.change); }
+        highestStock = changes.length > 0 ? changes[0] : null;
         lowestStock = changes.length > 1 ? changes[changes.length - 1] : null;
       }
       if (req.body.cryptos.length) {
         const cryptos = await Cryptos.find({});
         const changes = [];
-        for (let name of req.body.cryptos) {
-          let change = cryptos[0].cryptos.find(crypto => crypto.symbol === name).change;
-          changes.push({ symbol: name, change });
+        for (let symbol of req.body.cryptos) {
+          let crypto = cryptos[0].cryptos.find(crypto => crypto.symbol === symbol);
+          // if crypto not found continue
+          if (!crypto) { continue; }
+          changes.push({ symbol, change: crypto.change });
         }
         // sort price changes high to low
-        changes.sort((a,b) => b.change - a.change);
-        highestCrypto = changes[0];
+        if (changes.length > 1) { changes.sort((a,b) => b.change - a.change); }
+        highestCrypto = changes.length > 0 ? changes[0] : null;
         lowestCrypto = changes.length > 1 ? changes[changes.length - 1] : null;
       }
       res.status(200).json({ highestStock, lowestStock, highestCrypto, lowestCrypto });
+    } catch(e) { console.log(e); res.sendStatus(500); }
+});
+
+// public route for getting company news from google-finance api, must have news code
+router.get('/news/:code/:query',
+  [param('*').trim().escape()],
+  async (req, res) => {
+    // unauthorized
+    if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
+    // get news from past 2 weeks
+    const startDate = new Date(new Date().getTime() - 1209600000).toISOString().split('T')[0];
+    const newsUrl = `http://newsapi.org/v2/everything?q=${req.params.query}&language=en&from=${startDate}&sortBy=popularity&apiKey=${config.get('NEWS_KEY')}`;
+    try {
+      const news = await axios.get(newsUrl);
+      res.status(200).json({ news });
     } catch(e) { res.sendStatus(500); }
 });
 
