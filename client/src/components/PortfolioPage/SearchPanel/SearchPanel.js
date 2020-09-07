@@ -119,6 +119,8 @@ const SearchPanel = props => {
       props.setNetWorthData(updatedNetWorth);
       isStock ? props.addStock(data) : props.addCrypto(data);
       props.addNotif(`${data.symbol} added to portfolio`);
+      // update todays highlights data 
+      props.setUpdateHighlights();
       return closeHandler();
     }
     try {
@@ -128,6 +130,8 @@ const SearchPanel = props => {
       props.setNetWorthData(resp.data.result.dataPoints);
       isStock ? props.addStock(data) : props.addCrypto(data);
       props.addNotif(`${data.symbol} added to portfolio`);
+      // update todays highlights data
+      props.setUpdateHighlights();
       closeHandler();
     } catch(e) { setErr(true); return setErrMsg('Error connecting to the server.'); }
   };
@@ -209,10 +213,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addStock: (stock) => dispatch(actions.addStock(stock)),
-  addCrypto: (crypto) => dispatch(actions.addCrypto(crypto)),
-  setNetWorthData: (data) => dispatch(actions.setNetWorthData(data)),
-  addNotif: msg => dispatch(actions.addNotif(msg))
+  addStock: stock => dispatch(actions.addStock(stock)),
+  addCrypto: crypto => dispatch(actions.addCrypto(crypto)),
+  setNetWorthData: data => dispatch(actions.setNetWorthData(data)),
+  addNotif: msg => dispatch(actions.addNotif(msg)),
+  setUpdateHighlights: () => dispatch(actions.setUpdateHighlights(true))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPanel);

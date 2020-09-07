@@ -18,3 +18,5 @@ export const updateAssets = assets => ({ type: actionTypes.UPDATE_ASSETS, assets
 export const updateDebts = debts => ({ type: actionTypes.UPDATE_DEBTS, debts });
 
 export const setHighlights = data => ({ type: actionTypes.SET_HIGHLIGHTS, data });
+
+export const setUpdateHighlights = bool => ({ type: actionTypes.SET_UPDATE_HIGHLIGHTS, bool });

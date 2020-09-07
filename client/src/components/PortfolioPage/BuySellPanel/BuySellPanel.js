@@ -95,6 +95,8 @@ const BuySellPanel = props => {
           props.setNetWorthData(updatedNetWorth);
           sellStock ? props.changeStock(curr) : props.changeCrypto(curr);
           props.addNotif(`${selected.symbol} removed from portfolio`);
+          // retrieves today's highlights again if stock/crypto deleted
+          props.setUpdateHighlights();
           return closeHandler();
         }
         const data = { identifier: selected.identifier, name: selected.name };
@@ -105,6 +107,8 @@ const BuySellPanel = props => {
           props.setNetWorthData(resp.data.result.dataPoints);
           sellStock ? props.changeStock(curr) : props.changeCrypto(curr);
           props.addNotif(`${selected.symbol} removed from portfolio`);
+          // retrieves today's highlights again if stock/crypto deleted
+          props.setUpdateHighlights();
           return closeHandler();
         } catch(e) { return errHandler(true); }
       }
@@ -205,7 +209,8 @@ const mapDispatchToProps = dispatch => ({
   changeCrypto: cryptos => dispatch(actions.changeCrypto(cryptos)),
   changeStock: stocks => dispatch(actions.changeStock(stocks)),
   setNetWorthData: data => dispatch(actions.setNetWorthData(data)),
-  addNotif: msg => dispatch(actions.addNotif(msg))
+  addNotif: msg => dispatch(actions.addNotif(msg)),
+  setUpdateHighlights: () => dispatch(actions.setUpdateHighlights(true))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BuySellPanel);

@@ -31,7 +31,7 @@ const Highlights = props => {
     };
 
     // get highest/lowest performing stock/crypto this week on mount
-    if (!props.wasMounted) { getData(); }
+    if (props.updateHighlights) { getData(); }
   }, [props.netWorthData, props.wasMounted, props.stocks, props.cryptos, props.setHighlights]);
 
   return (
@@ -75,7 +75,7 @@ const Highlights = props => {
 
 const mapStateToProps = state => ({
   netWorthData: state.netWorth.netWorthData,
-  wasMounted: state.portfolio.wasMounted,
+  updateHighlights: state.portfolio.updateHighlights,
   stocks: state.portfolio.stocks,
   cryptos: state.portfolio.cryptos,
   highestStock: state.portfolio.highlightData.highestStock,
