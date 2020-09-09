@@ -8,6 +8,7 @@ const StockSearch = require('stock-ticker-symbol');
 const yf = require('yahoo-finance');
 const { param, body, validationResult } = require('express-validator');
 const config = require('config');
+const axios = require('axios');
 
 // public route for searching cryptos
 router.get('/searchCrypto/:searchVal',
@@ -312,18 +313,26 @@ router.post('/highlights',
     } catch(e) { console.log(e); res.sendStatus(500); }
 });
 
-// public route for getting company news from google-finance api, must have news code
+// public route for getting company news from finnhub api, must have news code
 router.get('/news/:code/:query',
   [param('*').trim().escape()],
   async (req, res) => {
     // unauthorized
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
-    // get news from past 2 weeks
-    const startDate = new Date(new Date().getTime() - 1209600000).toISOString().split('T')[0];
-    const newsUrl = `http://newsapi.org/v2/everything?q=${req.params.query}&language=en&from=${startDate}&sortBy=popularity&apiKey=${config.get('NEWS_KEY')}`;
+    // get news from past week to today
+    const startDate = new Date(new Date().getTime() - 604800000).toISOString().split('T')[0];
+    const endDate = new Date().toISOString().split('T')[0];
+    // retrieve both news & news sentiment analysis
+    const newsUrl = `https://finnhub.io/api/v1/company-news?symbol=${req.params.query}&from=${startDate}&to=${endDate}&token=${config.get('NEWS_KEY')}`;
+    const sentimentUrl = `https://finnhub.io/api/v1/news-sentiment?symbol=${req.params.query}&token=${config.get('NEWS_KEY')}`;
     try {
-      const news = await axios.get(newsUrl);
-      res.status(200).json({ news });
+      const news = await axios.get(newsUrl, { json: true });
+      const sentiment = await axios.get(sentimentUrl, { json: true });
+      // check for valid response
+      if (Array.isArray(news) && news.length === 0) { return res.sendStatus(400); }
+      if (news.data.length === 0 || !sentiment.data.buzz) { return res.sendStatus(400); }
+      if (news.status !== 200 || sentiment.status !== 200) { throw 'err'; }
+      res.status(200).json({ news: news.data.slice(0, 20), sentiment: sentiment.data });
     } catch(e) { res.sendStatus(500); }
 });
 

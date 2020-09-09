@@ -17,3 +17,43 @@
 .Input:hover, .DateInput:hover {
   box-shadow: 0 0 2px 0 rgba(var(--blue), 0.9);
 }
+.SearchInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2px;
+  width: 200px;
+  margin: auto;
+  border: 1.2px solid rgba(var(--dark-blue), 0.6);
+  transition: box-shadow 200ms ease-out, border 100ms ease-out;
+}
+.Focus {
+  box-shadow: 0 0 2px 0 rgba(var(--blue), 0.9);
+  border: 1.5px solid rgba(var(--dark-blue), 0.8);
+}
+.SearchInput input {
+  width: 170px;
+  outline: none;
+  padding: 5px 7px;
+  border: 0;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+.SearchInput button {
+  padding: 7px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+  background: transparent;
+  transition: 300ms;
+  background: rgba(var(--dark-blue), 0.2);
+  color: rgb(var(--dark-blue2));
+}
+.SearchInput button:hover {
+  background: rgba(var(--dark-blue), 0.4);
+  color: rgb(var(--dark-blue));
+}

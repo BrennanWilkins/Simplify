@@ -1,16 +1,29 @@
-.Panel, .HidePanel {
+.Panel {
   position: fixed;
-  top: calc(50% - 260px);
+  top: 100px;
   width: 510px;
-  height: 500px;
+  height: calc(94% - 100px);
+  max-height: 650px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
-  background: white;
   z-index: 2;
   padding: 10px;
-  overflow: hidden;
   left: calc(50% - 265px);
   transition: 300ms ease-out;
+  overflow: auto;
+  background: rgb(53, 89, 119);
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+@media (max-width: 550px) {
+  .Panel {
+    width: 95%;
+    left: 2.5%;
+    box-sizing: border-box;
+  }
 }
 .HidePanel {
   opacity: 0;
@@ -24,11 +37,128 @@
   left: 0;
   width: 100%;
   height: calc(100% - 70px);
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.25);
   transition: 400ms;
   z-index: 2;
 }
 .HideBackdrop {
   opacity: 0;
   visibility: hidden;
+}
+.CloseBtn {
+  width: 100%;
+}
+.CloseBtn button {
+  background: rgb(var(--dark-blue3));
+}
+.CloseBtn button:hover {
+  background: rgb(var(--dark-blue));
+}
+.Title {
+  font-weight: 500;
+  font-size: 28px;
+  text-align: center;
+}
+.InputText {
+  text-align: center;
+  margin: 8px 0 10px;
+}
+.AccessInput input {
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 10px;
+  transition: 300ms;
+}
+.RedInput input {
+  background: rgb(207, 32, 32, 0.4);
+}
+.AccessInput input::placeholder {
+  color: white;
+  opacity: 0.35;
+}
+.AccessInput input::-ms-input-placeholder {
+  color: white;
+  opacity: 0.35;
+}
+.Err, .HideErr {
+  transition: 300ms;
+  text-align: center;
+  margin: 0;
+  color: black;
+  font-size: 15px;
+  height: 40px;
+  line-height: 40px;
+  font-weight: 500;
+}
+.HideErr {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+}
+.Content {
+  background: white;
+  overflow: auto;
+  width: calc(100% - 10px);
+  height: 100%;
+  margin-bottom: 5px;
+  color: black;
+}
+.Content::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #eee;
+}
+.Content::-webkit-scrollbar {
+  width: 12px;
+  border-radius: 10px;
+  background-color: #eee;
+}
+.Content::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #ddd;
+}
+.StockText {
+  color: rgb(var(--dark-blue2));
+  text-align: center;
+  margin: 10px 0;
+}
+.Article {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  animation: fadeIn 350ms ease-in forwards;
+}
+.Article img {
+  width: 175px;
+  height: 175px;
+  object-fit: contain;
+  margin-left: 10px;
+}
+.Summary {
+  margin: 10px 0;
+}
+.Date {
+  margin-top: 10px;
+  color: rgb(112, 112, 112);
+}
+.Sentiment {
+  margin: 13px 0;
+  animation: fadeIn 350ms ease-in forwards;
+}
+.Sentiment div {
+  text-align: center;
+}
+.Sentiment span {
+  font-weight: 500;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.Search {
+  position: relative;
+}
+.HideSpinner {
+  display: none;
 }

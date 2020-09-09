@@ -27,7 +27,7 @@
   -webkit-animation: load4 1.3s infinite linear;
   animation: load4 1.3s infinite linear;
 }
-.SearchLoader {
+.SearchLoader, .NewsLoader {
   color: rgb(var(--blue));
   font-size: 4px;
   width: 1em;
@@ -40,6 +40,10 @@
   text-indent: -9999em;
   -webkit-animation: load4 1.3s infinite linear;
   animation: load4 1.3s infinite linear;
+}
+.NewsLoader {
+  top: 16px;
+  right: 120px;
 }
 .LoginLoader {
   top: calc(50% - 13px);
