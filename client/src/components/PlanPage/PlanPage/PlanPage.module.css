@@ -78,7 +78,7 @@
   font-size: 15px;
 }
 .ActiveBtn button {
-  background: rgb(var(--dark-blue2));
+  background: rgb(var(--dark-blue4));
 }
 @media (max-width: 730px) {
   .InputRow2 {

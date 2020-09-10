@@ -15,6 +15,6 @@
   font-size: 14px;
 }
 .Btn:hover, .BigBtn:hover {
-  background: rgb(var(--dark-blue2));
   box-shadow: var(--box-shadow8);
+  background: rgb(var(--dark-blue4));
 }

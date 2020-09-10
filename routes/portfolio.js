@@ -313,7 +313,7 @@ router.post('/highlights',
     } catch(e) { console.log(e); res.sendStatus(500); }
 });
 
-// public route for getting company news from finnhub api, must have news code
+// public route for getting company news from finnhub api, must have access code
 router.get('/news/:code/:query',
   [param('*').trim().escape()],
   async (req, res) => {
@@ -333,6 +333,23 @@ router.get('/news/:code/:query',
       if (news.data.length === 0 || !sentiment.data.buzz) { return res.sendStatus(400); }
       if (news.status !== 200 || sentiment.status !== 200) { throw 'err'; }
       res.status(200).json({ news: news.data.slice(0, 20), sentiment: sentiment.data });
+    } catch(e) { res.sendStatus(500); }
+});
+
+// public route for getting general market news from finnhub api, must have access code
+router.get('/generalNews/:code',
+  [param('code').trim().escape()],
+  async (req, res) => {
+    // unauthorized
+    if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
+    const newsUrl = `https://finnhub.io/api/v1/news?category=general&token=${config.get('NEWS_KEY')}`;
+    try {
+      const news = await axios.get(newsUrl, { json: true });
+      // check for valid response
+      if (Array.isArray(news) && news.length === 0) { throw 'empty response'; }
+      if (news.data.length === 0) { throw 'empty response'; }
+      if (news.status !== 200) { throw 'err'; }
+      res.status(200).json({ news: news.data.slice(0, 20) });
     } catch(e) { res.sendStatus(500); }
 });
 
