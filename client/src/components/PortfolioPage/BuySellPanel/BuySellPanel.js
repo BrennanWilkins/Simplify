@@ -18,6 +18,7 @@ const BuySellPanel = props => {
   const [errMsg, setErrMsg] = useState('');
   const [panelClass, setPanelClass] = useState(classes.Hide);
   const [titleText, setTitleText] = useState('');
+  const [options, setOptions] = useState([]);
   const inputRef = useRef();
 
   useEffect(() => {
@@ -47,6 +48,15 @@ const BuySellPanel = props => {
   }, [props.mode, props.show]);
 
   useEffect(() => {
+    // set options based on mode/panel shown
+    if (props.show) {
+      if (props.mode === 'BuyStock' || props.mode === 'SellStock') {
+        setOptions(props.stocks.map(stock => ({ value: stock.name, label: stock.name })));
+      } else { setOptions(props.cryptos.map(crypto => ({ value: crypto.name, label: crypto.name }))); }
+    }
+  }, [props.mode, props.show, props.stocks, props.cryptos]);
+
+  useEffect(() => {
     // enter key submit if input field not 0
     const enterHandler = e => { if (e.key === 'Enter') { confirmHandler(); } };
 
@@ -60,6 +70,7 @@ const BuySellPanel = props => {
     setSelectedName('');
     errHandler(false);
     setTitleText('');
+    setOptions([]);
     props.close();
   };
 
@@ -164,16 +175,12 @@ const BuySellPanel = props => {
     inputRef.current.focus();
   };
 
-  const stockOptions = props.stocks.map(stock => ({ value: stock.name, label: stock.name }));
-  const cryptoOptions = props.cryptos.map(crypto => ({ value: crypto.name, label: crypto.name }));
-
   return (
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={panelClass}>
         <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
         <p className={classes.Text}>{titleText}</p>
-        <Select options={props.mode === 'BuyStock' || props.mode === 'SellStock' ? stockOptions : cryptoOptions}
-          change={selectHandler} val={selectedName} />
+        <Select options={options} change={selectHandler} val={selectedName} />
         <p className={selectedName === '' ? classes.HideText : classes.Text}>
           {props.mode === 'BuyStock' ?
           `How many shares of ${selected.symbol} did you buy?` :

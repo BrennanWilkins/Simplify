@@ -31,6 +31,7 @@ const AnalysisPanel = props => {
   return (
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : `${classes.Panel} ${classes.Hide}`}>
+        <CloseBtn close={closeHandler} />
         <Select options={options} change={selectHandler} val={selectedName} />
       </div>
     </PanelContainer>

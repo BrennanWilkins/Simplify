@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import classes from './SettingsPanel.module.css';
 import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import * as actions from '../../../store/actions/index';
@@ -18,8 +18,18 @@ const SettingsPanel = props => {
   const [priceVal, setPriceVal] = useState(0);
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const [options, setOptions] = useState([]);
   const priceRef = useRef();
   const isStock = props.mode === 'Stock';
+
+  useEffect(() => {
+    // set options based on mode & if panel shown
+    if (props.show) {
+      if (props.mode === 'Stock') {
+        setOptions(props.stocks.filter(stock => stock.identifier === 'Manual').map(stock => ({ value: stock.name, label: stock.name }))); }
+      else { setOptions(props.cryptos.filter(crypto => crypto.identifier === 'Manual').map(crypto => ({ value: crypto.name, label: crypto.name }))); }
+    }
+  }, [props.mode, props.show, props.stocks, props.cryptos]);
 
   const closeHandler = () => {
     setSelected({ name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Manual' });
@@ -27,6 +37,7 @@ const SettingsPanel = props => {
     setSelectedName('');
     setErr(false);
     setErrMsg('');
+    setOptions([]);
     props.close();
   };
 
@@ -35,9 +46,6 @@ const SettingsPanel = props => {
     setErrMsg('');
     setPriceVal(val);
   };
-
-  const stocks = props.stocks.filter(stock => stock.identifier === 'Manual');
-  const cryptos = props.cryptos.filter(crypto => crypto.identifier === 'Manual');
 
   const selectHandler = selectedOption => {
     if (!selectedOption) {
@@ -48,7 +56,8 @@ const SettingsPanel = props => {
     setErr(false);
     setErrMsg('');
     // find stock/crypto from the selected value & update price val
-    const curr = isStock ? stocks : cryptos;
+    const curr = isStock ? props.stocks.filter(stock => stock.identifier === 'Manual') :
+    props.cryptos.filter(crypto => crypto.identifier === 'Manual');
     const match = curr.find(inv => inv.name === selectedOption.value);
     setSelected({ ...match });
     setPriceVal(match.price);
@@ -84,10 +93,6 @@ const SettingsPanel = props => {
     } catch(e) { setErr(true); setErrMsg('Error connecting to the server.'); }
   };
 
-  // options used for the select element
-  const stockOptions = stocks.map(stock => ({ value: stock.name, label: stock.name }));
-  const cryptoOptions = cryptos.map(crypto => ({ value: crypto.name, label: crypto.name }));
-
   return (
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={isStock ?
@@ -101,8 +106,7 @@ const SettingsPanel = props => {
           'Change the price of a manually added stock' :
           'Change the price of a manually added cryptocurrency'}
         </p>
-        <Select options={isStock ? stockOptions : cryptoOptions}
-          change={selectHandler} val={selectedName} />
+        <Select options={options} change={selectHandler} val={selectedName} />
         <div className={selectedName !== '' ? classes.ShowInput : classes.HideInput}>
           <NumInput val={priceVal} change={setValHandler} ref={priceRef} />
           <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
@@ -122,9 +126,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  changeCrypto: (cryptos) => dispatch(actions.changeCrypto(cryptos)),
-  changeStock: (stocks) => dispatch(actions.changeStock(stocks)),
-  setNetWorthData: (data) => dispatch(actions.setNetWorthData(data)),
+  changeCrypto: cryptos => dispatch(actions.changeCrypto(cryptos)),
+  changeStock: stocks => dispatch(actions.changeStock(stocks)),
+  setNetWorthData: data => dispatch(actions.setNetWorthData(data)),
   addNotif: msg => dispatch(actions.addNotif(msg))
 });
 
