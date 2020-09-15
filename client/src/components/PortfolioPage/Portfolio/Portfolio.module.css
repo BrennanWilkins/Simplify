@@ -25,78 +25,6 @@
 .Stocks h1, .Cryptos h1 {
   color: rgb(var(--dark-blue2));
 }
-.BuySellBtns {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 0 10px;
-  position: relative;
-}
-.SettingsBtn, .AssetSettingsBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 5px;
-  background: white;
-  font-size: 20px;
-  cursor: pointer;
-  border-radius: 3px;
-  border: 0;
-  outline: none;
-  padding: 7px;
-  position: absolute;
-  right: 150px;
-  top: 0;
-}
-.SettingsBtn span, .AssetSettingsBtn span {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: rgba(var(--green), 0.7);
-  transition: color 300ms;
-}
-.SettingsBtn:hover span, .AssetSettingsBtn:hover span {
-  color: rgb(var(--green));
-}
-.AssetBtns {
-  width: 70%;
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.AssetSettingsBtn {
-  right: -40px;
-  top: -4px;
-}
-.AddBtn button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px 10px 5px 5px;
-}
-.AddBtn span {
-  font-size: 23px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 4px;
-}
-.RemoveBtn button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 7.5px 10px;
-  margin-left: 10px;
-}
-.RemoveBtn span {
-  font-size: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 6px;
-}
 @media (min-width: 1021px) {
   .ChartContainer {
     display: flex;
@@ -113,4 +41,77 @@
     align-items: center;
     justify-content: flex-start;
   }
+}
+
+
+.Btns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 10px;
+  position: relative;
+  border-radius: 3px;
+  padding: 5px 0;
+}
+.SettingsBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2px;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 0;
+  outline: none;
+  padding: 7px;
+}
+.SettingsBtn svg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(var(--dark-blue));
+  transition: color 300ms;
+}
+.SettingsBtn:hover svg {
+  color: rgb(var(--dark-blue4));
+}
+.AnalysisBtn button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+  padding: 8.5px 10px 8.5px 4px;
+}
+.AnalysisBtn svg {
+  margin: 0 7px 0 5px;
+}
+.AddBtn button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 10px 6px 5px;
+  margin: 0 5px;
+}
+.AddBtn svg {
+  font-size: 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 4px;
+}
+.RemoveBtn button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 7.5px 10px;
+  margin: 5px;
+}
+.RemoveBtn svg {
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 6px;
 }

@@ -30,38 +30,38 @@ const AssetPanel = props => {
     switch(props.mode) {
       case 'AddAsset':
         setTitleText('Add a new asset');
-        if (props.show) { setPanelClass(classes.AddAsset); }
-        else { setPanelClass(classes.HideAddAsset); }
+        if (props.show) { setPanelClass(`${classes.Panel} ${classes.AddAsset}`); }
+        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideAddAsset}`); }
         nameRef.current.focus();
         break;
       case 'RemoveAsset':
         setTitleText('Select an asset to remove it from your portfolio');
-        if (props.show) { setPanelClass(classes.RemoveAsset); }
-        else { setPanelClass(classes.HideRemoveAsset); }
+        if (props.show) { setPanelClass(`${classes.Panel} ${classes.RemoveAsset}`); }
+        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideRemoveAsset}`); }
         setOptions(props.otherAssets.map(asset => ({ value: asset.name, label: asset.name })));
         break;
       case 'AddDebt':
         setTitleText('Add a new liability');
-        if (props.show) { setPanelClass(classes.AddDebt); }
-        else { setPanelClass(classes.HideAddDebt); }
+        if (props.show) { setPanelClass(`${classes.Panel} ${classes.AddDebt}`); }
+        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideAddDebt}`); }
         nameRef.current.focus();
         break;
       case 'RemoveDebt':
         setTitleText('Select a liability to remove it from your portfolio');
-        if (props.show) { setPanelClass(classes.RemoveDebt); }
-        else { setPanelClass(classes.HideRemoveDebt); }
+        if (props.show) { setPanelClass(`${classes.Panel} ${classes.RemoveDebt}`); }
+        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideRemoveDebt}`); }
         setOptions(props.liabilities.map(debt => ({ value: debt.name, label: debt.name })));
         break;
       case 'SettingsAsset':
         setTitleText('Select an asset to change its value');
-        if (props.show) { setPanelClass(classes.SettingsAsset); }
-        else { setPanelClass(classes.HideSettingsAsset); }
+        if (props.show) { setPanelClass(`${classes.Panel} ${classes.SettingsAsset}`); }
+        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideSettingsAsset}`); }
         setOptions(props.otherAssets.map(asset => ({ value: asset.name, label: asset.name })));
         break;
       default:
         setTitleText('Select a liability to change its value');
-        if (props.show) { setPanelClass(classes.SettingsDebt); }
-        else { setPanelClass(classes.HideSettingsDebt); }
+        if (props.show) { setPanelClass(`${classes.Panel} ${classes.SettingsDebt}`); }
+        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideSettingsDebt}`); }
         setOptions(props.liabilities.map(debt => ({ value: debt.name, label: debt.name })));
         break;
     }

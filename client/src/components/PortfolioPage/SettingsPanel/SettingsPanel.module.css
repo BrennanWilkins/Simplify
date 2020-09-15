@@ -3,7 +3,7 @@
   align-items: center;
   flex-direction: column;
   position: absolute;
-  top: -300px;
+  top: -330px;
   width: 350px;
   height: 300px;
   border-radius: 3px;
@@ -22,15 +22,15 @@
 }
 .StockPanelHide {
   opacity: 0;
-  top: -140px;
+  top: -130px;
   transform: scale(0);
-  left: 130px;
+  left: 270px;
 }
 .CryptoPanelHide {
   opacity: 0;
-  top: -140px;
+  top: -130px;
   transform: scale(0);
-  left: 200px;
+  left: 300px;
 }
 .BtnDiv {
   width: 100%;
@@ -79,7 +79,7 @@
     top: -325px;
   }
   .StockPanelHide, .CryptoPanelHide {
-    left: calc(50% - 100px);
-    top: -140px;
+    left: calc(50% - 185px);
+    top: -130px;
   }
 }

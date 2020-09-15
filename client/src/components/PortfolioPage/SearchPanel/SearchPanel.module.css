@@ -22,15 +22,15 @@
 }
 .StockPanelHide {
   opacity: 0;
-  top: -50px;
+  top: -40px;
   transform: scale(0);
-  left: 55px;
+  left: -80px;
 }
 .CryptoPanelHide {
   opacity: 0;
-  top: -50px;
+  top: -40px;
   transform: scale(0);
-  left: 75px;
+  left: 5px;
 }
 .BtnDiv {
   width: 100%;
@@ -135,6 +135,6 @@
   }
   .StockPanelHide, .CryptoPanelHide {
     left: calc(50% - 185px);
-    top: -50px;
+    top: -40px;
   }
 }

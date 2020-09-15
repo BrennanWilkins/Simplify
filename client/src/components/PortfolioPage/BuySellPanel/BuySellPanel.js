@@ -24,23 +24,23 @@ const BuySellPanel = props => {
     // change panel UI based on mode (buy/sell/stocks/cryptos)
     switch(props.mode) {
       case 'BuyStock':
-        if (props.show) { setPanelClass(classes.BuyStock); }
-        else { setPanelClass(classes.HideBuyStock); }
+        if (props.show) { setPanelClass(`${classes.Panel} ${classes.BuyStock}`); }
+        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideBuyStock}`); }
         setTitleText('Which stock did you buy?');
         break;
       case 'SellStock':
-        if (props.show) { setPanelClass(classes.SellStock); }
-        else { setPanelClass(classes.HideSellStock); }
+        if (props.show) { setPanelClass(`${classes.Panel} ${classes.SellStock}`); }
+        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideSellStock}`); }
         setTitleText('Which stock did you sell?');
         break;
       case 'BuyCrypto':
-        if (props.show) { setPanelClass(classes.BuyCrypto); }
-        else { setPanelClass(classes.HideBuyCrypto); }
+        if (props.show) { setPanelClass(`${classes.Panel} ${classes.BuyCrypto}`); }
+        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideBuyCrypto}`); }
         setTitleText('Which cryptocurrency did you buy?');
         break;
       default:
-        if (props.show) { setPanelClass(classes.SellCrypto); }
-        else { setPanelClass(classes.HideSellCrypto); }
+        if (props.show) { setPanelClass(`${classes.Panel} ${classes.SellCrypto}`); }
+        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideSellCrypto}`); }
         setTitleText('Which cryptocurrency did you sell?');
         break;
     }
