@@ -6,6 +6,7 @@ const Spinner = props => (
     props.mode === 'Signup' ? classes.SignupLoader :
     props.mode === 'Search' ? classes.SearchLoader :
     props.mode === 'News' ? classes.NewsLoader :
+    props.mode === 'Analysis' ? classes.AnalysisLoader : 
     classes.Loader}></div>
 );
 

@@ -353,4 +353,23 @@ router.get('/generalNews/:code',
     } catch(e) { res.sendStatus(500); }
 });
 
+// public route for getting stock analysis, requires access code
+router.get('/analysis/:code/:ticker',
+  [param('*').trim().escape()],
+  async (req, res) => {
+    // unauthorized
+    if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
+    const getUrl = mode => `https://finnhub.io/api/v1/stock/${mode}?symbol=${req.params.ticker}&token=${config.get('NEWS_KEY')}`;
+    try {
+      // get recommendation trends, price target, & EPS surprises from finnhub API
+      const recommendation = await axios.get(getUrl('recommendation'), { json: true });
+      const target = await axios.get(getUrl('price-target'), { json: true });
+      const earnings = await axios.get(getUrl('earnings'), { json: true });
+      // check for valid response
+      if (Array.isArray(recommendation) || Array.isArray(target) || Array.isArray(earnings)) { return res.sendStatus(400); }
+      if (recommendation.status !== 200 || target.status !== 200 || earnings.status !== 200) { throw 'err'; }
+      res.status(200).json({ recommendation: recommendation.data, target: target.data, earnings: earnings.data });
+    } catch(e) { res.sendStatus(500); }
+});
+
 module.exports = router;

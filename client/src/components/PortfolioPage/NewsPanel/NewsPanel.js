@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import classes from './NewsPanel.module.css';
-import PanelContainer from '../../UI/PanelContainer/PanelContainer';
-import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
-import { SearchInput, PassInput } from '../../UI/Inputs/Inputs';
+import { SearchInput } from '../../UI/Inputs/Inputs';
 import { instance as axios } from '../../../axios';
 import { formatDate3 } from '../../../utils/formatDate';
 import Spinner from '../../UI/Spinner/Spinner';
 import { arrowRight } from '../../UI/UIIcons';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
+import PremiumContainer from '../PremiumContainer/PremiumContainer';
 
 const NewsPanel = props => {
   const [query, setQuery] = useState('');
@@ -74,51 +73,39 @@ const NewsPanel = props => {
       setSentiment({ totArticles: 0, bearPerc: 0, bullPerc: 0, ticker: '' });
     }).catch(err => {
       setLoading(false);
-      if (err.response && err.response.status == 401) { setCodeInvalid(true); }
+      if (err.response && err.response.status === 401) { setCodeInvalid(true); }
       else { errHandler('There was an error connecting to the server.'); }
     });
   };
 
   return (
-    <React.Fragment>
-      <div className={props.show ? classes.Backdrop : classes.HideBackdrop}></div>
-      <PanelContainer show={props.show} close={props.close}>
-        <div className={props.show ? classes.Panel : `${classes.Panel} ${classes.HidePanel}`}>
-          <div className={classes.CloseBtn}><CloseBtn close={props.close} /></div>
-          <div className={classes.Title}>Financial News</div>
-          <div className={classes.InputText}>An access code is required to access this feature</div>
-          <div className={codeInvalid ? `${classes.AccessInput} ${classes.RedInput}` : classes.AccessInput}>
-            <PassInput val={accessCode} change={val => { setCodeInvalid(false); setAccessCode(val); }} ph="Access Code" />
-          </div>
-          <div className={classes.Content}>
-            <div style={news.length > 0 ? { width: '488px' } : { width: '500px' }}>
-              <div className={classes.StockText}>Get today's market news or enter a stock ticker for recent company news</div>
-              <div className={classes.Inputs}>
-                <div className={classes.GeneralBtn}><BlueBtn big clicked={generalSearch}>General market news{arrowRight}</BlueBtn></div>
-                <div><SearchInput val={query} change={val => { setErr(false); setQuery(val); }} submit={search} ph="Eg AAPL, aapl" /></div>
-                <div className={!loading ? classes.HideSpinner : undefined}><Spinner mode="News" /></div>
-              </div>
-              <div className={err ? classes.Err : classes.HideErr}>{errMsg}</div>
-              {sentiment.ticker !== '' && <div className={classes.Sentiment}>
-                <div>Total articles mentioning {String(sentiment.ticker).toUpperCase()} this week: <span>{sentiment.totArticles}</span></div>
-                <div>Articles with bearish sentiment: <span>{sentiment.bearPerc}%</span></div>
-                <div>Articles with bullish sentiment: <span>{sentiment.bullPerc}%</span></div>
-              </div>}
-              {news.map((art, i) => (
-                <div className={classes.Article} key={i}>
-                  <div>
-                    <a href={art.url} target="_blank">{art.headline}</a>
-                    <div className={classes.Summary}>{art.summary}</div>
-                    <div className={classes.Date}>{art.date}</div>
-                  </div>
-                  <img src={art.image} alt="" />
-                </div>
-              ))}
-            </div>
-          </div>
+    <PremiumContainer title="Financial News" show={props.show} close={props.close} accessCode={accessCode}
+    codeInvalid={codeInvalid} accessHandler={val => { setCodeInvalid(false); setAccessCode(val); }}>
+      <div style={news.length > 0 ? { width: '488px' } : { width: '500px' }}>
+        <div className={classes.StockText}>Get today's market news or enter a stock ticker for recent company news</div>
+        <div className={classes.Inputs}>
+          <div className={classes.GeneralBtn}><BlueBtn big clicked={generalSearch}>General market news{arrowRight}</BlueBtn></div>
+          <div><SearchInput val={query} change={val => { setErr(false); setQuery(val); }} submit={search} ph="Eg AAPL, aapl" /></div>
+          {loading && <Spinner mode="News" />}
         </div>
-      </PanelContainer>
-    </React.Fragment>
+        <div className={err ? classes.Err : classes.HideErr}>{errMsg}</div>
+        {sentiment.ticker !== '' && <div className={classes.Sentiment}>
+          <div>Total articles mentioning {String(sentiment.ticker).toUpperCase()} this week: <span>{sentiment.totArticles}</span></div>
+          <div>Articles with bearish sentiment: <span>{sentiment.bearPerc}%</span></div>
+          <div>Articles with bullish sentiment: <span>{sentiment.bullPerc}%</span></div>
+        </div>}
+        {news.map((art, i) => (
+          <div className={classes.Article} key={i}>
+            <div>
+              <a href={art.url} target="_blank" rel="noopener noreferrer">{art.headline}</a>
+              <div className={classes.Summary}>{art.summary}</div>
+              <div className={classes.Date}>{art.date}</div>
+            </div>
+            <img src={art.image} alt="" />
+          </div>
+        ))}
+      </div>
+    </PremiumContainer>
   );
 };
 

@@ -1,0 +1,102 @@
+.Panel {
+  position: fixed;
+  top: 100px;
+  width: 510px;
+  height: calc(94% - 100px);
+  max-height: 650px;
+  border-radius: 3px;
+  box-shadow: var(--box-shadow1);
+  z-index: 2;
+  padding: 10px;
+  left: calc(50% - 265px);
+  transition: 300ms ease-out;
+  overflow: auto;
+  background: rgb(var(--dark-blue5));
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+@media (max-width: 550px) {
+  .Panel {
+    width: 95%;
+    left: 2.5%;
+    box-sizing: border-box;
+  }
+}
+.HidePanel {
+  opacity: 0;
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform 300ms ease-in, opacity 150ms ease-in 150ms, visibility 150ms ease-in 150ms;
+}
+.Backdrop, .HideBackdrop {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 70px);
+  background: rgba(0,0,0,0.25);
+  transition: 400ms;
+  z-index: 2;
+}
+.HideBackdrop {
+  opacity: 0;
+  visibility: hidden;
+}
+.CloseBtn {
+  width: 100%;
+}
+.CloseBtn button {
+  background: rgb(var(--dark-blue3));
+}
+.CloseBtn button:hover {
+  background: rgb(var(--dark-blue));
+}
+.Title {
+  font-weight: 500;
+  font-size: 28px;
+  text-align: center;
+}
+.InputText {
+  text-align: center;
+  margin: 8px 0 10px;
+}
+.AccessInput input {
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 10px;
+  transition: 300ms;
+}
+.RedInput input {
+  background: rgb(207, 32, 32, 0.4);
+}
+.AccessInput input::placeholder {
+  color: white;
+  opacity: 0.35;
+}
+.AccessInput input::-ms-input-placeholder {
+  color: white;
+  opacity: 0.35;
+}
+.Content {
+  background: white;
+  overflow: auto;
+  width: calc(100% - 10px);
+  height: 100%;
+  margin-bottom: 5px;
+  color: black;
+}
+.Content::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #eee;
+}
+.Content::-webkit-scrollbar {
+  width: 12px;
+  border-radius: 10px;
+  background-color: #eee;
+}
+.Content::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #ddd;
+}
