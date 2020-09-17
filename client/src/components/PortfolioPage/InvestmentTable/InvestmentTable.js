@@ -126,7 +126,7 @@ const InvestmentTable = props => {
                 <td>{stock.price === '?' ? '?' : `$${Number(stock.price).toFixed(2)}`}</td>
                 <td className={classes.Value}>{stock.value === '?' ? '?' : `$${Number(stock.value).toFixed(2)}`}</td>
                 {props.normal && (props.mode === 'Stocks' || props.mode === 'Cryptos') &&
-                <td onClick={() => props.showChart(crypto.symbol, 'Stock')} className={classes.ChartBtn}>{stockChartIcon}</td>}
+                <td onClick={() => props.showChart(stock.symbol, 'Stock')} className={classes.ChartBtn}>{stockChartIcon}</td>}
               </tr>
           ))) : props.mode === 'Cryptos' ? (
             data.map((crypto, i) => (

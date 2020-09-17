@@ -13,7 +13,7 @@
   -ms-transform: translateZ(0);
   transform: translateZ(0);
 }
-.LoginLoader, .SignupLoader {
+.LoginLoader, .SignupLoader, .ChartLoader {
   color: rgb(var(--blue));
   font-size: 11px;
   width: 1em;
@@ -26,6 +26,9 @@
   text-indent: -9999em;
   -webkit-animation: load4 1.3s infinite linear;
   animation: load4 1.3s infinite linear;
+}
+.ChartLoader {
+  top: 150px;
 }
 .SearchLoader, .NewsLoader, .AnalysisLoader {
   color: rgb(var(--blue));

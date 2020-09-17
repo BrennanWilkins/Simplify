@@ -17,3 +17,12 @@
   background: inherit;
   height: 10px;
 }
+.StockBlock1 {
+  bottom: 162px;
+}
+.StockBlock1::after, .StockBlock2::after {
+  width: 59px;
+}
+.StockBlock2 {
+  bottom: 62px;
+}

@@ -15,7 +15,8 @@ const Chart = props => (
 export const StockChart = props => (
   <div className={classes.Chart}>
     <CanvasJSStockChart options={props.options} />
-    <div className={classes.Block}></div>
+    <div className={`${classes.Block} ${classes.StockBlock1}`}></div>
+    <div className={`${classes.Block} ${classes.StockBlock2}`}></div>
   </div>
 );
 

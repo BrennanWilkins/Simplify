@@ -1,0 +1,68 @@
+.Panel {
+  position: fixed;
+  top: 100px;
+  width: 550px;
+  border-radius: 3px;
+  box-shadow: var(--box-shadow1);
+  z-index: 2;
+  padding: 10px;
+  left: calc(50% - 285px);
+  transition: 300ms ease-out;
+  overflow: auto;
+  background: rgb(var(--dark-blue5));
+  color: white;
+  height: 520px;
+}
+.Hide {
+  opacity: 0;
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform 300ms ease-in, opacity 150ms ease-in 150ms, visibility 150ms ease-in 150ms;
+}
+@media (max-width: 620px) {
+  .Panel {
+    position: absolute;
+    top: 80px;
+  }
+  .Hide {
+    top: -50px;
+    transition: top 300ms ease-in, opacity 150ms ease-in 150ms, visibility 150ms ease-in 150ms;
+  }
+}
+@media (max-width: 595px) {
+  .Panel {
+    transform: scale(0.97);
+  }
+}
+.Chart {
+  margin: 25px 0;
+  width: 100%;
+  position: relative;
+}
+.Title {
+  font-weight: bold;
+  font-size: 20px;
+  margin: 30px 0 15px;
+  text-align: center;
+}
+.Err, .HideErr {
+  transition: 300ms;
+  text-align: center;
+  font-size: 15px;
+  margin: 15px 0 10px;
+  font-weight: 500;
+}
+.HideErr {
+  opacity: 0;
+  visibility: hidden;
+  margin: 0;
+}
+.CloseBtn {
+  width: 100%;
+}
+.CloseBtn button {
+  background: rgb(var(--dark-blue3));
+}
+.CloseBtn button:hover {
+  background: rgb(var(--dark-blue));
+}

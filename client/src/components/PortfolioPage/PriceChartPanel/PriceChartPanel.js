@@ -1,86 +1,131 @@
 import React, { useState, useEffect } from 'react';
 import classes from './PriceChartPanel.module.css';
 import { StockChart } from '../../UI/Chart/Chart';
+import { instance as axios } from '../../../axios';
+import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
+import { connect } from 'react-redux';
+import PanelContainer from '../../UI/PanelContainer/PanelContainer';
+import Spinner from '../../UI/Spinner/Spinner';
 
 const PriceChartPanel = props => {
-  // const priceOptions = {
-  //   animationEnabled: true,
-  //   exportEnabled: false,
-  //   theme: 'light2',
-  //   charts: [{
-  //     axisX: {
-  //       lineThickness: 5,
-  //       tickLength: 0,
-  //       labelFormatter: e => '',
-  //       crosshair: {
-  //         enabled: true,
-  //         snapToDataPoint: true,
-  //         labelFormatter: e => ''
-  //       }
-  //     },
-  //     axisY: {
-  //       prefix: '$',
-  //       tickLength: 0
-  //     },
-  //     toolTip: { shared: true },
-  //     data: [{
-  //       name: 'Price (in USD)',
-  //       yValueFormatString: '$#,###.##',
-  //       type: 'candlestick',
-  //       dataPoints : priceData.dps1
-  //     }]
-  //   },{
-  //     height: 100,
-  //     axisX: {
-  //       crosshair: {
-  //         enabled: true,
-  //         snapToDataPoint: true
-  //       }
-  //     },
-  //     axisY: {
-  //       title: 'Volume',
-  //       prefix: '$',
-  //       tickLength: 0
-  //     },
-  //     toolTip: { shared: true },
-  //     data: [{
-  //       name: 'Volume',
-  //       yValueFormatString: '$#,###.##',
-  //       type: 'column',
-  //       dataPoints : priceData.dps2
-  //     }]
-  //   }],
-  //   navigator: {
-  //     data: [{
-  //       dataPoints: priceData.dps3
-  //     }],
-  //     slider: {
-  //       minimum: priceData.dps1.length ? priceData.dps1[0].x : new Date(),
-  //       maximum: priceData.dps1.length ? priceData.dps1[priceData.dps1.length - 1].x : new Date()
-  //     }
-  //   }
-  // };
+  const [priceData, setPriceData] = useState({ dps1: [], dps2: [], dps3: [] });
+  const [err, setErr] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // const candles = res.data.candles;
-  // if (candles.s !== 'ok') { return; }
-  // const dps1 = []; const dps2 = []; const dps3 = [];
-  // for (let i = 0; i < candles.t.length; i++) {
-  //   dps1.push({ x: new Date(candles.t[i] * 1000), y: [candles.o[i], candles.h[i], candles.l[i], candles.c[i]] });
-  //   dps2.push({ x: new Date(candles.t[i] * 1000), y: candles.v[i] });
-  //   dps3.push({ x: new Date(candles.t[i] * 1000), y: candles.c[i] });
-  // }
-  // setPriceData({ dps1, dps2, dps3 });
+  useEffect(() => {
+    if (props.show) { getData(); }
+  }, [props.show]);
+
+  const closeHandler = () => {
+    setErr(false);
+    setErrMsg('');
+    setLoading(false);
+    setPriceData({ dps1: [], dps2: [], dps3: [] });
+    props.close();
+  };
+
+  const getData = async () => {
+    if (loading) { return; }
+    setLoading(true);
+    try {
+      const data = props.mode === 'Stock' ? await axios.get(`portfolio/stockPriceData/${props.symbol}`) :
+      await axios.get(`portfolio/cryptoPriceData/${props.symbol}`);
+      setLoading(false);
+      const stockData = data.data.stockData;
+      const dps1 = []; const dps2 = []; const dps3 = [];
+      for (let i = 0; i < stockData.length; i++) {
+        dps1.push({ x: new Date(stockData[i].date), y: [stockData[i].open, stockData[i].high, stockData[i].low, stockData[i].close] });
+        dps2.push({ x: new Date(stockData[i].date), y: stockData[i].volume });
+        dps3.push({ x: new Date(stockData[i].date), y: stockData[i].close });
+      }
+      setPriceData({ dps1, dps2, dps3 });
+    } catch(e) {
+      setErr(true);
+      setLoading(false);
+      if (e.response && e.response.status === 400) {
+        setErrMsg(`${props.mode === 'Stock' ? 'Stock' : 'Cryptocurrency'} price data could not be retrieved for ${props.symbol}.`);
+      } else { setErrMsg('There was an error connecting to the server.'); }
+    }
+  };
+
+  const options = {
+    animationEnabled: true,
+    exportEnabled: false,
+    theme: 'light2',
+    charts: [{
+      axisX: {
+        lineThickness: 5,
+        tickLength: 0,
+        labelFormatter: e => '',
+        crosshair: {
+          enabled: true,
+          snapToDataPoint: true,
+          labelFormatter: e => ''
+        }
+      },
+      axisY: {
+        prefix: '$',
+        tickLength: 0
+      },
+      toolTip: { shared: true },
+      data: [{
+        name: 'Price (in USD)',
+        yValueFormatString: '$#,###.##',
+        type: 'candlestick',
+        dataPoints : priceData.dps1
+      }]
+    },{
+      height: 100,
+      axisX: {
+        crosshair: {
+          enabled: true,
+          snapToDataPoint: true
+        }
+      },
+      axisY: {
+        title: 'Volume',
+        prefix: '$',
+        tickLength: 0
+      },
+      toolTip: { shared: true },
+      data: [{
+        name: 'Volume',
+        yValueFormatString: '$#,###.##',
+        type: 'column',
+        dataPoints : priceData.dps2
+      }]
+    }],
+    navigator: {
+      dynamicUpdate: false,
+      data: [{
+        dataPoints: priceData.dps3
+      }],
+      slider: {
+        minimum: priceData.dps1.length ? priceData.dps1[0].x : new Date(),
+        maximum: priceData.dps1.length ? priceData.dps1[priceData.dps1.length - 1].x : new Date()
+      }
+    }
+  };
 
   return (
-    <div>
-    {/*{priceData.dps1.length > 0 ?
-      <div className={classes.StockChart}>
-        <div className={classes.ChartTitle}>{selected.value} YTD Price Chart</div>
-        <StockChart options={priceOptions} />
+    <PanelContainer show={props.show} close={closeHandler}>
+      <div className={props.show ? classes.Panel : `${classes.Panel} ${classes.Hide}`}>
+        <div className={classes.CloseBtn}><CloseBtn close={closeHandler} /></div>
+        <div className={err ? classes.Err : classes.HideErr}>{errMsg}</div>
+        {loading && <Spinner mode="PriceChart" />}
+        {!err && !loading && priceData.dps1.length !== 0 && <div className={classes.Chart}>
+          <div className={classes.Title}>{props.symbol} Price and Volume Chart</div>
+          <StockChart options={options} />
+        </div>}
       </div>
-      : <div className={classes.Title}>No historical stock price data was found for {selected.value}.</div>}*/}
-    </div>
+    </PanelContainer>
   );
 };
 
-export default PriceChartPanel;
+const mapStateToProps = state => ({
+  stocks: state.portfolio.stocks,
+  cryptos: state.portfolio.cryptos
+});
+
+export default connect(mapStateToProps)(PriceChartPanel);
