@@ -361,15 +361,22 @@ router.get('/analysis/:code/:ticker',
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
     const getUrl = mode => `https://finnhub.io/api/v1/stock/${mode}?symbol=${req.params.ticker}&token=${config.get('NEWS_KEY')}`;
     try {
-      // get recommendation trends, price target, & EPS surprises from finnhub API
+      // get recommendation trends, price target, EPS surprises, & stock candles from finnhub API
       const recommendation = await axios.get(getUrl('recommendation'), { json: true });
       const target = await axios.get(getUrl('price-target'), { json: true });
       const earnings = await axios.get(getUrl('earnings'), { json: true });
+      const endDate = new Date().getTime() / 1000;
+      const startDate = endDate - 31536000;
+      const candlesUrl = `https://finnhub.io/api/v1/stock/candle?symbol=${req.params.ticker}&resolution=60&adjusted=true&from=${startDate}&to=${endDate}&token=${config.get('NEWS_KEY')}`;
+      const candles = await axios.get(candlesUrl, { json: true });
+      const test = await yf.historical({ symbol: req.params.ticker, from: new Date(startDate * 1000).toISOString().split('T')[0], to: new Date(endDate * 1000).toISOString().split('T')[0], period: 'd' });
+      console.log(test);
       // check for valid response
-      if (Array.isArray(recommendation) || Array.isArray(target) || Array.isArray(earnings)) { return res.sendStatus(400); }
-      if (recommendation.status !== 200 || target.status !== 200 || earnings.status !== 200) { throw 'err'; }
-      res.status(200).json({ recommendation: recommendation.data, target: target.data, earnings: earnings.data });
-    } catch(e) { res.sendStatus(500); }
+      if (Array.isArray(recommendation) || Array.isArray(target)
+        || Array.isArray(earnings) || Array.isArray(candles)) { return res.sendStatus(400); }
+      if (recommendation.status !== 200 || target.status !== 200 || earnings.status !== 200 || candles.status !== 200) { throw 'err'; }
+      res.status(200).json({ recommendation: recommendation.data, target: target.data, earnings: earnings.data, candles: candles.data });
+    } catch(e) { console.log(e); res.sendStatus(500); }
 });
 
 module.exports = router;

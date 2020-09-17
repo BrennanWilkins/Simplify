@@ -15,7 +15,7 @@
   z-index: 2;
   padding: 10px;
   overflow: hidden;
-  left: 335px;
+  left: 380px;
   transition: all 400ms;
 }
 .HidePanel {
@@ -27,16 +27,16 @@
   left: -205px;
 }
 .HideBuyStock {
-  left: 30px;
+  left: 50px;
 }
 .HideSellStock {
-  left: 100px;
+  left: 120px;
 }
 .HideBuyCrypto {
-  left: 130px;
+  left: 150px;
 }
 .HideSellCrypto {
-  left: 190px;
+  left: 210px;
 }
 .BtnDiv {
   width: 100%;
@@ -86,7 +86,7 @@
   cursor: default;
   pointer-events: none;
 }
-@media (max-width: 1070px) {
+@media (max-width: 1150px) {
   .Panel {
     left: calc(50% - 185px);
     top: -325px;

@@ -15,7 +15,7 @@
   transition: all 400ms;
 }
 .StockPanel {
-  left: 335px;
+  left: 380px;
 }
 .CryptoPanel {
   left: -205px;
@@ -24,13 +24,13 @@
   opacity: 0;
   top: -40px;
   transform: scale(0);
-  left: -80px;
+  left: -60px;
 }
 .CryptoPanelHide {
   opacity: 0;
   top: -40px;
   transform: scale(0);
-  left: 5px;
+  left: 25px;
 }
 .BtnDiv {
   width: 100%;
@@ -129,7 +129,7 @@
 .HideErr {
   opacity: 0;
 }
-@media (max-width: 1070px) {
+@media (max-width: 1150px) {
   .StockPanel, .CryptoPanel {
     left: calc(50% - 185px);
   }

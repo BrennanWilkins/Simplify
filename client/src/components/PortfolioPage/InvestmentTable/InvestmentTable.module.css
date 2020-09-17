@@ -31,9 +31,9 @@
   box-shadow: var(--box-shadow2);
 }
 .NormalTable {
-  width: 500px;
   border-collapse: collapse;
   box-shadow: var(--box-shadow2);
+  width: 545px;
 }
 .Table td, .NormalTable td {
   border: 1px solid rgb(var(--blue));
@@ -50,6 +50,17 @@
 .Value {
   color: rgb(var(--green));
   font-weight: bold;
+}
+.ChartBtn {
+  width: 45px;
+  font-size: 26px;
+  color: rgb(var(--dark-blue4));
+  transition: 300ms;
+  cursor: pointer;
+}
+.ChartBtn:hover {
+  color: rgb(var(--blue));
+  background: rgba(var(--blue), 0.1);
 }
 .HeaderFields {
   color: rgb(var(--dark-blue));

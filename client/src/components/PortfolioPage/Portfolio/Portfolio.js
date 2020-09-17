@@ -58,6 +58,10 @@ const Portfolio = props => {
     setShowSellCrypto(true);
   };
 
+  const showChartHandler = (symbol, mode) => {
+    console.log(symbol, mode);
+  };
+
   return (
     <div className={classes.Container}>
       <div className={classes.Content}>
@@ -85,7 +89,7 @@ const Portfolio = props => {
               <SettingsPanel mode="Stock" show={showStockSettings} close={() => setShowStockSettings(false)} />
             </div>
             <SearchPanel mode="Stock" show={showStockSearch} close={() => setShowStockSearch(false)} />
-            <InvestmentTable mode="Stocks" normal />
+            <InvestmentTable mode="Stocks" normal showChart={showChartHandler} />
           </div>
           <div className={classes.Cryptos} ref={cryptoRef}>
             <h1>Cryptocurrencies</h1>
@@ -101,7 +105,7 @@ const Portfolio = props => {
               <SettingsPanel mode="Crypto" show={showCryptoSettings} close={() => setShowCryptoSettings(false)} />
             </div>
             <SearchPanel mode="Crypto" show={showCryptoSearch} close={() => setShowCryptoSearch(false)} />
-            <InvestmentTable mode="Cryptos" normal />
+            <InvestmentTable mode="Cryptos" normal showChart={showChartHandler} />
           </div>
         </div>
         <div className={classes.Investments}>

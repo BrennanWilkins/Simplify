@@ -15,7 +15,7 @@
   z-index: 2;
   padding: 10px;
   overflow: hidden;
-  left: 335px;
+  left: 380px;
   transition: all 400ms;
 }
 .HidePanel {
@@ -24,19 +24,19 @@
   transform: scale(0);
 }
 .AddDebt, .RemoveDebt, .SettingsDebt {
-  left: -202.5px;
+  left: -205.5px;
 }
 .HideAddAsset {
-  left: -60px;
+  left: -30px;
 }
 .HideRemoveAsset {
-  left: 120px;
+  left: 150px;
 }
 .HideAddDebt {
-  left: -50px;
+  left: -5px;
 }
 .HideRemoveDebt {
-  left: 150px;
+  left: 180px;
 }
 .HideSettingsAsset {
   left: 240px;
@@ -101,7 +101,7 @@
 .HideErr {
   opacity: 0;
 }
-@media (max-width: 1070px) {
+@media (max-width: 1150px) {
   .Panel {
     left: calc(50% - 185px);
   }

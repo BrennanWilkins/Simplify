@@ -35,15 +35,13 @@
     margin: auto;
   }
 }
-@media (max-width: 1070px) {
+@media (max-width: 1150px) {
   .Investments {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
   }
 }
-
-
 .Btns {
   width: 100%;
   display: flex;

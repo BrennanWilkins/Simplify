@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import btcIcon from '../../../assets/btcIcon.png';
 import ethIcon from '../../../assets/ethIcon.png';
 import ltcIcon from '../../../assets/ltcIcon.png';
-import { caretIcon, caretNeutralIcon } from '../../UI/UIIcons';
+import { caretIcon, caretNeutralIcon, stockChartIcon } from '../../UI/UIIcons';
 
 const InvestmentTable = props => {
   const [data, setData] = useState([]);
@@ -113,6 +113,7 @@ const InvestmentTable = props => {
                 {sortMethods.value === '' ? caretNeutralIcon : caretIcon}
               </span>}
             </th> : null}
+            {props.normal && (props.mode === 'Stocks' || props.mode === 'Cryptos') && <th></th>}
           </tr>
         </thead>
         <tbody>
@@ -124,6 +125,8 @@ const InvestmentTable = props => {
                 <td>{Number(stock.quantity).toLocaleString(undefined, { maximumFractionDigits: 5 })}</td>
                 <td>{stock.price === '?' ? '?' : `$${Number(stock.price).toFixed(2)}`}</td>
                 <td className={classes.Value}>{stock.value === '?' ? '?' : `$${Number(stock.value).toFixed(2)}`}</td>
+                {props.normal && (props.mode === 'Stocks' || props.mode === 'Cryptos') &&
+                <td onClick={() => props.showChart(crypto.symbol, 'Stock')} className={classes.ChartBtn}>{stockChartIcon}</td>}
               </tr>
           ))) : props.mode === 'Cryptos' ? (
             data.map((crypto, i) => (
@@ -138,6 +141,8 @@ const InvestmentTable = props => {
                 <td>{Number(crypto.quantity).toLocaleString(undefined, { maximumFractionDigits: 5 })}</td>
                 <td>{crypto.price === '?' ? '?' : `$${Number(crypto.price).toFixed(2)}`}</td>
                 <td className={classes.Value}>{crypto.value === '?' ? '?' : `$${Number(crypto.value).toFixed(2)}`}</td>
+                {props.normal && (props.mode === 'Stocks' || props.mode === 'Cryptos') &&
+                <td onClick={() => props.showChart(crypto.symbol, 'Crypto')} className={classes.ChartBtn}>{stockChartIcon}</td>}
               </tr>
             ))
           ) : props.mode === 'Assets' ? (
