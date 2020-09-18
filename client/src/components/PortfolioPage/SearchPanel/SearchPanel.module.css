@@ -87,6 +87,7 @@
 .Result {
   width: 350px;
   cursor: pointer;
+  transition: 150ms;
 }
 .Result:hover {
   background: rgba(var(--blue), 0.4);
@@ -94,14 +95,18 @@
 .SearchSymbol {
   display: inline-block;
   font-weight: bold;
-  width: 100px;
-  padding: 2px 10px;
   vertical-align: top;
+  padding: 2px 5px;
+  width: 100px;
+  box-sizing: border-box;
+  word-wrap: break-word;
 }
 .SearchName {
   display: inline-block;
-  width: 210px;
-  padding: 2px 10px 2px 5px;
+  padding: 2px 5px;
+  width: 230px;
+  box-sizing: border-box;
+  word-wrap: break-word;
 }
 .BtnDiv2 {
   width: 350px;

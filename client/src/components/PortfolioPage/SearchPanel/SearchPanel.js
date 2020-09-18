@@ -45,16 +45,19 @@ const SearchPanel = props => {
     setTypingTimeout(setTimeout(() => searchCrypto(val), 600));
   };
 
+  const errHandler = () => {
+    setLoading(false);
+    setSearchErr(true);
+    setSearchRes([]);
+  };
+
   const searchStock = stock => {
     if (stock === '') { return setSearchRes([]); }
     setLoading(true);
     axios.get('portfolio/searchStock/' + stock).then(res => {
       setSearchRes(res.data.result);
       setLoading(false);
-    }).catch(err => {
-      setLoading(false);
-      setSearchErr(true);
-    });
+    }).catch(err => { errHandler(); });
   };
 
   const searchCrypto = crypto => {
@@ -63,10 +66,7 @@ const SearchPanel = props => {
     axios.get('portfolio/searchCrypto/' + crypto).then(res => {
       setSearchRes(res.data.result);
       setLoading(false);
-    }).catch(err => {
-      setLoading(false);
-      setSearchErr(true);
-    });
+    }).catch(err => { errHandler(); });
   };
 
   const closeHandler = () => {
