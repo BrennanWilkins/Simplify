@@ -1,4 +1,4 @@
-.Chart a {
+.Chart a, .StockChart a {
   display: none;
 }
 .Block {
@@ -18,11 +18,15 @@
   height: 10px;
 }
 .StockBlock1 {
-  bottom: 162px;
+  bottom: 172px;
 }
 .StockBlock1::after, .StockBlock2::after {
   width: 59px;
 }
 .StockBlock2 {
-  bottom: 62px;
+  bottom: 72px;
+}
+.StockChart {
+  background: white;
+  padding: 10px 0;
 }

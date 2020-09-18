@@ -29,17 +29,28 @@ const PriceChartPanel = props => {
     if (loading) { return; }
     setLoading(true);
     try {
-      const data = props.mode === 'Stock' ? await axios.get(`portfolio/stockPriceData/${props.symbol}`) :
-      await axios.get(`portfolio/cryptoPriceData/${props.symbol}`);
-      setLoading(false);
-      const stockData = data.data.stockData;
-      const dps1 = []; const dps2 = []; const dps3 = [];
-      for (let i = 0; i < stockData.length; i++) {
-        dps1.push({ x: new Date(stockData[i].date), y: [stockData[i].open, stockData[i].high, stockData[i].low, stockData[i].close] });
-        dps2.push({ x: new Date(stockData[i].date), y: stockData[i].volume });
-        dps3.push({ x: new Date(stockData[i].date), y: stockData[i].close });
+      if (props.mode === 'Stock') {
+        const data = await axios.get(`portfolio/stockPriceData/${props.symbol}`);
+        setLoading(false);
+        const stockData = data.data.stockData;
+        const dps1 = []; const dps2 = []; const dps3 = [];
+        for (let i = 0; i < stockData.length; i++) {
+          dps1.push({ x: new Date(stockData[i].date), y: [stockData[i].open, stockData[i].high, stockData[i].low, stockData[i].close] });
+          dps2.push({ x: new Date(stockData[i].date), y: stockData[i].volume });
+          dps3.push({ x: new Date(stockData[i].date), y: stockData[i].close });
+        }
+        setPriceData({ dps1, dps2, dps3 });
+      } else {
+        const data = await axios.get(`portfolio/cryptoPriceData/${props.symbol}`);
+        setLoading(false);
+        const cryptoData = data.data.cryptoData;
+        const dps1 = []; const dps2 = []; const dps3 = [];
+        for (let i = 0; i < cryptoData.length; i++) {
+          dps1.push({ x: new Date(cryptoData[i].date), y: cryptoData[i].price });
+          dps2.push({ x: new Date(cryptoData[i].date), y: cryptoData[i].volume });
+        }
+        setPriceData({ dps1, dps2, dps3 });
       }
-      setPriceData({ dps1, dps2, dps3 });
     } catch(e) {
       setErr(true);
       setLoading(false);
@@ -72,7 +83,7 @@ const PriceChartPanel = props => {
       data: [{
         name: 'Price (in USD)',
         yValueFormatString: '$#,###.##',
-        type: 'candlestick',
+        type: props.mode === 'Stock' ? 'candlestick' : 'spline',
         dataPoints : priceData.dps1
       }]
     },{
@@ -99,7 +110,7 @@ const PriceChartPanel = props => {
     navigator: {
       dynamicUpdate: false,
       data: [{
-        dataPoints: priceData.dps3
+        dataPoints: props.mode === 'Stock' ? priceData.dps3 : priceData.dps1
       }],
       slider: {
         minimum: priceData.dps1.length ? priceData.dps1[0].x : new Date(),
@@ -114,7 +125,7 @@ const PriceChartPanel = props => {
         <div className={classes.CloseBtn}><CloseBtn close={closeHandler} /></div>
         <div className={err ? classes.Err : classes.HideErr}>{errMsg}</div>
         {loading && <Spinner mode="PriceChart" />}
-        {!err && !loading && priceData.dps1.length !== 0 && <div className={classes.Chart}>
+        {!err && !loading && priceData.dps1.length !== 0 && <div className={classes.Content}>
           <div className={classes.Title}>{props.symbol} Price and Volume Chart</div>
           <StockChart options={options} />
         </div>}

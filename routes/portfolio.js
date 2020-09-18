@@ -378,10 +378,11 @@ router.get('/stockPriceData/:ticker',
   async (req, res) => {
     try {
       const endDate = new Date().toISOString().split('T')[0];
+      // start date is 5 years from today
       const startDate = new Date(new Date().getTime() - 157680000000).toISOString().split('T')[0];
       const stockData = await yf.historical({ symbol: req.params.ticker, from: startDate, to: endDate, period: 'd' });
       // check for valid response
-      if (Array.isArray(stockData) && stockData.length === 0) { return res.sendStatus(400); }
+      if (stockData.length === 0) { return res.sendStatus(400); }
       res.status(200).json({ stockData });
     } catch(e) { res.sendStatus(500); }
 });
@@ -391,11 +392,16 @@ router.get('/cryptoPriceData/:ticker',
   [param('*').trim().escape()],
   async (req, res) => {
     try {
-      // const endDate = new Date().toISOString().split('T')[0];
-      // const startDate = new Date(new Date().getTime() - 31536000000).toISOString().split('T')[0];
-      // const cryptoData = await yf.historical({ symbol: req.params.ticker, from: startDate, to: endDate, period: 'd' });
-
-      throw 'err';
+      const coinList = await axios.get('https://api.coingecko.com/api/v3/coins/list');
+      const cryptoMatch = coinList.data.find(coin => coin.symbol.toUpperCase() === req.params.ticker.toUpperCase());
+      if (!cryptoMatch) { return res.sendStatus(400); }
+      const cryptoData = await axios.get(`https://api.coingecko.com/api/v3/coins/${cryptoMatch.id}/market_chart?vs_currency=usd&days=1825`);
+      const data = [];
+      const prices = cryptoData.data.prices;
+      for (let i = 0; i < prices.length; i++) {
+        data.push({ date: prices[i][0], price: prices[i][1], volume: cryptoData.data.total_volumes[i][1] });
+      }
+      res.status(200).json({ cryptoData: data });
     } catch(e) { res.sendStatus(500); }
 });
 

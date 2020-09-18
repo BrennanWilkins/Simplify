@@ -6,7 +6,7 @@
   box-shadow: var(--box-shadow1);
   z-index: 2;
   padding: 10px;
-  left: calc(50% - 285px);
+  left: calc(50% - 295px);
   transition: 300ms ease-out;
   overflow: auto;
   background: rgb(var(--dark-blue5));
@@ -19,10 +19,11 @@
   visibility: hidden;
   transition: transform 300ms ease-in, opacity 150ms ease-in 150ms, visibility 150ms ease-in 150ms;
 }
-@media (max-width: 620px) {
+@media (max-width: 620px), (max-height: 640px) {
   .Panel {
     position: absolute;
     top: 80px;
+    left: calc(50% - 285px);
   }
   .Hide {
     top: -50px;
@@ -34,15 +35,15 @@
     transform: scale(0.97);
   }
 }
-.Chart {
-  margin: 25px 0;
+.Content {
+  margin: 25px 0 0;
   width: 100%;
   position: relative;
 }
 .Title {
   font-weight: bold;
   font-size: 20px;
-  margin: 30px 0 15px;
+  margin: 0 0 15px;
   text-align: center;
 }
 .Err, .HideErr {
@@ -59,6 +60,7 @@
 }
 .CloseBtn {
   width: 100%;
+  margin: 0 0 35px;
 }
 .CloseBtn button {
   background: rgb(var(--dark-blue3));
