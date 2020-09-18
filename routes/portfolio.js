@@ -4,7 +4,7 @@ const Portfolio = require('../models/portfolio');
 const auth = require('../middleware/auth');
 const Cryptos = require('../models/cryptos');
 const Fuse = require('fuse.js');
-const StockSearch = require('stock-ticker-symbol');
+// const StockSearch = require('stock-ticker-symbol');
 const yf = require('yahoo-finance');
 const { param, body, validationResult } = require('express-validator');
 const config = require('config');
@@ -26,24 +26,48 @@ router.get('/searchCrypto/:searchVal',
 // public route for searching stocks
 router.get('/searchStock/:searchVal',
   [param('searchVal').trim().escape()],
-  (req, res) => {
+  async (req, res) => {
     // get search results from stock-ticker-symbol API then retrieve prices from yahoo-finance API
-    const searchResult = StockSearch.search(req.params.searchVal);
-    const promises = searchResult.map(stock => yf.quote({ symbol: stock.ticker, modules: ['price'] }));
-    Promise.allSettled(promises).then(results => {
-      results.forEach((result, i) => {
-        if (result.status === 'fulfilled') {
-          if (!result.value.price.regularMarketPrice) {
-            searchResult[i].price = '?';
-          } else {
-            searchResult[i].price = result.value.price.regularMarketPrice;
-          }
-        }
-        else { searchResult[i].price = '?'; }
-      });
-      const result = searchResult.filter(stock => stock.price !== '?');
-      res.status(200).json({ result });
-    });
+    // const searchResult = StockSearch.search(req.params.searchVal);
+    try {
+      const url = `https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${config.get('FINNHUB_KEY')}`;
+      const allStocks = await axios.get(url, { json: true });
+      console.log(allStocks.data.length);
+      console.log(allStocks.data.slice(0, 5));
+      throw 'err';
+    } catch(e) {
+      res.sendStatus(500);
+    }
+
+    // // make sure all stock match results are found in yahoo finance api
+    // const promises = searchResult.map(stock => yf.quote({ symbol: stock.ticker, modules: ['price'] }));
+    // Promise.allSettled(promises).then(results => {
+    //   results.forEach((result, i) => {
+    //     if (result.status === 'fulfilled') {
+    //       if (!result.value.price.regularMarketPrice) { searchResult[i].price = '?'; }
+    //       else { searchResult[i].price = result.value.price.regularMarketPrice; }
+    //     }
+    //     else { searchResult[i].price = '?'; }
+    //   });
+    //   const result = searchResult.filter(stock => stock.price !== '?');
+    //   res.status(200).json({ result });
+    // });
+
+    // // get search results from stock-ticker-symbol API then retrieve prices from yahoo-finance API
+    // const searchResult = StockSearch.search(req.params.searchVal);
+    // make sure all stock match results are found in yahoo finance api
+    // const promises = searchResult.map(stock => yf.quote({ symbol: stock.ticker, modules: ['price'] }));
+    // Promise.allSettled(promises).then(results => {
+    //   results.forEach((result, i) => {
+    //     if (result.status === 'fulfilled') {
+    //       if (!result.value.price.regularMarketPrice) { searchResult[i].price = '?'; }
+    //       else { searchResult[i].price = result.value.price.regularMarketPrice; }
+    //     }
+    //     else { searchResult[i].price = '?'; }
+    //   });
+    //   const result = searchResult.filter(stock => stock.price !== '?');
+    //   res.status(200).json({ result });
+    // });
 });
 
 router.put('/updateStocks', auth,
@@ -323,8 +347,8 @@ router.get('/news/:code/:query',
     const startDate = new Date(new Date().getTime() - 604800000).toISOString().split('T')[0];
     const endDate = new Date().toISOString().split('T')[0];
     // retrieve both news & news sentiment analysis
-    const newsUrl = `https://finnhub.io/api/v1/company-news?symbol=${req.params.query}&from=${startDate}&to=${endDate}&token=${config.get('NEWS_KEY')}`;
-    const sentimentUrl = `https://finnhub.io/api/v1/news-sentiment?symbol=${req.params.query}&token=${config.get('NEWS_KEY')}`;
+    const newsUrl = `https://finnhub.io/api/v1/company-news?symbol=${req.params.query}&from=${startDate}&to=${endDate}&token=${config.get('FINNHUB_KEY')}`;
+    const sentimentUrl = `https://finnhub.io/api/v1/news-sentiment?symbol=${req.params.query}&token=${config.get('FINNHUB_KEY')}`;
     try {
       const news = await axios.get(newsUrl, { json: true });
       const sentiment = await axios.get(sentimentUrl, { json: true });
@@ -342,7 +366,7 @@ router.get('/generalNews/:code',
   async (req, res) => {
     // unauthorized
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
-    const newsUrl = `https://finnhub.io/api/v1/news?category=general&token=${config.get('NEWS_KEY')}`;
+    const newsUrl = `https://finnhub.io/api/v1/news?category=general&token=${config.get('FINNHUB_KEY')}`;
     try {
       const news = await axios.get(newsUrl, { json: true });
       // check for valid response
@@ -359,7 +383,7 @@ router.get('/analysis/:code/:ticker',
   async (req, res) => {
     // unauthorized
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
-    const getUrl = mode => `https://finnhub.io/api/v1/stock/${mode}?symbol=${req.params.ticker}&token=${config.get('NEWS_KEY')}`;
+    const getUrl = mode => `https://finnhub.io/api/v1/stock/${mode}?symbol=${req.params.ticker}&token=${config.get('FINNHUB_KEY')}`;
     try {
       // get recommendation trends, price target, & EPS surprises from finnhub API
       const recommendation = await axios.get(getUrl('recommendation'), { json: true });

@@ -73,7 +73,7 @@
 .HideErr {
   opacity: 0;
 }
-@media (max-width: 1070px) {
+@media (max-width: 1150px) {
   .StockPanel, .CryptoPanel {
     left: calc(50% - 185px);
     top: -325px;

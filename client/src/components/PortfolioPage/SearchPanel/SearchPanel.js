@@ -23,6 +23,7 @@ const SearchPanel = props => {
   const [selectedRes, setSelectedRes] = useState(null);
   const [selectedTicker, setSelectedTicker] = useState('');
   const [err, setErr] = useState(false);
+  const [searchErr, setSearchErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState();
@@ -36,6 +37,7 @@ const SearchPanel = props => {
 
   const setSearchQuery = val => {
     // searches for stock/crypto 600ms after user stops typing
+    setSearchErr(false);
     setQuery(val);
     clearTimeout(typingTimeout);
     isStock ?
@@ -51,7 +53,7 @@ const SearchPanel = props => {
       setLoading(false);
     }).catch(err => {
       setLoading(false);
-      console.log(err);
+      setSearchErr(true);
     });
   };
 
@@ -62,8 +64,8 @@ const SearchPanel = props => {
       setSearchRes(res.data.result);
       setLoading(false);
     }).catch(err => {
-      console.log(err);
       setLoading(false);
+      setSearchErr(true);
     });
   };
 
@@ -86,6 +88,7 @@ const SearchPanel = props => {
     setErr(false);
     setErrMsg('');
     setLoading(false);
+    setSearchErr(false);
   };
 
   const selectedHandler = stock => {
@@ -169,6 +172,7 @@ const SearchPanel = props => {
             </BlueBtn>
           </div>
         </div>
+        <div className={searchErr ? classes.ShowErr : classes.HideErr}>There was an error connecting to the server.</div>
         <div className={showInput ? classes.ShowInput : classes.HideInput}>
           <p className={classes.InputText}>
             {isStock ?
