@@ -27,6 +27,7 @@ const SearchPanel = props => {
   const [loading, setLoading] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState();
   const inputRef = useRef();
+  const sharesRef = useRef();
   const isStock = props.mode === 'Stock';
 
   useEffect(() => {
@@ -91,6 +92,7 @@ const SearchPanel = props => {
     setShowInput(true);
     setSelectedRes(stock);
     isStock ? setSelectedTicker(stock.ticker) : setSelectedTicker(stock.item.symbol);
+    setTimeout(() => sharesRef.current.focus(), 400);
   };
 
   const addHandler = async manual => {
@@ -119,7 +121,7 @@ const SearchPanel = props => {
       props.setNetWorthData(updatedNetWorth);
       isStock ? props.addStock(data) : props.addCrypto(data);
       props.addNotif(`${data.symbol} added to portfolio`);
-      // update todays highlights data 
+      // update todays highlights data
       props.setUpdateHighlights();
       return closeHandler();
     }
@@ -174,7 +176,7 @@ const SearchPanel = props => {
             `How much ${selectedTicker} do you own?`}
           </p>
           <div className={classes.AddInput}>
-            <NumInput val={inputValShares} change={val => setInputValShares(val)} />
+            <NumInput val={inputValShares} change={val => setInputValShares(val)} ref={sharesRef} />
           </div>
           <BlueBtn clicked={() => addHandler(false)}>Add</BlueBtn>
           <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
