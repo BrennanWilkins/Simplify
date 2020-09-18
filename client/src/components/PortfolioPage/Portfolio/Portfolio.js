@@ -84,7 +84,7 @@ const Portfolio = props => {
         <div className={classes.Investments}>
           <div className={classes.Stocks} ref={stockRef}>
             <PriceChartPanel show={showStockPriceChart} close={() => setShowStockPriceChart(false)}
-            mode="Stock" symbol={stockPriceChartSymbol} />
+            mode="Stock" symbol={stockPriceChartSymbol} changeStock={symbol => setStockPriceChartSymbol(symbol)} />
             <h1>Stocks</h1>
             <div className={classes.Btns}>
               <div className={classes.AddBtn}>
@@ -106,7 +106,7 @@ const Portfolio = props => {
           </div>
           <div className={classes.Cryptos} ref={cryptoRef}>
             <PriceChartPanel show={showCryptoPriceChart} close={() => setShowCryptoPriceChart(false)}
-            mode="Crypto" symbol={cryptoPriceChartSymbol} />
+            mode="Crypto" symbol={cryptoPriceChartSymbol} changeCrypto={symbol => setCryptoPriceChartSymbol(symbol)} />
             <h1>Cryptocurrencies</h1>
             <div className={classes.Btns}>
               <div className={classes.AddBtn}>

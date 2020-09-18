@@ -11,7 +11,7 @@
   overflow: auto;
   background: rgb(var(--dark-blue5));
   color: white;
-  height: 520px;
+  height: 555px;
 }
 .Hide {
   opacity: 0;
@@ -19,7 +19,7 @@
   visibility: hidden;
   transition: transform 300ms ease-in, opacity 150ms ease-in 150ms, visibility 150ms ease-in 150ms;
 }
-@media (max-width: 620px), (max-height: 640px) {
+@media (max-width: 620px), (max-height: 675px) {
   .Panel {
     position: absolute;
     top: 80px;
@@ -36,9 +36,14 @@
   }
 }
 .Content {
-  margin: 25px 0 0;
+  margin: 15px 0 0;
   width: 100%;
   position: relative;
+  animation: fadeIn 300ms ease-in forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 .Title {
   font-weight: bold;
@@ -67,4 +72,50 @@
 }
 .CloseBtn button:hover {
   background: rgb(var(--dark-blue));
+}
+.SelectBar {
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  background: rgb(var(--blue), 0.08);
+}
+.SelectBar::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: rgba(0,0,0,0.05);
+}
+.SelectBar::-webkit-scrollbar {
+  border-radius: 10px;
+  background: rgba(0,0,0,0.1);
+}
+.SelectBar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0,0,0,0.15);
+}
+.Active, .Inactive {
+  padding: 5px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: 300ms;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  position: relative;
+}
+.Inactive:hover, .Active {
+  color: rgb(var(--blue));
+}
+.Inactive:hover .FocusBorder, .Active .FocusBorder {
+  width: 100%;
+  transition: width 300ms ease-out, left 300ms ease-out;
+  left: 0;
+  opacity: 1;
+}
+.FocusBorder {
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  width: 0;
+  height: 1.5px;
+  background: rgb(var(--blue));
+  transition: 300ms ease-out;
+  opacity: 0;
 }

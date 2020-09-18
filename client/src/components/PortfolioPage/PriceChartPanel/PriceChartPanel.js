@@ -15,7 +15,7 @@ const PriceChartPanel = props => {
 
   useEffect(() => {
     if (props.show) { getData(); }
-  }, [props.show]);
+  }, [props.show, props.symbol]);
 
   const closeHandler = () => {
     setErr(false);
@@ -28,6 +28,7 @@ const PriceChartPanel = props => {
   const getData = async () => {
     if (loading) { return; }
     setLoading(true);
+    setErr(false);
     try {
       if (props.mode === 'Stock') {
         const data = await axios.get(`portfolio/stockPriceData/${props.symbol}`);
@@ -123,6 +124,23 @@ const PriceChartPanel = props => {
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : `${classes.Panel} ${classes.Hide}`}>
         <div className={classes.CloseBtn}><CloseBtn close={closeHandler} /></div>
+        <div className={classes.SelectBar}>
+          {props.mode === 'Stock' ? props.stocks.map((stock, i) => (
+            <span className={props.symbol === stock.symbol ? classes.Active : classes.Inactive}
+            onClick={() => props.changeStock(stock.symbol)}
+            style={i === 0 ? {marginLeft: 'auto'} : i === props.stocks.length - 1 ? {marginRight: 'auto'} : undefined}>
+              {stock.symbol}
+              <div className={classes.FocusBorder}></div>
+            </span>
+          )) : props.cryptos.map((crypto, i) => (
+            <span className={props.symbol === crypto.symbol ? classes.Active : classes.Inactive}
+            onClick={() => props.changeCrypto(crypto.symbol)}
+            style={i === 0 ? {marginLeft: 'auto'} : i === props.cryptos.length - 1 ? {marginRight: 'auto'} : undefined}>
+              {crypto.symbol}
+              <div className={classes.FocusBorder}></div>
+            </span>
+          ))}
+        </div>
         <div className={err ? classes.Err : classes.HideErr}>{errMsg}</div>
         {loading && <Spinner mode="PriceChart" />}
         {!err && !loading && priceData.dps1.length !== 0 && <div className={classes.Content}>
