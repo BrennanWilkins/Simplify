@@ -40,33 +40,21 @@ const SearchPanel = props => {
     setSearchErr(false);
     setQuery(val);
     clearTimeout(typingTimeout);
-    isStock ?
-    setTypingTimeout(setTimeout(() => searchStock(val), 600)) :
-    setTypingTimeout(setTimeout(() => searchCrypto(val), 600));
+    setTypingTimeout(setTimeout(() => searchHandler(val), 600));
   };
 
-  const errHandler = () => {
-    setLoading(false);
-    setSearchErr(true);
-    setSearchRes([]);
-  };
-
-  const searchStock = stock => {
-    if (stock === '') { return setSearchRes([]); }
+  const searchHandler = val => {
+    if (val === '') { return setSearchRes([]); }
     setLoading(true);
-    axios.get('portfolio/searchStock/' + stock).then(res => {
+    const url = isStock ? `portfolio/searchStock/${val}` : `portfolio/searchCrypto/${val}`;
+    axios.get(url).then(res => {
       setSearchRes(res.data.result);
       setLoading(false);
-    }).catch(err => { errHandler(); });
-  };
-
-  const searchCrypto = crypto => {
-    if (crypto === '') { return setSearchRes([]); }
-    setLoading(true);
-    axios.get('portfolio/searchCrypto/' + crypto).then(res => {
-      setSearchRes(res.data.result);
+    }).catch(err => {
       setLoading(false);
-    }).catch(err => { errHandler(); });
+      setSearchErr(true);
+      setSearchRes([]);
+    });
   };
 
   const closeHandler = () => {
@@ -94,7 +82,7 @@ const SearchPanel = props => {
   const selectedHandler = stock => {
     setShowInput(true);
     setSelectedRes(stock);
-    isStock ? setSelectedTicker(stock.ticker) : setSelectedTicker(stock.item.symbol);
+    setSelectedTicker(stock.symbol);
     setTimeout(() => sharesRef.current.focus(), 400);
   };
 
@@ -103,9 +91,9 @@ const SearchPanel = props => {
     if (manual && (inputValName === '' || inputValTicker === '' || inputValPrice === '')) { return; }
     // identifier is Manual if stock/crypto added manually, else is Normal
     const data = { name: '', symbol: '', price: 0, quantity: '', value: 0, identifier: '' };
-    data.name = manual ? inputValName : isStock ? selectedRes.name : selectedRes.item.name;
-    data.symbol = manual ? inputValTicker.toUpperCase() : isStock ? selectedRes.ticker : selectedRes.item.symbol;
-    data.price = manual ? Number(inputValPrice).toFixed(2) : isStock ? (selectedRes.price).toFixed(2) : (selectedRes.item.price).toFixed(2);
+    data.name = manual ? inputValName : selectedRes.name;
+    data.symbol = manual ? inputValTicker.toUpperCase() : selectedRes.symbol;
+    data.price = manual ? Number(inputValPrice).toFixed(2) : (selectedRes.price).toFixed(2);
     data.quantity = inputValShares;
     data.value = (data.quantity * data.price).toFixed(2);
     data.identifier = manual ? 'Manual' : 'Normal';
@@ -162,8 +150,19 @@ const SearchPanel = props => {
         <div className={classes.Results}>
           {searchRes.map((stock, i) => (
             <div className={classes.Result} key={i} onClick={() => selectedHandler(stock)}>
-              <div className={classes.SearchSymbol}>{isStock ? stock.ticker: stock.item.symbol}</div>
-              <div className={classes.SearchName}>{isStock ? stock.name : stock.item.name}</div>
+              <div className={classes.ResultLeft}>
+                <div className={classes.SearchSymbol}>{stock.symbol}</div>
+                <div>{stock.name}</div>
+              </div>
+              <div className={classes.ResultRight}>
+                <div>${stock.price.toFixed(2)}</div>
+                <div className={stock.change >= 0 ? classes.PosChange : classes.NegChange}>
+                  <span>
+                    {stock.change > 0 ? '+' : stock.change < 0 ? '-' : ''}
+                    {Math.abs(stock.change).toFixed(2)}%
+                  </span>
+                </div>
+              </div>
             </div>
           ))}
           <div className={classes.BtnDiv2}>

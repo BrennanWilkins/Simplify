@@ -18,7 +18,12 @@ router.get('/searchCrypto/:searchVal',
       const cryptos = await Cryptos.find({});
       // fuse used to generate best matches for search query
       const fuse = new Fuse(cryptos[0].cryptos, { keys: ['name', 'symbol'] });
-      const result = fuse.search(req.params.searchVal).slice(0, 12);
+      const result = fuse.search(req.params.searchVal).slice(0, 12).map(crypto => ({
+        symbol: crypto.item.symbol,
+        name: crypto.item.name,
+        price: crypto.item.price,
+        change: crypto.item.change
+      }));
       res.status(200).json({ result });
     } catch(e) { res.sendStatus(500); }
 });
@@ -42,14 +47,17 @@ router.get('/searchStock/:searchVal',
       } else { searchStocks = stocks.stocks; }
       // fuse used to generate best matches for search query
       const fuse = new Fuse(searchStocks, { keys: ['name', 'symbol'] });
-      const searchRes = fuse.search(req.params.searchVal).slice(0, 12).map(stock => ({ ticker: stock.item.symbol, name: stock.item.name }));
+      const searchRes = fuse.search(req.params.searchVal).slice(0, 12).map(stock => ({ symbol: stock.item.symbol, name: stock.item.name }));
       // make sure all stock match results are found in yahoo finance api and add prices
-      const promises = searchRes.map(stock => yf.quote({ symbol: stock.ticker, modules: ['price'] }));
+      const promises = searchRes.map(stock => yf.quote({ symbol: stock.symbol, modules: ['price', 'summaryDetail'] }));
       const pResults = await Promise.allSettled(promises);
       pResults.forEach((pResult, i) => {
-        // if price not found set as '?'
-        if (pResult.status === 'fulfilled') { searchRes[i].price = pResult.value.price.regularMarketPrice; }
-        else { searchRes[i].price = '?'; }
+        // if error set price/change as null
+        if (pResult.status === 'fulfilled' && pResult.value.price.regularMarketPrice && pResult.value.summaryDetail.previousClose) {
+          searchRes[i].price = pResult.value.price.regularMarketPrice;
+          searchRes[i].change = ((searchRes[i].price - pResult.value.summaryDetail.previousClose) / pResult.value.summaryDetail.previousClose) * 100;
+        }
+        else { searchRes[i].price = '?'; searchRes[i].change = '?'; }
       });
       const result = searchRes.filter(stock => stock.price !== '?');
       res.status(200).json({ result });

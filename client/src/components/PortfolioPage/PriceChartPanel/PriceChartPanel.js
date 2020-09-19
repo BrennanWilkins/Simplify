@@ -127,14 +127,14 @@ const PriceChartPanel = props => {
         <div className={classes.SelectBar}>
           {props.mode === 'Stock' ? props.stocks.map((stock, i) => (
             <span className={props.symbol === stock.symbol ? classes.Active : classes.Inactive}
-            onClick={() => props.changeStock(stock.symbol)}
+            onClick={() => props.changeStock(stock.symbol)} key={i}
             style={i === 0 ? {marginLeft: 'auto'} : i === props.stocks.length - 1 ? {marginRight: 'auto'} : undefined}>
               {stock.symbol}
               <div className={classes.FocusBorder}></div>
             </span>
           )) : props.cryptos.map((crypto, i) => (
             <span className={props.symbol === crypto.symbol ? classes.Active : classes.Inactive}
-            onClick={() => props.changeCrypto(crypto.symbol)}
+            onClick={() => props.changeCrypto(crypto.symbol)} key={i}
             style={i === 0 ? {marginLeft: 'auto'} : i === props.cryptos.length - 1 ? {marginRight: 'auto'} : undefined}>
               {crypto.symbol}
               <div className={classes.FocusBorder}></div>

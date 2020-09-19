@@ -4,8 +4,8 @@
   flex-direction: column;
   position: absolute;
   top: -250px;
-  width: 350px;
-  height: 300px;
+  width: 400px;
+  height: 350px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
   background: white;
@@ -85,28 +85,41 @@
   width: 200px;
 }
 .Result {
-  width: 350px;
   cursor: pointer;
   transition: 150ms;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .Result:hover {
   background: rgba(var(--blue), 0.4);
 }
-.SearchSymbol {
-  display: inline-block;
-  font-weight: bold;
-  vertical-align: top;
-  padding: 2px 5px;
-  width: 100px;
-  box-sizing: border-box;
-  word-wrap: break-word;
+.ResultLeft {
+  width: 290px;
+  padding: 5px 3px;
 }
-.SearchName {
-  display: inline-block;
-  padding: 2px 5px;
-  width: 230px;
-  box-sizing: border-box;
-  word-wrap: break-word;
+.ResultRight {
+  width: 110px;
+  text-align: right;
+  padding: 5px 10px 5px 3px;
+}
+.SearchSymbol {
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+.PosChange, .NegChange {
+  margin-top: 3px;
+  color: white;
+}
+.PosChange span {
+  background: green;
+  border-radius: 3px;
+  padding: 1px 3px;
+}
+.NegChange span {
+  background: red;
+  border-radius: 3px;
+  padding: 1px 3px;
 }
 .BtnDiv2 {
   width: 350px;
