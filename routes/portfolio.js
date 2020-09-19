@@ -341,8 +341,8 @@ router.get('/news/:code/:query',
     const startDate = new Date(new Date().getTime() - 604800000).toISOString().split('T')[0];
     const endDate = new Date().toISOString().split('T')[0];
     // retrieve both news & news sentiment analysis
-    const newsUrl = `https://finnhub.io/api/v1/company-news?symbol=${req.params.query}&from=${startDate}&to=${endDate}&token=${config.get('FINNHUB_KEY')}`;
-    const sentimentUrl = `https://finnhub.io/api/v1/news-sentiment?symbol=${req.params.query}&token=${config.get('FINNHUB_KEY')}`;
+    const newsUrl = `https://finnhub.io/api/v1/company-news?symbol=${req.params.query}&from=${startDate}&to=${endDate}&token=${config.get('FINNHUB_KEY2')}`;
+    const sentimentUrl = `https://finnhub.io/api/v1/news-sentiment?symbol=${req.params.query}&token=${config.get('FINNHUB_KEY2')}`;
     try {
       const news = await axios.get(newsUrl, { json: true });
       const sentiment = await axios.get(sentimentUrl, { json: true });
@@ -360,7 +360,7 @@ router.get('/generalNews/:code',
   async (req, res) => {
     // unauthorized
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
-    const newsUrl = `https://finnhub.io/api/v1/news?category=general&token=${config.get('FINNHUB_KEY')}`;
+    const newsUrl = `https://finnhub.io/api/v1/news?category=general&token=${config.get('FINNHUB_KEY2')}`;
     try {
       const news = await axios.get(newsUrl, { json: true });
       // check for valid response
@@ -377,7 +377,7 @@ router.get('/analysis/:code/:ticker',
   async (req, res) => {
     // unauthorized
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
-    const getUrl = mode => `https://finnhub.io/api/v1/stock/${mode}?symbol=${req.params.ticker}&token=${config.get('FINNHUB_KEY')}`;
+    const getUrl = mode => `https://finnhub.io/api/v1/stock/${mode}?symbol=${req.params.ticker}&token=${config.get('FINNHUB_KEY2')}`;
     try {
       // get recommendation trends, price target, & EPS surprises from finnhub API
       const recommendation = await axios.get(getUrl('recommendation'), { json: true });
