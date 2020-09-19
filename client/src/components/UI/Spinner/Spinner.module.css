@@ -38,8 +38,8 @@
   height: 1em;
   border-radius: 50%;
   position: absolute;
-  top: 125px;
-  right: 33px;
+  top: 124px;
+  right: 55px;
   z-index: 100;
   text-indent: -9999em;
   -webkit-animation: load4 1.3s infinite linear;
@@ -48,6 +48,7 @@
 .NewsLoader {
   font-size: 6px;
   top: 80px;
+  right: 33px;
   left: calc(50% - 3px);
 }
 .AnalysisLoader {
