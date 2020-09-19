@@ -14,8 +14,29 @@ const yf = require('yahoo-finance');
 const Goals = require('../models/goals');
 const Budgets = require('../models/budgets');
 
-const cmcOptions = { headers: { 'X-CMC_PRO_API_KEY': config.get('CRYPTO_KEY') }, json: true, gzip: true };
-const cmcUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=399';
+const updateCryptos = async () => {
+  console.log('Updating cryptos...');
+  const cmcOptions = { headers: { 'X-CMC_PRO_API_KEY': config.get('CRYPTO_KEY') }, json: true, gzip: true };
+  const cmcUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=399';
+  const resp = await axios.get(cmcUrl, cmcOptions);
+  const mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d  }));
+  // update the date and cryptos in mongoDB
+  const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
+  console.log('Crypto update successful');
+  return mappedCryptos;
+};
+
+const getStockPrices = async stocks => {
+  const promises = stocks.map(stock => yf.quote({ symbol: stock.symbol, modules: ['price'] }));
+  // await for all stock price requests to finish
+  const pResults = await Promise.allSettled(promises);
+  pResults.forEach((pResult, i) => {
+    // if price not found set it as '?'
+    if (pResult.status === 'fulfilled' && pResult.value.price) { stocks[i].price = pResult.value.price.regularMarketPrice; }
+    else { stocks[i].price = '?'; }
+  });
+  return stocks;
+};
 
 router.post('/login',
   [check('email').not().isEmpty().isEmail().normalizeEmail().escape(),
@@ -37,26 +58,13 @@ router.post('/login',
       if (!netWorth || !portfolio) { return res.status(404).json({ msg: 'Could not retrieve user data.' }); }
       const goals = await Goals.findOne({ userId: user._id }).lean();
       const budgets = await Budgets.findOne({ userId: user._id });
-      const updatedStocks = [...portfolio.stocks];
-      const promises = updatedStocks.map(stock => yf.quote({ symbol: stock.symbol, modules: ['price'] }));
-      // await for all stock price requests to finish
-      const pResults = await Promise.allSettled(promises);
-      pResults.forEach((pResult, i) => {
-        // if price not found set it as '?'
-        if (pResult.status === 'fulfilled') { updatedStocks[i].price = pResult.value.price.regularMarketPrice; }
-        else { updatedStocks[i].price = '?'; }
-      });
+      const updatedStocks = await getStockPrices([...portfolio.stocks]);
       const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
       // update cryptos if last updated >1hr ago else return the cryptos
       const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
       let mappedCryptos;
-      if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) {
-        console.log('Updating cryptos...');
-        const resp = await axios.get(cmcUrl, cmcOptions);
-        mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d }));
-        const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
-        console.log('Crypto update successful');
-      } else { mappedCryptos = cryptos.cryptos; }
+      if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) { mappedCryptos = await updateCryptos(); }
+      else { mappedCryptos = cryptos.cryptos; }
       // update portfolio values w current prices
       const updatedCryptos = [...portfolio.cryptos].map(crypto => {
         const matchingCrypto = mappedCryptos.find(data => data.name === crypto.name);
@@ -100,13 +108,7 @@ router.post('/signup',
       await newGoals.save();
       // update cryptos if last updated >1hr ago else return the cryptos
       const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
-      if (new Date(cryptos.date).getTime() - new Date().getTime() >= 3600000) {
-        console.log('Updating cryptos...');
-        const resp = await axios.get(cmcUrl, cmcOptions);
-        const cmcCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d  }));
-        const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: cmcCryptos }, {});
-        console.log('Crypto update successful');
-      }
+      if (new Date(cryptos.date).getTime() - new Date().getTime() >= 3600000) { await updateCryptos(); }
       res.status(200).json({ token, netWorth, portfolio });
     }
     catch (e) { res.status(500).json({ msg: 'Failed signing up user.' }); }
@@ -120,25 +122,12 @@ router.get('/autoLogin', auth, async (req, res) => {
     const goals = await Goals.findOne({ userId: req.userId }).lean();
     const budgets = await Budgets.findOne({ userId: req.userId });
     const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
-    const updatedStocks = [...portfolio.stocks];
-    const promises = updatedStocks.map(stock => yf.quote({ symbol: stock.symbol, modules: ['price']}));
-    // wait for all stock price requests to finish
-    const pResults = await Promise.allSettled(promises);
-    pResults.forEach((pResult, i) => {
-      // if stock price not found then set price as '?'
-      if (pResult.status === 'fulfilled') { updatedStocks[i].price = pResult.value.price.regularMarketPrice; }
-      else { updatedStocks[i].price = '?'; }
-    });
+    const updatedStocks = await getStockPrices([...portfolio.stocks]);
     const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
     let mappedCryptos;
     // if cryptos last updated over 1 hr ago then update cryptos
-    if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) {
-      console.log('Updating cryptos...');
-      const resp = await axios.get(cmcUrl, cmcOptions);
-      mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d  }));
-      const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
-      console.log('Crypto update successful');
-    } else { mappedCryptos = cryptos.cryptos; }
+    if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) { mappedCryptos = await updateCryptos(); }
+    else { mappedCryptos = cryptos.cryptos; }
     const updatedCryptos = [...portfolio.cryptos].map(crypto => {
       const matchingCrypto = mappedCryptos.find(data => data.name === crypto.name);
       if (!matchingCrypto) { return { ...crypto, value: '?' }; }
@@ -161,25 +150,14 @@ router.post('/demoLogin', async (req, res) => {
   try {
     const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
     let mappedCryptos;
-    if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) {
-      console.log('Updating cryptos...');
-      const resp = await axios.get(cmcUrl, cmcOptions);
-      mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d  }));
-      const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
-      console.log('Crypto update successful');
-    } else { mappedCryptos = cryptos.cryptos; }
+    if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) { mappedCryptos = await updateCryptos(); }
+    else { mappedCryptos = cryptos.cryptos; }
     const updatedCryptos = [...req.body.portfolio.cryptos].map(crypto => {
       const matchingCrypto = mappedCryptos.find(data => data.name === crypto.name);
       if (!matchingCrypto) { return { ...crypto, value: '?' }; }
       return { ...crypto, price: matchingCrypto.price };
     }).concat([...req.body.portfolio.manualCryptos]);
-    const updatedStocks = [...req.body.portfolio.stocks];
-    const promises = updatedStocks.map(stock => yf.quote({ symbol: stock.symbol, modules: ['price']}));
-    const pResults = await Promise.allSettled(promises);
-    pResults.forEach((pResult, i) => {
-      if (pResult.status === 'fulfilled') { updatedStocks[i].price = pResult.value.price.regularMarketPrice; }
-      else { updatedStocks[i].price = '?'; }
-    });
+    const updatedStocks = await getStockPrices([...req.body.portfolio.stocks]);
     const combinedStocks = updatedStocks.concat([...req.body.portfolio.manualStocks]);
     const updatedPortfolio = { ...req.body.portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
     res.status(200).json({ portfolio: updatedPortfolio });
