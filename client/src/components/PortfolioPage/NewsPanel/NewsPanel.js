@@ -55,6 +55,7 @@ const NewsPanel = props => {
         bullPerc: (res.data.sentiment.sentiment.bullishPercent * 100).toFixed(2),
         ticker: query
       });
+      setErr(false);
     }).catch(err => {
       setLoading(false);
       if (err.response) {
@@ -71,6 +72,7 @@ const NewsPanel = props => {
     axios.get(`portfolio/generalNews/${accessCode}`).then(res => {
       searchHelper(res.data.news);
       setSentiment({ totArticles: 0, bearPerc: 0, bullPerc: 0, ticker: '' });
+      setErr(false);
     }).catch(err => {
       setLoading(false);
       if (err.response && err.response.status === 401) { setCodeInvalid(true); }
