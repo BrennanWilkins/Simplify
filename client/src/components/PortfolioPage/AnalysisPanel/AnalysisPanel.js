@@ -64,9 +64,10 @@ const AnalysisPanel = props => {
 
   const getData = ticker => {
     if (loading) { return; }
-    if (accessCode === '') { return setSelected({ value: '', label: '' }); }
+    if (accessCode === '' && !props.isAuth) { return setSelected({ value: '', label: '' }); }
     setLoading(true);
-    axios.get(`portfolio/analysis/${accessCode}/${ticker}`).then(res => {
+    const url = props.isAuth ? `portfolio/authAnalysis/${ticker}` : `portfolio/analysis/${accessCode}/${ticker}`;
+    axios.get(url).then(res => {
       setLoading(false);
       const tar = res.data.target;
       setTarget({ high: tar.targetHigh, low: tar.targetLow, mean: tar.targetMean, median: tar.targetMedian });
@@ -83,7 +84,7 @@ const AnalysisPanel = props => {
     }).catch(err => {
       setLoading(false);
       resetData();
-      if (err.response && err.response.status === 401) { setCodeInvalid(true); errHandler('Invalid access code.'); }
+      if (err.response && err.response.status === 401 && !props.isAuth) { setCodeInvalid(true); errHandler('Invalid access code.'); }
       else if (err.response && err.response.status === 400) { errHandler(`The analysis could not be retrieved for ${ticker}`); }
       else { errHandler('There was an error connecting to the server.'); }
     });
@@ -172,7 +173,7 @@ const AnalysisPanel = props => {
 
   return (
     <PremiumContainer title="Stock Analysis" show={props.show} close={closeHandler} accessCode={accessCode}
-    codeInvalid={codeInvalid} accessHandler={val => { setCodeInvalid(false); setAccessCode(val); }}>
+    codeInvalid={codeInvalid} accessHandler={val => { setCodeInvalid(false); setAccessCode(val); }} isAuth={props.isAuth}>
       <div className={classes.Content}>
         <div className={classes.SubTitle}>Select a stock from your portfolio to retrieve its analysis</div>
         <div className={classes.Select}>
@@ -214,7 +215,8 @@ const AnalysisPanel = props => {
 };
 
 const mapStateToProps = state => ({
-  stocks: state.portfolio.stocks
+  stocks: state.portfolio.stocks,
+  isAuth: state.auth.isAuth
 });
 
 export default connect(mapStateToProps)(AnalysisPanel);

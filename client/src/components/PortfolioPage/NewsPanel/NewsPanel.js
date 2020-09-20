@@ -7,6 +7,7 @@ import Spinner from '../../UI/Spinner/Spinner';
 import { arrowRight } from '../../UI/UIIcons';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import PremiumContainer from '../PremiumContainer/PremiumContainer';
+import { connect } from 'react-redux';
 
 const NewsPanel = props => {
   const [query, setQuery] = useState('');
@@ -45,9 +46,11 @@ const NewsPanel = props => {
   };
 
   const search = () => {
-    if (query === '' || accessCode === '') { return; }
+    if (query === '' || (accessCode === '' && !props.isAuth)) { return; }
     setLoading(true);
-    axios.get(`portfolio/news/${accessCode}/${query}`).then(res => {
+    // access code needed if not logged in
+    const url = props.isAuth ? `portfolio/authNews/${query}` : `portfolio/news/${accessCode}/${query}`;
+    axios.get(url).then(res => {
       searchHelper(res.data.news);
       setSentiment({
         totArticles: res.data.sentiment.buzz.articlesInLastWeek,
@@ -60,29 +63,31 @@ const NewsPanel = props => {
       setLoading(false);
       if (err.response) {
         let status = err.response.status;
-        if (status === 401) { setCodeInvalid(true); }
+        if (status === 401 && !props.isAuth) { setCodeInvalid(true); }
         if (status === 400) { errHandler('No news was found for the symbol you entered.'); }
       } else { errHandler('There was an error connecting to the server.'); }
     });
   };
 
   const generalSearch = () => {
-    if (accessCode === '') { return; }
+    if (accessCode === '' && !props.isAuth) { return; }
     setLoading(true);
-    axios.get(`portfolio/generalNews/${accessCode}`).then(res => {
+    // access code needed if not logged in
+    const url = props.isAuth ? `portfolio/authGeneralNews` : `portfolio/generalNews/${accessCode}`;
+    axios.get(url).then(res => {
       searchHelper(res.data.news);
       setSentiment({ totArticles: 0, bearPerc: 0, bullPerc: 0, ticker: '' });
       setErr(false);
     }).catch(err => {
       setLoading(false);
-      if (err.response && err.response.status === 401) { setCodeInvalid(true); }
+      if (err.response && err.response.status === 401 && !props.isAuth) { setCodeInvalid(true); }
       else { errHandler('There was an error connecting to the server.'); }
     });
   };
 
   return (
     <PremiumContainer title="Financial News" show={props.show} close={props.close} accessCode={accessCode}
-    codeInvalid={codeInvalid} accessHandler={val => { setCodeInvalid(false); setAccessCode(val); }}>
+    codeInvalid={codeInvalid} accessHandler={val => { setCodeInvalid(false); setAccessCode(val); }} isAuth={props.isAuth}>
       <div style={news.length > 0 ? { width: '488px' } : { width: '500px' }}>
         <div className={classes.StockText}>Get today's market news or enter a stock ticker for recent company news</div>
         <div className={classes.Inputs}>
@@ -111,4 +116,8 @@ const NewsPanel = props => {
   );
 };
 
-export default NewsPanel;
+const mapStateToProps = state => ({
+  isAuth: state.auth.isAuth
+});
+
+export default connect(mapStateToProps)(NewsPanel);

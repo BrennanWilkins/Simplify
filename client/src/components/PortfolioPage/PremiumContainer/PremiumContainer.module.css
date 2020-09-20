@@ -54,10 +54,13 @@
 .CloseBtn button:hover {
   background: rgb(var(--dark-blue));
 }
-.Title {
+.Title, .AuthTitle {
   font-weight: 500;
   font-size: 28px;
   text-align: center;
+}
+.AuthTitle {
+  margin-bottom: 20px;
 }
 .InputText {
   text-align: center;
