@@ -331,28 +331,58 @@ router.post('/highlights',
     } catch(e) { console.log(e); res.sendStatus(500); }
 });
 
+const getTickerNews = async query => {
+  // get news from past week to today
+  const startDate = new Date(new Date().getTime() - 604800000).toISOString().split('T')[0];
+  const endDate = new Date().toISOString().split('T')[0];
+  // retrieve both news & news sentiment analysis
+  const newsUrl = `https://finnhub.io/api/v1/company-news?symbol=${query}&from=${startDate}&to=${endDate}&token=${config.get('FINNHUB_KEY2')}`;
+  const sentimentUrl = `https://finnhub.io/api/v1/news-sentiment?symbol=${query}&token=${config.get('FINNHUB_KEY2')}`;
+  const news = await axios.get(newsUrl, { json: true });
+  const sentiment = await axios.get(sentimentUrl, { json: true });
+  // check for valid response
+  if (Array.isArray(news) && news.length === 0) { return 'not found'; }
+  if (news.data.length === 0 || !sentiment.data.buzz) { return 'not found'; }
+  if (news.status !== 200 || sentiment.status !== 200) { return 'error'; }
+  return { news: news.data.slice(0, 20), sentiment: sentiment.data };
+};
+
 // public route for getting company news from finnhub api, must have access code
 router.get('/news/:code/:query',
   [param('*').trim().escape()],
   async (req, res) => {
     // unauthorized
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
-    // get news from past week to today
-    const startDate = new Date(new Date().getTime() - 604800000).toISOString().split('T')[0];
-    const endDate = new Date().toISOString().split('T')[0];
-    // retrieve both news & news sentiment analysis
-    const newsUrl = `https://finnhub.io/api/v1/company-news?symbol=${req.params.query}&from=${startDate}&to=${endDate}&token=${config.get('FINNHUB_KEY2')}`;
-    const sentimentUrl = `https://finnhub.io/api/v1/news-sentiment?symbol=${req.params.query}&token=${config.get('FINNHUB_KEY2')}`;
     try {
-      const news = await axios.get(newsUrl, { json: true });
-      const sentiment = await axios.get(sentimentUrl, { json: true });
-      // check for valid response
-      if (Array.isArray(news) && news.length === 0) { return res.sendStatus(400); }
-      if (news.data.length === 0 || !sentiment.data.buzz) { return res.sendStatus(400); }
-      if (news.status !== 200 || sentiment.status !== 200) { throw 'err'; }
-      res.status(200).json({ news: news.data.slice(0, 20), sentiment: sentiment.data });
+      const result = await getTickerNews(req.params.query);
+      if (result === 'not found') { return res.sendStatus(400); }
+      if (result === 'error') { throw 'err'; }
+      const { news, sentiment } = result;
+      res.status(200).json({ news, sentiment });
     } catch(e) { res.sendStatus(500); }
 });
+
+// private route for getting company news from finnhub api
+router.get('/authNews/:query', auth,
+  [param('*').trim().escape()],
+  async (req, res) => {
+    try {
+      const result = await getTickerNews(req.params.query);
+      if (result === 'not found') { return res.sendStatus(400); }
+      if (result === 'error') { throw 'err'; }
+      const { news, sentiment } = result;
+      res.status(200).json({ news, sentiment });
+    } catch(e) { res.sendStatus(500); }
+});
+
+const getGeneralNews = async () => {
+  const newsUrl = `https://finnhub.io/api/v1/news?category=general&token=${config.get('FINNHUB_KEY2')}`;
+  const news = await axios.get(newsUrl, { json: true });
+  // check for valid response
+  if (Array.isArray(news) && news.length === 0) { return 'error'; }
+  if (news.data.length === 0 || news.status !== 200) { return 'error'; }
+  return news.data.slice(0, 20);
+};
 
 // public route for getting general market news from finnhub api, must have access code
 router.get('/generalNews/:code',
@@ -360,16 +390,35 @@ router.get('/generalNews/:code',
   async (req, res) => {
     // unauthorized
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
-    const newsUrl = `https://finnhub.io/api/v1/news?category=general&token=${config.get('FINNHUB_KEY2')}`;
     try {
-      const news = await axios.get(newsUrl, { json: true });
-      // check for valid response
-      if (Array.isArray(news) && news.length === 0) { throw 'empty response'; }
-      if (news.data.length === 0) { throw 'empty response'; }
-      if (news.status !== 200) { throw 'err'; }
-      res.status(200).json({ news: news.data.slice(0, 20) });
+      const news = await getGeneralNews();
+      if (news === 'error') { throw 'err'; }
+      res.status(200).json({ news });
     } catch(e) { res.sendStatus(500); }
 });
+
+// private route for getting general market news from finnhub api
+router.get('/authGeneralNews', auth,
+  [param('code').trim().escape()],
+  async (req, res) => {
+    try {
+      const news = await getGeneralNews();
+      if (news === 'error') { throw 'err'; }
+      res.status(200).json({ news });
+    } catch(e) { res.sendStatus(500); }
+});
+
+const getAnalysis = async ticker => {
+  const getUrl = mode => `https://finnhub.io/api/v1/stock/${mode}?symbol=${ticker}&token=${config.get('FINNHUB_KEY2')}`;
+  // get recommendation trends, price target, & EPS surprises from finnhub API
+  const recommendation = await axios.get(getUrl('recommendation'), { json: true });
+  const target = await axios.get(getUrl('price-target'), { json: true });
+  const earnings = await axios.get(getUrl('earnings'), { json: true });
+  // check for valid response
+  if (Array.isArray(recommendation) || Array.isArray(target) || Array.isArray(earnings)) { return 'not found'; }
+  if (recommendation.status !== 200 || target.status !== 200 || earnings.status !== 200) { return 'error'; }
+  return { recommendation: recommendation.data, target: target.data, earnings: earnings.data };
+};
 
 // public route for getting stock analysis, requires access code
 router.get('/analysis/:code/:ticker',
@@ -377,16 +426,25 @@ router.get('/analysis/:code/:ticker',
   async (req, res) => {
     // unauthorized
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
-    const getUrl = mode => `https://finnhub.io/api/v1/stock/${mode}?symbol=${req.params.ticker}&token=${config.get('FINNHUB_KEY2')}`;
     try {
-      // get recommendation trends, price target, & EPS surprises from finnhub API
-      const recommendation = await axios.get(getUrl('recommendation'), { json: true });
-      const target = await axios.get(getUrl('price-target'), { json: true });
-      const earnings = await axios.get(getUrl('earnings'), { json: true });
-      // check for valid response
-      if (Array.isArray(recommendation) || Array.isArray(target) || Array.isArray(earnings)) { return res.sendStatus(400); }
-      if (recommendation.status !== 200 || target.status !== 200 || earnings.status !== 200) { throw 'err'; }
-      res.status(200).json({ recommendation: recommendation.data, target: target.data, earnings: earnings.data });
+      const result = await getAnalysis(req.params.ticker);
+      if (result === 'not found') { return res.sendStatus(400); }
+      if (result === 'error') { throw 'err'; }
+      const { recommendation, target, earnings } = result;
+      res.status(200).json({ recommendation, target, earnings });
+    } catch(e) { res.sendStatus(500); }
+});
+
+// private route for getting stock analysis
+router.get('/authAnalysis/:ticker', auth,
+  [param('*').trim().escape()],
+  async (req, res) => {
+    try {
+      const result = await getAnalysis(req.params.ticker);
+      if (result === 'not found') { return res.sendStatus(400); }
+      if (result === 'error') { throw 'err'; }
+      const { recommendation, target, earnings } = result;
+      res.status(200).json({ recommendation, target, earnings });
     } catch(e) { res.sendStatus(500); }
 });
 

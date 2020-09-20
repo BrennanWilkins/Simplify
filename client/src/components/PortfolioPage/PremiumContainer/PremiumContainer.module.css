@@ -65,6 +65,7 @@
 .InputText {
   text-align: center;
   margin: 8px 0 10px;
+  font-size: 15px;
 }
 .AccessInput input {
   background: rgba(255, 255, 255, 0.08);
