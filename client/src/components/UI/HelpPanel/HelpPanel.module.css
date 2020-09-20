@@ -1,29 +1,34 @@
-.Panel, .HidePanel {
+.Panel {
   position: absolute;
-  left: calc(50% - 185px);
-  width: 350px;
-  height: 600px;
+  left: calc(50% - 200px);
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
   background: white;
   z-index: 100;
-  padding: 10px;
   transition: all 400ms;
   top: 80px;
-  box-sizing: border-box;
-  max-width: 370px;
+  max-width: 400px;
   max-height: 620px;
   width: 90%;
   height: calc(98% - 80px);
   overflow: auto;
 }
-@media (max-width: 410px) {
+.Panel::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f3f3f3;
+}
+.Panel::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+  background-color: white;
+}
+.Panel::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #dbdbdb;
+}
+@media (max-width: 445px) {
   .Panel {
     left: 5%;
-  }
-  .TopDiv {
-    box-sizing: border-box;
-    padding: 0 10px;
   }
 }
 .HidePanel {
@@ -35,8 +40,10 @@
   align-items: center;
   flex-direction: column;
   overflow: hidden;
-  width: 350px;
-  height: 600px;
+  width: 400px;
+  padding: 10px;
+  box-sizing: border-box;
+  height: 620px;
 }
 .TopDiv {
   width: 100%;
@@ -103,9 +110,6 @@
 .Show, .HideLeft, .HideRight {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
   position: absolute;
   top: 0;
   left: 0;
@@ -114,46 +118,12 @@
   transition: all 450ms ease-out;
 }
 .HideLeft, .Hide {
-  left: -740px;
+  left: -800px;
 }
 .HideRight {
-  left: 740px;
+  left: 800px;
 }
-.Gif2 {
-  width: 240px;
-  height: 272.4px;
-}
-.Gif3 {
-  width: 300px;
-  height: 309px;
-}
-.Gif4 {
-  width: 300px;
-  height: 302.5px;
-}
-.Gif5 {
-  width: 167.4px;
-  height: 226.2px;
-}
-.Gif6 {
-  width: 300px;
-  height: 233.5px;
-}
-.Gif7 {
-  width: 360px;
-  height: 233.4px;
-}
-.Content p {
-  font-size: 16px;
-  margin-left: 0;
-  margin-right: 0;
-}
-.P1 {
-  margin-top: 10px;
-}
-.P2 {
-  margin-top: 0;
-}
-.P3 {
-  margin: 0 0 6px;
+.Content img {
+  max-width: 100%;
+  max-height: 280px;
 }
