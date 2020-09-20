@@ -135,7 +135,7 @@ const AuthPanel = props => {
           <div className={classes.Content}>
             <div className={classes.Demo} onClick={() => { reset(); props.loadDemo(); }}>View a demo account<span>{arrowRight}</span></div>
             <Title auth />
-            <p className={classes.SubTitle}>Simplify your finances with budget, net worth, and investment trackers</p>
+            <p className={classes.SubTitle}>Simplify your finances with financial trackers and visualization tools</p>
             <div className={focused === '1' ? classes.InputDivFocus : classes.InputDiv}>
               <span className={classes.Icon}>{personIcon}</span>
               <input onFocus={() => setFocus('1')} onBlur={() => setFocus('')}
