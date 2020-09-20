@@ -88,7 +88,7 @@ const InvestmentTable = props => {
       <table className={props.normal ? classes.NormalTable : classes.Table}>
         <thead>
           <tr className={classes.HeaderFields}>
-            <th>{props.mode === 'Stocks' ? 'Ticker' : props.mode === 'Cryptos' ? 'Symbol' : 'Name'}
+            <th>{props.mode === 'Stocks' ? 'Ticker' : props.mode === 'Cryptos' ? 'Symbol' : 'Category'}
               {props.normal && <span onClick={() => sortHandler('symbol')} className={getClass('symbol')}>
                 {sortMethods[getCorrectField('symbol')] === '' ? caretNeutralIcon : caretIcon}
               </span>}

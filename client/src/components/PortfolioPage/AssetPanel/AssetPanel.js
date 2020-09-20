@@ -38,7 +38,7 @@ const AssetPanel = props => {
         setTitleText('Select an asset to remove it from your portfolio');
         if (props.show) { setPanelClass(`${classes.Panel} ${classes.RemoveAsset}`); }
         else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideRemoveAsset}`); }
-        setOptions(props.otherAssets.map(asset => ({ value: asset.name, label: asset.name })));
+        setOptions(props.otherAssets.map(asset => ({ value: asset.desc, label: asset.desc })));
         break;
       case 'AddDebt':
         setTitleText('Add a new liability');
@@ -50,19 +50,19 @@ const AssetPanel = props => {
         setTitleText('Select a liability to remove it from your portfolio');
         if (props.show) { setPanelClass(`${classes.Panel} ${classes.RemoveDebt}`); }
         else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideRemoveDebt}`); }
-        setOptions(props.liabilities.map(debt => ({ value: debt.name, label: debt.name })));
+        setOptions(props.liabilities.map(debt => ({ value: debt.desc, label: debt.desc })));
         break;
       case 'SettingsAsset':
         setTitleText('Select an asset to change its value');
         if (props.show) { setPanelClass(`${classes.Panel} ${classes.SettingsAsset}`); }
         else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideSettingsAsset}`); }
-        setOptions(props.otherAssets.map(asset => ({ value: asset.name, label: asset.name })));
+        setOptions(props.otherAssets.map(asset => ({ value: asset.desc, label: asset.desc })));
         break;
       default:
         setTitleText('Select a liability to change its value');
         if (props.show) { setPanelClass(`${classes.Panel} ${classes.SettingsDebt}`); }
         else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideSettingsDebt}`); }
-        setOptions(props.liabilities.map(debt => ({ value: debt.name, label: debt.name })));
+        setOptions(props.liabilities.map(debt => ({ value: debt.desc, label: debt.desc })));
         break;
     }
   }, [props.mode, props.show]);
@@ -100,11 +100,11 @@ const AssetPanel = props => {
     errHandler(false);
     setConfirmClass(classes.Confirm);
     if (props.mode === 'SettingsAsset' || props.mode === 'RemoveAsset') {
-      const assetMatch = props.otherAssets.find(asset => asset.name === option.value);
+      const assetMatch = props.otherAssets.find(asset => asset.desc === option.value);
       setSelected({ ...assetMatch });
       setNewValue(assetMatch.value);
     } else if (props.mode === 'SettingsDebt' || props.mode === 'RemoveDebt') {
-      const debtMatch = props.liabilities.find(debt => debt.name === option.value);
+      const debtMatch = props.liabilities.find(debt => debt.desc === option.value);
       setSelected({ ...debtMatch });
       setNewValue(debtMatch.value);
     }
@@ -132,18 +132,18 @@ const AssetPanel = props => {
     if (props.mode === 'AddAsset') {
       for (let asset of props.otherAssets) {
         // must have diff names
-        if (asset.name === data.name) {
+        if (asset.desc === data.desc) {
           setErr(true);
-          setErrMsg(`You already have ${data.name.length < 15 ? data.name : 'that asset'} in your portfolio.`);
+          setErrMsg(`You already have ${data.desc.length < 15 ? data.desc : 'that asset'} in your portfolio.`);
           return false;
         }
       }
     }
     if (props.mode === 'AddDebt') {
       for (let debt of props.liabilities) {
-        if (debt.name === data.name) {
+        if (debt.desc === data.desc) {
           setErr(true);
-          setErrMsg(`You already have ${data.name.length < 15 ? data.name : 'that liability'} in your portfolio.`);
+          setErrMsg(`You already have ${data.desc.length < 15 ? data.desc : 'that liability'} in your portfolio.`);
           return false;
         }
       }
@@ -167,7 +167,7 @@ const AssetPanel = props => {
         msg = 'Asset added to portfolio';
       }
       if (props.mode === 'RemoveAsset') {
-        updatedPortfolio.otherAssets = curr.filter(asset => asset.name !== selected.name);
+        updatedPortfolio.otherAssets = curr.filter(asset => asset.desc !== selected.desc);
         msg = 'Asset removed from portfolio';
       }
       if (props.mode === 'AddDebt') {
@@ -176,17 +176,17 @@ const AssetPanel = props => {
         msg = 'Liability added to portfolio';
       }
       if (props.mode === 'RemoveDebt') {
-        updatedPortfolio.liabilities = curr.filter(debt => debt.name !== selected.name);
+        updatedPortfolio.liabilities = curr.filter(debt => debt.desc !== selected.desc);
         msg = 'Liability removed from portfolio';
       }
       if (props.mode === 'SettingsAsset') {
-        const index = curr.findIndex(asset => asset.name === data.name);
+        const index = curr.findIndex(asset => asset.desc === data.desc);
         curr[index].value = data.value;
         updatedPortfolio.otherAssets = curr;
         msg = 'Asset updated in portfolio';
       }
       if (props.mode === 'SettingsDebt') {
-        const index = curr.findIndex(debt => debt.name === data.name);
+        const index = curr.findIndex(debt => debt.desc === data.desc);
         curr[index].value = data.value;
         updatedPortfolio.liabilities = curr;
         msg = 'Liability updated in portfolio';
@@ -208,7 +208,7 @@ const AssetPanel = props => {
         msg = 'Asset added to portfolio';
       } else if (props.mode === 'RemoveAsset') {
         // remove asset from portfolio
-        const res = await axios.put('portfolio/removeAsset', { name: selected.name });
+        const res = await axios.put('portfolio/removeAsset', { desc: selected.desc });
         updatedPortfolio.otherAssets = res.data.assets;
         msg = 'Asset removed from portfolio';
       } else if (props.mode === 'AddDebt') {
@@ -218,7 +218,7 @@ const AssetPanel = props => {
         msg = 'Liability added to portfolio';
       } else if (props.mode === 'RemoveDebt') {
         // remove liability from portfolio
-        const res = await axios.put('portfolio/removeDebt', { name: selected.name });
+        const res = await axios.put('portfolio/removeDebt', { desc: selected.desc });
         updatedPortfolio.liabilities = res.data.debts;
         msg = 'Liability removed from portfolio';
       } else if (props.mode === 'SettingsAsset') {
@@ -253,7 +253,7 @@ const AssetPanel = props => {
           :
           <div className={classes.Inputs}>
             <div>
-              <p>Name</p>
+              <p>Category</p>
               <Input val={inputName} change={val => setInputName(val)} ref={nameRef} />
             </div>
             <div>

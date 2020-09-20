@@ -215,13 +215,13 @@ router.put('/addAsset', auth,
 });
 
 router.put('/removeAsset', auth,
-  [body('name').not().isEmpty().escape()],
+  [body('desc').not().isEmpty().escape()],
   async (req, res) => {
     try {
       if (!validationResult(req).isEmpty()) { throw 'err'; }
       const portfolio = await Portfolio.findOne({ userId: req.userId });
       const otherAssets = [...portfolio.otherAssets];
-      const index = otherAssets.findIndex(asset => asset.name === req.body.name);
+      const index = otherAssets.findIndex(asset => asset.desc === req.body.desc);
       otherAssets.splice(index, 1);
       portfolio.otherAssets = otherAssets;
       const result = await portfolio.save();
@@ -244,13 +244,13 @@ router.put('/addDebt', auth,
 });
 
 router.put('/removeDebt', auth,
-  [body('name').not().isEmpty().escape()],
+  [body('desc').not().isEmpty().escape()],
   async (req, res) => {
     try {
       if (!validationResult(req).isEmpty()) { throw 'err'; }
       const portfolio = await Portfolio.findOne({ userId: req.userId });
       const liabilities = [...portfolio.liabilities];
-      const index = liabilities.findIndex(debt => debt.name === req.body.name);
+      const index = liabilities.findIndex(debt => debt.desc === req.body.desc);
       liabilities.splice(index, 1);
       portfolio.liabilities = liabilities;
       const result = await portfolio.save();
@@ -265,7 +265,7 @@ router.put('/updateAsset', auth,
       if (!validationResult(req).isEmpty()) { throw 'err'; }
       const portfolio = await Portfolio.findOne({ userId: req.userId });
       const otherAssets = [...portfolio.otherAssets];
-      const index = otherAssets.findIndex(asset => asset.name === req.body.name);
+      const index = otherAssets.findIndex(asset => asset.desc === req.body.desc);
       otherAssets[index].value = req.body.value;
       portfolio.otherAssets = otherAssets;
       const result = await portfolio.save();
@@ -280,7 +280,7 @@ router.put('/updateDebt', auth,
       if (!validationResult(req).isEmpty()) { throw 'err'; }
       const portfolio = await Portfolio.findOne({ userId: req.userId });
       const liabilities = [...portfolio.liabilities];
-      const index = liabilities.findIndex(debt => debt.name === req.body.name);
+      const index = liabilities.findIndex(debt => debt.desc === req.body.desc);
       liabilities[index].value = req.body.value;
       portfolio.liabilities = liabilities;
       const result = await portfolio.save();
