@@ -34,19 +34,8 @@ router.get('/searchStock/:searchVal',
   async (req, res) => {
     try {
       const stocks = await Stocks.findOne({ name: 'StockList' });
-      // update stock directory if hasn't been updated in over 1 day
-      let searchStocks;
-      if (new Date().getTime() - new Date(stocks.date).getTime() >= 86400000) {
-        console.log('Updating stocks...');
-        const url = `https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${config.get('FINNHUB_KEY')}`;
-        const allStocks = await axios.get(url, { json: true });
-        const mappedStocks = allStocks.data.map(stock => ({ name: stock.description, symbol: stock.displaySymbol }));
-        await Stocks.findOneAndUpdate({ name: 'StockList' }, { date: new Date(), stocks: mappedStocks }, {});
-        console.log('Stock update successful');
-        searchStocks = mappedStocks;
-      } else { searchStocks = stocks.stocks; }
       // fuse used to generate best matches for search query
-      const fuse = new Fuse(searchStocks, { keys: ['name', 'symbol'] });
+      const fuse = new Fuse(stocks.stocks, { keys: ['name', 'symbol'] });
       const searchRes = fuse.search(req.params.searchVal).slice(0, 12).map(stock => ({ symbol: stock.item.symbol, name: stock.item.name }));
       // make sure all stock match results are found in yahoo finance api and add prices
       const promises = searchRes.map(stock => yf.quote({ symbol: stock.symbol, modules: ['price', 'summaryDetail'] }));
