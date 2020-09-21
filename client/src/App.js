@@ -37,7 +37,7 @@ const App = props => {
           </React.Fragment>
           :
           <Switch>
-            <Route exact path="/login" render={() => <AuthPanel mode="Login" />} />
+            <Route path="/login" render={() => <AuthPanel mode="Login" />} />
             <Route exact path="/signup" render={() => <AuthPanel mode="Signup" />} />
             <Redirect to="/login" />
           </Switch>

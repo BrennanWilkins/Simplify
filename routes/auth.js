@@ -13,6 +13,9 @@ const auth = require('../middleware/auth');
 const yf = require('yahoo-finance');
 const Goals = require('../models/goals');
 const Budgets = require('../models/budgets');
+const TempUser = require('../models/tempUser');
+const { v4: uuid } = require('uuid');
+const nodemailer = require('nodemailer');
 
 const updateCryptos = async () => {
   console.log('Updating cryptos...');
@@ -36,6 +39,11 @@ const getStockPrices = async stocks => {
     else { stocks[i].price = '?'; }
   });
   return stocks;
+};
+
+const deleteOldTempUsers = async () => {
+  // delete all temporary users w dateCreated greater than 3 hours ago
+  await TempUser.deleteMany({ dateCreated: { "$gte": 10800000 } });
 };
 
 router.post('/login',
@@ -79,6 +87,7 @@ router.post('/login',
         for (let budget of budgets.budgets) { budget.transactions = []; }
         await budgets.save();
       }
+      await deleteOldTempUsers();
       res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets, goals });
     } catch(e) { res.status(500).json({ msg: 'There was an error logging in.' }); }
 });
@@ -91,14 +100,45 @@ router.post('/signup',
   async (req, res) => {
     if (!validationResult(req).isEmpty()) { return res.status(400).json({ msg: 'Error in input fields.' }); }
     try {
-      const user = await User.findOne({ email: req.body.email });
-      if (user) { return res.status(400).json({ msg: 'Email already taken.' }); }
+      const existingUser = await User.findOne({ email: req.body.email });
+      const existingTempUser = await TempUser.findOne({ email: req.body.email });
+      // if temporary user or current user has same email, return error
+      if (existingUser || existingTempUser) { return res.status(400).json({ msg: 'That email is already taken.' }); }
       const hashedPassword = await bcryptjs.hash(req.body.password, 10);
-      const newUser = new User({ email: req.body.email, password: hashedPassword });
-      const saveRes = await newUser.save();
-      // if remember clicked then token expires in 7 days else 1 hour
-      const options = req.body.remember === 'false' ? { expiresIn: '1h' } : { expiresIn: '7d' };
-      const token = await jwt.sign({ newUser }, config.get('AUTH_KEY'), options);
+      const cryptoId = uuid();
+      // send email to provided email address to verify user
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        secure: false,
+        tls: { rejectUnauthorized: false },
+        auth: { user: config.get('SIMPLIFY_EMAIL'), pass: config.get('SIMPLIFY_PASS') }
+      });
+      // const hRef = `https://simplify.herokuapp.com/api/auth/validateSignup/${cryptoId}`;
+      const hRef = `http://localhost:9000/api/auth/validateSignup/${cryptoId}`;
+      const mailOptions = {
+        from: config.get('SIMPLIFY_EMAIL'),
+        to: req.body.email,
+        subject: 'Verify your email address - Simplify',
+        html: `<h2>Click the link below to verify your email.</h2><p><a href="${hRef}">Verify link</a></p>`
+      };
+      await transporter.sendMail(mailOptions);
+      // create new temporary user
+      const newTempUser = new TempUser({ email: req.body.email, pass: hashedPassword, dateCreated: new Date().getTime(), cryptoId });
+      await newTempUser.save();
+      res.sendStatus(200);
+    }
+    catch (e) { res.status(500).json({ msg: 'There was an error signing up.' }); }
+});
+
+router.get('/validateSignup/:cryptoId',
+  [check('*').trim().escape()],
+  async (req, res) => {
+    try {
+      const tempUser = await TempUser.findOne({ cryptoId: req.params.cryptoId });
+      if (!tempUser) { throw 'err'; }
+      // email validated, create new user
+      const newUser = new User({ email: tempUser.email, password: tempUser.pass });
+      await newUser.save();
       const newPortfolio = new Portfolio({ cryptos: [], stocks: [], otherAssets: [],
         liabilities: [], manualCryptos: [], manualStocks: [], userId: newUser._id });
       const portfolio = await newPortfolio.save();
@@ -106,12 +146,10 @@ router.post('/signup',
       const netWorth = await newNetWorth.save();
       const newGoals = new Goals({ netWorthGoal: 0, otherGoals: [], userId: newUser._id });
       await newGoals.save();
-      // update cryptos if last updated >1hr ago else return the cryptos
-      const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
-      if (new Date(cryptos.date).getTime() - new Date().getTime() >= 3600000) { await updateCryptos(); }
-      res.status(200).json({ token, netWorth, portfolio });
-    }
-    catch (e) { res.status(500).json({ msg: 'Failed signing up user.' }); }
+      await TempUser.findOneAndDelete({ cryptoId: req.params.cryptoId });
+      res.redirect('http://localhost:3000/login?valid=true');
+      // res.redirect('https://simplify.herokuapp.com/login?valid=true');
+    } catch(e) { res.redirect('http://localhost:3000/login?valid=false'); /*res.redirect('https://simplify.herokuapp.com/login?valid=false'*/ }
 });
 
 router.get('/autoLogin', auth, async (req, res) => {
@@ -141,6 +179,7 @@ router.get('/autoLogin', auth, async (req, res) => {
       for (let budget of budgets.budgets) { budget.transactions = []; }
       await budgets.save();
     }
+    await deleteOldTempUsers();
     res.status(200).json({ portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets, goals });
   } catch(e) { res.sendStatus(500); }
 });
@@ -160,6 +199,7 @@ router.post('/demoLogin', async (req, res) => {
     const updatedStocks = await getStockPrices([...req.body.portfolio.stocks]);
     const combinedStocks = updatedStocks.concat([...req.body.portfolio.manualStocks]);
     const updatedPortfolio = { ...req.body.portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
+    await deleteOldTempUsers();
     res.status(200).json({ portfolio: updatedPortfolio });
   } catch (err) { res.sendStatus(500); }
 });

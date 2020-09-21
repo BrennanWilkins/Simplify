@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import classes from './AuthPanel.module.css';
 import Spinner from '../../UI/Spinner/Spinner';
 import { personIcon, lockIcon, arrowRight } from '../../UI/UIIcons';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { validate } from '../../../utils/authValidation';
 import { authInstance as axios, instance } from '../../../axios';
 import { connect } from 'react-redux';
@@ -26,6 +26,16 @@ const AuthPanel = props => {
       setErrMsg('Retrieving current stock prices...');
     }
   }, [props.loading]);
+
+  useEffect(() => {
+    if (props.location.search === '?valid=true') {
+      setErr(true);
+      setErrMsg('Signing was successful, please log in.');
+    } else if (props.location.search === '?valid=false') {
+      setErr(true);
+      setErrMsg('Your signup link has expired.');
+    }
+  }, [props.location.search]);
 
   useEffect(() => {
     if (props.error) {
@@ -76,9 +86,8 @@ const AuthPanel = props => {
 
   const signupHandler = () => {
     setLoading(true);
-    axios.post('signup', { email, password, confirmPassword: confPass, remember })
-    .then(res => {
-      successHandler(res.data);
+    axios.post('signup', { email, password, confirmPassword: confPass }).then(res => {
+      showErr('A validation link was sent to your email.');
     }).catch(err => {
       if (err.response) { return showErr(err.response.data.msg); }
       showErr('There was an error signing up.');
@@ -99,17 +108,13 @@ const AuthPanel = props => {
       localStorage['expirationTime'] = '3600000';
     }
     const updatedNetWorth = calcNetWorth(data.netWorth.dataPoints, data.portfolio);
-    if (props.mode === 'Login') {
-      instance.put('netWorth', { netWorthData: updatedNetWorth }).then(res => {
-        props.setNetWorthData(res.data.result.dataPoints);
-      }).catch(err => { return showErr('There was an error logging in.'); });
-      const NWGoal = Number(data.goals.netWorthGoal);
-      if (NWGoal === 0) { props.setNetWorthGoal(null); }
-      else { props.setNetWorthGoal(NWGoal); }
-      props.setOtherGoals(data.goals.otherGoals);
-    } else {
-      props.setNetWorthData(data.netWorth.dataPoints);
-    }
+    instance.put('netWorth', { netWorthData: updatedNetWorth }).then(res => {
+      props.setNetWorthData(res.data.result.dataPoints);
+    }).catch(err => { return showErr('There was an error logging in.'); });
+    const NWGoal = Number(data.goals.netWorthGoal);
+    if (NWGoal === 0) { props.setNetWorthGoal(null); }
+    else { props.setNetWorthGoal(NWGoal); }
+    props.setOtherGoals(data.goals.otherGoals);
     props.setPortfolio(calcPortfolioValue(data.portfolio));
     if (data.budgets) { props.setBudget(data.budgets); }
     reset();
@@ -209,4 +214,4 @@ const mapDispatchToProps = dispatch => ({
   endLoading: () => dispatch(actions.endLoading())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AuthPanel));
