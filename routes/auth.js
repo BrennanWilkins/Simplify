@@ -16,6 +16,7 @@ const Budgets = require('../models/budgets');
 const TempUser = require('../models/tempUser');
 const { v4: uuid } = require('uuid');
 const nodemailer = require('nodemailer');
+const Stocks = require('../models/stocks');
 
 const updateCryptos = async () => {
   console.log('Updating cryptos...');
@@ -27,6 +28,19 @@ const updateCryptos = async () => {
   const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
   console.log('Crypto update successful');
   return mappedCryptos;
+};
+
+const updateStocks = async () => {
+  // update stock directory if hasn't been updated in over 1 day
+  const stocks = await Stocks.findOne({ name: 'StockList' });
+  if (new Date().getTime() - new Date(stocks.date).getTime() >= 86400000) {
+    console.log('Updating stocks...');
+    const url = `https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${config.get('FINNHUB_KEY')}`;
+    const allStocks = await axios.get(url, { json: true });
+    const mappedStocks = allStocks.data.map(stock => ({ name: stock.description, symbol: stock.displaySymbol }));
+    await Stocks.findOneAndUpdate({ name: 'StockList' }, { date: new Date(), stocks: mappedStocks }, {});
+    console.log('Stock update successful');
+  }
 };
 
 const getStockPrices = async stocks => {
@@ -43,7 +57,7 @@ const getStockPrices = async stocks => {
 
 const deleteOldTempUsers = async () => {
   // delete all temporary users w dateCreated greater than 3 hours ago
-  await TempUser.deleteMany({ dateCreated: { "$gte": 10800000 } });
+  await TempUser.deleteMany({ dateCreated: { "$gte": new Date().getTime() } });
 };
 
 router.post('/login',
@@ -73,6 +87,8 @@ router.post('/login',
       let mappedCryptos;
       if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) { mappedCryptos = await updateCryptos(); }
       else { mappedCryptos = cryptos.cryptos; }
+      await deleteOldTempUsers();
+      await updateStocks();
       // update portfolio values w current prices
       const updatedCryptos = [...portfolio.cryptos].map(crypto => {
         const matchingCrypto = mappedCryptos.find(data => data.name === crypto.name);
@@ -87,7 +103,6 @@ router.post('/login',
         for (let budget of budgets.budgets) { budget.transactions = []; }
         await budgets.save();
       }
-      await deleteOldTempUsers();
       res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets, goals });
     } catch(e) { res.status(500).json({ msg: 'There was an error logging in.' }); }
 });
@@ -123,7 +138,7 @@ router.post('/signup',
       };
       await transporter.sendMail(mailOptions);
       // create new temporary user
-      const newTempUser = new TempUser({ email: req.body.email, pass: hashedPassword, dateCreated: new Date().getTime(), cryptoId });
+      const newTempUser = new TempUser({ email: req.body.email, pass: hashedPassword, dateCreated: new Date().getTime() - 10800000, cryptoId });
       await newTempUser.save();
       res.sendStatus(200);
     }
@@ -166,6 +181,8 @@ router.get('/autoLogin', auth, async (req, res) => {
     // if cryptos last updated over 1 hr ago then update cryptos
     if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) { mappedCryptos = await updateCryptos(); }
     else { mappedCryptos = cryptos.cryptos; }
+    await deleteOldTempUsers();
+    await updateStocks();
     const updatedCryptos = [...portfolio.cryptos].map(crypto => {
       const matchingCrypto = mappedCryptos.find(data => data.name === crypto.name);
       if (!matchingCrypto) { return { ...crypto, value: '?' }; }
@@ -179,7 +196,6 @@ router.get('/autoLogin', auth, async (req, res) => {
       for (let budget of budgets.budgets) { budget.transactions = []; }
       await budgets.save();
     }
-    await deleteOldTempUsers();
     res.status(200).json({ portfolio: updatedPortfolio, netWorth, budgets: budgets.budgets, goals });
   } catch(e) { res.sendStatus(500); }
 });
@@ -200,8 +216,37 @@ router.post('/demoLogin', async (req, res) => {
     const combinedStocks = updatedStocks.concat([...req.body.portfolio.manualStocks]);
     const updatedPortfolio = { ...req.body.portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
     await deleteOldTempUsers();
+    await updateStocks();
     res.status(200).json({ portfolio: updatedPortfolio });
   } catch (err) { res.sendStatus(500); }
+});
+
+router.post('/deleteAccount', auth, async (req, res) => {
+  // deletes all of users data
+  try {
+    const user = await User.findOneAndDelete({ userId: req.userId });
+    const portfolio = await Portfolio.findOneAndDelete({ userId: req.userId });
+    const networth = await NetWorth.findOneAndDelete({ userId: req.userId });
+    const goals = await Goals.findOneAndDelete({ userId: req.userId });
+    const budget = await Budgets.findOneAndDelete({ userId: req.userId });
+    res.sendStatus(200);
+  } catch(e) { res.sendStatus(500); }
+});
+
+router.post('/changePassword', auth,
+  [body('oldPass').not().isEmpty().trim().escape(),
+  body('newPass').not().isEmpty().trim().escape()],
+  async (req, res) => {
+    // verify old password & change to new password
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      const user = await User.findOne({ userId: req.userId });
+      if (!user) { throw 'err'; }
+      const same = await bcryptjs.compare(req.body.oldPass, user.password);
+      if (!same) { return res.status(400).json({ msg: 'Current password is incorrect.' }); }
+      await User.findOneAndUpdate({ userId: req.userId }, { password: req.body.newPass });
+      res.sendStatus(200);
+    } catch(e) { res.status(500).json({ msg: 'There was an error connecting to the server.' }); }
 });
 
 module.exports = router;
