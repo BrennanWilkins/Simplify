@@ -8,7 +8,7 @@
   justify-content: space-around;
   align-items: center;
 }
-.Link, .LogoutLink {
+.Link, .Link2 {
   color: white;
   text-decoration: none;
   font-size: 18px;
@@ -16,10 +16,10 @@
   transition: color 300ms;
   position: relative;
 }
-.Link:hover, .LogoutLink:hover {
+.Link:hover, .Link2:hover {
   color: rgb(var(--green));
 }
-.Link:hover .FocusBorder, .LogoutLink:hover .FocusBorder {
+.Link:hover .FocusBorder {
   width: 100%;
   transition: width 300ms ease-out, left 300ms ease-out;
   left: 0;
@@ -82,6 +82,11 @@
   position: relative;
   top: 3px;
 }
+.PersonIcon {
+  font-size: 27px;
+  position: relative;
+  top: 2.5px;
+}
 @media (max-width: 800px) {
   .Link {
     display: none;
@@ -95,7 +100,7 @@
     align-items: center;
     height: 100%;
   }
-  .LogoutLink {
+  .LogoutLink, .AccntLink {
     margin-right: 20px;
   }
 }

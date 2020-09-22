@@ -1,0 +1,73 @@
+.Container {
+  position: fixed;
+  left: calc(50% - 175px);
+  border-radius: 3px;
+  box-shadow: var(--box-shadow1);
+  background: white;
+  z-index: 3;
+  transition: 400ms;
+  top: 80px;
+  max-width: 350px;
+  max-height: 300px;
+  width: 90%;
+  height: calc(98% - 80px);
+  overflow: auto;
+}
+.Container::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f3f3f3;
+}
+.Container::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: white;
+}
+.Container::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #dbdbdb;
+}
+@media (max-width: 390px) {
+  .Container {
+    left: 5%;
+  }
+}
+.Hide {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-100%);
+}
+.Content {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Content input {
+  margin-bottom: 15px;
+}
+.ShowErr, .HideErr {
+  font-weight: 500;
+  transition: 300ms;
+  font-size: 15px;
+  margin-top: 15px;
+}
+.HideErr {
+  opacity: 0;
+  visibility: hidden;
+}
+.Title1 {
+  text-align: center;
+}
+.Title2 {
+  font-weight: 500;
+  font-size: 18px;
+}
+.Btn button {
+  background: rgba(255, 0, 0, 0.8);
+}
+.Btn button:hover {
+  background: rgb(255, 0, 0);
+}

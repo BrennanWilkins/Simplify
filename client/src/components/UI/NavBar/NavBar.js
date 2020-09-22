@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
 import SideNav from '../SideNav/SideNav';
 import Title from '../Title/Title';
-import { questionIcon } from '../UIIcons';
+import { questionIcon, personIcon2 } from '../UIIcons';
+import AccntPanel from '../AccntSettings/AccntPanel/AccntPanel';
 const HelpPanel = React.lazy(() => import('../HelpPanel/HelpPanel'));
 
 const NavBar = props => {
   const [showSideNav, setShowSideNav] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
     // auto shows help panel if in demo mode
@@ -28,19 +30,19 @@ const NavBar = props => {
           </div>
         </div>
         <div className={classes.Title}><Title /></div>
-        <Link className={props.location.pathname === '/portfolio' ? [classes.LinkActive, classes.Link].join(' ') : classes.Link} to="/portfolio">
+        <Link className={props.location.pathname === '/portfolio' ? `${classes.LinkActive} ${classes.Link}` : classes.Link} to="/portfolio">
           Portfolio
           <div className={classes.FocusBorder}></div>
         </Link>
-        <Link className={props.location.pathname === '/budget' ? [classes.LinkActive, classes.Link].join(' ') : classes.Link} to="/budget">
+        <Link className={props.location.pathname === '/budget' ? `${classes.LinkActive} ${classes.Link}` : classes.Link} to="/budget">
           Budgeting
           <div className={classes.FocusBorder}></div>
         </Link>
-        <Link className={props.location.pathname === '/plan' ? [classes.LinkActive, classes.Link].join(' ') : classes.Link} to="/plan">
+        <Link className={props.location.pathname === '/plan' ? `${classes.LinkActive} ${classes.Link}` : classes.Link} to="/plan">
           Plan
           <div className={classes.FocusBorder}></div>
         </Link>
-        <Link className={props.location.pathname === '/goals' ? [classes.LinkActive, classes.Link].join(' ') : classes.Link} to="/goals">
+        <Link className={props.location.pathname === '/goals' ? `${classes.LinkActive} ${classes.Link}` : classes.Link} to="/goals">
           Goals
           <div className={classes.FocusBorder}></div>
         </Link>
@@ -49,13 +51,18 @@ const NavBar = props => {
           Help
           <div className={classes.FocusBorder}></div>
         </div>
-        <div className={classes.LogoutLink} onClick={props.logout}>
-          {props.isDemo ? 'Login' : 'Logout'}
+        {props.isDemo ?
+        <div className={`${classes.Link2} ${classes.LogoutLink}`} onClick={props.logout}>Login
           <div className={classes.FocusBorder}></div>
-        </div>
+        </div> :
+        <div className={`${classes.Link2} ${classes.AccntLink}`} onClick={() => setShowSettings(true)}>
+          <span className={classes.PersonIcon}>{personIcon2}</span>
+        </div>}
       </div>
+      {!props.isDemo && <AccntPanel show={showSettings} close={() => setShowSettings(false)} logout={props.logout} />}
       <div className={showSideNav || showHelp ? classes.Backdrop : classes.HideBackdrop}></div>
-      <SideNav demo={props.isDemo} show={showSideNav} close={() => setShowSideNav(false)} showHelpPanel={() => setShowHelp(true)} />
+      <SideNav demo={props.isDemo} show={showSideNav} close={() => setShowSideNav(false)}
+      showHelpPanel={() => setShowHelp(true)} logout={props.logout} />
       <Suspense fallback=""><HelpPanel show={showHelp} close={() => setShowHelp(false)} /></Suspense>
     </div>
   );

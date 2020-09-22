@@ -16,7 +16,7 @@
 .HideSideNav {
   transform: translateX(-100%);
 }
-.Link, .LogoutLink {
+.Link {
   color: white;
   text-decoration: none;
   font-size: 18px;
@@ -25,10 +25,10 @@
   position: relative;
   margin: 25px 0 0;
 }
-.Link:hover, .LogoutLink:hover {
+.Link:hover {
   color: rgb(var(--green));
 }
-.Link:hover .FocusBorder, .LogoutLink:hover .FocusBorder {
+.Link:hover .FocusBorder {
   width: 100%;
   transition: width 300ms ease-out, left 300ms ease-out;
   left: 0;

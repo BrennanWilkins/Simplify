@@ -224,7 +224,7 @@ router.post('/demoLogin', async (req, res) => {
 router.post('/deleteAccount', auth, async (req, res) => {
   // deletes all of users data
   try {
-    const user = await User.findOneAndDelete({ userId: req.userId });
+    const user = await User.findOneAndDelete({ _id: req.userId });
     const portfolio = await Portfolio.findOneAndDelete({ userId: req.userId });
     const networth = await NetWorth.findOneAndDelete({ userId: req.userId });
     const goals = await Goals.findOneAndDelete({ userId: req.userId });
@@ -240,11 +240,13 @@ router.post('/changePassword', auth,
     // verify old password & change to new password
     try {
       if (!validationResult(req).isEmpty()) { throw 'err'; }
-      const user = await User.findOne({ userId: req.userId });
+      const user = await User.findOne({ _id: req.userId });
       if (!user) { throw 'err'; }
       const same = await bcryptjs.compare(req.body.oldPass, user.password);
       if (!same) { return res.status(400).json({ msg: 'Current password is incorrect.' }); }
-      await User.findOneAndUpdate({ userId: req.userId }, { password: req.body.newPass });
+      const hashedPassword = await bcryptjs.hash(req.body.newPass, 10);
+      user.password = hashedPassword;
+      await user.save();
       res.sendStatus(200);
     } catch(e) { res.status(500).json({ msg: 'There was an error connecting to the server.' }); }
 });
