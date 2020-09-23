@@ -5,6 +5,7 @@ import portfolioReducer from './store/reducers/portfolio';
 import goalReducer from './store/reducers/goals';
 import budgetReducer from './store/reducers/budget';
 import notifsReducer from './store/reducers/notifications';
+import themeReducer from './store/reducers/theme';
 import thunk from 'redux-thunk';
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   portfolio: portfolioReducer,
   goals: goalReducer,
   budget: budgetReducer,
-  notifications: notifsReducer
+  notifications: notifsReducer,
+  theme: themeReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));

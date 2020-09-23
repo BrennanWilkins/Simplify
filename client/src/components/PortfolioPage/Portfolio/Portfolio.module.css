@@ -23,7 +23,7 @@
   position: relative;
 }
 .Stocks h1, .Cryptos h1 {
-  color: rgb(var(--dark-blue2));
+  color: var(--titleColor);
 }
 @media (min-width: 1021px) {
   .ChartContainer {

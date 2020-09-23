@@ -1,5 +1,5 @@
 .NavBar {
-  background: rgb(var(--dark-blue3));
+  background: var(--navBarBack);
   position: fixed;
   width: 100%;
   height: 70px;
@@ -100,14 +100,11 @@
     align-items: center;
     height: 100%;
   }
-  .LogoutLink, .AccntLink {
+  .AccntLink {
     margin-right: 20px;
   }
 }
 @media (max-width: 345px) {
-  .LogoutLink {
-    display: none;
-  }
   .Title {
     position: absolute;
     left: calc(50% - 75px);

@@ -14,6 +14,9 @@
 .Value {
   color: rgb(var(--green));
 }
+.NWTitle {
+  color: var(--titleColor);
+}
 .ChartSmall {
   width: 90%;
   margin: auto;
@@ -25,10 +28,14 @@
   margin: 0 25px;
 }
 .Chart {
-  width: calc(100% - 20px);
-  margin: 0 10px;
   z-index: 1;
   position: relative;
+  width: calc(100% - 10px);
+  padding: 0 5px;
+  margin: 0 5px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  background: var(--chartBack);
 }
 @media (min-width: 1071px) {
   .Container {

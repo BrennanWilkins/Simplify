@@ -6,3 +6,4 @@ export { setNetWorthGoal, addNewGoal, editGoal, updateComplete,
   addContrib, deleteGoal, resetGoals, setOtherGoals } from './goals';
 export { setNewBudget, setBudget, deleteBudget } from './budget';
 export { addNotif, deleteNotif } from './notifications';
+export { toggleDarkMode, resetDarkMode } from './theme';

@@ -11,12 +11,12 @@
   left: calc(50% - 265px);
   transition: 300ms ease-out;
   overflow: auto;
-  background: rgb(var(--dark-blue5));
   color: white;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+  background: var(--premiumBack);
 }
 @media (max-width: 550px) {
   .Panel {

@@ -5,9 +5,26 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--bodyBack);
 }
 
 :root {
+  /* color codes for specific components */
+  --bodyBack: white;
+  --navBarBack: rgb(var(--dark-blue3));
+  --titleColor: rgb(var(--dark-blue2));
+  --tableBack: white;
+  --tableTDColor: black;
+  --tableSymbol: rgb(var(--dark-blue2));
+  --tableChartBtn: rgb(var(--dark-blue4));
+  --tableTHColor: rgb(var(--dark-blue));
+  --chartBack: white;
+  --highlightBack: white;
+  --highlightInfoBack: rgba(var(--blue), 0.2);
+  --newsLink: rgba(var(--dark-blue), 0.1);
+  --newsLinkHover: rgba(var(--dark-blue), 0.6);
+  --premiumBack: rgb(53, 89, 119);
+  /* general color rgb codes */
   --blue: 18, 152, 189;
   --green: 26, 171, 152;
   --dark-blue: 15, 119, 147;
@@ -15,8 +32,10 @@ body {
   --dark-blue2: 10, 77, 96;
   --dark-blue3: 42, 69, 92;
   --dark-blue4: 1, 95, 120;
-  --dark-blue5: 53, 89, 119;
+  --dark-blue5: 32, 84, 109;
   --light-blue: 234, 247, 251;
+  --light-blue2: 200, 230, 238;
+  --light-blue3: 227, 244, 249;
   --box-shadow1: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --box-shadow2: 0 2.5px 3px -1px rgba(0, 0, 0, 0.4);
   --box-shadow3: 0.5px 0.5px 5px 0 rgba(0, 0, 0, 0.5);

@@ -51,15 +51,11 @@ const NavBar = props => {
           Help
           <div className={classes.FocusBorder}></div>
         </div>
-        {props.isDemo ?
-        <div className={`${classes.Link2} ${classes.LogoutLink}`} onClick={props.logout}>Login
-          <div className={classes.FocusBorder}></div>
-        </div> :
         <div className={`${classes.Link2} ${classes.AccntLink}`} onClick={() => setShowSettings(true)}>
           <span className={classes.PersonIcon}>{personIcon2}</span>
-        </div>}
+        </div>
       </div>
-      {!props.isDemo && <AccntPanel show={showSettings} close={() => setShowSettings(false)} logout={props.logout} />}
+      <AccntPanel show={showSettings} close={() => setShowSettings(false)} logout={props.logout} isDemo={props.isDemo} />
       <div className={showSideNav || showHelp ? classes.Backdrop : classes.HideBackdrop}></div>
       <SideNav demo={props.isDemo} show={showSideNav} close={() => setShowSideNav(false)}
       showHelpPanel={() => setShowHelp(true)} logout={props.logout} />

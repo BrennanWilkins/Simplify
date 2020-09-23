@@ -51,8 +51,8 @@ const Feedback = props => {
             )}
           </div>
           <p className={classes.Title1}>Leave a message about your experience (optional).</p>
-          <textarea value={msg} onChange={e => setMsg(e.target.value)} />
-          <BlueBtn clicked={submitHandler}>Send Feedback</BlueBtn>
+          <textarea value={msg} onChange={e => { setMsg(e.target.value); setErr(false); }} />
+          <div className={classes.FeedbackSubmitBtn}><BlueBtn clicked={submitHandler}>Send Feedback</BlueBtn></div>
           <div className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</div>
         </div>
       </div>

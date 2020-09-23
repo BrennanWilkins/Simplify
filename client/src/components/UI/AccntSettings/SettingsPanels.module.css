@@ -110,3 +110,6 @@
   width: 90%;
   height: 100px;
 }
+.FeedbackSubmitBtn button {
+  margin: 0;
+}

@@ -8,6 +8,9 @@
   bottom: 2px;
   width: 30px;
 }
+.Dark {
+  background: var(--chartBack);
+}
 .Block::after {
   content: " ";
   position: absolute;
@@ -19,12 +22,14 @@
 }
 .StockBlock1 {
   bottom: 172px;
+  background: white;
 }
 .StockBlock1::after, .StockBlock2::after {
   width: 59px;
 }
 .StockBlock2 {
   bottom: 72px;
+  background: white;
 }
 .StockChart {
   background: white;

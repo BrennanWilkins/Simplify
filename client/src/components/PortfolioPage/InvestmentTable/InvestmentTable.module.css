@@ -34,9 +34,10 @@
   border-collapse: collapse;
   box-shadow: var(--box-shadow2);
   width: 545px;
+  background: var(--tableBack);
 }
 .Table td, .NormalTable td {
-  border: 1px solid rgb(var(--blue));
+  border: 1.2px solid rgb(var(--blue), 0.6);
   background: rgba(var(--blue), 0.04);
   padding: 8px 2px;
   box-sizing: border-box;
@@ -46,20 +47,21 @@
 }
 .NormalTable td {
   max-width: 100px;
+  color: var(--tableTDColor);
 }
 .Value {
-  color: rgb(var(--green));
+  color: rgb(var(--green)) !important;
   font-weight: bold;
 }
 .ChartBtn {
   width: 45px;
   font-size: 26px;
-  color: rgb(var(--dark-blue4));
+  color: var(--tableChartBtn) !important;
   transition: 300ms;
   cursor: pointer;
 }
 .ChartBtn:hover {
-  color: rgb(var(--blue));
+  color: rgb(var(--blue)) !important;
   background: rgba(var(--blue), 0.1);
 }
 .HeaderFields {
@@ -69,10 +71,16 @@
 .HeaderFields th {
   padding: 10px 0;
 }
+.NormalTable th {
+  color: var(--tableTHColor);
+}
 .Symbol {
   font-weight: bold;
   position: relative;
-  color: rgb(var(--dark-blue2));
+  color: rgb(var(--dark-blue));
+}
+.NormalTable .Symbol {
+  color: var(--tableSymbol) !important;
 }
 .Symbol img {
   position: absolute;

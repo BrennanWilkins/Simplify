@@ -22,6 +22,7 @@ export const logout = () => dispatch => {
   localStorage.removeItem('token');
   localStorage.removeItem('expirationDate');
   localStorage.removeItem('expirationTime');
+  localStorage.removeItem('darkMode');
   clearTimeout(expirationTimeout);
   dispatch(logoutDispatch());
   dispatch(actions.resetPortfolio());
@@ -29,6 +30,7 @@ export const logout = () => dispatch => {
   dispatch(actions.resetGoals());
   dispatch(actions.deleteBudget());
   dispatch(endLoading());
+  dispatch(actions.resetDarkMode());
 };
 
 export const startLoading = () => ({ type: actionTypes.START_LOADING });
@@ -48,6 +50,7 @@ export const autoLogin = () => dispatch => {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('expirationTime');
+    localStorage.removeItem('darkMode');
     return;
   }
   dispatch(startLoading());
@@ -68,6 +71,7 @@ export const autoLogin = () => dispatch => {
       dispatch(endLoading());
       dispatch(removeError());
       dispatch(login());
+      if (localStorage['darkMode'] === 'true') { dispatch(actions.toggleDarkMode()); }
     }).catch(err => {
       dispatch(logout());
       dispatch(endLoading());
@@ -86,6 +90,7 @@ export const loadDemo = () => dispatch => {
   localStorage.removeItem('token');
   localStorage.removeItem('expirationDate');
   localStorage.removeItem('expirationTime');
+  localStorage.removeItem('darkMode');
   dispatch(startLoading());
   const demoData = getDemoData();
   instance.post('/auth/demoLogin', { portfolio: demoData.portfolio }).then(res => {

@@ -9,9 +9,9 @@
   left: calc(50% - 295px);
   transition: 300ms ease-out;
   overflow: auto;
-  background: rgb(var(--dark-blue5));
   color: white;
   height: 555px;
+  background: var(--premiumBack);
 }
 .Hide {
   opacity: 0;

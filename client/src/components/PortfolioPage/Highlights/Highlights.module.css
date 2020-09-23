@@ -4,7 +4,7 @@
   margin: 0 10px;
 }
 .Title {
-  color: rgb(var(--dark-blue2));
+  color: var(--titleColor);
   border-bottom: 1.5px solid rgba(var(--dark-blue), 0.2);
   width: 85%;
   padding: 0 0 15px;
@@ -18,6 +18,7 @@
   position: relative;
   height: 380px;
   padding: 0 0 10px;
+  background: var(--highlightBack);
 }
 .InfoContent {
   width: 100%;
@@ -42,11 +43,11 @@
   border-bottom: 1.5px solid rgba(var(--dark-blue), 0.2);
   width: 90%;
   margin: 5px auto;
-  background: rgba(var(--blue), 0.2);
   border-radius: 3px;
   padding: 5px 12px;
   box-sizing: border-box;
   word-wrap: break-word;
+  background: var(--highlightInfoBack);
 }
 .Green {
   color: green;
@@ -84,13 +85,13 @@
   width: 90%;
   left: 5%;
   color: rgb(var(--dark-blue3));
-  background: rgb(var(--dark-blue), 0.1);
   padding: 5px 0;
   transition: 350ms ease-out;
   border-radius: 3px;
+  background: var(--newsLink);
 }
 .NewsLink:hover {
-  background: rgb(var(--dark-blue), 0.6);
+  background: var(--newsLinkHover);
 }
 .NewsLink svg {
   font-size: 25px;

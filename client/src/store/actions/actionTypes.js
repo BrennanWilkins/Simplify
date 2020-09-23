@@ -37,3 +37,6 @@ export const DELETE_BUDGET = 'DELETE_BUDGET';
 
 export const SET_NOTIFS = 'SET_NOTIFS';
 export const DELETE_NOTIF = 'DELETE_NOTIF';
+
+export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE';
+export const RESET_DARK_MODE = 'RESET_DARK_MODE';

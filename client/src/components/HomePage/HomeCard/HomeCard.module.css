@@ -16,6 +16,7 @@
   cursor: pointer;
   animation: scaleUp 300ms forwards;
   overflow: hidden;
+  background: white;
 }
 @keyframes scaleUp {
   from {

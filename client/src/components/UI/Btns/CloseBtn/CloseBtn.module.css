@@ -16,6 +16,7 @@
   border: 0;
   border-radius: 3px;
   cursor: pointer;
+  outline: none;
 }
 .CloseBtn:hover {
   background: rgb(var(--dark-blue2));
