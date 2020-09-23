@@ -1,4 +1,4 @@
-.Container {
+.Container, .FeedbackContainer {
   position: fixed;
   left: calc(50% - 175px);
   border-radius: 3px;
@@ -13,16 +13,16 @@
   height: calc(98% - 80px);
   overflow: auto;
 }
-.Container::-webkit-scrollbar-track {
+.Container::-webkit-scrollbar-track, .FeedbackContainer::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: #f3f3f3;
 }
-.Container::-webkit-scrollbar {
+.Container::-webkit-scrollbar, .FeedbackContainer::-webkit-scrollbar {
   width: 10px;
   height: 10px;
   background-color: white;
 }
-.Container::-webkit-scrollbar-thumb {
+.Container::-webkit-scrollbar-thumb, .FeedbackContainer::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #dbdbdb;
 }
@@ -30,6 +30,15 @@
   .Container {
     left: 5%;
   }
+}
+@media (max-width: 410px) {
+  .FeedbackContainer {
+    left: 5%;
+  }
+}
+.FeedbackContainer {
+  max-width: 370px;
+  max-height: 400px;
 }
 .Hide {
   opacity: 0;
@@ -44,6 +53,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.FeedbackContent {
+  min-width: 300px;
 }
 .Content input {
   margin-bottom: 15px;
@@ -70,4 +82,31 @@
 }
 .Btn button:hover {
   background: rgb(255, 0, 0);
+}
+.FeedbackBtns {
+  width: 100%;
+  max-width: 325px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.FeedbackBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 25px;
+  color: white;
+  background: rgb(var(--dark-blue), 0.9);
+  transition: 200ms;
+  text-align: center;
+  line-height: 28px;
+  cursor: pointer;
+}
+.FeedbackBtn:hover {
+  background: rgb(var(--dark-blue4));
+}
+.Content textarea {
+  margin-bottom: 15px;
+  resize: none;
+  width: 90%;
+  height: 100px;
 }

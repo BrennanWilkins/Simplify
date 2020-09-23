@@ -17,6 +17,7 @@ const TempUser = require('../models/tempUser');
 const { v4: uuid } = require('uuid');
 const nodemailer = require('nodemailer');
 const Stocks = require('../models/stocks');
+const Feedback = require('../models/feedback');
 
 const updateCryptos = async () => {
   console.log('Updating cryptos...');
@@ -249,6 +250,19 @@ router.post('/changePassword', auth,
       await user.save();
       res.sendStatus(200);
     } catch(e) { res.status(500).json({ msg: 'There was an error connecting to the server.' }); }
+});
+
+router.post('/feedback', auth,
+  [body('msg').trim().escape(),
+  body('rating').isNumeric()],
+  async (req, res) => {
+    try {
+      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      // save feedback in DB w reference to userId
+      const feedback = new Feedback({ userId: req.userId, rating: req.body.rating, msg: req.body.msg });
+      await feedback.save();
+      res.sendStatus(200);
+    } catch(e) { res.sendStatus(500); }
 });
 
 module.exports = router;

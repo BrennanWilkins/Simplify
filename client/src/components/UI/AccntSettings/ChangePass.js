@@ -32,8 +32,8 @@ const ChangePass = props => {
       setErr(true);
       if (err.response) { setErrMsg(err.response.data.msg); }
       else { setErrMsg('There was an error connecting to the server.'); }
-    })
-  }
+    });
+  };
 
   return (
     <PanelContainer show={props.show} close={closeHandler}>
