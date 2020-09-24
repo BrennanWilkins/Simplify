@@ -17,6 +17,9 @@
 .Input:hover, .DateInput:hover {
   box-shadow: 0 0 2px 0 rgba(var(--blue), 0.9);
 }
+.Dark {
+  background: rgb(var(--light-blue3));
+}
 .SearchInput {
   display: flex;
   justify-content: center;

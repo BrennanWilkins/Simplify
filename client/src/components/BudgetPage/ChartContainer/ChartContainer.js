@@ -18,7 +18,7 @@ const ChartContainer = props => {
     <div className={props.show ? classes.Charts : classes.HideCharts}>
       <div className={classes.Chart}><BudgetChart key={showChart} /></div>
       <div className={classes.Chart}><CategChart key={showChart} /></div>
-      <div className={classes.Btn}>
+      <div className={props.darkMode ? `${classes.Btn} ${classes.DarkBtn}` : classes.Btn}>
         <button onClick={props.change}>
           {props.show ? 'Hide Charts' : 'Show Charts'}
           <span className={props.show ? classes.CaretDown : classes.CaretRight}>{caretIcon}</span>

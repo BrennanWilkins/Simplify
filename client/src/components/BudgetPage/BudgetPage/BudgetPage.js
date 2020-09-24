@@ -92,12 +92,12 @@ const BudgetPage = props => {
   };
 
   return (
-    <div className={classes.Container}>
+    <div className={props.darkMode ? `${classes.Container} ${classes.Dark}` : classes.Container}>
       <div className={classes.Content}>
         <h1 className={classes.Title}>Budgeting</h1>
         {props.budget.length ? (
           <React.Fragment>
-            <ChartContainer show={showCharts} change={() => setShowCharts(prev => !prev)} />
+            <ChartContainer show={showCharts} change={() => setShowCharts(prev => !prev)} darkMode={props.darkMode} />
             <div className={classes.Budget}>
               <h1 className={classes.TotalBudget}>Total monthly budget: ${formatNum(totBudget)}</h1>
               <div className={classes.Options}>
@@ -109,7 +109,7 @@ const BudgetPage = props => {
               {props.budget.map((budget, i) => {
                 return (
                   <div className={classes.BudgetDiv} key={i}>
-                    <BudgetBars budget={budget} />
+                    <BudgetBars budget={budget} darkMode={props.darkMode} />
                     <div className={classes.Btns}>
                       <button className={classes.ShowBtn} onClick={() => showTransHandler(budget.category)}>
                         Transactions<span className={showCategs.includes(budget.category) ? classes.CaretDown : classes.CaretRight}>{caretIcon}</span>
@@ -125,7 +125,7 @@ const BudgetPage = props => {
                         </div>
                       ))}
                     </div>
-                    <AddTrans show={addTransCateg === budget.category} transDesc={transDesc} close={() => setAddTransCateg('')}
+                    <AddTrans show={addTransCateg === budget.category} transDesc={transDesc} close={() => setAddTransCateg('')} darkMode={props.darkMode}
                       transCost={transCost} confirm={confirmAddTransHandler} changeDesc={val => setTransDesc(val)} changeCost={val => setTransCost(val)} />
                   </div>
                 );
@@ -147,7 +147,8 @@ const BudgetPage = props => {
 
 const mapStateToProps = state => ({
   budget: state.budget.budget,
-  isDemo: state.auth.isDemo
+  isDemo: state.auth.isDemo,
+  darkMode: state.theme.darkMode
 });
 
 const mapDispatchToProps = dispatch => ({

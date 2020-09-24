@@ -8,7 +8,7 @@ export const Input = React.forwardRef((props, ref) => (
     spellCheck="false"
     value={props.val}
     onChange={e => props.change(e.target.value)}
-    className={classes.Input}
+    className={props.dark ? `${classes.Input} ${classes.Dark}` : classes.Input}
     placeholder={props.ph}
     tabIndex={props.noTab ? -1 : 0} />
 ));
@@ -41,7 +41,7 @@ export const NumInput = React.forwardRef((props, ref) => {
       spellCheck="false"
       value={props.val}
       onChange={changeHandler}
-      className={classes.Input}
+      className={props.dark ? `${classes.Input} ${classes.Dark}` : classes.Input}
       placeholder={props.ph}
       tabIndex={props.noTab ? -1 : 0} />
   );

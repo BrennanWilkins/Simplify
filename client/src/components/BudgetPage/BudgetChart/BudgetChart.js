@@ -19,18 +19,28 @@ const BudgetChart = props => {
     dataPoints.push({ name: 'Remaining Budget', y: Number(totBudget - totSpent).toFixed(2), color: 'rgb(26, 171, 152)' });
   }
 
-  const options = { animationEnabled: true, data: [{ type: "doughnut", dataPoints, toolTipContent: "{name}: ${y}" }] };
+  const options = {
+    animationEnabled: true,
+    exportEnabled: false,
+    backgroundColor: props.darkMode ? 'rgb(32, 84, 109)' : 'white',
+    data: [{
+      type: "doughnut",
+      dataPoints,
+      toolTipContent: "{name}: ${y}"
+    }]
+  };
 
   return (
     <div className={classes.ChartContainer}>
-      <Chart options={options} />
+      <Chart options={options} darkMode={props.darkMode} />
       <h1>You've reached {percReached}% of your budget this month</h1>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  budget: state.budget.budget
+  budget: state.budget.budget,
+  darkMode: state.theme.darkMode
 });
 
 export default connect(mapStateToProps)(BudgetChart);

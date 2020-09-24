@@ -14,8 +14,8 @@ const AddTrans = props => {
   return (
     <PanelContainer close={props.close} show={props.show}>
       <div className={props.show ? classes.ShowAddTrans : classes.HideAddTrans}>
-        <Input val={props.transDesc} change={props.changeDesc} ph="Transaction Description" ref={descRef} />
-        <div className={classes.CostInput}><NumInput val={props.transCost} change={props.changeCost} ph="Cost" /></div>
+        <Input val={props.transDesc} change={props.changeDesc} ph="Transaction Description" ref={descRef} dark={props.darkMode} />
+        <div className={classes.CostInput}><NumInput val={props.transCost} change={props.changeCost} ph="Cost" dark={props.darkMode} /></div>
         <div className={classes.ConfirmBtn}><BlueBtn big clicked={props.confirm}>Add</BlueBtn></div>
       </div>
     </PanelContainer>

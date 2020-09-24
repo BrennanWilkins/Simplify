@@ -19,6 +19,8 @@ const CategChart = props => {
 
   const options = {
     animationEnabled: true,
+    exportEnabled: false,
+    backgroundColor: props.darkMode ? 'rgb(32, 84, 109)' : 'white',
     data: [{
       type: "pie",
 			toolTipContent: "{label}: {y}% (${val})",
@@ -31,13 +33,14 @@ const CategChart = props => {
 
   return (
     <div className={classes.ChartContainer}>
-      <Chart options={options} />
+      <Chart options={options} darkMode={props.darkMode} />
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  budget: state.budget.budget
+  budget: state.budget.budget,
+  darkMode: state.theme.darkMode
 });
 
 export default connect(mapStateToProps)(CategChart);

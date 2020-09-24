@@ -6,15 +6,18 @@
 .Category, .SmallCategory {
   width: 200px;
   word-wrap: break-word;
-  color: rgb(var(--blue));
   font-weight: bold;
   font-size: 18px;
   margin: 0;
+  color: rgb(var(--dark-blue));
 }
 .SmallCategory {
   width: 85px;
   font-size: 12px;
   padding-right: 5px;
+}
+.Dark .Category {
+  color: rgb(var(--light-blue2));
 }
 .Oval, .SmallOval {
   border-radius: 20px;
@@ -47,6 +50,9 @@
   justify-content: flex-end;
   height: 29px;
 }
+.Dark .ShowRight {
+  color: rgb(var(--light-blue2));
+}
 .SmallOverlaySpan, .SmallShowRight {
   width: 60px;
   margin: 0 5px;
@@ -69,6 +75,9 @@
   margin-left: 12px;
   padding: 0 5px;
   box-sizing: border-box;
+}
+.Dark .BudgetVal {
+  color: rgb(var(--light-blue2));
 }
 .SmallBudgetVal {
   width: 75px;
