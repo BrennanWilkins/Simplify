@@ -58,6 +58,7 @@ const getDemoData = () => {
       { name: 'Bitcoin', symbol: 'BTC', quantity: 1.05, identifier: 'Normal' },
       { name: 'Ethereum', symbol: 'ETH', quantity: 5.50, identifier: 'Normal' },
       { name: 'Litecoin', symbol: 'LTC', quantity: 4.33, identifier: 'Normal' },
+      { name: 'Monero', symbol: 'XMR', quantity: 0.55, identifier: 'Normal' },
     ],
     stocks: [
       { name: 'Invesco QQQ Trust, Series 1', symbol: 'QQQ', quantity: 6, identifier: 'Normal' },
