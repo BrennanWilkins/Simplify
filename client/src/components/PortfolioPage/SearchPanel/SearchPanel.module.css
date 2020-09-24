@@ -24,13 +24,13 @@
   opacity: 0;
   top: -70px;
   transform: scale(0);
-  left: -60px;
+  left: -80px;
 }
 .CryptoPanelHide {
   opacity: 0;
   top: -70px;
   transform: scale(0);
-  left: 25px;
+  left: 5px;
 }
 .BtnDiv {
   width: 100%;
