@@ -18,7 +18,10 @@
   position: relative;
   height: 380px;
   padding: 0 0 10px;
-  background: var(--highlightBack);
+  background: white;
+}
+.Dark {
+  background: rgb(var(--dark-blue5));
 }
 .InfoContent {
   width: 100%;
@@ -47,7 +50,10 @@
   padding: 5px 12px;
   box-sizing: border-box;
   word-wrap: break-word;
-  background: var(--highlightInfoBack);
+  background: rgba(var(--blue), 0.2);
+}
+.Dark .Info {
+  background: rgb(var(--light-blue2));
 }
 .Green {
   color: green;
@@ -88,10 +94,16 @@
   padding: 5px 0;
   transition: 350ms ease-out;
   border-radius: 3px;
-  background: var(--newsLink);
+  background: rgba(var(--dark-blue), 0.1);
 }
 .NewsLink:hover {
-  background: var(--newsLinkHover);
+  background: rgba(var(--dark-blue), 0.3);
+}
+.Dark .NewsLink {
+  background: rgba(var(--light-blue), 0.9);
+}
+.Dark .NewsLink:hover {
+  background: rgba(var(--light-blue3), 0.7);
 }
 .NewsLink svg {
   font-size: 25px;

@@ -38,7 +38,7 @@ const Highlights = props => {
   return (
     <div className={classes.Container}>
       <h1 className={classes.Title}>Today's Highlights</h1>
-      <div className={classes.InfoContainer}>
+      <div className={props.darkMode ? `${classes.InfoContainer} ${classes.Dark}` : classes.InfoContainer}>
         <div className={classes.InfoContent}>
           <div className={classes.Info}>{
             NWchange === 0 ? <span>Your net worth has not changed since the last time you logged in.</span> :
@@ -85,7 +85,8 @@ const mapStateToProps = state => ({
   highestStock: state.portfolio.highlightData.highestStock,
   lowestStock: state.portfolio.highlightData.lowestStock,
   highestCrypto: state.portfolio.highlightData.highestCrypto,
-  lowestCrypto: state.portfolio.highlightData.lowestCrypto
+  lowestCrypto: state.portfolio.highlightData.lowestCrypto,
+  darkMode: state.theme.darkMode
 });
 
 const mapDispatchToProps = dispatch => ({

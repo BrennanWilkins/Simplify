@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import btcIcon from '../../../assets/btcIcon.png';
 import ethIcon from '../../../assets/ethIcon.png';
 import ltcIcon from '../../../assets/ltcIcon.png';
+import xmrIcon from '../../../assets/xmrIcon.png';
 import { caretIcon, caretNeutralIcon, stockChartIcon } from '../../UI/UIIcons';
 
 const InvestmentTable = props => {
@@ -85,7 +86,7 @@ const InvestmentTable = props => {
 
   return (
     <div className={props.normal ? null : (props.mode === 'Stocks' || props.mode === 'Cryptos' ? classes.TableContainer : classes.AssetTableContainer)}>
-      <table className={props.normal ? classes.NormalTable : classes.Table}>
+      <table className={props.normal ? (props.darkMode ? `${classes.NormalTable} ${classes.DarkTable}` : classes.NormalTable) : classes.Table}>
         <thead>
           <tr className={classes.HeaderFields}>
             <th>{props.mode === 'Stocks' ? 'Ticker' : props.mode === 'Cryptos' ? 'Symbol' : 'Category'}
@@ -135,6 +136,7 @@ const InvestmentTable = props => {
                   {crypto.symbol === 'BTC' ? <img src={btcIcon} alt="BTC"></img> :
                   crypto.symbol === 'ETH' ? <img src={ethIcon} alt="ETH"></img> :
                   crypto.symbol === 'LTC' ? <img src={ltcIcon} alt="LTC"></img> :
+                  crypto.symbol === 'XMR' ? <img src={xmrIcon} alt="XMR"></img> :
                   crypto.symbol}
                 </td>
                 <td>{crypto.name}</td>
@@ -172,7 +174,8 @@ const mapStateToProps = state => ({
   stocks: state.portfolio.stocks,
   cryptos: state.portfolio.cryptos,
   assets: state.portfolio.otherAssets,
-  debts: state.portfolio.liabilities
+  debts: state.portfolio.liabilities,
+  darkMode: state.theme.darkMode
 });
 
 export default connect(mapStateToProps)(InvestmentTable);

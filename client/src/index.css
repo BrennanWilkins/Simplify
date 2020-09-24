@@ -13,16 +13,7 @@ body {
   --bodyBack: white;
   --navBarBack: rgb(var(--dark-blue3));
   --titleColor: rgb(var(--dark-blue2));
-  --tableBack: white;
-  --tableTDColor: black;
-  --tableSymbol: rgb(var(--dark-blue2));
-  --tableChartBtn: rgb(var(--dark-blue4));
-  --tableTHColor: rgb(var(--dark-blue));
   --chartBack: white;
-  --highlightBack: white;
-  --highlightInfoBack: rgba(var(--blue), 0.2);
-  --newsLink: rgba(var(--dark-blue), 0.1);
-  --newsLinkHover: rgba(var(--dark-blue), 0.6);
   --premiumBack: rgb(53, 89, 119);
   /* general color rgb codes */
   --blue: 18, 152, 189;
