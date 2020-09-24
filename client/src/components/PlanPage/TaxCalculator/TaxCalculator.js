@@ -55,12 +55,12 @@ const TaxCalculator = props => {
 
   return (
     <Container show={props.show} currMode="Tax">
-      <div className={classes.Boxes}>
+      <div className={props.darkMode ? `${classes.Boxes} ${classes.DarkBoxes}` : classes.Boxes}>
         <div className={classes.InputBox}>
           <div className={classes.Row}>
             <div className={classes.Field}>
               <p>Annual Income</p>
-              <NumInput val={taxVals.income} change={val => setTaxVals({ ...taxVals, income: val })} />
+              <NumInput val={taxVals.income} change={val => setTaxVals({ ...taxVals, income: val })} dark={props.darkMode} />
             </div>
             <div className={classes.Field}>
               <p>Filing Status</p>
@@ -76,11 +76,11 @@ const TaxCalculator = props => {
           <div className={classes.Row}>
             <div className={classes.Field}>
               <p>Purchase price</p>
-              <NumInput val={taxVals.purchasePrice} change={val => setTaxVals({ ...taxVals, purchasePrice: val })} />
+              <NumInput val={taxVals.purchasePrice} change={val => setTaxVals({ ...taxVals, purchasePrice: val })} dark={props.darkMode} />
             </div>
             <div className={classes.Field}>
               <p>Sale price</p>
-              <NumInput val={taxVals.salePrice} change={val => setTaxVals({ ...taxVals, salePrice: val })} />
+              <NumInput val={taxVals.salePrice} change={val => setTaxVals({ ...taxVals, salePrice: val })} dark={props.darkMode} />
             </div>
           </div>
           <div className={classes.Row}>

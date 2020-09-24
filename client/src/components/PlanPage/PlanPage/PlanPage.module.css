@@ -9,10 +9,16 @@
   min-width: 500px;
 }
 .Chart {
-  width: 80%;
+  width: 85%;
   transition: all 250ms;
   position: relative;
   margin: 0 auto 30px;
+}
+.DarkChart {
+  padding: 3px 5px 0 5px;
+  border-radius: 3px;
+  background: rgb(var(--dark-blue5));
+  margin-bottom: 40px;
 }
 .Hide {
   display: none;
@@ -39,6 +45,9 @@
   color: rgb(var(--dark-blue));
   font-weight: 500;
 }
+.DarkInputs .InputField {
+  color: rgba(var(--blue), 0.9);
+}
 .Btns {
   display: flex;
   justify-content: center;
@@ -58,11 +67,22 @@
 .Title2 {
   color: rgb(var(--dark-blue));
 }
+.DarkChart .Title2 {
+  color: rgb(var(--light-blue3));
+}
 .SubTitle {
   position: absolute;
   width: 100%;
   text-align: center;
   bottom: -30px;
+  left: 0;
+}
+.DarkChart .SubTitle {
+  background: rgb(var(--dark-blue5));
+  border-radius: 3px;
+  padding-bottom: 10px;
+  bottom: -40px;
+  color: white;
 }
 .SelectBar {
   width: 100%;

@@ -11,10 +11,16 @@
   margin: 20px 0;
   height: 380px;
 }
+.DarkBoxes .InputBox {
+  background: rgb(var(--dark-blue5));
+}
 .InputBox h3 {
   text-align: center;
   margin: 30px 0 5px;
   color: rgb(var(--dark-blue2));
+}
+.DarkBoxes .InputBox h3 {
+  color: rgb(var(--light-blue3));
 }
 .Row {
   display: flex;
@@ -24,6 +30,9 @@
 }
 .Field p {
   margin: 10px 0;
+}
+.DarkBoxes .Field p {
+  color: rgb(var(--light-blue3));
 }
 .Field input {
   width: 170px;
@@ -61,6 +70,10 @@
   padding: 10px 20px;
   box-sizing: border-box;
 }
+.DarkBoxes .TransBox {
+  background: rgb(24, 37, 48);
+  border: 1.5px solid rgba(var(--dark-blue5), 0.5);
+}
 .Transactions {
   background: white;
   margin: 10px auto;
@@ -75,6 +88,9 @@
   margin: 0;
   color: white;
   text-align: center;
+}
+.DarkBoxes .TransBox h2 {
+  color: rgb(var(--light-blue3));
 }
 .Btns {
   display: flex;
@@ -107,11 +123,12 @@
   background: rgba(var(--blue), 0.2);
 }
 .Table {
-  width: 80%;
+  width: 85%;
   text-align: center;
   border-collapse: collapse;
   margin: 20px auto;
   max-width: 850px;
+  background: white;
 }
 .Table td, .Table th {
   border: 1px solid rgb(var(--blue));

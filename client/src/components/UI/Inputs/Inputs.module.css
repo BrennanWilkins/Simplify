@@ -5,7 +5,7 @@
   outline: none;
   border: 1px solid rgba(var(--blue), 0.6);
   border-radius: 2px;
-  transition: box-shadow 200ms ease-out, border 100ms ease-out;
+  transition: box-shadow 200ms ease-out, border 100ms ease-out, background 200ms ease-out;
 }
 .DateInput {
   padding: 2px 3px;
@@ -18,6 +18,12 @@
   box-shadow: 0 0 2px 0 rgba(var(--blue), 0.9);
 }
 .Dark {
+  background: rgb(var(--light-blue3), 0.85);
+}
+.Dark:hover {
+  background: rgb(var(--light-blue3), 0.95);
+}
+.Dark:focus {
   background: rgb(var(--light-blue3));
 }
 .SearchInput {
