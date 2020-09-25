@@ -155,7 +155,7 @@ const BuySellPanel = props => {
   };
 
   return (
-    <PortPanelContainer show={props.show} close={closeHandler} left={calcLeft()}>
+    <PortPanelContainer show={props.show} close={closeHandler} left={calcLeft()} down={props.down}>
       <p className={classes.Text}>{
         props.mode === 'BuyStock' ? 'Which stock did you buy?' :
         props.mode === 'SellStock' ? 'Which stock did you sell?' :

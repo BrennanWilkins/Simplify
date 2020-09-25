@@ -237,7 +237,7 @@ const AssetPanel = props => {
   };
 
   return (
-    <PortPanelContainer show={props.show} close={closeHandler} left={panelLeft}>
+    <PortPanelContainer show={props.show} close={closeHandler} left={panelLeft} down={props.down}>
       <p className={(props.mode === 'AddAsset' || props.mode === 'AddDebt') ? classes.Text2 : classes.Text}>{titleText}</p>
       {options ?
         <div style={{marginBottom: (props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') ? '0' : '15px'}}>

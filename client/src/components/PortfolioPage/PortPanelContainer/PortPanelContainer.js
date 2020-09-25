@@ -5,7 +5,9 @@ import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 
 const PortPanelContainer = props => (
   <PanelContainer show={props.show} close={props.close}>
-    <div className={props.big ? (props.show ? classes.BigPanel: classes.BigHide) : (props.show ? classes.Panel : classes.Hide)}
+    <div className={props.big ?
+      (props.show ? (props.down ? classes.BigDownPanel : classes.BigPanel) : classes.BigHide) :
+      (props.show ? (props.down ? classes.DownPanel : classes.Panel) : classes.Hide)}
     style={{ left: props.left }}>
       <div style={{width: '100%'}}><CloseBtn close={props.close} /></div>
       {props.children}

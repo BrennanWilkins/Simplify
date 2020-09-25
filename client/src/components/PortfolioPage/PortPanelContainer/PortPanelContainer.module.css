@@ -1,4 +1,4 @@
-.Panel, .Hide, .BigPanel, .BigHide {
+.Panel, .Hide, .BigPanel, .BigHide, .DownPanel, .BigDownPanel {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -14,16 +14,22 @@
   width: 350px;
   height: 300px;
 }
+.DownPanel {
+  top: 60px;
+}
 .Hide, .BigHide {
   opacity: 0;
   visibility: hidden;
   transform: scale(0);
   top: -130px;
 }
-.BigPanel {
+.BigPanel, .BigDownPanel {
   top: -290px;
   width: 400px;
   height: 350px;
+}
+.BigDownPanel {
+  top: 145px;
 }
 .BigHide {
   top: -50px;
@@ -33,11 +39,19 @@
     left: calc(50% - 185px) !important;
     top: -325px;
   }
+  .DownPanel {
+    left: calc(50% - 185px) !important;
+    top: 60px;
+  }
   .Hide {
     left: calc(50% - 185px) !important;
     top: -130px;
   }
   .BigPanel, .BigHide {
     left: calc(50% - 210px) !important;
+  }
+  .BigDownPanel {
+    left: calc(50% - 210px) !important;
+    top: 145px;
   }
 }
