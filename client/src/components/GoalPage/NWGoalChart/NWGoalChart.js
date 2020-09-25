@@ -19,7 +19,7 @@ const NWGoalChart = props => {
     dataPoints.push({ name: 'Remaining', y: props.netWorthGoal - netWorthVal, color: 'rgb(15, 119, 147)' });
   }
 
-  const options = { animationEnabled: true, data: [{ type: "doughnut", dataPoints }] };
+  const options = { data: [{ type: "doughnut", dataPoints }] };
   // chart size changed to fit home page card
   if (props.small) { options.height = 200; options.width = 200; }
   else { options.backgroundColor = 'transparent'; options.height = 330; options.width = 330; }

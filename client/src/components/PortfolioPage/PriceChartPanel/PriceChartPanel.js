@@ -62,8 +62,6 @@ const PriceChartPanel = props => {
   };
 
   const options = {
-    animationEnabled: true,
-    exportEnabled: false,
     theme: 'light2',
     charts: [{
       axisX: {

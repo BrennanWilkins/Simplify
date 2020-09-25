@@ -81,9 +81,7 @@ const PlanPage = props => {
   };
 
   const compoundOptions = {
-    animationEnabled: true,
     theme: props.darkMode ? 'dark2' : 'light2',
-    exportEnabled: false,
     axisY: { valueFormatString: "'$'0" },
     axisX: { valueFormatString: "'Year '0", minimum: 0 },
     toolTip: { content: 'Year {x}: ${y}' },
@@ -99,9 +97,7 @@ const PlanPage = props => {
   };
 
   const retireOptions = {
-    animationEnabled: true,
     theme: props.darkMode ? 'dark2' : 'light2',
-    exportEnabled: false,
     axisY: { valueFormatString: "'$'0" },
     toolTip: { content: 'Age {label}: ${y}' },
     backgroundColor: props.darkMode ? 'rgb(32, 84, 109)' : 'white',

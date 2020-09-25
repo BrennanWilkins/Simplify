@@ -20,8 +20,6 @@ const BudgetChart = props => {
   }
 
   const options = {
-    animationEnabled: true,
-    exportEnabled: false,
     backgroundColor: props.darkMode ? 'rgb(32, 84, 109)' : 'white',
     data: [{
       type: "doughnut",

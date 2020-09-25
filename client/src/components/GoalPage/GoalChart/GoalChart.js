@@ -15,9 +15,7 @@ const GoalChart = props => {
   }, [props.data]);
 
   const options = {
-    animationEnabled: true,
     theme: props.darkMode ? 'dark2' : 'light2',
-    exportEnabled: false,
     axisY: { valueFormatString: "'$'0" },
     axisX: { valueFormatString: 'MM/DD/YY' },
     toolTip: { content: '{x}: ${y}' },

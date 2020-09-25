@@ -11,8 +11,6 @@ const NetWorthChart = props => {
   const netWorthData = props.netWorthData.map(dataPt => ({ x: new Date(dataPt.date), y: Number((dataPt.value).toFixed(2)) }));
 
   const options = {
-    animationEnabled: true,
-    exportEnabled: false,
     theme: props.darkMode && !props.small ? 'dark2' : 'light2',
     axisY: { valueFormatString: "'$'0" },
     axisX: { valueFormatString: 'MM/DD/YY', labelAngle: -20 },
