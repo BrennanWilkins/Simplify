@@ -6,7 +6,7 @@
   box-shadow: var(--box-shadow1);
   z-index: 2;
   padding: 10px;
-  left: calc(50% - 295px);
+  left: calc(50% - 293.5px);
   transition: 300ms ease-out;
   overflow: auto;
   color: white;

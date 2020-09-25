@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classes from './BuySellPanel.module.css';
 import { connect } from 'react-redux';
-import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import * as actions from '../../../store/actions/index';
 import { instance as axios } from '../../../axios';
 import { calcNetWorth } from '../../../utils/valueCalcs';
 import Select from '../../UI/Select/Select';
 import { NumInput } from '../../UI/Inputs/Inputs';
-import PanelContainer from '../../UI/PanelContainer/PanelContainer';
+import PortPanelContainer from '../PortPanelContainer/PortPanelContainer';
 
 const BuySellPanel = props => {
   const [selected, setSelected] = useState({ name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Normal' });
@@ -16,36 +15,8 @@ const BuySellPanel = props => {
   const [selectedVal, setSelectedVal] = useState(0);
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const [panelClass, setPanelClass] = useState(classes.Hide);
-  const [titleText, setTitleText] = useState('');
   const [options, setOptions] = useState([]);
   const inputRef = useRef();
-
-  useEffect(() => {
-    // change panel UI based on mode (buy/sell/stocks/cryptos)
-    switch(props.mode) {
-      case 'BuyStock':
-        if (props.show) { setPanelClass(`${classes.Panel} ${classes.BuyStock}`); }
-        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideBuyStock}`); }
-        setTitleText('Which stock did you buy?');
-        break;
-      case 'SellStock':
-        if (props.show) { setPanelClass(`${classes.Panel} ${classes.SellStock}`); }
-        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideSellStock}`); }
-        setTitleText('Which stock did you sell?');
-        break;
-      case 'BuyCrypto':
-        if (props.show) { setPanelClass(`${classes.Panel} ${classes.BuyCrypto}`); }
-        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideBuyCrypto}`); }
-        setTitleText('Which cryptocurrency did you buy?');
-        break;
-      default:
-        if (props.show) { setPanelClass(`${classes.Panel} ${classes.SellCrypto}`); }
-        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideSellCrypto}`); }
-        setTitleText('Which cryptocurrency did you sell?');
-        break;
-    }
-  }, [props.mode, props.show]);
 
   useEffect(() => {
     // set options based on mode/panel shown
@@ -69,7 +40,6 @@ const BuySellPanel = props => {
     setSelectedVal(0);
     setSelectedName('');
     errHandler(false);
-    setTitleText('');
     setOptions([]);
     props.close();
   };
@@ -175,32 +145,43 @@ const BuySellPanel = props => {
     inputRef.current.focus();
   };
 
+  const calcLeft = () => {
+    switch(props.mode) {
+      case 'BuyStock': return props.show ? '455px' : '92.5px';
+      case 'SellStock': return props.show ? '455px' : '157.5px';
+      case 'BuyCrypto': return props.show ? '-205px' : '187.5px';
+      default: return props.show ? '-205px' : '247.5px';
+    }
+  };
+
   return (
-    <PanelContainer show={props.show} close={closeHandler}>
-      <div className={panelClass}>
-        <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
-        <p className={classes.Text}>{titleText}</p>
-        <Select options={options} change={selectHandler} val={selectedName} />
-        <p className={selectedName === '' ? classes.HideText : classes.Text}>
-          {props.mode === 'BuyStock' ?
-          `How many shares of ${selected.symbol} did you buy?` :
-          props.mode === 'SellStock' ?
-          `How many shares of ${selected.symbol} did you sell?` :
-          props.mode === 'BuyCrypto' ?
-          `How much ${selected.symbol} did you buy?` :
-          `How much ${selected.symbol} did you sell?`}
-        </p>
-        <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
-          <NumInput val={selectedVal} change={setValHandler} ref={inputRef} />
-          {(props.mode === 'SellStock' || props.mode === 'SellCrypto') && (
-            <div className={classes.AllBtn}><BlueBtn clicked={() => setSelectedVal(selected.quantity)}>All</BlueBtn></div>)}
-        </div>
-        <div className={selectedName === '' ? classes.HideConfirmBtn : classes.ConfirmBtn}>
-          <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
-        </div>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+    <PortPanelContainer show={props.show} close={closeHandler} left={calcLeft()}>
+      <p className={classes.Text}>{
+        props.mode === 'BuyStock' ? 'Which stock did you buy?' :
+        props.mode === 'SellStock' ? 'Which stock did you sell?' :
+        props.mode === 'BuyCrypto' ? 'Which cryptocurrency did you buy?' :
+        'Which cryptocurrency did you sell?'
+      }</p>
+      <Select options={options} change={selectHandler} val={selectedName} />
+      <p className={selectedName === '' ? classes.HideText : classes.Text}>
+        {props.mode === 'BuyStock' ?
+        `How many shares of ${selected.symbol} did you buy?` :
+        props.mode === 'SellStock' ?
+        `How many shares of ${selected.symbol} did you sell?` :
+        props.mode === 'BuyCrypto' ?
+        `How much ${selected.symbol} did you buy?` :
+        `How much ${selected.symbol} did you sell?`}
+      </p>
+      <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
+        <NumInput val={selectedVal} change={setValHandler} ref={inputRef} />
+        {(props.mode === 'SellStock' || props.mode === 'SellCrypto') && (
+          <div className={classes.AllBtn}><BlueBtn clicked={() => setSelectedVal(selected.quantity)}>All</BlueBtn></div>)}
       </div>
-    </PanelContainer>
+      <div className={selectedName === '' ? classes.HideConfirmBtn : classes.ConfirmBtn}>
+        <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
+      </div>
+      <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+    </PortPanelContainer>
   );
 };
 

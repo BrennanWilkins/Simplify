@@ -1,39 +1,7 @@
-.StockPanel, .CryptoPanel, .StockPanelHide, .CryptoPanelHide {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+.BackBtn {
   position: absolute;
-  top: -290px;
-  width: 400px;
-  height: 350px;
-  border-radius: 3px;
-  box-shadow: var(--box-shadow1);
-  background: white;
-  z-index: 2;
-  padding: 10px;
-  overflow: hidden;
-  transition: all 400ms;
-}
-.StockPanel {
-  left: 355px;
-}
-.CryptoPanel {
-  left: -230px;
-}
-.StockPanelHide {
-  opacity: 0;
-  top: -70px;
-  transform: scale(0);
-  left: -80px;
-}
-.CryptoPanelHide {
-  opacity: 0;
-  top: -70px;
-  transform: scale(0);
-  left: 5px;
-}
-.BtnDiv {
-  width: 100%;
+  top: 10px;
+  left: 10px;
 }
 .Text {
   text-align: center;
@@ -158,9 +126,4 @@
 .HideErr {
   opacity: 0;
   visibility: hidden;
-}
-@media (max-width: 1150px) {
-  .StockPanel, .CryptoPanel, .StockPanelHide, .CryptoPanelHide {
-    left: calc(50% - 210px);
-  }
 }

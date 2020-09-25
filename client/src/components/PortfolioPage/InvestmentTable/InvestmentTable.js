@@ -94,7 +94,7 @@ const InvestmentTable = props => {
                 {sortMethods[getCorrectField('symbol')] === '' ? caretNeutralIcon : caretIcon}
               </span>}
             </th>
-            <th>{props.mode === 'Stocks' ? 'Company Name' : props.mode === 'Cryptos' ? 'Cryptocurrency' : 'Description'}
+            <th>{props.mode === 'Stocks' ? 'Company Name' : props.mode === 'Cryptos' ? (props.normal ? 'Cryptocurrency' : 'Name') : 'Description'}
               {props.normal && <span onClick={() => sortHandler('name')} className={getClass('name')}>
                 {sortMethods[getCorrectField('name')] === '' ? caretNeutralIcon : caretIcon}
               </span>}

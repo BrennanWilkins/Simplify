@@ -1,59 +1,10 @@
-.Hide {
-  display: none;
-}
-.Panel {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  position: absolute;
-  top: -330px;
-  width: 350px;
-  height: 300px;
-  border-radius: 3px;
-  box-shadow: var(--box-shadow1);
-  background: white;
-  z-index: 2;
-  padding: 10px;
-  overflow: hidden;
-  left: 380px;
-  transition: all 400ms;
-}
-.HidePanel {
-  opacity: 0;
-  top: -130px;
-  transform: scale(0);
-}
-.AddDebt, .RemoveDebt, .SettingsDebt {
-  left: -205.5px;
-}
-.HideAddAsset {
-  left: -30px;
-}
-.HideRemoveAsset {
-  left: 150px;
-}
-.HideAddDebt {
-  left: -5px;
-}
-.HideRemoveDebt {
-  left: 180px;
-}
-.HideSettingsAsset {
-  left: 250px;
-}
-.HideSettingsDebt {
-  left: 300px;
-}
-.BtnDiv {
-  width: 100%;
-}
-.Text {
+.Text, .Text2 {
   text-align: center;
   color: rgb(var(--dark-blue2));
   cursor: default;
   margin-bottom: 20px;
 }
-.AddAsset .Text, .AddDebt .Text {
+.Text2 {
   margin-top: 12px;
   margin-bottom: 5px;
 }
@@ -79,16 +30,14 @@
   margin: 40px 0 0;
 }
 .Confirm, .HideConfirm {
-  margin: 20px 0 0;
+  /* margin: 20px 0 0; */
   transition: all 300ms;
+
+  margin: 5px 0 0;
 }
 .HideConfirm {
   opacity: 0;
   visibility: hidden;
-}
-.AddAsset .Confirm, .AddDebt .Confirm,
-.AddAsset .HideConfirm, .AddDebt .HideConfirm {
-  margin: 5px 0 0;
 }
 .ShowErr, .HideErr {
   opacity: 1;
@@ -100,9 +49,4 @@
 }
 .HideErr {
   opacity: 0;
-}
-@media (max-width: 1150px) {
-  .Panel {
-    left: calc(50% - 185px);
-  }
 }

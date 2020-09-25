@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import classes from './SettingsPanel.module.css';
-import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import * as actions from '../../../store/actions/index';
 import { connect } from 'react-redux';
 import Select from '../../UI/Select/Select';
@@ -8,7 +7,7 @@ import { instance as axios } from '../../../axios';
 import { calcNetWorth } from '../../../utils/valueCalcs';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import { NumInput } from '../../UI/Inputs/Inputs';
-import PanelContainer from '../../UI/PanelContainer/PanelContainer';
+import PortPanelContainer from '../PortPanelContainer/PortPanelContainer';
 
 const SettingsPanel = props => {
   const [selectedName, setSelectedName] = useState('');
@@ -94,26 +93,19 @@ const SettingsPanel = props => {
   };
 
   return (
-    <PanelContainer show={props.show} close={closeHandler}>
-      <div className={isStock ?
-        (props.show ? classes.StockPanel : classes.StockPanelHide) :
-        (props.show ? classes.CryptoPanel : classes.CryptoPanelHide)}>
-        <div className={classes.BtnDiv}>
-          <CloseBtn close={closeHandler} />
-        </div>
-        <p className={classes.Text}>
-          {isStock ?
-          'Change the price of a manually added stock' :
-          'Change the price of a manually added cryptocurrency'}
-        </p>
-        <Select options={options} change={selectHandler} val={selectedName} />
-        <div className={selectedName !== '' ? classes.ShowInput : classes.HideInput}>
-          <NumInput val={priceVal} change={setValHandler} ref={priceRef} />
-          <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
-          <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-        </div>
+    <PortPanelContainer show={props.show} close={closeHandler} left={isStock ? (props.show ? '455px' : '327.5px') : (props.show ? '-205px' : '297.5px')}>
+      <p className={classes.Text}>
+        {isStock ?
+        'Change the price of a manually added stock' :
+        'Change the price of a manually added cryptocurrency'}
+      </p>
+      <Select options={options} change={selectHandler} val={selectedName} />
+      <div className={selectedName !== '' ? classes.ShowInput : classes.HideInput}>
+        <NumInput val={priceVal} change={setValHandler} ref={priceRef} />
+        <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
+        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
       </div>
-    </PanelContainer>
+    </PortPanelContainer>
   );
 };
 

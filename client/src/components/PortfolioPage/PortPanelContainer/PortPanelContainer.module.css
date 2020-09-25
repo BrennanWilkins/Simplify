@@ -1,0 +1,43 @@
+.Panel, .Hide, .BigPanel, .BigHide {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  border-radius: 3px;
+  box-shadow: var(--box-shadow1);
+  background: white;
+  z-index: 2;
+  padding: 10px;
+  overflow: hidden;
+  transition: all 400ms;
+  top: -330px;
+  width: 350px;
+  height: 300px;
+}
+.Hide, .BigHide {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0);
+  top: -130px;
+}
+.BigPanel {
+  top: -290px;
+  width: 400px;
+  height: 350px;
+}
+.BigHide {
+  top: -50px;
+}
+@media (max-width: 1300px) {
+  .Panel {
+    left: calc(50% - 185px) !important;
+    top: -325px;
+  }
+  .Hide {
+    left: calc(50% - 185px) !important;
+    top: -130px;
+  }
+  .BigPanel, .BigHide {
+    left: calc(50% - 210px) !important;
+  }
+}

@@ -33,8 +33,33 @@
 .NormalTable {
   border-collapse: collapse;
   box-shadow: var(--box-shadow2);
-  width: 545px;
   background: white;
+  width: 620px;
+}
+@media (max-width: 1299px) {
+  .NormalTable {
+    width: 850px;
+  }
+}
+@media (max-width: 890px) {
+  .NormalTable {
+    width: 750px;
+  }
+}
+@media (max-width: 800px) {
+  .NormalTable {
+    width: 700px;
+  }
+}
+@media (max-width: 740px) {
+  .NormalTable {
+    width: 620px;
+  }
+}
+@media (max-width: 650px) {
+  .NormalTable {
+    width: 545px;
+  }
 }
 .DarkTable {
   background: rgba(var(--blue), 0.3);
@@ -46,10 +71,9 @@
   box-sizing: border-box;
   text-align: center;
   word-wrap: break-word;
-  max-width: 50px;
 }
 .NormalTable td {
-  max-width: 100px;
+  padding: 8px 4px;
 }
 .DarkTable td {
   color: rgb(var(--light-blue2));

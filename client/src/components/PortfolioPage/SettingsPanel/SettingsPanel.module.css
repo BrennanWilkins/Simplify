@@ -1,48 +1,8 @@
-.StockPanel, .CryptoPanel, .StockPanelHide, .CryptoPanelHide {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  position: absolute;
-  top: -330px;
-  width: 350px;
-  height: 300px;
-  border-radius: 3px;
-  box-shadow: var(--box-shadow1);
-  background: white;
-  z-index: 2;
-  padding: 10px;
-  overflow: hidden;
-  transition: all 400ms;
-}
-.StockPanel {
-  left: 380px;
-}
-.CryptoPanel {
-  left: -205px;
-}
-.StockPanelHide {
-  opacity: 0;
-  top: -130px;
-  transform: scale(0);
-  left: 290px;
-}
-.CryptoPanelHide {
-  opacity: 0;
-  top: -130px;
-  transform: scale(0);
-  left: 260px;
-}
-.BtnDiv {
-  width: 100%;
-}
 .Text {
   text-align: center;
   color: rgb(var(--dark-blue2));
   margin: 20px 0 15px;
 }
-/* .Dropdown {
-  width: 230px;
-} */
 .ShowInput, .HideInput {
   background: white;
   width: 100%;
@@ -72,14 +32,4 @@
 }
 .HideErr {
   opacity: 0;
-}
-@media (max-width: 1150px) {
-  .StockPanel, .CryptoPanel {
-    left: calc(50% - 185px);
-    top: -325px;
-  }
-  .StockPanelHide, .CryptoPanelHide {
-    left: calc(50% - 185px);
-    top: -130px;
-  }
 }

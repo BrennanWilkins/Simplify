@@ -5,14 +5,13 @@ import { connect } from 'react-redux';
 import { instance as axios } from '../../../axios';
 import { calcNetWorth } from '../../../utils/valueCalcs';
 import Select from '../../UI/Select/Select';
-import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import { Input, NumInput } from '../../UI/Inputs/Inputs';
-import PanelContainer from '../../UI/PanelContainer/PanelContainer';
+import PortPanelContainer from '../PortPanelContainer/PortPanelContainer';
 
 const AssetPanel = props => {
   const [titleText, setTitleText] = useState('');
-  const [panelClass, setPanelClass] = useState(classes.Hide);
+  const [panelLeft, setPanelLeft] = useState('455px');
   const [confirmClass, setConfirmClass] = useState(classes.HideConfirm);
   const [options, setOptions] = useState(null);
   const [selectedName, setSelectedName] = useState('');
@@ -30,38 +29,32 @@ const AssetPanel = props => {
     switch(props.mode) {
       case 'AddAsset':
         setTitleText('Add a new asset');
-        if (props.show) { setPanelClass(`${classes.Panel} ${classes.AddAsset}`); }
-        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideAddAsset}`); }
+        props.show ? setPanelLeft('455px') : setPanelLeft('7.5px');
         nameRef.current.focus();
         break;
       case 'RemoveAsset':
         setTitleText('Select an asset to remove it from your portfolio');
-        if (props.show) { setPanelClass(`${classes.Panel} ${classes.RemoveAsset}`); }
-        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideRemoveAsset}`); }
+        props.show ? setPanelLeft('455px') : setPanelLeft('180px');
         setOptions(props.otherAssets.map(asset => ({ value: asset.desc, label: asset.desc })));
         break;
       case 'AddDebt':
         setTitleText('Add a new liability');
-        if (props.show) { setPanelClass(`${classes.Panel} ${classes.AddDebt}`); }
-        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideAddDebt}`); }
+        props.show ? setPanelLeft('-205.5px') : setPanelLeft('32.5px');
         nameRef.current.focus();
         break;
       case 'RemoveDebt':
         setTitleText('Select a liability to remove it from your portfolio');
-        if (props.show) { setPanelClass(`${classes.Panel} ${classes.RemoveDebt}`); }
-        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideRemoveDebt}`); }
+        props.show ? setPanelLeft('-205.5px') : setPanelLeft('215px');
         setOptions(props.liabilities.map(debt => ({ value: debt.desc, label: debt.desc })));
         break;
       case 'SettingsAsset':
         setTitleText('Select an asset to change its value');
-        if (props.show) { setPanelClass(`${classes.Panel} ${classes.SettingsAsset}`); }
-        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideSettingsAsset}`); }
+        props.show ? setPanelLeft('455px') : setPanelLeft('288px');
         setOptions(props.otherAssets.map(asset => ({ value: asset.desc, label: asset.desc })));
         break;
       default:
         setTitleText('Select a liability to change its value');
-        if (props.show) { setPanelClass(`${classes.Panel} ${classes.SettingsDebt}`); }
-        else { setPanelClass(`${classes.Panel} ${classes.HidePanel} ${classes.HideSettingsDebt}`); }
+        props.show ? setPanelLeft('-205.5px') : setPanelLeft('330.5px');
         setOptions(props.liabilities.map(debt => ({ value: debt.desc, label: debt.desc })));
         break;
     }
@@ -244,37 +237,36 @@ const AssetPanel = props => {
   };
 
   return (
-    <PanelContainer show={props.show} close={closeHandler}>
-      <div className={panelClass}>
-        <div className={classes.BtnDiv}><CloseBtn close={closeHandler} /></div>
-        <p className={classes.Text}>{titleText}</p>
-        {options ?
-          <Select options={options} change={selectHandler} val={selectedName} />
-          :
-          <div className={classes.Inputs}>
-            <div>
-              <p>Category</p>
-              <Input val={inputName} change={val => setInputName(val)} ref={nameRef} />
-            </div>
-            <div>
-              <p>Description</p>
-              <Input val={inputDesc} change={val => setInputDesc(val)} />
-            </div>
-            <div>
-              <p>Value</p>
-              <NumInput val={inputValue} change={val => setInputValue(val)} />
-            </div>
+    <PortPanelContainer show={props.show} close={closeHandler} left={panelLeft}>
+      <p className={(props.mode === 'AddAsset' || props.mode === 'AddDebt') ? classes.Text2 : classes.Text}>{titleText}</p>
+      {options ?
+        <div style={{marginBottom: (props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') ? '0' : '15px'}}>
+          <Select options={options} change={selectHandler} val={selectedName} /></div>
+        :
+        <div className={classes.Inputs}>
+          <div>
+            <p>Category</p>
+            <Input val={inputName} change={val => setInputName(val)} ref={nameRef} />
           </div>
-        }
-        {(props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') && selectedName !== '' ?
-          <div className={classes.NewValueInput}>
-            <NumInput val={newValue} change={newValueHandler} ref={valRef} />
+          <div>
+            <p>Description</p>
+            <Input val={inputDesc} change={val => setInputDesc(val)} />
           </div>
-        : null}
-        <div className={confirmClass}><BlueBtn clicked={confirmHandler}>Confirm</BlueBtn></div>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
-      </div>
-    </PanelContainer>
+          <div>
+            <p>Value</p>
+            <NumInput val={inputValue} change={val => setInputValue(val)} />
+          </div>
+        </div>
+      }
+      {(props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') && selectedName !== '' ?
+        <div className={classes.NewValueInput}>
+          <NumInput val={newValue} change={newValueHandler} ref={valRef} />
+        </div>
+      : null}
+      <div className={confirmClass} style={(props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') ? {marginTop: '20px'} : null}>
+        <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn></div>
+      <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+    </PortPanelContainer>
   );
 };
 
