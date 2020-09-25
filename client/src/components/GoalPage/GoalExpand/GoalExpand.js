@@ -31,7 +31,7 @@ const GoalExpand = props => {
       (props.darkMode ? `${classes.Hide} ${classes.Container} ${classes.Dark}` : `${classes.Hide} ${classes.Container}`)}>
       <div className={classes.CloseBtn}><CloseBtn close={props.hardClose} /></div>
       <h2 className={classes.Title}>{props.title}</h2>
-      {showChart && <NWGoalChart />}
+      {showChart && <NWGoalChart darkMode={props.darkMode} />}
       {props.children}
     </div>
   );

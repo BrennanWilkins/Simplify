@@ -26,7 +26,7 @@ const NWGoalChart = props => {
 
   return (
     <div className={props.small ? classes.SmallChartContainer : classes.ChartContainer}>
-      <Chart options={options} lightblue={!props.small} />
+      <Chart options={options} lightblue={!props.small && !props.darkMode} darkMode={props.darkMode} />
       <h1>You've reached {percReached}% of your goal</h1>
     </div>
   );
