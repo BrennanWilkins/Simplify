@@ -35,7 +35,7 @@ const GoalChart = props => {
     <div>
       <div className={classes.Chart}>
         <Chart options={options} blue={props.blue} darkMode={props.darkMode} darkMode2={props.expandDark} />
-        {props.data.length === 0 && <p className={classes.Text}>Add a contribution to see your goal progress here</p>}
+        {props.data.length === 0 && <p className={props.darkMode ? classes.DarkText : classes.Text}>Add a contribution to see your goal progress here</p>}
       </div>
     </div>
   );

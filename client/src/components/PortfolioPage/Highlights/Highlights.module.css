@@ -42,6 +42,15 @@
   border-radius: 10px;
   background-color: #ddd;
 }
+.Dark .InfoContent::-webkit-scrollbar-track {
+  background: rgba(21, 38, 46, 0.3);
+}
+.Dark .InfoContent::-webkit-scrollbar {
+  background: rgba(21, 38, 46, 0.3);
+}
+.Dark .InfoContent::-webkit-scrollbar-thumb {
+  background: rgba(21, 38, 46, 0.6);
+}
 .Info {
   border-bottom: 1.5px solid rgba(var(--dark-blue), 0.2);
   width: 90%;
@@ -68,6 +77,9 @@
   margin: 20px auto 0;
   text-align: center;
   color: rgb(var(--dark-blue3));
+}
+.Dark .NoInfo {
+  color: rgb(var(--light-blue3));
 }
 .Bold {
   font-weight: 500;

@@ -86,7 +86,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 6px 10px 6px 5px;
+  padding: 5.5px 10px 5.5px 5px;
   margin: 0 5px;
 }
 .AddBtn svg {
@@ -100,7 +100,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 7.5px 10px;
+  padding: 7.9px 10px;
   margin: 5px;
 }
 .RemoveBtn svg {

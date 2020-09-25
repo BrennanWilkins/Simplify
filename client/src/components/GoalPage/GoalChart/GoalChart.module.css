@@ -4,9 +4,12 @@
   position: relative;
   z-index: 1;
 }
-.Text {
+.Text, .DarkText {
   color: rgb(var(--dark-blue2));
   position: absolute;
   padding: 0 20px;
   top: 20px;
+}
+.DarkText {
+  color: rgb(var(--light-blue3));
 }
