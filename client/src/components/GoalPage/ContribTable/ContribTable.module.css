@@ -9,6 +9,9 @@
   margin: 0 0 14px;
   display: inline-block;
 }
+.Dark .Title {
+  color: rgb(var(--light-blue3));
+}
 .Title span {
   font-size: 16px;
   display: inline-block;
@@ -36,6 +39,9 @@
   margin: 2px auto;
   background: rgba(var(--blue), 0.2);
   border-radius: 3px;
+}
+.Dark .Contrib {
+  color: rgb(var(--light-blue3));
 }
 .Contrib span {
   word-wrap: break-word;

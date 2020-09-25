@@ -35,3 +35,20 @@
 .CloseBtn {
   padding: 10px;
 }
+.Dark {
+  background: rgb(var(--dark-blue5));
+}
+.Dark::-webkit-scrollbar-track {
+  background: rgba(21, 38, 46, 0.3);
+}
+.Dark::-webkit-scrollbar {
+  width: 12px;
+  background: rgba(21, 38, 46, 0.3);
+}
+.Dark::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(21, 38, 46, 0.6);
+}
+.Dark .Title {
+  color: rgb(var(--light-blue3));
+}

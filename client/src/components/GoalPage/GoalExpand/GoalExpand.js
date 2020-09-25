@@ -26,7 +26,9 @@ const GoalExpand = props => {
   }, [props.show, props.close]);
 
   return (
-    <div ref={panelRef} className={props.show ? classes.Container : `${classes.Hide} ${classes.Container}`}>
+    <div ref={panelRef} className={props.show ?
+      (props.darkMode ? `${classes.Container} ${classes.Dark}`: classes.Container) :
+      (props.darkMode ? `${classes.Hide} ${classes.Container} ${classes.Dark}` : `${classes.Hide} ${classes.Container}`)}>
       <div className={classes.CloseBtn}><CloseBtn close={props.hardClose} /></div>
       <h2 className={classes.Title}>{props.title}</h2>
       {showChart && <NWGoalChart />}

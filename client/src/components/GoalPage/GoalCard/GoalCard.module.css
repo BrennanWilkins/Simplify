@@ -10,6 +10,9 @@
   opacity: 0;
   animation: fadeIn 700ms ease-out forwards;
 }
+.Dark {
+  background: rgba(var(--dark-blue5), 0.4);
+}
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -33,6 +36,9 @@
   margin: 5px 0 0;
   word-wrap: break-word;
 }
+.Dark .Title {
+  color: rgb(var(--light-blue3));
+}
 .Title2 {
   margin: 15px 0 20px;
   font-size: 20px;
@@ -43,10 +49,16 @@
 .Goal {
   color: rgb(var(--dark-blue2));
 }
+.Dark .Goal {
+  color: rgb(var(--light-blue3));
+}
 .DateDiv {
   margin: 20px 0 10px;
   color: rgb(var(--dark-blue));
   font-weight: bold;
+}
+.Dark .DateDiv {
+  color: rgb(var(--light-blue3));
 }
 .Date {
   background: rgba(var(--blue), 0.2);
@@ -105,6 +117,13 @@
   justify-content: center;
   align-items: center;
 }
+.Dark .ShowBtn {
+  color: rgb(var(--light-blue3));
+  background: rgba(var(--dark-blue), 0.4);
+}
+.Dark .ShowBtn:hover {
+  background: rgba(var(--dark-blue), 0.6);
+}
 .ShowBtn:hover {
   background: rgba(var(--dark-blue), 0.2);
 }
@@ -139,6 +158,9 @@
   margin-bottom: 15px;
   color: rgb(var(--dark-blue));
   font-weight: 500;
+}
+.DarkCurrRate {
+  color: rgb(var(--light-blue3));
 }
 .Contribs {
   position: relative;

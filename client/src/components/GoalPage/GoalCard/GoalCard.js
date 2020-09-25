@@ -126,11 +126,11 @@ const GoalCard = props => {
               <span className={classes.PlusIcon}>{plusIcon}</span>Add a contribution
             </GreenBtn>
           </div>
-          {showChart && <GoalChart data={props.contributions} blue={width > 795} />}
+          {showChart && <GoalChart data={props.contributions} blue={width > 795 && !props.darkMode} expandDark={width > 795 && props.darkMode} darkMode={props.darkMode} />}
           <ContribPanel show={showAddContrib} close={() => setShowAddContrib(false)} _id={props._id} isDemo={props.isDemo} />
         </div>}
-      <div className={classes.CurrRate}>{reachDate}</div>
-      {!props.isNW && <ContribTable data={props.contributions} />}
+      <div className={props.darkMode ? `${classes.CurrRate} ${classes.DarkCurrRate}` : classes.CurrRate}>{reachDate}</div>
+      {!props.isNW && <ContribTable data={props.contributions} darkMode={props.darkMode} />}
       <div className={classes.BtnDiv}>
         <div className={classes.Btns}>
           <BlueBtn clicked={() => setShowEdit(true)}>{pencilIcon}Edit goal</BlueBtn>
@@ -150,7 +150,7 @@ const GoalCard = props => {
 
   return (
     <React.Fragment>
-      <div className={classes.Card} style={{ animationDelay: `${150 * props.ind}ms` }}>
+      <div className={props.darkMode ? `${classes.Card} ${classes.Dark}` : classes.Card} style={{ animationDelay: `${150 * props.ind}ms` }}>
         <div className={classes.CheckMark}>{props.isComplete && <span>{checkMarkIcon2}</span>}</div>
         <h2 className={classes.Title}>{props.name}</h2>
         <h2 className={classes.Title2}>
@@ -170,13 +170,15 @@ const GoalCard = props => {
         </div>
         <div className={(showEdit || showDelete || showAddContrib) ? classes.Backdrop : classes.HideBackdrop}></div>
       </div>
-      {width > 795 && <GoalExpand show={showMore} close={showHandler} hardClose={() => setShowMore(false)} isNW={props.isNW} title={props.name}>{moreContent}</GoalExpand>}
+      {width > 795 && <GoalExpand show={showMore} close={showHandler} darkMode={props.darkMode}
+      hardClose={() => setShowMore(false)} isNW={props.isNW} title={props.name}>{moreContent}</GoalExpand>}
     </React.Fragment>
   );
 };
 
 const mapStateToProps = state => ({
-  isDemo: state.auth.isDemo
+  isDemo: state.auth.isDemo,
+  darkMode: state.theme.darkMode
 });
 
 const mapDispatchToProps = dispatch => ({

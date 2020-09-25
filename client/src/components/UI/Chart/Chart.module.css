@@ -8,9 +8,6 @@
   bottom: 2px;
   width: 30px;
 }
-.Dark {
-  background: var(--chartBack);
-}
 .Block::after {
   content: " ";
   position: absolute;

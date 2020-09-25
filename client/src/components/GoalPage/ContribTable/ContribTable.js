@@ -17,7 +17,7 @@ const ContribTable = props => {
   }, [props.data]);
 
   return (
-    <div>
+    <div className={props.darkMode ? classes.Dark : undefined}>
       <div className={classes.Title} onClick={() => setShow(prev => !prev)}>
         <h3>Recent Contributions</h3>
         <span className={show ? classes.CaretDown : undefined}>{caretIcon}</span>

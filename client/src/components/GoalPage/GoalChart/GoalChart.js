@@ -16,7 +16,7 @@ const GoalChart = props => {
 
   const options = {
     animationEnabled: true,
-    theme: 'light2',
+    theme: props.darkMode ? 'dark2' : 'light2',
     exportEnabled: false,
     axisY: { valueFormatString: "'$'0" },
     axisX: { valueFormatString: 'MM/DD/YY' },
@@ -30,13 +30,13 @@ const GoalChart = props => {
       dataPoints
     }],
     height: 300,
-    backgroundColor: props.blue ? 'rgb(224, 244, 249)' : 'transparent'
+    backgroundColor: props.blue ? 'rgb(224, 244, 249)' : props.expandDark ? 'rgb(21, 59, 77)' : props.darkMode ? 'rgb(32, 84, 109)' : 'transparent',
   };
 
   return (
     <div>
       <div className={classes.Chart}>
-        <Chart options={options} blue={props.blue} />
+        <Chart options={options} blue={props.blue} darkMode={props.darkMode} darkMode2={props.expandDark} />
         {props.data.length === 0 && <p className={classes.Text}>Add a contribution to see your goal progress here</p>}
       </div>
     </div>
