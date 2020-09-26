@@ -6,12 +6,12 @@
   height: 340px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
-  background: white;
   z-index: 20;
   padding: 10px;
   transition: 400ms;
   text-align: center;
   margin-bottom: 20px;
+  background: var(--panelBack);
 }
 .HidePanel {
   opacity: 0;

@@ -53,7 +53,7 @@ export const DateInput = React.forwardRef((props, ref) => (
     type="date"
     value={props.val}
     onChange={e => props.change(e.target.value)}
-    className={classes.DateInput}
+    className={props.dark2 ? `${classes.DateInput} ${classes.Dark2}` : classes.DateInput}
     tabIndex={props.noTab ? -1 : 0} />
 ));
 

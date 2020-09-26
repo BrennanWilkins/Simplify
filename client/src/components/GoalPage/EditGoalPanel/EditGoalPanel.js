@@ -86,13 +86,13 @@ const EditGoalPanel = props => {
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : classes.Hide}>
         <CloseBtn close={closeHandler} />
-        <div className={classes.Inputs}>
-          <div>Name<Input val={goalName} change={val => { setGoalName(val); setErr(false); }} ref={nameRef} /></div>
-          <div>Amount<NumInput val={goalVal} change={val => { setGoalVal(val); setErr(false); }} /></div>
-          <div className={classes.DateInput}>Target date<DateInput val={goalDate} change={val => { setGoalDate(val); setErr(false); }} /></div>
+        <div className={classes.Inputs} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
+          <div>Name<Input val={goalName} change={val => { setGoalName(val); setErr(false); }} ref={nameRef} dark2={props.dark} /></div>
+          <div>Amount<NumInput val={goalVal} change={val => { setGoalVal(val); setErr(false); }} dark2={props.dark} /></div>
+          <div className={classes.DateInput}>Target date<DateInput val={goalDate} change={val => { setGoalDate(val); setErr(false); }} dark2={props.dark} /></div>
         </div>
         <div className={classes.BtnDiv}><GreenBtn clicked={editHandler}>Change</GreenBtn></div>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
       </div>
     </PanelContainer>
   );
@@ -100,7 +100,8 @@ const EditGoalPanel = props => {
 
 const mapStateToProps = state => ({
   isDemo: state.auth.isDemo,
-  otherGoals: state.goals.otherGoals
+  otherGoals: state.goals.otherGoals,
+  dark: state.theme.darkMode
 });
 
 const mapDispatchToProps = dispatch => ({

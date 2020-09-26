@@ -5,12 +5,12 @@
   height: 250px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
-  background: white;
   z-index: 2;
   padding: 10px;
   overflow: hidden;
   left: calc(50% - 160px);
   transition: all 400ms;
+  background: var(--panelBack);
 }
 .Hide {
   opacity: 0;

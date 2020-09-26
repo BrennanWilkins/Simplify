@@ -6,12 +6,12 @@
   height: 400px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
-  background: white;
   z-index: 20;
   padding: 10px;
   overflow: hidden;
   transition: 400ms;
   margin-bottom: 20px;
+  background: var(--panelBack);
 }
 .HidePanel {
   opacity: 0;
@@ -91,6 +91,18 @@
 .Examples::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #dbdbdb;
+}
+.DarkExamples::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgb(var(--dark-blue5), 0.3);
+}
+.DarkExamples::-webkit-scrollbar {
+  width: 12px;
+  background-color: rgb(var(--dark-blue5), 0.3);
+}
+.DarkExamples::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(var(--dark-blue5));
 }
 .Examples p {
   margin: 15px 0;

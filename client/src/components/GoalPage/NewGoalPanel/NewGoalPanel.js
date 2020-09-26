@@ -130,12 +130,12 @@ class NewGoalPanel extends React.Component {
     return (
       <div className={this.props.show ? classes.Panel : classes.HidePanel} ref={this.panel}>
         <CloseBtn close={this.closeHandler} />
-        <div className={classes.Content} ref={this.contentRef}>
+        <div className={classes.Content} ref={this.contentRef} style={this.props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
           <div className={classes.Page}>
             <h3>What is the name of your goal?</h3>
-            <Input val={this.state.goalName} change={val => this.setState({ goalName: val })} noTab ref={this.nameInput} />
+            <Input val={this.state.goalName} change={val => this.setState({ goalName: val })} noTab ref={this.nameInput} dark2={this.props.dark} />
             <p className={classes.SubTitle}>Here are some ideas to inspire you</p>
-            <div className={classes.Examples}>
+            <div className={this.props.dark ? `${classes.Examples} ${classes.DarkExamples}` : classes.Examples}>
               <p>Pay off credit card debt</p>
               <p>Create an emergency fund</p>
               <p>Buy a home</p>
@@ -148,11 +148,11 @@ class NewGoalPanel extends React.Component {
           </div>
           <div className={classes.Page}>
             <h3>What amount do you want to save?</h3>
-            <NumInput val={this.state.goalVal} change={val => this.setState({ goalVal: val })} noTab ref={this.valInput} />
+            <NumInput val={this.state.goalVal} change={val => this.setState({ goalVal: val })} noTab ref={this.valInput} dark2={this.props.dark} />
           </div>
           <div className={classes.Page}>
             <h3>When do you want to reach your goal by? (optional)</h3>
-            <DateInput val={this.state.goalDate} change={val => this.setState({ goalDate: val })} noTab />
+            <DateInput val={this.state.goalDate} change={val => this.setState({ goalDate: val })} noTab dark2={this.props.dark} />
           </div>
           <div className={classes.Page}>
             <p className={classes.P1}>It can help to keep the money for your goal in a separate place, like a different bank account.</p>
@@ -173,10 +173,14 @@ class NewGoalPanel extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  dark: state.theme.darkMode
+});
+
 const mapDispatchToProps = dispatch => ({
   addNewGoal: goal => dispatch(actions.addNewGoal(goal)),
   addNotif: msg => dispatch(actions.addNotif(msg)),
   setOtherGoals: goals => dispatch(actions.setOtherGoals(goals))
 });
 
-export default connect(null, mapDispatchToProps)(NewGoalPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(NewGoalPanel);

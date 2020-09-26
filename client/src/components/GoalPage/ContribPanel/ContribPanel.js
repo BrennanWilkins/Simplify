@@ -70,16 +70,20 @@ const ContribPanel = props => {
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : classes.Hide}>
         <CloseBtn close={closeHandler} />
-        <div className={classes.Inputs}>
-          <div>Value <NumInput val={contribVal} change={val => { setErr(false); setContribVal(val); }} ref={valRef} /></div>
-          <div className={classes.DateInput}>Date <DateInput val={contribDate} change={val => { setErr(false); setContribDate(val); }} /></div>
+        <div className={classes.Inputs} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
+          <div>Value <NumInput val={contribVal} change={val => { setErr(false); setContribVal(val); }} ref={valRef} dark2={props.dark} /></div>
+          <div className={classes.DateInput}>Date <DateInput val={contribDate} change={val => { setErr(false); setContribDate(val); }} dark2={props.dark} /></div>
         </div>
         <div className={classes.AddBtn}><GreenBtn clicked={addHandler}>Add</GreenBtn></div>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
       </div>
     </PanelContainer>
   );
 };
+
+const mapStateToProps = state => ({
+  dark: state.theme.darkMode
+});
 
 const mapDispatchToProps = dispatch => ({
   addNotif: msg => dispatch(actions.addNotif(msg)),
@@ -87,4 +91,4 @@ const mapDispatchToProps = dispatch => ({
   setOtherGoals: goals => dispatch(actions.setOtherGoals(goals))
 });
 
-export default connect(null, mapDispatchToProps)(ContribPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(ContribPanel);

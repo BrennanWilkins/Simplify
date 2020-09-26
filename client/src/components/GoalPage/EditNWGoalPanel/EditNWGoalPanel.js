@@ -66,19 +66,20 @@ const EditNWGoalPanel = props => {
       <div className={props.show ? classes.Panel : classes.Hide}>
         <CloseBtn close={closeHandler} />
         <div className={classes.Input}>
-          <NumInput val={inputVal} change={val => { setErr(false); setInputVal(val); }} ref={inputRef} />
+          <NumInput val={inputVal} change={val => { setErr(false); setInputVal(val); }} ref={inputRef} dark2={props.dark} />
         </div>
         <div className={classes.BtnDiv}>
           <GreenBtn clicked={editHandler}>Change</GreenBtn>
         </div>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
       </div>
     </PanelContainer>
   );
 };
 
 const mapStateToProps = state => ({
-  isDemo: state.auth.isDemo
+  isDemo: state.auth.isDemo,
+  dark: state.theme.darkMode
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -54,20 +54,24 @@ const NewNWGoalPanel = props => {
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : classes.HidePanel}>
         <CloseBtn close={closeHandler} />
-        <h2 className={classes.Title}>Create a new net worth goal</h2>
-        <p className={classes.Title2}>This goal will be tracked based on the total value of your portfolio.</p>
+        <h2 className={classes.Title} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>Create a new net worth goal</h2>
+        <p className={classes.Title2} style={props.dark ? {color: 'rgb(var(--light-blue2))'} : null}>This goal will be tracked based on the total value of your portfolio.</p>
         <h2 className={classes.Title3}>${formatNum(goalVal)}</h2>
-        <div className={classes.Input}><NumInput val={goalVal} change={goalValHandler} ref={inputRef} /></div>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        <div className={classes.Input}><NumInput val={goalVal} change={goalValHandler} ref={inputRef} dark2={props.dark} /></div>
+        <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
         <GreenBtn big clicked={createHandler}>Create</GreenBtn>
       </div>
     </PanelContainer>
   );
 };
 
+const mapStateToProps = state => ({
+  dark: state.theme.darkMode
+});
+
 const mapDispatchToProps = dispatch => ({
   addNotif: msg => dispatch(actions.addNotif(msg)),
   setNetWorthGoal: goal => dispatch(actions.setNetWorthGoal(goal))
 });
 
-export default connect(null, mapDispatchToProps)(NewNWGoalPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(NewNWGoalPanel);
