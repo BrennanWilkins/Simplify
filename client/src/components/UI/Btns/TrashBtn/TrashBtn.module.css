@@ -1,4 +1,4 @@
-.Btn {
+.Btn, .DarkBtn {
   color: rgb(var(--dark-blue2));
   border: 0;
   outline: none;
@@ -12,7 +12,15 @@
   justify-content: center;
   align-items: center;
 }
+.DarkBtn {
+  color: rgb(var(--light-blue3));
+  background: rgb(var(--dark-blue), 0.5);
+}
 .Btn:hover {
   background: rgba(0, 0, 0, 0.05);
+  box-shadow: var(--box-shadow8);
+}
+.DarkBtn:hover {
+  background: rgb(var(--dark-blue), 0.1);
   box-shadow: var(--box-shadow8);
 }

@@ -5,12 +5,12 @@
   height: 400px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
-  background: white;
   z-index: 2;
   padding: 10px;
   overflow: hidden;
   transition: all 400ms;
   left: calc(50% - 185px);
+  background: var(--panelBack);
 }
 .PanelDown, .HidePanelDown {
   top: 40px;
@@ -24,6 +24,8 @@
 .Budgets input {
   width: 120px;
   margin: 10px;
+}
+.Budget input {
   background: white;
 }
 .ConfirmBtn button {

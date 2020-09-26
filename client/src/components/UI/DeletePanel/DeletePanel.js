@@ -4,6 +4,7 @@ import CloseBtn from '../Btns/CloseBtn/CloseBtn';
 import { Input } from '../Inputs/Inputs';
 import BlueBtn from '../Btns/BlueBtn/BlueBtn';
 import PanelContainer from '../PanelContainer/PanelContainer';
+import { connect } from 'react-redux';
 
 const DeletePanel = props => {
   const [text, setText] = useState('');
@@ -24,12 +25,16 @@ const DeletePanel = props => {
       <div className={props.mode === 'goal' ? (props.show ? classes.GoalPanel : classes.HideDown) :
         (props.showUp ? (props.show ? classes.PanelUp : classes.HideUp) : (props.show ? classes.PanelDown : classes.HideDown))}>
         <div className={classes.CloseBtn}><CloseBtn close={props.close} /></div>
-        <p className={classes.Title}>Please type 'DELETE' to delete your {props.mode}.</p>
-        <div className={classes.Input}><Input val={text} change={val => setText(val)} ref={inputRef} /></div>
+        <p className={classes.Title} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>Please type 'DELETE' to delete your {props.mode}.</p>
+        <div className={classes.Input}><Input val={text} change={val => setText(val)} ref={inputRef} dark2={props.dark} /></div>
         <div className={classes.DeleteBtn}><BlueBtn clicked={deleteHandler}>Delete</BlueBtn></div>
       </div>
     </PanelContainer>
   );
 };
 
-export default DeletePanel;
+const mapStateToProps = state => ({
+  dark: state.theme.darkMode
+});
+
+export default connect(mapStateToProps)(DeletePanel);

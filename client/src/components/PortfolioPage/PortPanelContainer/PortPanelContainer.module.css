@@ -5,7 +5,6 @@
   position: absolute;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
-  background: white;
   z-index: 2;
   padding: 10px;
   overflow: hidden;

@@ -84,14 +84,14 @@ const BudgetPage = props => {
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : classes.HidePanel}>
         <CloseBtn close={closeHandler} />
-        <div className={classes.InputDiv}>
+        <div className={classes.InputDiv} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
           <div className={classes.Field}>
             <p className={classes.Text}>Category</p>
-            <Input val={categVal} change={categValHandler} />
+            <Input val={categVal} change={categValHandler} dark2={props.dark} />
           </div>
           <div className={classes.Field}>
             <p className={classes.Text}>Monthly budget</p>
-            <NumInput val={budgetVal} change={budgetValHandler} />
+            <NumInput val={budgetVal} change={budgetValHandler} dark2={props.dark} />
           </div>
         </div>
         <div className={classes.AddBtn}>
@@ -99,7 +99,7 @@ const BudgetPage = props => {
         </div>
         <div className={classes.Entries}>
           {budgets.map((budget, i) => (
-            <div key={i}>
+            <div key={i} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
               <span>{budget.category}</span>
               <span>${formatNum(budget.budget)}</span>
             </div>
@@ -108,14 +108,15 @@ const BudgetPage = props => {
         <div className={budgets.length ? classes.CreateBtn : classes.HideCreateBtn}>
           <GreenBtn clicked={createHandler}>Create budget</GreenBtn>
         </div>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
       </div>
     </PanelContainer>
   );
 };
 
 const mapStateToProps = state => ({
-  isDemo: state.auth.isDemo
+  isDemo: state.auth.isDemo,
+  dark: state.theme.darkMode
 });
 
 const mapDispatchToProps = dispatch => ({

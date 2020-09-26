@@ -5,13 +5,13 @@
   height: 190px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
-  background: white;
   z-index: 2;
   padding: 10px;
   overflow: hidden;
   left: calc(50% - 135px);
   transition: 400ms;
   margin-bottom: 20px;
+  background: var(--panelBack);
 }
 .PanelDown {
   top: 50px;

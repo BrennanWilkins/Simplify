@@ -108,16 +108,16 @@ const EditBudgetPanel = props => {
         <div><CloseBtn close={closeHandler} /></div>
         <div className={classes.Budgets}>
           {budgets.map(budget => (
-            <div key={budget.id}>
-              <Input val={budget.category} change={val => categValHandler(val, budget.id)} />
-              <NumInput val={budget.budget} change={val => budgetValHandler(val, budget.id)} />
-              <TrashBtn clicked={() => deleteOneHandler(budget.id)} />
+            <div key={budget.id} className={!props.dark ? classes.Budget : null}>
+              <Input val={budget.category} change={val => categValHandler(val, budget.id)} dark2={props.dark} />
+              <NumInput val={budget.budget} change={val => budgetValHandler(val, budget.id)} dark2={props.dark} />
+              <TrashBtn clicked={() => deleteOneHandler(budget.id)} dark={props.dark} />
             </div>
           ))}
           <div className={classes.AddBtn}><BlueBtn clicked={addHandler}>{plusIcon}Add a new category</BlueBtn></div>
         </div>
         <div className={classes.ConfirmBtn}><GreenBtn big clicked={confirmHandler}>Confirm</GreenBtn></div>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
       </div>
     </PanelContainer>
   );
@@ -125,7 +125,8 @@ const EditBudgetPanel = props => {
 
 const mapStateToProps = state => ({
   budget: state.budget.budget,
-  isDemo: state.auth.isDemo
+  isDemo: state.auth.isDemo,
+  dark: state.theme.darkMode
 });
 
 const mapDispatchToProps = dispatch => ({
