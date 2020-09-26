@@ -39,15 +39,15 @@
   background: rgb(var(--dark-blue5));
 }
 .Dark::-webkit-scrollbar-track {
-  background: rgba(21, 38, 46, 0.3);
+  background: rgba(var(--dark-blue), 0.8);
 }
 .Dark::-webkit-scrollbar {
   width: 12px;
-  background: rgba(21, 38, 46, 0.3);
+  background: rgba(var(--dark-blue), 0.8);
 }
 .Dark::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background: rgba(21, 38, 46, 0.6);
+  background: rgba(var(--dark-blue3), 0.4);
 }
 .Dark .Title {
   color: rgb(var(--light-blue3));

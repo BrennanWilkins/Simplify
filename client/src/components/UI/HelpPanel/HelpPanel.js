@@ -15,7 +15,7 @@ import helpGif10 from '../../../assets/helpGif10.gif';
 import helpGif11 from '../../../assets/helpGif11.gif';
 import helpGif12 from '../../../assets/helpGif12.gif';
 import helpGif13 from '../../../assets/helpGif13.gif';
-
+import { connect } from 'react-redux';
 
 const HelpPanel = props => {
   const [currPage, setCurrPage] = useState(1);
@@ -119,7 +119,7 @@ const HelpPanel = props => {
 
   return (
     <div className={props.show ? classes.Panel : `${classes.HidePanel} ${classes.Panel}`}>
-      <div className={classes.InnerPanel}>
+      <div className={props.dark ? classes.Dark : classes.InnerPanel}>
         <div className={classes.TopDiv}>
           <div className={classes.PageNum}>{currPage}/14</div>
           <CloseBtn close={closeHandler} />
@@ -141,4 +141,6 @@ const HelpPanel = props => {
   );
 };
 
-export default React.memo(HelpPanel);
+const mapStateToProps = state => ({ dark: state.theme.darkMode });
+
+export default React.memo(connect(mapStateToProps)(HelpPanel));
