@@ -17,6 +17,7 @@
   border: 0;
   border-radius: 3px;
   cursor: pointer;
+  outline: none;
 }
 .BackBtn:hover {
   background: rgb(var(--dark-blue2));

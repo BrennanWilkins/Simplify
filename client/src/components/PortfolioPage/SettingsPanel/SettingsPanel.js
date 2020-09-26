@@ -95,16 +95,16 @@ const SettingsPanel = props => {
   return (
     <PortPanelContainer show={props.show} close={closeHandler} down={props.down}
     left={isStock ? (props.show ? '455px' : '327.5px') : (props.show ? '-205px' : '297.5px')}>
-      <p className={classes.Text}>
+      <p className={classes.Text} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
         {isStock ?
         'Change the price of a manually added stock' :
         'Change the price of a manually added cryptocurrency'}
       </p>
       <Select options={options} change={selectHandler} val={selectedName} />
-      <div className={selectedName !== '' ? classes.ShowInput : classes.HideInput}>
-        <NumInput val={priceVal} change={setValHandler} ref={priceRef} />
+      <div className={selectedName !== '' ? classes.ShowInput : classes.HideInput} style={props.dark ? { background: 'var(--panelBack)'} : null}>
+        <NumInput val={priceVal} change={setValHandler} ref={priceRef} dark2={props.dark} />
         <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
       </div>
     </PortPanelContainer>
   );
@@ -115,7 +115,8 @@ const mapStateToProps = state => ({
   stocks: state.portfolio.stocks,
   portfolio: state.portfolio,
   netWorthData: state.netWorth.netWorthData,
-  isDemo: state.auth.isDemo
+  isDemo: state.auth.isDemo,
+  dark: state.theme.darkMode
 });
 
 const mapDispatchToProps = dispatch => ({

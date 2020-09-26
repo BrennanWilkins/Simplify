@@ -8,7 +8,7 @@ export const Input = React.forwardRef((props, ref) => (
     spellCheck="false"
     value={props.val}
     onChange={e => props.change(e.target.value)}
-    className={props.dark ? `${classes.Input} ${classes.Dark}` : classes.Input}
+    className={props.dark ? `${classes.Input} ${classes.Dark}` : props.dark2 ? `${classes.Input} ${classes.Dark2}` : classes.Input}
     placeholder={props.ph}
     tabIndex={props.noTab ? -1 : 0} />
 ));
@@ -21,7 +21,7 @@ export const PassInput = React.forwardRef((props, ref) => (
     value={props.val}
     onChange={e => props.change(e.target.value)}
     placeholder={props.ph}
-    className={classes.Input} />
+    className={props.dark2 ? `${classes.Input} ${classes.Dark2}` : classes.Input} />
 ));
 
 export const NumInput = React.forwardRef((props, ref) => {
@@ -41,7 +41,7 @@ export const NumInput = React.forwardRef((props, ref) => {
       spellCheck="false"
       value={props.val}
       onChange={changeHandler}
-      className={props.dark ? `${classes.Input} ${classes.Dark}` : classes.Input}
+      className={props.dark ? `${classes.Input} ${classes.Dark}` : props.dark2 ? `${classes.Input} ${classes.Dark2}` : classes.Input}
       placeholder={props.ph}
       tabIndex={props.noTab ? -1 : 0} />
   );

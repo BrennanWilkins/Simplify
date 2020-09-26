@@ -30,9 +30,7 @@
   margin: 40px 0 0;
 }
 .Confirm, .HideConfirm {
-  /* margin: 20px 0 0; */
   transition: all 300ms;
-
   margin: 5px 0 0;
 }
 .HideConfirm {

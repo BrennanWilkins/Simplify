@@ -134,16 +134,16 @@ const SearchPanel = props => {
       <div className={classes.BackBtn}>
         <BackBtn back={resetInputsHandler} mode={!showInput && !showManual ? 'Hide' : 'Show'} />
       </div>
-      <p className={classes.Text}>
+      <p className={classes.Text} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
         {isStock ?
         'Search for a stock by entering its ticker or the company name' :
         'Search for a cryptocurrency by entering its symbol or name'}
       </p>
       <div className={classes.SearchInput}>
-        <Input val={query} change={setSearchQuery} ref={inputRef} ph={isStock ? 'AAPL, Apple, ...' : 'BTC, Bitcoin, ...'} />
+        <Input val={query} change={setSearchQuery} ref={inputRef} ph={isStock ? 'AAPL, Apple, ...' : 'BTC, Bitcoin, ...'} dark2={props.dark} />
       </div>
       {loading && <Spinner mode="Search" />}
-      <div className={classes.Results}>
+      <div className={props.dark ? classes.DarkResults : classes.Results}>
         {searchRes.map((stock, i) => (
           <div className={classes.Result} key={i} onClick={() => selectedHandler(stock)}>
             <div className={classes.ResultLeft}>
@@ -167,38 +167,39 @@ const SearchPanel = props => {
           </BlueBtn>
         </div>
       </div>
-      <div className={searchErr ? classes.ShowErr : classes.HideErr}>There was an error connecting to the server.</div>
-      <div className={showInput ? classes.ShowInput : classes.HideInput}>
+      <div className={searchErr ? classes.ShowErr : classes.HideErr}
+      style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>There was an error connecting to the server.</div>
+      <div className={showInput ? classes.ShowInput : classes.HideInput} style={props.dark ? {background: 'var(--panelBack)', color: 'rgb(var(--light-blue3))'} : null}>
         <p className={classes.InputText}>
           {isStock ?
           `How many shares of ${selectedTicker} do you own?` :
           `How much ${selectedTicker} do you own?`}
         </p>
         <div className={classes.AddInput}>
-          <NumInput val={inputValShares} change={val => setInputValShares(val)} ref={sharesRef} />
+          <NumInput val={inputValShares} change={val => setInputValShares(val)} ref={sharesRef} dark2={props.dark} />
         </div>
         <BlueBtn clicked={() => addHandler(false)}>Add</BlueBtn>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
       </div>
-      <div className={showManual ? classes.ShowInput: classes.HideInput}>
+      <div className={showManual ? classes.ShowInput: classes.HideInput} style={props.dark ? {background: 'var(--panelBack)', color: 'rgb(var(--light-blue3))'} : null}>
         <div>
           <p>{isStock ? 'Ticker:' : 'Symbol:'}</p>
-          <Input ph={isStock ? 'eg AAPL' : 'eg BTC'} val={inputValTicker} change={val => { setInputValTicker(val); setErr(false); }} />
+          <Input ph={isStock ? 'eg AAPL' : 'eg BTC'} val={inputValTicker} change={val => { setInputValTicker(val); setErr(false); }} dark2={props.dark} />
         </div>
         <div>
           <p>{isStock ? 'Company name:' : 'Name:'}</p>
-          <Input ph={isStock ? 'eg Apple' : 'eg Bitcoin'} val={inputValName} change={val => { setInputValName(val); setErr(false); }} />
+          <Input ph={isStock ? 'eg Apple' : 'eg Bitcoin'} val={inputValName} change={val => { setInputValName(val); setErr(false); }} dark2={props.dark} />
         </div>
         <div>
           <p>Current price:</p>
-          <NumInput val={inputValPrice} change={val => { setInputValPrice(val); setErr(false); }} />
+          <NumInput val={inputValPrice} change={val => { setInputValPrice(val); setErr(false); }} dark2={props.dark} />
         </div>
         <div>
           <p>{isStock ? 'Number of shares:' : 'Quantity:'}</p>
-          <NumInput val={inputValShares} change={val => { setInputValShares(val); setErr(false); }} />
+          <NumInput val={inputValShares} change={val => { setInputValShares(val); setErr(false); }} dark2={props.dark} />
         </div>
         <BlueBtn clicked={() => addHandler(true)}>Add</BlueBtn>
-        <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+        <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
       </div>
     </PortPanelContainer>
   );
@@ -209,7 +210,8 @@ const mapStateToProps = state => ({
   cryptos: state.portfolio.cryptos,
   portfolio: state.portfolio,
   netWorthData: state.netWorth.netWorthData,
-  isDemo: state.auth.isDemo
+  isDemo: state.auth.isDemo,
+  dark: state.theme.darkMode
 });
 
 const mapDispatchToProps = dispatch => ({

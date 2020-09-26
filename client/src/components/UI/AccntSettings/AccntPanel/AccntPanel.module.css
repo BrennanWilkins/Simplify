@@ -20,6 +20,7 @@
 }
 .Dark input {
   background: rgba(255, 255, 255, 0.15);
+  color: rgb(var(--light-blue));
 }
 .Dark input::placeholder {
   color: white;

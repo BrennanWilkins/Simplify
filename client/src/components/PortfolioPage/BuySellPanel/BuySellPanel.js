@@ -156,14 +156,14 @@ const BuySellPanel = props => {
 
   return (
     <PortPanelContainer show={props.show} close={closeHandler} left={calcLeft()} down={props.down}>
-      <p className={classes.Text}>{
+      <p className={classes.Text} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{
         props.mode === 'BuyStock' ? 'Which stock did you buy?' :
         props.mode === 'SellStock' ? 'Which stock did you sell?' :
         props.mode === 'BuyCrypto' ? 'Which cryptocurrency did you buy?' :
         'Which cryptocurrency did you sell?'
       }</p>
       <Select options={options} change={selectHandler} val={selectedName} />
-      <p className={selectedName === '' ? classes.HideText : classes.Text}>
+      <p className={selectedName === '' ? classes.HideText : classes.Text} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
         {props.mode === 'BuyStock' ?
         `How many shares of ${selected.symbol} did you buy?` :
         props.mode === 'SellStock' ?
@@ -173,14 +173,14 @@ const BuySellPanel = props => {
         `How much ${selected.symbol} did you sell?`}
       </p>
       <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
-        <NumInput val={selectedVal} change={setValHandler} ref={inputRef} />
+        <NumInput val={selectedVal} change={setValHandler} ref={inputRef} dark2={props.dark} />
         {(props.mode === 'SellStock' || props.mode === 'SellCrypto') && (
           <div className={classes.AllBtn}><BlueBtn clicked={() => setSelectedVal(selected.quantity)}>All</BlueBtn></div>)}
       </div>
       <div className={selectedName === '' ? classes.HideConfirmBtn : classes.ConfirmBtn}>
         <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
       </div>
-      <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+      <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
     </PortPanelContainer>
   );
 };
@@ -190,7 +190,8 @@ const mapStateToProps = state => ({
   stocks: state.portfolio.stocks,
   portfolio: state.portfolio,
   netWorthData: state.netWorth.netWorthData,
-  isDemo: state.auth.isDemo
+  isDemo: state.auth.isDemo,
+  dark: state.theme.darkMode
 });
 
 const mapDispatchToProps = dispatch => ({

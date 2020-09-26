@@ -26,6 +26,14 @@
 .Dark:focus {
   background: rgb(var(--light-blue3));
 }
+.Dark2 {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgb(var(--light-blue));
+}
+.Dark2::placeholder {
+  color: white;
+  opacity: 0.35;
+}
 .SearchInput {
   display: flex;
   justify-content: center;

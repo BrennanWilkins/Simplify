@@ -238,34 +238,35 @@ const AssetPanel = props => {
 
   return (
     <PortPanelContainer show={props.show} close={closeHandler} left={panelLeft} down={props.down}>
-      <p className={(props.mode === 'AddAsset' || props.mode === 'AddDebt') ? classes.Text2 : classes.Text}>{titleText}</p>
+      <p className={(props.mode === 'AddAsset' || props.mode === 'AddDebt') ? classes.Text2 : classes.Text}
+      style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{titleText}</p>
       {options ?
         <div style={{marginBottom: (props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') ? '0' : '15px'}}>
           <Select options={options} change={selectHandler} val={selectedName} /></div>
         :
-        <div className={classes.Inputs}>
+        <div className={classes.Inputs} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
           <div>
             <p>Category</p>
-            <Input val={inputName} change={val => setInputName(val)} ref={nameRef} />
+            <Input val={inputName} change={val => setInputName(val)} ref={nameRef} dark2={props.dark} />
           </div>
           <div>
             <p>Description</p>
-            <Input val={inputDesc} change={val => setInputDesc(val)} />
+            <Input val={inputDesc} change={val => setInputDesc(val)} dark2={props.dark} />
           </div>
           <div>
             <p>Value</p>
-            <NumInput val={inputValue} change={val => setInputValue(val)} />
+            <NumInput val={inputValue} change={val => setInputValue(val)} dark2={props.dark} />
           </div>
         </div>
       }
       {(props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') && selectedName !== '' ?
         <div className={classes.NewValueInput}>
-          <NumInput val={newValue} change={newValueHandler} ref={valRef} />
+          <NumInput val={newValue} change={newValueHandler} ref={valRef} dark2={props.dark} />
         </div>
       : null}
       <div className={confirmClass} style={(props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') ? {marginTop: '20px'} : null}>
         <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn></div>
-      <p className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</p>
+      <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
     </PortPanelContainer>
   );
 };
@@ -275,7 +276,8 @@ const mapStateToProps = state => ({
   liabilities: state.portfolio.liabilities,
   portfolio: state.portfolio,
   netWorthData: state.netWorth.netWorthData,
-  isDemo: state.auth.isDemo
+  isDemo: state.auth.isDemo,
+  dark: state.theme.darkMode
 });
 
 const mapDispatchToProps = dispatch => ({
