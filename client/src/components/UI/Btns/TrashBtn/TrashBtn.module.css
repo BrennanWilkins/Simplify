@@ -1,5 +1,5 @@
 .Btn, .DarkBtn {
-  color: rgb(var(--dark-blue2));
+  color: rgb(var(--dark-blue));
   border: 0;
   outline: none;
   padding: 5px;
@@ -11,14 +11,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgb(var(--dark-blue), 0.1);
 }
 .DarkBtn {
-  color: rgb(var(--light-blue3));
+  color: rgb(var(--light-blue2));
   background: rgb(var(--dark-blue), 0.5);
 }
 .Btn:hover {
-  background: rgba(0, 0, 0, 0.05);
-  box-shadow: var(--box-shadow8);
+  background: rgb(var(--dark-blue), 0.2);
+  color: rgb(var(--blue));
 }
 .DarkBtn:hover {
   background: rgb(var(--dark-blue), 0.1);
