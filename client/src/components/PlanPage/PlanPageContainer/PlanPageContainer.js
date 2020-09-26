@@ -20,7 +20,7 @@ const PlanPageContainer = props => {
 
   return (
     <div className={props.show ? undefined : classes.Hide}>
-      <div className={classes.Title}>
+      <div className={props.darkMode ? `${classes.Title} ${classes.Dark}` : classes.Title}>
         <h1>
           {props.currMode === 'Tax' ? 'Capital Gains Tax Calculator' :
           props.currMode === 'Retire' ? 'Retirement Goal Visualizer' :
@@ -39,7 +39,7 @@ const PlanPageContainer = props => {
         :
         `'Principal Investment' refers to your initial funds that you are starting with. 'Monthly Contribution' refers to the
         amount you add to your investments each month. 'Years Compounded' refers to how many years you are investing for.
-        'Yearly return in %' is thevpercentage return on your investments you expect to make per year.`}</p>
+        'Yearly return in %' is the percentage return on your investments you expect to make per year.`}</p>
       </div>
       {props.children}
     </div>

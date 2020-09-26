@@ -112,13 +112,13 @@ const PlanPage = props => {
       <div className={classes.Content}>
         <div className={classes.SelectBar}>
           <span className={currMode === 'Compound' ? classes.ActiveBtn : classes.Btn}>
-            <BlueBtn clicked={() => setCurrMode('Compound')}>Compount Interest Visualizer</BlueBtn></span>
+            <BlueBtn clicked={() => setCurrMode('Compound')}>Compound Interest Visualizer</BlueBtn></span>
           <span className={currMode === 'Retire' ? classes.ActiveBtn : classes.Btn}>
             <BlueBtn clicked={() => setCurrMode('Retire')}>Retirement Visualizer</BlueBtn></span>
           <span className={currMode === 'Tax' ? classes.ActiveBtn : classes.Btn}>
             <BlueBtn clicked={() => setCurrMode('Tax')}>Capital Gains Calculator</BlueBtn></span>
         </div>
-        <Container show={currMode === 'Compound'} currMode="Compound">
+        <Container show={currMode === 'Compound'} currMode="Compound" darkMode={props.darkMode}>
           <div className={props.darkMode ? `${classes.Inputs} ${classes.DarkInputs}` : classes.Inputs}>
             <div className={classes.InputRow}>
               <div className={classes.InputField}>
@@ -142,7 +142,7 @@ const PlanPage = props => {
             </div>
           </div>
         </Container>
-        <Container show={currMode === 'Retire'} currMode="Retire">
+        <Container show={currMode === 'Retire'} currMode="Retire" darkMode={props.darkMode}>
           <div className={props.darkMode ? `${classes.Inputs} ${classes.DarkInputs}` : classes.Inputs}>
             <div className={classes.InputRow2}>
               <div className={classes.InputField}>

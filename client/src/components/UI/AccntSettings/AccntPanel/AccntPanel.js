@@ -16,7 +16,7 @@ const AccntPanel = props => {
   return (
     <>
     <PanelContainer show={props.show} close={props.close}>
-      <div className={props.show ? classes.Container : classes.Hide}>
+      <div className={props.show ? (props.darkMode ? classes.Dark : classes.Container) : classes.Hide}>
         <div className={classes.Link} onClick={props.logout}>{props.isDemo ? 'Back to Login' : 'Logout'}</div>
         <div className={classes.Link} onClick={() => setShowFeedback(true)}>Leave feedback</div>
         {!props.isDemo && <>
@@ -26,8 +26,8 @@ const AccntPanel = props => {
         <DeleteAccnt show={showDeleteAccnt} close={() => setShowDeleteAccnt(false)} logout={props.logout} closeAll={props.close} /></>}
         <div className={classes.Link} style={{marginBottom: '15px'}} onClick={props.toggleDarkMode}>
           {!props.darkMode ?
-          <span className={classes.Dark}>{darkIcon} Dark mode</span> :
-          <span className={classes.Light}>{lightIcon} Light mode</span>}
+          <span className={classes.DarkIcon}>{darkIcon} Dark mode</span> :
+          <span className={classes.LightIcon}>{lightIcon} Light mode</span>}
         </div>
         <Feedback show={showFeedback} close={() => setShowFeedback(false)} closeAll={props.close} isDemo={props.isDemo} />
       </div>

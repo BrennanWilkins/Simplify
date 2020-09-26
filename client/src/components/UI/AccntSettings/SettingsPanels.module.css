@@ -12,6 +12,8 @@
   width: 90%;
   height: calc(98% - 80px);
   overflow: auto;
+  background: var(--panelBack);
+  color: var(--panelText);
 }
 .Container::-webkit-scrollbar-track, .FeedbackContainer::-webkit-scrollbar-track {
   border-radius: 10px;

@@ -12,6 +12,8 @@ const switchToLight = () => {
   document.body.style.setProperty('--navBarBack', 'rgb(var(--dark-blue3))');
   document.body.style.setProperty('--titleColor', 'rgb(var(--dark-blue2))');
   document.body.style.setProperty('--chartBack', 'white');
+  document.body.style.setProperty('--panelBack', 'white');
+  document.body.style.setProperty('--panelText', 'black');
 };
 
 const switchToDark = () => {
@@ -22,6 +24,8 @@ const switchToDark = () => {
   document.body.style.setProperty('--navBarBack', 'rgb(23, 38, 51)');
   document.body.style.setProperty('--titleColor', 'rgb(var(--light-blue3))');
   document.body.style.setProperty('--chartBack', 'rgb(var(--dark-blue5))');
+  document.body.style.setProperty('--panelBack', 'rgb(14, 41, 65)');
+  document.body.style.setProperty('--panelText', 'rgb(var(--light-blue3))');
 };
 
 const reducer = (state = initialState, action) => {

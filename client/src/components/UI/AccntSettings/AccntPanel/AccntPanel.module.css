@@ -1,4 +1,4 @@
-.Container, .Hide {
+.Container, .Hide, .Dark {
   position: fixed;
   top: 60px;
   border-radius: 3px;
@@ -10,12 +10,20 @@
   max-height: 250px;
   transition: max-height 250ms ease-out 150ms, opacity 150ms ease-out, visibility 150ms ease-out;
   overflow: hidden;
+  background: var(--panelBack);
 }
 .Hide {
   opacity: 0;
   visibility: hidden;
   max-height: 0;
   transition: max-height 250ms ease-out, opacity 150ms ease-out 150ms, visibility 150ms ease-out 150ms;
+}
+.Dark input {
+  background: rgba(255, 255, 255, 0.15);
+}
+.Dark input::placeholder {
+  color: white;
+  opacity: 0.35;
 }
 .Link {
   width: 90%;
@@ -29,15 +37,21 @@
 .Link:hover {
   background: rgba(var(--dark-blue), 0.15);
 }
+.Dark .Link {
+  color: rgb(var(--light-blue3));
+}
+.Dark .Link:hover {
+  background: rgba(var(--dark-blue), 0.5);
+}
 .Link svg {
   position: relative;
   top: 2px;
   margin-right: 2px;
 }
-.Dark svg {
+.DarkIcon svg {
   color: rgb(var(--dark-blue4));
 }
-.Light svg {
+.LightIcon svg {
   color: rgb(var(--blue));
 }
 .Backdrop, .HideBackdrop {

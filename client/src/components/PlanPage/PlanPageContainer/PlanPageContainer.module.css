@@ -36,6 +36,10 @@
   border: 1px solid rgb(var(--blue));
   box-shadow: var(--box-shadow3);
 }
+.Dark .ShowInfo, .Dark .HideInfo {
+  background: rgb(var(--dark-blue5));
+  color: rgb(var(--light-blue));
+}
 .HideInfo {
   visibility: hidden;
   opacity: 0;

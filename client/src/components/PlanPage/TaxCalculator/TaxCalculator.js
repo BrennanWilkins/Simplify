@@ -54,7 +54,7 @@ const TaxCalculator = props => {
   };
 
   return (
-    <Container show={props.show} currMode="Tax">
+    <Container show={props.show} currMode="Tax" darkMode={props.darkMode}>
       <div className={props.darkMode ? `${classes.Boxes} ${classes.DarkBoxes}` : classes.Boxes}>
         <div className={classes.InputBox}>
           <div className={classes.Row}>
