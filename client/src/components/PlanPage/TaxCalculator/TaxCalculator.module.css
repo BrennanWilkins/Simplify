@@ -71,7 +71,7 @@
   box-sizing: border-box;
 }
 .DarkBoxes .TransBox {
-  background: rgb(24, 37, 48);
+  background: rgb(20, 36, 51);
   border: 1.5px solid rgba(var(--dark-blue5), 0.5);
 }
 .Transactions {

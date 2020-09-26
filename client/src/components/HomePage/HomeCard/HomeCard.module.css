@@ -16,7 +16,7 @@
   cursor: pointer;
   animation: scaleUp 300ms forwards;
   overflow: hidden;
-  background: white;
+  background: var(--homeCardBack);
 }
 @keyframes scaleUp {
   from {

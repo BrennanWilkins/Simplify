@@ -85,8 +85,12 @@ const InvestmentTable = props => {
   };
 
   return (
-    <div className={props.normal ? null : (props.mode === 'Stocks' || props.mode === 'Cryptos' ? classes.TableContainer : classes.AssetTableContainer)}>
-      <table className={props.normal ? (props.darkMode ? `${classes.NormalTable} ${classes.DarkTable}` : classes.NormalTable) : classes.Table}>
+    <div className={props.normal ? null :
+      (props.mode === 'Stocks' || props.mode === 'Cryptos' ?
+      (props.dark ? `${classes.Container} ${classes.Dark}` : classes.Container) :
+      (props.dark ? `${classes.AssetContainer} ${classes.Dark}` : classes.AssetContainer))}>
+      <table className={props.normal ? (props.dark ? `${classes.NormalTable} ${classes.DarkTable}` : classes.NormalTable) :
+      (props.dark ? `${classes.Table} ${classes.DarkTable}` : classes.Table)}>
         <thead>
           <tr className={classes.HeaderFields}>
             <th>{props.mode === 'Stocks' ? 'Ticker' : props.mode === 'Cryptos' ? 'Symbol' : 'Category'}
@@ -175,7 +179,7 @@ const mapStateToProps = state => ({
   cryptos: state.portfolio.cryptos,
   assets: state.portfolio.otherAssets,
   debts: state.portfolio.liabilities,
-  darkMode: state.theme.darkMode
+  dark: state.theme.darkMode
 });
 
 export default connect(mapStateToProps)(InvestmentTable);

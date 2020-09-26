@@ -16,7 +16,7 @@
   font-size: 12px;
   padding-right: 5px;
 }
-.Dark .Category {
+.Dark .Category, .Dark .SmallCategory {
   color: rgb(var(--light-blue2));
 }
 .Oval, .SmallOval {
@@ -50,7 +50,7 @@
   justify-content: flex-end;
   height: 29px;
 }
-.Dark .ShowRight {
+.Dark .ShowRight, .Dark .SmallShowRight {
   color: rgb(var(--light-blue2));
 }
 .SmallOverlaySpan, .SmallShowRight {
@@ -76,7 +76,7 @@
   padding: 0 5px;
   box-sizing: border-box;
 }
-.Dark .BudgetVal {
+.Dark .BudgetVal, .Dark .SmallBudgetVal {
   color: rgb(var(--light-blue2));
 }
 .SmallBudgetVal {

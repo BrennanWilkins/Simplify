@@ -19,14 +19,14 @@ const NWGoalChart = props => {
     dataPoints.push({ name: 'Remaining', y: props.netWorthGoal - netWorthVal, color: 'rgb(15, 119, 147)' });
   }
 
-  const options = { data: [{ type: "doughnut", dataPoints }] };
+  const options = { data: [{ type: "doughnut", dataPoints }], backgroundColor: 'transparent' };
   // chart size changed to fit home page card
   if (props.small) { options.height = 200; options.width = 200; }
-  else { options.backgroundColor = 'transparent'; options.height = 330; options.width = 330; }
+  else { options.height = 330; options.width = 330; }
 
   return (
     <div className={props.small ? classes.SmallChartContainer : classes.ChartContainer}>
-      <Chart options={options} lightblue={!props.small && !props.darkMode} darkMode={props.darkMode} />
+      <Chart options={options} lightblue={!props.small && !props.darkMode} darkMode={props.darkMode} darkMode3={props.darkMode && props.small} />
       <h1>You've reached {percReached}% of your goal</h1>
     </div>
   );

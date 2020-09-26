@@ -1,27 +1,34 @@
-.TableContainer {
+.Container {
   width: 100%;
   max-height: 220px;
   overflow: auto;
 }
-.AssetTableContainer {
-  width: 100%;
+.AssetContainer {
   max-height: 95px;
-  overflow: auto;
 }
-.TableContainer::-webkit-scrollbar-track,
-.AssetTableContainer::-webkit-scrollbar-track {
+.Container::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: white;
 }
-.TableContainer::-webkit-scrollbar,
-.AssetTableContainer::-webkit-scrollbar {
+.Container::-webkit-scrollbar {
   width: 10px;
   background-color: white;
 }
-.TableContainer::-webkit-scrollbar-thumb,
-.AssetTableContainer::-webkit-scrollbar-thumb {
+.Container::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #ddd;
+}
+.Dark::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgb(var(--dark-blue5), 0.3);
+}
+.Dark::-webkit-scrollbar {
+  width: 10px;
+  background-color: rgb(var(--dark-blue5), 0.3);
+}
+.Dark::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(var(--dark-blue5));
 }
 .Table {
   width: 320px;

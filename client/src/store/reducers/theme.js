@@ -14,6 +14,7 @@ const switchToLight = () => {
   document.body.style.setProperty('--chartBack', 'white');
   document.body.style.setProperty('--panelBack', 'white');
   document.body.style.setProperty('--panelText', 'black');
+  document.body.style.setProperty('--homeCardBack', 'white');
 };
 
 const switchToDark = () => {
@@ -26,6 +27,7 @@ const switchToDark = () => {
   document.body.style.setProperty('--chartBack', 'rgb(var(--dark-blue5))');
   document.body.style.setProperty('--panelBack', 'rgb(14, 41, 65)');
   document.body.style.setProperty('--panelText', 'rgb(var(--light-blue3))');
+  document.body.style.setProperty('--homeCardBack', 'rgb(15, 37, 55)');
 };
 
 const reducer = (state = initialState, action) => {

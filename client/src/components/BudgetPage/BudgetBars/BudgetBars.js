@@ -29,7 +29,8 @@ const BudgetBars = props => {
   }, [props.budget, props.small]);
 
   return (
-    <div className={props.small ? classes.SmallBar : props.darkMode ? `${classes.Bar} ${classes.Dark}` : classes.Bar}>
+    <div className={props.small ? (props.darkMode ? `${classes.SmallBar} ${classes.Dark}` : classes.SmallBar) :
+    (props.darkMode ? `${classes.Bar} ${classes.Dark}` : classes.Bar)}>
       <span className={props.small ? classes.SmallCategory : classes.Category}>{props.budget.category}</span>
       <div className={classes.OvalContainer}>
         <div className={props.small ? classes.SmallOval : classes.Oval}>

@@ -10,7 +10,7 @@ import BudgetBars from '../../BudgetPage/BudgetBars/BudgetBars';
 const HomePage = props => {
   return (
     <div className={classes.Container}>
-      <div className={classes.Content}>
+      <div className={props.dark ? classes.Dark : classes.Content}>
         <div className={classes.Cards}>
           <HomeCard num="1">
             <NetWorthChart small />
@@ -43,7 +43,7 @@ const HomePage = props => {
                   {props.budget.map((budget, i) => (
                     <div className={classes.BudgetDiv} key={i}>
                       <div className={classes.InnerBudgetDiv}>
-                        <BudgetBars budget={budget} small />
+                        <BudgetBars budget={budget} small darkMode={props.dark} />
                       </div>
                     </div>
                   ))}
@@ -59,7 +59,7 @@ const HomePage = props => {
             <div className={classes.Card}>
               <h1 className={classes.Title}>Net Worth Goal</h1>
               <div className={classes.ChartContainer}>
-                {props.netWorthGoal ? <NWGoalChart small /> : (
+                {props.netWorthGoal ? <NWGoalChart small darkMode={props.dark} /> : (
                   <p className={classes.SubTitle}>Create a new net worth goal!</p>
                 )}
               </div>
@@ -73,7 +73,8 @@ const HomePage = props => {
 
 const mapStateToProps = state => ({
   netWorthGoal: state.goals.netWorthGoal,
-  budget: state.budget.budget
+  budget: state.budget.budget,
+  dark: state.theme.darkMode
 });
 
 export default connect(mapStateToProps)(HomePage);

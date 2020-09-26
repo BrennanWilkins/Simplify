@@ -11,11 +11,11 @@ const NetWorthChart = props => {
   const netWorthData = props.netWorthData.map(dataPt => ({ x: new Date(dataPt.date), y: Number((dataPt.value).toFixed(2)) }));
 
   const options = {
-    theme: props.darkMode && !props.small ? 'dark2' : 'light2',
+    theme: props.dark ? 'dark2' : 'light2',
     axisY: { valueFormatString: "'$'0" },
     axisX: { valueFormatString: 'MM/DD/YY', labelAngle: -20 },
     toolTip: { content: '{x}: ${y}' },
-    backgroundColor: props.darkMode && !props.small ? 'rgb(32, 84, 109)' : 'white',
+    backgroundColor: props.dark ? 'rgb(32, 84, 109)' : 'white',
     data: [{
       type: 'area',
       indexLabelFontColor: '#5A5757',
@@ -30,18 +30,18 @@ const NetWorthChart = props => {
   return (
     <div className={props.small ? undefined : classes.Container}>
       <h1 className={props.small ? classes.TitleSmall : classes.Title}>
-        <span className={props.small ? undefined : classes.NWTitle}>Net Worth</span>
+        <span className={classes.NWTitle}>Net Worth</span>
         <span className={classes.Value}>${netWorthVal}</span>
       </h1>
       <div className={props.small ? classes.ChartSmall : classes.Chart}>
-        <Chart options={props.small ? { ...options, height: 200 } : options} darkMode={!props.small && props.darkMode} />
+        <Chart options={props.small ? { ...options, height: 200 } : options} darkMode={props.dark} />
       </div>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  darkMode: state.theme.darkMode,
+  dark: state.theme.darkMode,
   netWorthData: state.netWorth.netWorthData
 });
 

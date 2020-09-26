@@ -22,6 +22,7 @@
   margin: auto;
   z-index: 1;
   position: relative;
+  background: var(--chartBack);
 }
 .Title span {
   font-size: 34px;
