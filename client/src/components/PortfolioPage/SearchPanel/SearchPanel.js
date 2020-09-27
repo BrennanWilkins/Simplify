@@ -31,7 +31,7 @@ const SearchPanel = props => {
   const isStock = props.mode === 'Stock';
 
   useEffect(() => {
-    if (props.show) { inputRef.current.focus(); }
+    if (props.show) { setTimeout(() => inputRef.current.focus(), 400); }
   }, [props.show]);
 
   const setSearchQuery = val => {

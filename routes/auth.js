@@ -50,7 +50,7 @@ const getStockPrices = async stocks => {
   const pResults = await Promise.allSettled(promises);
   pResults.forEach((pResult, i) => {
     // if price not found set it as '?'
-    if (pResult.status === 'fulfilled' && pResult.value.price) { stocks[i].price = pResult.value.price.regularMarketPrice; }
+    if (pResult.status === 'fulfilled' && pResult.value && pResult.value.price) { stocks[i].price = pResult.value.price.regularMarketPrice; }
     else { stocks[i].price = '?'; }
   });
   return stocks;

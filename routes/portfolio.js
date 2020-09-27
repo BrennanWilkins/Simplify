@@ -42,7 +42,8 @@ router.get('/searchStock/:searchVal',
       const pResults = await Promise.allSettled(promises);
       pResults.forEach((pResult, i) => {
         // if error set price/change as null
-        if (pResult.status === 'fulfilled' && pResult.value.price.regularMarketPrice && pResult.value.summaryDetail.previousClose) {
+        if (pResult.status === 'fulfilled' && pResult.value && pResult.value.price &&
+        pResult.value.summaryDetail && pResult.value.price.regularMarketPrice && pResult.value.summaryDetail.previousClose) {
           searchRes[i].price = pResult.value.price.regularMarketPrice;
           searchRes[i].change = ((searchRes[i].price - pResult.value.summaryDetail.previousClose) / pResult.value.summaryDetail.previousClose) * 100;
         }
@@ -50,7 +51,7 @@ router.get('/searchStock/:searchVal',
       });
       const result = searchRes.filter(stock => stock.price !== '?');
       res.status(200).json({ result });
-    } catch(e) { res.sendStatus(500); }
+    } catch(e) { console.log(e); res.sendStatus(500); }
 });
 
 router.put('/updateStocks', auth,
