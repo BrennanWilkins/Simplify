@@ -1,11 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
 const getDemoData = () => {
-  const netWorthData = [];
   const msInDay = 86400000;
-  for (let i = 1; i < 24; i++) {
-    netWorthData.unshift({ date: String(new Date(new Date().getTime() - (msInDay * 15 * i))), value: 250000 - (10000 * i) - Math.floor(Math.random() * 20000) })
-  }
   const budget = [
     {
       transactions: [
@@ -61,8 +57,8 @@ const getDemoData = () => {
       { name: 'Monero', symbol: 'XMR', quantity: 0.55, identifier: 'Normal' },
     ],
     stocks: [
-      { name: 'Invesco QQQ Trust, Series 1', symbol: 'QQQ', quantity: 6, identifier: 'Normal' },
-      { name: 'Alphabet Inc.', symbol: 'GOOGL', quantity: 4, identifier: 'Normal' },
+      { name: 'SPDR S&P 500 ETF Trust', symbol: 'SPY', quantity: 10, identifier: 'Normal' },
+      { name: 'Alphabet Inc.', symbol: 'GOOGL', quantity: 2, identifier: 'Normal' },
       { name: 'Tesla, Inc.', symbol: 'TSLA', quantity: 1, identifier: 'Normal' },
       { name: 'Amazon.com, Inc.', symbol: 'AMZN', quantity: 1, identifier: 'Normal' },
       { name: 'Microsoft Corporation', symbol: 'MSFT', quantity: 3, identifier: 'Normal' },
@@ -116,7 +112,30 @@ const getDemoData = () => {
       contributions: contribs3
     }
   ];
-  return { budget, NWGoal: 500000, netWorthData, portfolio, otherGoals };
+  return { budget, NWGoal: 500000, portfolio, otherGoals };
+};
+
+export const getDemoNW = portfolio => {
+  let tot = 0;
+  for (let crypto of portfolio.cryptos) { tot += crypto.price * crypto.quantity; }
+  for (let stock of portfolio.stocks) { tot += stock.price * stock.quantity; }
+  for (let crypto of portfolio.manualCryptos) { tot += crypto.price * crypto.quantity; }
+  for (let stock of portfolio.manualStocks) { tot += stock.price * stock.quantity; }
+  for (let debt of portfolio.liabilities) { tot -= debt.value; }
+  for (let asset of portfolio.otherAssets) { tot += asset.value; }
+  return tot;
+};
+
+export const getDemoNWData = NWVal => {
+  const netWorthData = [];
+  const msInDay = 86400000;
+  for (let i = 0; i < 24; i++) {
+    netWorthData.unshift({
+      date: String(new Date(new Date().getTime() - (msInDay * 15 * (i + 1)))),
+      value: NWVal - (NWVal * 0.04 * i) - Math.floor(Math.random() * NWVal * 0.08)
+    });
+  }
+  return netWorthData;
 };
 
 export default getDemoData;
