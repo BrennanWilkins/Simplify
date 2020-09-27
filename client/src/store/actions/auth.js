@@ -14,6 +14,31 @@ export const login = () => dispatch => {
   dispatch(loginDispatch());
 };
 
+export const loginHandler = (data, remember) => async dispatch => {
+  instance.defaults.headers.common['x-auth-token'] = data.token;
+  if (remember) {
+    localStorage['token'] = data.token;
+    // token expires in 7 days
+    localStorage['expirationDate'] = new Date(new Date().getTime() + 604800000);
+    localStorage['expirationTime'] = '604800000';
+  } else {
+    // token expires in 1hr
+    localStorage['token'] = data.token;
+    localStorage['expirationDate'] = new Date(new Date().getTime() + 3600000);
+    localStorage['expirationTime'] = '3600000';
+  }
+  const updatedNetWorth = calcNetWorth(data.netWorth.dataPoints, data.portfolio);
+  const res = await instance.put('netWorth', { netWorthData: updatedNetWorth });
+  dispatch(actions.setNetWorthData(res.data.result.dataPoints));
+  const NWGoal = Number(data.goals.netWorthGoal);
+  if (NWGoal === 0) { dispatch(actions.setNetWorthGoal(null)); }
+  else { dispatch(actions.setNetWorthGoal(NWGoal)); }
+  dispatch(actions.setOtherGoals(data.goals.otherGoals));
+  dispatch(actions.setPortfolio(calcPortfolioValue(data.portfolio)));
+  if (data.budgets) { dispatch(actions.setBudget(data.budgets)); }
+  dispatch(login());
+};
+
 export const logoutDispatch = () => ({ type: actionTypes.LOGOUT });
 
 export const logout = () => dispatch => {

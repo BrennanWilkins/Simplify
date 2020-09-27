@@ -1,4 +1,4 @@
-export { login, logout, autoLogin, loadDemo, endLoading } from './auth';
+export { loginHandler, logout, autoLogin, loadDemo, endLoading } from './auth';
 export { setNetWorthData, resetNetWorth } from './netWorth';
 export { setPortfolio, resetPortfolio, addCrypto, setHighlights, setUpdateHighlights,
   addStock, changeStock, changeCrypto, updateAssets, updateDebts } from './portfolio';

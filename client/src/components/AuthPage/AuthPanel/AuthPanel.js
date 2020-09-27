@@ -94,31 +94,9 @@ const AuthPanel = props => {
     });
   };
 
-  const successHandler = data => {
-    instance.defaults.headers.common['x-auth-token'] = data.token;
-    if (remember) {
-      localStorage['token'] = data.token;
-      // token expires in 7 days
-      localStorage['expirationDate'] = new Date(new Date().getTime() + 604800000);
-      localStorage['expirationTime'] = '604800000';
-    } else {
-      // token expires in 1hr
-      localStorage['token'] = data.token;
-      localStorage['expirationDate'] = new Date(new Date().getTime() + 3600000);
-      localStorage['expirationTime'] = '3600000';
-    }
-    const updatedNetWorth = calcNetWorth(data.netWorth.dataPoints, data.portfolio);
-    instance.put('netWorth', { netWorthData: updatedNetWorth }).then(res => {
-      props.setNetWorthData(res.data.result.dataPoints);
-    }).catch(err => { return showErr('There was an error logging in.'); });
-    const NWGoal = Number(data.goals.netWorthGoal);
-    if (NWGoal === 0) { props.setNetWorthGoal(null); }
-    else { props.setNetWorthGoal(NWGoal); }
-    props.setOtherGoals(data.goals.otherGoals);
-    props.setPortfolio(calcPortfolioValue(data.portfolio));
-    if (data.budgets) { props.setBudget(data.budgets); }
-    reset();
-    props.login();
+  const successHandler = async data => {
+    try { props.loginHandler(data, remember); reset(); }
+    catch (e) { return showErr('There was an error logging in.'); }
   };
 
   const reset = () => {
@@ -204,13 +182,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  login: () => dispatch(actions.login()),
-  setNetWorthData: data => dispatch(actions.setNetWorthData(data)),
-  setPortfolio: data => dispatch(actions.setPortfolio(data)),
-  setNetWorthGoal: goal => dispatch(actions.setNetWorthGoal(goal)),
-  setBudget: budget => dispatch(actions.setBudget(budget)),
+  loginHandler: (data, shouldRemember) => dispatch(actions.loginHandler(data, shouldRemember)),
   loadDemo: () => dispatch(actions.loadDemo()),
-  setOtherGoals: goals => dispatch(actions.setOtherGoals(goals)),
   endLoading: () => dispatch(actions.endLoading())
 });
 
