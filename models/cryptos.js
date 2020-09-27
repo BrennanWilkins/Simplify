@@ -4,7 +4,8 @@ const CryptoSchema = new mongoose.Schema({
   symbol: String,
   name: String,
   price: Number,
-  change: Number
+  change: Number,
+  cmcID: Number
 });
 
 const CryptosSchema = new mongoose.Schema({

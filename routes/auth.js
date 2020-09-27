@@ -20,15 +20,19 @@ const Stocks = require('../models/stocks');
 const Feedback = require('../models/feedback');
 
 const updateCryptos = async () => {
-  console.log('Updating cryptos...');
-  const cmcOptions = { headers: { 'X-CMC_PRO_API_KEY': config.get('CRYPTO_KEY') }, json: true, gzip: true };
-  const cmcUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=399';
-  const resp = await axios.get(cmcUrl, cmcOptions);
-  const mappedCryptos = resp.data.data.map(obj => ({ symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d  }));
-  // update the date and cryptos in mongoDB
-  const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
-  console.log('Crypto update successful');
-  return mappedCryptos;
+  // update cryptos if last updated >1hr ago else return the cryptos
+  const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
+  if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) {
+    console.log('Updating cryptos...');
+    const cmcOptions = { headers: { 'X-CMC_PRO_API_KEY': config.get('CRYPTO_KEY') }, json: true, gzip: true };
+    const cmcUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=399';
+    const resp = await axios.get(cmcUrl, cmcOptions);
+    const mappedCryptos = resp.data.data.map(obj => ({ cmcID: obj.id, symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d  }));
+    // update the date and cryptos in mongoDB
+    const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
+    console.log('Crypto update successful');
+    return mappedCryptos;
+  } else { return cryptos.cryptos; }
 };
 
 const updateStocks = async () => {
@@ -83,11 +87,7 @@ router.post('/login',
       const budgets = await Budgets.findOne({ userId: user._id });
       const updatedStocks = await getStockPrices([...portfolio.stocks]);
       const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
-      // update cryptos if last updated >1hr ago else return the cryptos
-      const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
-      let mappedCryptos;
-      if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) { mappedCryptos = await updateCryptos(); }
-      else { mappedCryptos = cryptos.cryptos; }
+      const mappedCryptos = await updateCryptos();
       await deleteOldTempUsers();
       await updateStocks();
       // update portfolio values w current prices
@@ -175,13 +175,9 @@ router.get('/autoLogin', auth, async (req, res) => {
     if (!portfolio || !netWorth) { throw 'could not retrieve user data.'; }
     const goals = await Goals.findOne({ userId: req.userId }).lean();
     const budgets = await Budgets.findOne({ userId: req.userId });
-    const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
     const updatedStocks = await getStockPrices([...portfolio.stocks]);
     const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
-    let mappedCryptos;
-    // if cryptos last updated over 1 hr ago then update cryptos
-    if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) { mappedCryptos = await updateCryptos(); }
-    else { mappedCryptos = cryptos.cryptos; }
+    const mappedCryptos = await updateCryptos();
     await deleteOldTempUsers();
     await updateStocks();
     const updatedCryptos = [...portfolio.cryptos].map(crypto => {
@@ -204,10 +200,7 @@ router.get('/autoLogin', auth, async (req, res) => {
 router.post('/demoLogin', async (req, res) => {
   // for demo mode, retrieves stock prices for default demo portfolio
   try {
-    const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
-    let mappedCryptos;
-    if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) { mappedCryptos = await updateCryptos(); }
-    else { mappedCryptos = cryptos.cryptos; }
+    const mappedCryptos = await updateCryptos();
     const updatedCryptos = [...req.body.portfolio.cryptos].map(crypto => {
       const matchingCrypto = mappedCryptos.find(data => data.name === crypto.name);
       if (!matchingCrypto) { return { ...crypto, value: '?' }; }
