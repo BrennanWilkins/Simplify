@@ -22,7 +22,8 @@ router.get('/searchCrypto/:searchVal',
         symbol: crypto.item.symbol,
         name: crypto.item.name,
         price: crypto.item.price,
-        change: crypto.item.change
+        change: crypto.item.change,
+        cmcID: crypto.item.cmcID
       }));
       res.status(200).json({ result });
     } catch(e) { res.sendStatus(500); }

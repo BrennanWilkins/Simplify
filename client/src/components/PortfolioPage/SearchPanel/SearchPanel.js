@@ -79,9 +79,11 @@ const SearchPanel = props => {
   };
 
   const selectedHandler = stock => {
+    const newStock = { ...stock };
+    delete newStock.cmcID;
     setShowInput(true);
-    setSelectedRes(stock);
-    setSelectedTicker(stock.symbol);
+    setSelectedRes(newStock);
+    setSelectedTicker(newStock.symbol);
     setTimeout(() => sharesRef.current.focus(), 400);
   };
 
@@ -146,7 +148,8 @@ const SearchPanel = props => {
       <div className={props.dark ? classes.DarkResults : classes.Results}>
         {searchRes.map((stock, i) => (
           <div className={classes.Result} key={i} onClick={() => selectedHandler(stock)}>
-            <div className={classes.ResultLeft}>
+            {!isStock && <div className={classes.CoinIcon}><img src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${stock.cmcID}.png`} alt="" /></div>}
+            <div className={classes.ResultLeft} style={!isStock ? {width: '240px'} : null}>
               <div className={classes.SearchSymbol}>{stock.symbol}</div>
               <div>{stock.name}</div>
             </div>
