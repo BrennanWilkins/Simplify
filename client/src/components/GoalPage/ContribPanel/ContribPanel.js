@@ -8,6 +8,7 @@ import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import { instance as axios } from '../../../axios';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
 import { formatDate2 } from '../../../utils/formatDate';
+import Form from '../../UI/Form/Form';
 
 const ContribPanel = props => {
   const [contribVal, setContribVal] = useState('');
@@ -58,23 +59,17 @@ const ContribPanel = props => {
     });
   };
 
-  useEffect(() => {
-    const enterHandler = e => { if (e.key === 'Enter') { addHandler(); } };
-
-    // add enter key submit
-    if (props.show) { document.addEventListener('keypress', enterHandler); }
-    return () => document.removeEventListener('keypress', enterHandler);
-  }, [props.show, addHandler]);
-
   return (
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : classes.Hide}>
         <CloseBtn close={closeHandler} />
-        <div className={classes.Inputs} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
-          <div>Value <NumInput val={contribVal} change={val => { setErr(false); setContribVal(val); }} ref={valRef} dark2={props.dark} /></div>
-          <div className={classes.DateInput}>Date <DateInput val={contribDate} change={val => { setErr(false); setContribDate(val); }} dark2={props.dark} /></div>
-        </div>
-        <div className={classes.AddBtn}><GreenBtn clicked={addHandler}>Add</GreenBtn></div>
+        <Form allow={props.show} submit={addHandler}>
+          <div className={classes.Inputs} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
+            <div>Value <NumInput val={contribVal} change={val => { setErr(false); setContribVal(val); }} ref={valRef} dark2={props.dark} /></div>
+            <div className={classes.DateInput}>Date <DateInput val={contribDate} change={val => { setErr(false); setContribDate(val); }} dark2={props.dark} /></div>
+          </div>
+          <div className={classes.AddBtn}><GreenBtn isSubmit>Add</GreenBtn></div>
+        </Form>
         <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
       </div>
     </PanelContainer>

@@ -6,11 +6,9 @@ import NewBudgetPanel from '../NewBudgetPanel/NewBudgetPanel';
 import { caretIcon, pencilIcon, trashIcon, plusIcon } from '../../UI/UIIcons';
 import EditBudgetPanel from '../EditBudgetPanel/EditBudgetPanel';
 import { instance as axios } from '../../../axios';
-import CloseBtn from '../../UI/Btns/CloseBtn/CloseBtn';
 import BudgetBars from '../BudgetBars/BudgetBars';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
-import { Input, NumInput } from '../../UI/Inputs/Inputs';
 import DeletePanel from '../../UI/DeletePanel/DeletePanel';
 import { formatNum } from '../../../utils/formatNum';
 import { formatDate3 } from '../../../utils/formatDate';
@@ -67,18 +65,8 @@ const BudgetPage = props => {
       setAddTransCateg('');
       props.addNotif('Transaction Added');
       props.setBudget(budgets);
-    }).catch(err => {
-      console.log(err);
-    });
+    }).catch(err => { console.log(err); });
   };
-
-  useEffect(() => {
-    // add enter key submit listener if add transaction shown
-    const enterHandler = e => { if (e.key === 'Enter') { confirmAddTransHandler(); } }
-
-    if (addTransCateg !== '') { document.addEventListener('keypress', enterHandler); }
-    return () => document.removeEventListener('keypress', enterHandler);
-  }, [addTransCateg, confirmAddTransHandler]);
 
   const deleteHelper = () => {
     props.deleteBudget();

@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes';
-import { instance as axios } from '../../axios';
 
 export const setPortfolio = data => ({ type: actionTypes.SET_PORTFOLIO, data });
 

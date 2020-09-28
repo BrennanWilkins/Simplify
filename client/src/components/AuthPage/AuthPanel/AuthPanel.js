@@ -4,10 +4,9 @@ import Spinner from '../../UI/Spinner/Spinner';
 import { personIcon, lockIcon, arrowRight } from '../../UI/UIIcons';
 import { Link, withRouter } from 'react-router-dom';
 import { validate } from '../../../utils/authValidation';
-import { authInstance as axios, instance } from '../../../axios';
+import { authInstance as axios } from '../../../axios';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
-import { calcPortfolioValue, calcNetWorth } from '../../../utils/valueCalcs';
 import Title from '../../UI/Title/Title';
 
 const AuthPanel = props => {

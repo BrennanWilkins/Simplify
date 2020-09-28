@@ -82,7 +82,7 @@ const SettingsPanel = props => {
       return closeHandler();
     }
     try {
-      const res = isStock ? await axios.put('portfolio/changeStock', { ...newData }) :
+      isStock ? await axios.put('portfolio/changeStock', { ...newData }) :
       await axios.put('portfolio/changeCrypto', { ...newData });
       const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
       props.setNetWorthData(resp.data.result.dataPoints);

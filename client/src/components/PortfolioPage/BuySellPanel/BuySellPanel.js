@@ -8,6 +8,7 @@ import { calcNetWorth } from '../../../utils/valueCalcs';
 import Select from '../../UI/Select/Select';
 import { NumInput } from '../../UI/Inputs/Inputs';
 import PortPanelContainer from '../PortPanelContainer/PortPanelContainer';
+import Form from '../../UI/Form/Form';
 
 const BuySellPanel = props => {
   const [selected, setSelected] = useState({ name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Normal' });
@@ -26,14 +27,6 @@ const BuySellPanel = props => {
       } else { setOptions(props.cryptos.map(crypto => ({ value: crypto.name, label: crypto.name }))); }
     }
   }, [props.mode, props.show, props.stocks, props.cryptos]);
-
-  useEffect(() => {
-    // enter key submit if input field not 0
-    const enterHandler = e => { if (e.key === 'Enter') { confirmHandler(); } };
-
-    if (selectedVal !== 0) { document.addEventListener('keypress', enterHandler); }
-    return () => document.removeEventListener('keypress', enterHandler);
-  }, [selectedVal]);
 
   const closeHandler = () => {
     setSelected({ name: '', symbol: '', quantity: 0, price: 0, value: 0, identifier: 'Normal' });
@@ -82,7 +75,7 @@ const BuySellPanel = props => {
         }
         const data = { identifier: selected.identifier, name: selected.name };
         try {
-          const res = sellStock ? await axios.put('portfolio/deleteStock', { ...data }) :
+          sellStock ? await axios.put('portfolio/deleteStock', { ...data }) :
           await axios.put('portfolio/deleteCrypto', { ...data });
           const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
           props.setNetWorthData(resp.data.result.dataPoints);
@@ -117,7 +110,7 @@ const BuySellPanel = props => {
       return closeHandler();
     }
     try {
-      const res = isStock ? await axios.put('portfolio/changeStock', { ...newData }) :
+      isStock ? await axios.put('portfolio/changeStock', { ...newData }) :
       await axios.put('portfolio/changeCrypto', { ...newData });
       const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
       props.setNetWorthData(resp.data.result.dataPoints);
@@ -172,14 +165,18 @@ const BuySellPanel = props => {
         `How much ${selected.symbol} did you buy?` :
         `How much ${selected.symbol} did you sell?`}
       </p>
-      <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
-        <NumInput val={selectedVal} change={setValHandler} ref={inputRef} dark2={props.dark} />
-        {(props.mode === 'SellStock' || props.mode === 'SellCrypto') && (
-          <div className={classes.AllBtn}><BlueBtn clicked={() => setSelectedVal(selected.quantity)}>All</BlueBtn></div>)}
-      </div>
-      <div className={selectedName === '' ? classes.HideConfirmBtn : classes.ConfirmBtn}>
-        <BlueBtn clicked={confirmHandler}>Confirm</BlueBtn>
-      </div>
+      <Form allow={selectedVal !== 0 && props.show} submit={confirmHandler}>
+        <div className={classes.FormContainer}>
+          <div className={selectedName === '' ? classes.HideInputDiv : classes.InputDiv}>
+            <NumInput val={selectedVal} change={setValHandler} ref={inputRef} dark2={props.dark} />
+            {(props.mode === 'SellStock' || props.mode === 'SellCrypto') && (
+              <div className={classes.AllBtn}><BlueBtn clicked={() => setSelectedVal(selected.quantity)}>All</BlueBtn></div>)}
+          </div>
+          <div className={selectedName === '' ? classes.HideConfirmBtn : classes.ConfirmBtn}>
+            <BlueBtn isSubmit>Confirm</BlueBtn>
+          </div>
+        </div>
+      </Form>
       <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
     </PortPanelContainer>
   );

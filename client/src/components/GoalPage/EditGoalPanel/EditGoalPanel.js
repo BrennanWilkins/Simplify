@@ -7,6 +7,7 @@ import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
 import { NumInput, DateInput, Input } from '../../UI/Inputs/Inputs';
 import { instance as axios } from '../../../axios';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
+import Form from '../../UI/Form/Form';
 
 const EditGoalPanel = props => {
   const [goalName, setGoalName] = useState('');
@@ -74,24 +75,18 @@ const EditGoalPanel = props => {
     }).catch(err => { setErr(true); setErrMsg('Error connecting to the server.'); });
   };
 
-  useEffect(() => {
-    // enter key submit handler
-    const enterHandler = e => { if (e.key === 'Enter') { editHandler(); } };
-
-    if (props.show) { document.addEventListener('keypress', enterHandler); }
-    return () => document.removeEventListener('keypress', enterHandler);
-  }, [props.show, editHandler]);
-
   return (
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : classes.Hide}>
         <CloseBtn close={closeHandler} />
-        <div className={classes.Inputs} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
-          <div>Name<Input val={goalName} change={val => { setGoalName(val); setErr(false); }} ref={nameRef} dark2={props.dark} /></div>
-          <div>Amount<NumInput val={goalVal} change={val => { setGoalVal(val); setErr(false); }} dark2={props.dark} /></div>
-          <div className={classes.DateInput}>Target date<DateInput val={goalDate} change={val => { setGoalDate(val); setErr(false); }} dark2={props.dark} /></div>
-        </div>
-        <div className={classes.BtnDiv}><GreenBtn clicked={editHandler}>Change</GreenBtn></div>
+        <Form allow={props.show} submit={editHandler}>
+          <div className={classes.Inputs} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
+            <div>Name<Input val={goalName} change={val => { setGoalName(val); setErr(false); }} ref={nameRef} dark2={props.dark} /></div>
+            <div>Amount<NumInput val={goalVal} change={val => { setGoalVal(val); setErr(false); }} dark2={props.dark} /></div>
+            <div className={classes.DateInput}>Target date<DateInput val={goalDate} change={val => { setGoalDate(val); setErr(false); }} dark2={props.dark} /></div>
+          </div>
+          <div className={classes.BtnDiv}><GreenBtn isSubmit>Change</GreenBtn></div>
+        </Form>
         <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
       </div>
     </PanelContainer>

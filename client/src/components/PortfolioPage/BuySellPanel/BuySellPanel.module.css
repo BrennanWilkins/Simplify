@@ -36,10 +36,15 @@
   transition: opacity 300ms;
 }
 .InputDiv input {
-  width: 60%;
+  width: 200px;
 }
 .HideInputDiv, .HideConfirmBtn {
   opacity: 0;
   cursor: default;
   pointer-events: none;
+}
+.FormContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }

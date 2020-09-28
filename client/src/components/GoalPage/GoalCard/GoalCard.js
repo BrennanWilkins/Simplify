@@ -41,7 +41,7 @@ const GoalCard = props => {
     // set date that goal will be reached in state
     if (props.isNW) { setReachDate(calcNWRate(props.data, props.goal)); }
     else { setReachDate(calcGoalRate(props.contributions, props.goal, props.curr)); }
-  }, [props.goal, props.data, props.contributions, props.isNW]);
+  }, [props.goal, props.data, props.contributions, props.isNW, props.curr]);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -60,7 +60,7 @@ const GoalCard = props => {
     // get formatted date
     if (props.isNW || props.date === '') { return; }
     setGoalDate(formatDate(props.date));
-  }, [props.date]);
+  }, [props.date, props.isNW]);
 
   const deleteNWHelper = () => {
     props.setNetWorthGoal(null);

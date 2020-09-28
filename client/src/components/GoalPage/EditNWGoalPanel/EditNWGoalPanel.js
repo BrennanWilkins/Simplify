@@ -7,6 +7,7 @@ import * as actions from '../../../store/actions/index';
 import GreenBtn from '../../UI/Btns/GreenBtn/GreenBtn';
 import { NumInput } from '../../UI/Inputs/Inputs';
 import PanelContainer from '../../UI/PanelContainer/PanelContainer';
+import Form from '../../UI/Form/Form';
 
 const EditNWGoalPanel = props => {
   const [inputVal, setInputVal] = useState('');
@@ -53,24 +54,18 @@ const EditNWGoalPanel = props => {
     .catch(err => { errHandler(true); });
   };
 
-  useEffect(() => {
-    // enter key submit handler
-    const enterHandler = e => { if (e.key === 'Enter') { editHandler(); } };
-
-    if (props.show) { document.addEventListener('keypress', enterHandler); }
-    return () => document.removeEventListener('keypress', enterHandler);
-  }, [props.show, editHandler]);
-
   return (
     <PanelContainer show={props.show} close={closeHandler}>
       <div className={props.show ? classes.Panel : classes.Hide}>
         <CloseBtn close={closeHandler} />
-        <div className={classes.Input}>
-          <NumInput val={inputVal} change={val => { setErr(false); setInputVal(val); }} ref={inputRef} dark2={props.dark} />
-        </div>
-        <div className={classes.BtnDiv}>
-          <GreenBtn clicked={editHandler}>Change</GreenBtn>
-        </div>
+        <Form allow={props.show} submit={editHandler}>
+          <div className={classes.Input}>
+            <NumInput val={inputVal} change={val => { setErr(false); setInputVal(val); }} ref={inputRef} dark2={props.dark} />
+          </div>
+          <div className={classes.BtnDiv}>
+            <GreenBtn isSubmit>Change</GreenBtn>
+          </div>
+        </Form>
         <p className={err ? classes.ShowErr : classes.HideErr} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{errMsg}</p>
       </div>
     </PanelContainer>

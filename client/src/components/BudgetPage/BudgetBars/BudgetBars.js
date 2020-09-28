@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
 import classes from './BudgetBars.module.css';
 import { formatNum } from '../../../utils/formatNum';
 

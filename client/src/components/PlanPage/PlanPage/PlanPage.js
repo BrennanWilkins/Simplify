@@ -8,6 +8,7 @@ import TaxCalculator from '../TaxCalculator/TaxCalculator';
 import Container from '../PlanPageContainer/PlanPageContainer';
 import { formatNum } from '../../../utils/formatNum';
 import { connect } from 'react-redux';
+import Form from '../../UI/Form/Form';
 
 const PlanPage = props => {
   const [compoundVals, setCompoundVals] = useState({
@@ -118,52 +119,54 @@ const PlanPage = props => {
           <span className={currMode === 'Tax' ? classes.ActiveBtn : classes.Btn}>
             <BlueBtn clicked={() => setCurrMode('Tax')}>Capital Gains Calculator</BlueBtn></span>
         </div>
-        <Container show={currMode === 'Compound'} currMode="Compound" darkMode={props.darkMode}>
-          <div className={props.darkMode ? `${classes.Inputs} ${classes.DarkInputs}` : classes.Inputs}>
-            <div className={classes.InputRow}>
-              <div className={classes.InputField}>
-                <p>Principal Investment</p>
-                <NumInput val={compoundVals.principal} change={val => setCompoundVals({ ...compoundVals, principal: val })} dark={props.darkMode} />
-              </div>
-              <div className={classes.InputField}>
-                <p>Monthly Contribution</p>
-                <NumInput val={compoundVals.contrib} change={val => setCompoundVals({ ...compoundVals, contrib: val })} dark={props.darkMode} />
-              </div>
-              </div>
-            <div className={classes.InputRow}>
-              <div className={classes.InputField}>
-                <p>Years Compounded</p>
-                <NumInput val={compoundVals.years} change={val => setCompoundVals({ ...compoundVals, years: val })} dark={props.darkMode} />
-              </div>
-              <div className={classes.InputField}>
-                <p>Yearly return in %</p>
-                <NumInput val={compoundVals.interest} change={val => setCompoundVals({ ...compoundVals, interest: val })} dark={props.darkMode} />
-              </div>
-            </div>
-          </div>
-        </Container>
-        <Container show={currMode === 'Retire'} currMode="Retire" darkMode={props.darkMode}>
-          <div className={props.darkMode ? `${classes.Inputs} ${classes.DarkInputs}` : classes.Inputs}>
-            <div className={classes.InputRow2}>
-              <div className={classes.InputField}>
-                <p>Retirement Goal</p>
-                <NumInput val={retireVals.goal} change={val => setRetireVals({ ...retireVals, goal: val })} dark={props.darkMode} />
-              </div>
-              <div className={classes.InputField}>
-                <p>Yearly return in %</p>
-                <NumInput val={retireVals.interest} change={val => setRetireVals({ ...retireVals, interest: val })} dark={props.darkMode} />
-              </div>
-              <div className={classes.InputField}>
-                <p>Retirement Age</p>
-                <NumInput val={retireVals.age} change={val => setRetireVals({ ...retireVals, age: Math.floor(val) })} dark={props.darkMode} />
+        <Form allow={currMode !== 'Tax'} submit={calcHandler}>
+          <Container show={currMode === 'Compound'} currMode="Compound" darkMode={props.darkMode}>
+            <div className={props.darkMode ? `${classes.Inputs} ${classes.DarkInputs}` : classes.Inputs}>
+              <div className={classes.InputRow}>
+                <div className={classes.InputField}>
+                  <p>Principal Investment</p>
+                  <NumInput val={compoundVals.principal} change={val => setCompoundVals({ ...compoundVals, principal: val })} dark={props.darkMode} />
+                </div>
+                <div className={classes.InputField}>
+                  <p>Monthly Contribution</p>
+                  <NumInput val={compoundVals.contrib} change={val => setCompoundVals({ ...compoundVals, contrib: val })} dark={props.darkMode} />
+                </div>
+                </div>
+              <div className={classes.InputRow}>
+                <div className={classes.InputField}>
+                  <p>Years Compounded</p>
+                  <NumInput val={compoundVals.years} change={val => setCompoundVals({ ...compoundVals, years: val })} dark={props.darkMode} />
+                </div>
+                <div className={classes.InputField}>
+                  <p>Yearly return in %</p>
+                  <NumInput val={compoundVals.interest} change={val => setCompoundVals({ ...compoundVals, interest: val })} dark={props.darkMode} />
+                </div>
               </div>
             </div>
+          </Container>
+          <Container show={currMode === 'Retire'} currMode="Retire" darkMode={props.darkMode}>
+            <div className={props.darkMode ? `${classes.Inputs} ${classes.DarkInputs}` : classes.Inputs}>
+              <div className={classes.InputRow2}>
+                <div className={classes.InputField}>
+                  <p>Retirement Goal</p>
+                  <NumInput val={retireVals.goal} change={val => setRetireVals({ ...retireVals, goal: val })} dark={props.darkMode} />
+                </div>
+                <div className={classes.InputField}>
+                  <p>Yearly return in %</p>
+                  <NumInput val={retireVals.interest} change={val => setRetireVals({ ...retireVals, interest: val })} dark={props.darkMode} />
+                </div>
+                <div className={classes.InputField}>
+                  <p>Retirement Age</p>
+                  <NumInput val={retireVals.age} change={val => setRetireVals({ ...retireVals, age: Math.floor(val) })} dark={props.darkMode} />
+                </div>
+              </div>
+            </div>
+          </Container>
+          <div className={currMode !== 'Tax' ? classes.Btns : classes.Hide}>
+            <BlueBtn isSubmit>Calculate</BlueBtn>
+            <BlueBtn clicked={resetHandler}>Reset</BlueBtn>
           </div>
-        </Container>
-        <div className={currMode !== 'Tax' ? classes.Btns : classes.Hide}>
-          <BlueBtn clicked={calcHandler}>Calculate</BlueBtn>
-          <BlueBtn clicked={resetHandler}>Reset</BlueBtn>
-        </div>
+        </Form>
         {(compoundVals.showChart && currMode === 'Compound') &&
           <div className={props.darkMode ? `${classes.Chart} ${classes.DarkChart}` : classes.Chart}>
             <h1 className={classes.Title}>${formatNum(compoundVals.finalVal)}</h1>
