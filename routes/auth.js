@@ -19,20 +19,33 @@ const nodemailer = require('nodemailer');
 const Stocks = require('../models/stocks');
 const Feedback = require('../models/feedback');
 
-const updateCryptos = async () => {
+const updateCryptos = async (portCryptos, portManuals) => {
   // update cryptos if last updated >1hr ago else return the cryptos
   const cryptos = await Cryptos.findOne({ name: 'CryptoList' });
+  let mappedCryptos;
   if (new Date().getTime() - new Date(cryptos.date).getTime() >= 3600000) {
     console.log('Updating cryptos...');
     const cmcOptions = { headers: { 'X-CMC_PRO_API_KEY': config.get('CRYPTO_KEY') }, json: true, gzip: true };
     const cmcUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=399';
     const resp = await axios.get(cmcUrl, cmcOptions);
-    const mappedCryptos = resp.data.data.map(obj => ({ cmcID: obj.id, symbol: obj.symbol, name: obj.name, price: obj.quote.USD.price, change: obj.quote.USD.percent_change_7d  }));
+    mappedCryptos = resp.data.data.map(obj => ({
+      cmcID: obj.id,
+      symbol: obj.symbol,
+      name: obj.name,
+      price: obj.quote.USD.price,
+      change: obj.quote.USD.percent_change_7d
+    }));
     // update the date and cryptos in mongoDB
     const result = await Cryptos.findOneAndUpdate({ name: 'CryptoList' }, { date: new Date(), cryptos: mappedCryptos }, {});
     console.log('Crypto update successful');
-    return mappedCryptos;
-  } else { return cryptos.cryptos; }
+  } else { mappedCryptos = cryptos.cryptos; }
+  // update portfolio values w current prices
+  const updatedCryptos = portCryptos.map(crypto => {
+    const matchingCrypto = mappedCryptos.find(data => data.name === crypto.name);
+    if (!matchingCrypto) { return { ...crypto, value: '?' }; }
+    return { ...crypto, price: matchingCrypto.price };
+  }).concat(portManuals);
+  return updatedCryptos;
 };
 
 const updateStocks = async () => {
@@ -87,15 +100,10 @@ router.post('/login',
       const budgets = await Budgets.findOne({ userId: user._id });
       const updatedStocks = await getStockPrices([...portfolio.stocks]);
       const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
-      const mappedCryptos = await updateCryptos();
-      await deleteOldTempUsers();
-      await updateStocks();
-      // update portfolio values w current prices
-      const updatedCryptos = [...portfolio.cryptos].map(crypto => {
-        const matchingCrypto = mappedCryptos.find(data => data.name === crypto.name);
-        if (!matchingCrypto) { return { ...crypto, value: '?' }; }
-        return { ...crypto, price: matchingCrypto.price };
-      }).concat([...portfolio.manualCryptos]);
+      await deleteOldTempUsers().catch(err => { throw 'err'; });
+      await updateStocks().catch(err => { throw 'err'; });
+      // update portfolio w current stock/crypto prices
+      const updatedCryptos = await updateCryptos([...portfolio.cryptos], [...portfolio.manualCryptos]).catch(err => { throw 'err'; });
       const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
       if (!budgets) { return res.status(200).json({ token, portfolio: updatedPortfolio, netWorth, goals }); }
       // if its a new month then reset all budget transactions
@@ -177,14 +185,10 @@ router.get('/autoLogin', auth, async (req, res) => {
     const budgets = await Budgets.findOne({ userId: req.userId });
     const updatedStocks = await getStockPrices([...portfolio.stocks]);
     const combinedStocks = updatedStocks.concat([...portfolio.manualStocks]);
-    const mappedCryptos = await updateCryptos();
-    await deleteOldTempUsers();
-    await updateStocks();
-    const updatedCryptos = [...portfolio.cryptos].map(crypto => {
-      const matchingCrypto = mappedCryptos.find(data => data.name === crypto.name);
-      if (!matchingCrypto) { return { ...crypto, value: '?' }; }
-      return { ...crypto, price: matchingCrypto.price };
-    }).concat([...portfolio.manualCryptos]);
+    await deleteOldTempUsers().catch(err => { throw 'err'; });
+    await updateStocks().catch(err => { throw 'err'; });
+    // update portfolio with current stock/crypto prices
+    const updatedCryptos = await updateCryptos([...portfolio.cryptos], [...portfolio.manualCryptos]).catch(err => { throw 'err'; });
     const updatedPortfolio = { ...portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
     if (!budgets) { return res.status(200).json({ portfolio: updatedPortfolio, netWorth, goals }); }
     // if new month then reset budget transactions
@@ -198,19 +202,14 @@ router.get('/autoLogin', auth, async (req, res) => {
 });
 
 router.post('/demoLogin', async (req, res) => {
-  // for demo mode, retrieves stock prices for default demo portfolio
+  // for demo mode, retrieves stock/crypto prices for default demo portfolio
   try {
-    const mappedCryptos = await updateCryptos();
-    const updatedCryptos = [...req.body.portfolio.cryptos].map(crypto => {
-      const matchingCrypto = mappedCryptos.find(data => data.name === crypto.name);
-      if (!matchingCrypto) { return { ...crypto, value: '?' }; }
-      return { ...crypto, price: matchingCrypto.price };
-    }).concat([...req.body.portfolio.manualCryptos]);
+    const updatedCryptos = await updateCryptos([...req.body.portfolio.cryptos], [...req.body.portfolio.manualCryptos]).catch(err => { throw 'err'; });
     const updatedStocks = await getStockPrices([...req.body.portfolio.stocks]);
     const combinedStocks = updatedStocks.concat([...req.body.portfolio.manualStocks]);
     const updatedPortfolio = { ...req.body.portfolio, cryptos: updatedCryptos, stocks: combinedStocks };
-    await deleteOldTempUsers();
-    await updateStocks();
+    await deleteOldTempUsers().catch(err => { throw 'err'; });
+    await updateStocks().catch(err => { throw 'err'; });
     res.status(200).json({ portfolio: updatedPortfolio });
   } catch (err) { res.sendStatus(500); }
 });
