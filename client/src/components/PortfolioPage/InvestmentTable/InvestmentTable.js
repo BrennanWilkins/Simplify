@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classes from './InvestmentTable.module.css';
 import { connect } from 'react-redux';
-import btcIcon from '../../../assets/btcIcon.png';
-import ethIcon from '../../../assets/ethIcon.png';
-import ltcIcon from '../../../assets/ltcIcon.png';
-import xmrIcon from '../../../assets/xmrIcon.png';
 import { caretIcon, caretNeutralIcon, stockChartIcon } from '../../UI/UIIcons';
 
 const InvestmentTable = props => {
@@ -131,24 +127,22 @@ const InvestmentTable = props => {
                 <td>{stock.price === '?' ? '?' : `$${Number(stock.price).toFixed(2)}`}</td>
                 <td className={classes.Value}>{stock.value === '?' ? '?' : `$${Number(stock.value).toFixed(2)}`}</td>
                 {props.normal && (props.mode === 'Stocks' || props.mode === 'Cryptos') &&
-                <td onClick={() => props.showChart(stock.symbol, 'Stock')} className={classes.ChartBtn}>{stockChartIcon}</td>}
+                <td onClick={() => stock.identifier === 'Normal' ? props.showChart(stock.symbol, 'Stock') : null}
+                className={classes.ChartBtn}>{stockChartIcon}</td>}
               </tr>
           ))) : props.mode === 'Cryptos' ? (
             data.map((crypto, i) => (
               <tr key={i}>
                 <td className={classes.Symbol}>
-                  {crypto.symbol === 'BTC' ? <img src={btcIcon} alt="BTC"></img> :
-                  crypto.symbol === 'ETH' ? <img src={ethIcon} alt="ETH"></img> :
-                  crypto.symbol === 'LTC' ? <img src={ltcIcon} alt="LTC"></img> :
-                  crypto.symbol === 'XMR' ? <img src={xmrIcon} alt="XMR"></img> :
-                  crypto.symbol}
+                  {crypto.cmcID ? <img src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${crypto.cmcID}.png`} alt="" /> : crypto.symbol}
                 </td>
                 <td>{crypto.name}</td>
                 <td>{Number(crypto.quantity).toLocaleString(undefined, { maximumFractionDigits: 5 })}</td>
                 <td>{crypto.price === '?' ? '?' : `$${Number(crypto.price).toFixed(2)}`}</td>
                 <td className={classes.Value}>{crypto.value === '?' ? '?' : `$${Number(crypto.value).toFixed(2)}`}</td>
                 {props.normal && (props.mode === 'Stocks' || props.mode === 'Cryptos') &&
-                <td onClick={() => props.showChart(crypto.symbol, 'Crypto')} className={classes.ChartBtn}>{stockChartIcon}</td>}
+                <td onClick={() => crypto.identifier === 'Normal' ? props.showChart(crypto.symbol, 'Crypto') : null}
+                className={classes.ChartBtn}>{stockChartIcon}</td>}
               </tr>
             ))
           ) : props.mode === 'Assets' ? (
@@ -179,7 +173,8 @@ const mapStateToProps = state => ({
   cryptos: state.portfolio.cryptos,
   assets: state.portfolio.otherAssets,
   debts: state.portfolio.liabilities,
-  dark: state.theme.darkMode
+  dark: state.theme.darkMode,
+  cryptoIDs: state.portfolio.cryptoIDs
 });
 
 export default connect(mapStateToProps)(InvestmentTable);

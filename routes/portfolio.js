@@ -52,7 +52,7 @@ router.get('/searchStock/:searchVal',
       });
       const result = searchRes.filter(stock => stock.price !== '?');
       res.status(200).json({ result });
-    } catch(e) { console.log(e); res.sendStatus(500); }
+    } catch(e) { res.sendStatus(500); }
 });
 
 router.put('/updateStocks', auth,

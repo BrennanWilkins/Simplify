@@ -42,8 +42,8 @@ const updateCryptos = async (portCryptos, portManuals) => {
   // update portfolio values w current prices
   const updatedCryptos = portCryptos.map(crypto => {
     const matchingCrypto = mappedCryptos.find(data => data.name === crypto.name);
-    if (!matchingCrypto) { return { ...crypto, value: '?' }; }
-    return { ...crypto, price: matchingCrypto.price };
+    if (!matchingCrypto) { return { ...crypto, value: '?', cmcID: null }; }
+    return { ...crypto, price: matchingCrypto.price, cmcID: matchingCrypto.cmcID };
   }).concat(portManuals);
   return updatedCryptos;
 };

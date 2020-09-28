@@ -116,7 +116,7 @@
 .DarkTable th {
   color: rgb(var(--light-blue2));
 }
-.NormalTable tbody tr:hover {
+.NormalTable tbody tr:hover, .Table tbody tr:hover {
   background: rgba(var(--blue), 0.04);
 }
 .DarkTable tbody tr:hover {
@@ -134,16 +134,12 @@
   color: rgb(var(--light-blue2)) !important;
 }
 .Symbol img {
-  position: absolute;
   height: 18px;
-  top: calc(50% - 9px);
-  left: calc(50% - 9px);
+  position: relative;
+  top: 1.5px;
 }
 .NormalTable .Symbol img {
-  height: 24px;
-  position: absolute;
-  top: calc(50% - 12px);
-  left: calc(50% - 12px);
+  height: 28px;
 }
 .Ascend, .Descend, .Neutral {
   font-size: 12px;

@@ -79,11 +79,9 @@ const SearchPanel = props => {
   };
 
   const selectedHandler = stock => {
-    const newStock = { ...stock };
-    delete newStock.cmcID;
     setShowInput(true);
-    setSelectedRes(newStock);
-    setSelectedTicker(newStock.symbol);
+    setSelectedRes({ ...stock });
+    setSelectedTicker(stock.symbol);
     setTimeout(() => sharesRef.current.focus(), 400);
   };
 
@@ -111,7 +109,7 @@ const SearchPanel = props => {
     const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
     if (props.isDemo) {
       props.setNetWorthData(updatedNetWorth);
-      isStock ? props.addStock(data) : props.addCrypto(data);
+      isStock ? props.addStock(data) : props.addCrypto({ ...data, cmcID: selectedRes.cmcID });
       props.addNotif(`${data.symbol} added to portfolio`);
       // update todays highlights data
       props.setUpdateHighlights();
@@ -122,7 +120,7 @@ const SearchPanel = props => {
       await axios.put('portfolio/updateCryptos', { data });
       const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
       props.setNetWorthData(resp.data.result.dataPoints);
-      isStock ? props.addStock(data) : props.addCrypto(data);
+      isStock ? props.addStock(data) : props.addCrypto({ ...data, cmcID: selectedRes.cmcID });
       props.addNotif(`${data.symbol} added to portfolio`);
       // update todays highlights data
       props.setUpdateHighlights();
