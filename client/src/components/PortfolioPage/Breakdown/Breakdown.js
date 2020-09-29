@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import classes from './Breakdown.module.css';
 import { connect } from 'react-redux';
 import Chart from '../../UI/Chart/Chart';
+import { caretIcon } from '../../UI/UIIcons';
 
 const Breakdown = props => {
   const [dataPoints, setDataPoints] = useState([]);
   const [stockData, setStockData] = useState([]);
   const [cryptoData, setCryptoData] = useState([]);
+  const [stockSortDown, setStockSortDown] = useState(true);
+  const [cryptoSortDown, setCryptoSortDown] = useState(true);
 
   useEffect(() => {
     // calculate percentages and category totals of stocks/cryptos/assets of portfolio
@@ -38,6 +41,18 @@ const Breakdown = props => {
     }
   }, [props.stocks, props.cryptos, props.assets]);
 
+  const sortHandler = mode => {
+    if (mode === 'Stocks') {
+      if (stockSortDown) { setStockData(stockData.sort((a,b) => a.percent - b.percent));
+      } else { setStockData(stockData.sort((a,b) => b.percent - a.percent)); }
+      setStockSortDown(prev => !prev);
+    } else {
+      if (cryptoSortDown) { setCryptoData(cryptoData.sort((a,b) => a.percent - b.percent));
+      } else { setCryptoData(cryptoData.sort((a,b) => b.percent - a.percent)); }
+      setCryptoSortDown(prev => !prev);
+    }
+  };
+
   const options = {
     backgroundColor: 'transparent',
     data: [{
@@ -57,44 +72,38 @@ const Breakdown = props => {
       <h1>Portfolio Breakdown</h1>
       <div className={classes.Content}>
         <div className={classes.Chart}><Chart options={options} darkMode4={props.dark} /></div>
-        {props.stocks.length > 0 &&
-          <div className={classes.TableContainer}>
-            <div className={classes.Title}>Stocks</div>
-            <div className={classes.TableInnerContainer}>
-              <table className={classes.Table}>
-                <thead><tr><th>Symbol</th><th>Percentage</th></tr></thead>
-                <tbody>
-                  {stockData.map((stock, i) => (
-                    <tr key={i}>
-                      <td>{stock.name}</td>
-                      <td>{stock.percent}%</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>}
-        {props.cryptos.length > 0 &&
-          <div className={classes.TableContainer}>
-            <div className={classes.Title}>Cryptocurrencies</div>
-            <div className={classes.TableInnerContainer}>
-              <table className={classes.Table}>
-                <thead><tr><th>Symbol</th><th>Percentage</th></tr></thead>
-                <tbody>
-                  {cryptoData.map((crypto, i) => (
-                    <tr key={i}>
-                      <td>{crypto.name}</td>
-                      <td>{crypto.percent}%</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>}
+        {props.stocks.length > 0 && <Table mode="Stocks" data={stockData} sort={() => sortHandler('Stocks')} down={stockSortDown} />}
+        {props.cryptos.length > 0 && <Table mode="Cryptocurrencies" data={cryptoData} sort={() => sortHandler('Cryptos')} down={cryptoSortDown} />}
       </div>
     </div>
   );
 };
+
+const Table = ({mode, data, sort, down }) => (
+  <div className={classes.TableContainer}>
+    <div className={classes.Title}>{mode}</div>
+    <div className={classes.TableInnerContainer}>
+      <table className={classes.Table}>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Percentage<span onClick={sort}
+            className={down ? classes.Down : classes.Up}>
+            {caretIcon}</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((inv, i) => (
+            <tr key={i}>
+              <td>{inv.name}</td>
+              <td>{inv.percent}%</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
 
 const mapStateToProps = state => ({
   stocks: state.portfolio.stocks,

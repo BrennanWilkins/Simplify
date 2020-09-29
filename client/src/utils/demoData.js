@@ -57,12 +57,13 @@ const getDemoData = () => {
       { name: 'Monero', symbol: 'XMR', quantity: 0.55, identifier: 'Normal' },
     ],
     stocks: [
-      { name: 'SPDR S&P 500 ETF Trust', symbol: 'SPY', quantity: 10, identifier: 'Normal' },
+      { name: 'SPDR S&P 500 ETF Trust', symbol: 'SPY', quantity: 15, identifier: 'Normal' },
+      { name: 'Vanguard 500 Index Fund ETF', symbol: 'VOO', quantity: 12, identifier: 'Normal' },
       { name: 'Alphabet Inc.', symbol: 'GOOGL', quantity: 2, identifier: 'Normal' },
-      { name: 'Tesla, Inc.', symbol: 'TSLA', quantity: 1, identifier: 'Normal' },
+      { name: 'Tesla, Inc.', symbol: 'TSLA', quantity: 3, identifier: 'Normal' },
       { name: 'Amazon.com, Inc.', symbol: 'AMZN', quantity: 1, identifier: 'Normal' },
       { name: 'Microsoft Corporation', symbol: 'MSFT', quantity: 3, identifier: 'Normal' },
-      { name: 'Apple Inc.', symbol: 'AAPL', quantity: 2, identifier: 'Normal' }
+      { name: 'Apple Inc.', symbol: 'AAPL', quantity: 4, identifier: 'Normal' }
     ],
     otherAssets: [
       { name: 'Cash', desc: 'My bank accnt', value: 30000 },

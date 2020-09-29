@@ -136,3 +136,20 @@
     padding: 10px 5px 15px;
   }
 }
+.Up, .Down {
+  font-size: 12px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+  position: relative;
+  cursor: pointer;
+}
+.Up {
+  transform: rotate(-90deg);
+  top: 1px;
+}
+.Down {
+  transform: rotate(90deg);
+  top: 1px;
+}
