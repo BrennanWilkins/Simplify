@@ -137,8 +137,8 @@ router.post('/signup',
         tls: { rejectUnauthorized: false },
         auth: { user: config.get('SIMPLIFY_EMAIL'), pass: config.get('SIMPLIFY_PASS') }
       });
-      // const hRef = `https://simplify.herokuapp.com/api/auth/validateSignup/${cryptoId}`;
-      const hRef = `http://localhost:9000/api/auth/validateSignup/${cryptoId}`;
+      const hRef = `https://simplify.herokuapp.com/api/auth/validateSignup/${cryptoId}`;
+      // const hRef = `http://localhost:9000/api/auth/validateSignup/${cryptoId}`;
       const mailOptions = {
         from: config.get('SIMPLIFY_EMAIL'),
         to: req.body.email,
@@ -171,9 +171,9 @@ router.get('/validateSignup/:cryptoId',
       const newGoals = new Goals({ netWorthGoal: 0, otherGoals: [], userId: newUser._id });
       await newGoals.save();
       await TempUser.findOneAndDelete({ cryptoId: req.params.cryptoId });
-      res.redirect('http://localhost:3000/login?valid=true');
-      // res.redirect('https://simplify.herokuapp.com/login?valid=true');
-    } catch(e) { res.redirect('http://localhost:3000/login?valid=false'); /*res.redirect('https://simplify.herokuapp.com/login?valid=false'*/ }
+      // res.redirect('http://localhost:3000/login?valid=true');
+      res.redirect('https://simplify.herokuapp.com/login?valid=true');
+    } catch(e) { /*res.redirect('http://localhost:3000/login?valid=false');*/ res.redirect('https://simplify.herokuapp.com/login?valid=false' }
 });
 
 router.get('/autoLogin', auth, async (req, res) => {
