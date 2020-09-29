@@ -15,6 +15,7 @@ import Highlights from '../Highlights/Highlights';
 import NewsPanel from '../NewsPanel/NewsPanel';
 import AnalysisPanel from '../AnalysisPanel/AnalysisPanel';
 import PriceChartPanel from '../PriceChartPanel/PriceChartPanel';
+import Breakdown from '../Breakdown/Breakdown';
 
 const Portfolio = props => {
   const [showStockSearch, setShowStockSearch] = useState(false);
@@ -172,6 +173,7 @@ const Portfolio = props => {
             <InvestmentTable mode="Debts" normal />
           </div>
         </div>
+        <Breakdown />
       </div>
     </div>
   );

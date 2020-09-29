@@ -84,7 +84,7 @@ const InvestmentTable = props => {
     <div className={props.normal ? null :
       (props.mode === 'Stocks' || props.mode === 'Cryptos' ?
       (props.dark ? `${classes.Container} ${classes.Dark}` : classes.Container) :
-      (props.dark ? `${classes.AssetContainer} ${classes.Dark}` : classes.AssetContainer))}>
+      (props.dark ? `${classes.Container} ${classes.AssetContainer} ${classes.Dark}` : `${classes.Container} ${classes.AssetContainer}`))}>
       <table className={props.normal ? (props.dark ? `${classes.NormalTable} ${classes.DarkTable}` : classes.NormalTable) :
       (props.dark ? `${classes.Table} ${classes.DarkTable}` : classes.Table)}>
         <thead>

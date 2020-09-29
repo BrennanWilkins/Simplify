@@ -65,8 +65,9 @@ const getDemoData = () => {
       { name: 'Apple Inc.', symbol: 'AAPL', quantity: 2, identifier: 'Normal' }
     ],
     otherAssets: [
-      { name: 'Bank Accnt', desc: 'Capital One Savings', value: 30000 },
-      { name: 'Real Estate', desc: 'My apartment', value: 175000 }
+      { name: 'Cash', desc: 'My bank accnt', value: 30000 },
+      { name: 'Cash', desc: 'Brokerage accnt', value: 10000 },
+      { name: 'Real Estate', desc: 'My apartment', value: 175000 },
     ],
     liabilities: [
       { name: 'Credit Card Debt', desc: 'My credit card', value: 3000 }
