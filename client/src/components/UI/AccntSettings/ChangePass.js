@@ -11,20 +11,23 @@ import { addNotif } from '../../../store/actions/index';
 const ChangePass = props => {
   const [oldPass, setOldPass] = useState('');
   const [newPass, setNewPass] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
 
   const closeHandler = () => {
     setOldPass('');
     setNewPass('');
+    setConfirmPass('');
     setErr(false);
     setErrMsg('');
     props.close();
   };
 
   const changeHandler = () => {
-    if (oldPass === '' || newPass === '') { return; }
-    axios.post('auth/changePassword', { oldPass, newPass }).then(res => {
+    if (oldPass === '' || newPass === '' || confirmPass === '') { return; }
+    if (newPass !== confirmPass) { setErr(true); return setErrMsg('Confirm password must be the same as your new password.'); }
+    axios.post('auth/changePassword', { oldPass, newPass, confirmPass }).then(res => {
       closeHandler();
       props.closeAll();
       props.addNotif('Password change successful');
@@ -41,8 +44,9 @@ const ChangePass = props => {
         <div className={classes.Content}>
           <div style={{width: '100%'}}><CloseBtn close={closeHandler} /></div>
           <p className={classes.Title2}>Change my password</p>
-          <PassInput val={oldPass} change={val => setOldPass(val)} ph="Current password" />
-          <PassInput val={newPass} change={val => setNewPass(val)} ph="New password" />
+          <PassInput val={oldPass} change={val => { setErr(false); setOldPass(val); }} ph="Current password" />
+          <PassInput val={newPass} change={val => { setErr(false); setNewPass(val); }} ph="New password" />
+          <PassInput val={confirmPass} change={val => { setErr(false); setConfirmPass(val); }} ph="Confirm password" />
           <BlueBtn clicked={changeHandler}>Confirm</BlueBtn>
           <div className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</div>
         </div>

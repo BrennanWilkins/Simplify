@@ -228,11 +228,15 @@ router.post('/deleteAccount', auth, async (req, res) => {
 
 router.post('/changePassword', auth,
   [body('oldPass').not().isEmpty().trim().escape(),
-  body('newPass').not().isEmpty().trim().escape()],
+  body('newPass').not().isEmpty().trim().escape(),
+  body('confirmPass').not().isEmpty().trim().escape()],
   async (req, res) => {
     // verify old password & change to new password
     try {
       if (!validationResult(req).isEmpty()) { throw 'err'; }
+      if (req.body.newPass !== req.body.confirmPass) {
+        return res.status(400).json({ msg: 'Confirm password must be the same as your new password.' });
+      }
       const user = await User.findOne({ _id: req.userId });
       if (!user) { throw 'err'; }
       const same = await bcryptjs.compare(req.body.oldPass, user.password);
