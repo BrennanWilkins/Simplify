@@ -345,7 +345,7 @@ router.get('/news/:code/:query',
     // unauthorized
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
     try {
-      const result = await getTickerNews(req.params.query);
+      const result = await getTickerNews(req.params.query).catch(err => { throw 'err'; });
       if (result === 'not found') { return res.sendStatus(400); }
       if (result === 'error') { throw 'err'; }
       const { news, sentiment } = result;
@@ -358,7 +358,7 @@ router.get('/authNews/:query', auth,
   [param('*').trim().escape()],
   async (req, res) => {
     try {
-      const result = await getTickerNews(req.params.query);
+      const result = await getTickerNews(req.params.query).catch(err => { throw 'err'; });
       if (result === 'not found') { return res.sendStatus(400); }
       if (result === 'error') { throw 'err'; }
       const { news, sentiment } = result;
@@ -382,7 +382,7 @@ router.get('/generalNews/:code',
     // unauthorized
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
     try {
-      const news = await getGeneralNews();
+      const news = await getGeneralNews().catch(err => { throw 'err'; });
       if (news === 'error') { throw 'err'; }
       res.status(200).json({ news });
     } catch(e) { res.sendStatus(500); }
@@ -393,7 +393,7 @@ router.get('/authGeneralNews', auth,
   [param('code').trim().escape()],
   async (req, res) => {
     try {
-      const news = await getGeneralNews();
+      const news = await getGeneralNews().catch(err => { throw 'err'; });
       if (news === 'error') { throw 'err'; }
       res.status(200).json({ news });
     } catch(e) { res.sendStatus(500); }
@@ -418,7 +418,7 @@ router.get('/analysis/:code/:ticker',
     // unauthorized
     if (req.params.code !== config.get('NEWS_CODE')) { return res.sendStatus(401); }
     try {
-      const result = await getAnalysis(req.params.ticker);
+      const result = await getAnalysis(req.params.ticker).catch(err => { throw 'err'; });
       if (result === 'not found') { return res.sendStatus(400); }
       if (result === 'error') { throw 'err'; }
       const { recommendation, target, earnings } = result;
@@ -431,7 +431,7 @@ router.get('/authAnalysis/:ticker', auth,
   [param('*').trim().escape()],
   async (req, res) => {
     try {
-      const result = await getAnalysis(req.params.ticker);
+      const result = await getAnalysis(req.params.ticker).catch(err => { throw 'err'; });
       if (result === 'not found') { return res.sendStatus(400); }
       if (result === 'error') { throw 'err'; }
       const { recommendation, target, earnings } = result;
