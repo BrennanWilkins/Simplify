@@ -173,7 +173,7 @@ router.get('/validateSignup/:cryptoId',
       await TempUser.findOneAndDelete({ cryptoId: req.params.cryptoId });
       // res.redirect('http://localhost:3000/login?valid=true');
       res.redirect('https://simplify.herokuapp.com/login?valid=true');
-    } catch(e) { /*res.redirect('http://localhost:3000/login?valid=false');*/ res.redirect('https://simplify.herokuapp.com/login?valid=false' }
+    } catch(e) { /*res.redirect('http://localhost:3000/login?valid=false');*/ res.redirect('https://simplify.herokuapp.com/login?valid=false'); }
 });
 
 router.get('/autoLogin', auth, async (req, res) => {
