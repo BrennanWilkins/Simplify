@@ -105,9 +105,9 @@ const Portfolio = props => {
               <button className={classes.SettingsBtn} onClick={() => setShowStockSettings(true)}>{settingsIcon}</button>
               <SettingsPanel mode="Stock" show={showStockSettings} close={() => setShowStockSettings(false)}
               down={stockRef.current && stockRef.current.getBoundingClientRect().top < 310} />
+              <SearchPanel mode="Stock" show={showStockSearch} close={() => setShowStockSearch(false)}
+              down={stockRef.current && stockRef.current.getBoundingClientRect().top < 250} />
             </div>
-            <SearchPanel mode="Stock" show={showStockSearch} close={() => setShowStockSearch(false)}
-            down={stockRef.current && stockRef.current.getBoundingClientRect().top < 250} />
             <InvestmentTable mode="Stocks" normal showChart={showChartHandler} />
           </div>
           <div className={classes.Cryptos} ref={cryptoRef}>
@@ -127,9 +127,9 @@ const Portfolio = props => {
               <button className={classes.SettingsBtn} onClick={() => setShowCryptoSettings(true)}>{settingsIcon}</button>
               <SettingsPanel mode="Crypto" show={showCryptoSettings} close={() => setShowCryptoSettings(false)}
               down={cryptoRef.current && cryptoRef.current.getBoundingClientRect().top < 310} />
+              <SearchPanel mode="Crypto" show={showCryptoSearch} close={() => setShowCryptoSearch(false)}
+              down={cryptoRef.current && cryptoRef.current.getBoundingClientRect().top < 250} />
             </div>
-            <SearchPanel mode="Crypto" show={showCryptoSearch} close={() => setShowCryptoSearch(false)}
-            down={cryptoRef.current && cryptoRef.current.getBoundingClientRect().top < 250} />
             <InvestmentTable mode="Cryptos" normal showChart={showChartHandler} />
           </div>
         </div>

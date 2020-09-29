@@ -138,17 +138,9 @@ const BuySellPanel = props => {
     inputRef.current.focus();
   };
 
-  const calcLeft = () => {
-    switch(props.mode) {
-      case 'BuyStock': return props.show ? '455px' : '92.5px';
-      case 'SellStock': return props.show ? '455px' : '157.5px';
-      case 'BuyCrypto': return props.show ? '-205px' : '187.5px';
-      default: return props.show ? '-205px' : '247.5px';
-    }
-  };
-
   return (
-    <PortPanelContainer show={props.show} close={closeHandler} left={calcLeft()} down={props.down}>
+    <PortPanelContainer show={props.show} close={closeHandler} down={props.down}
+    left={props.mode === 'BuyStock' ? '52px' : props.mode === 'SellCrypto' ? '170px' : '115px'}>
       <p className={classes.Text} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{
         props.mode === 'BuyStock' ? 'Which stock did you buy?' :
         props.mode === 'SellStock' ? 'Which stock did you sell?' :

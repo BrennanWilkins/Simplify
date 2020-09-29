@@ -11,7 +11,7 @@ import PortPanelContainer from '../PortPanelContainer/PortPanelContainer';
 
 const AssetPanel = props => {
   const [titleText, setTitleText] = useState('');
-  const [panelLeft, setPanelLeft] = useState('455px');
+  const [panelLeft, setPanelLeft] = useState('135px');
   const [confirmClass, setConfirmClass] = useState(classes.HideConfirm);
   const [options, setOptions] = useState(null);
   const [selectedName, setSelectedName] = useState('');
@@ -26,35 +26,36 @@ const AssetPanel = props => {
   const valRef = useRef();
 
   useEffect(() => {
+    // set options/titleText/panel position based on curr mode
     switch(props.mode) {
       case 'AddAsset':
         setTitleText('Add a new asset');
-        props.show ? setPanelLeft('455px') : setPanelLeft('7.5px');
+        setPanelLeft('-45px');
         nameRef.current.focus();
         break;
       case 'RemoveAsset':
         setTitleText('Select an asset to remove it from your portfolio');
-        props.show ? setPanelLeft('455px') : setPanelLeft('180px');
+        setPanelLeft('135px');
         setOptions(props.otherAssets.map(asset => ({ value: asset.desc, label: asset.desc })));
         break;
       case 'AddDebt':
         setTitleText('Add a new liability');
-        props.show ? setPanelLeft('-205.5px') : setPanelLeft('32.5px');
+        setPanelLeft('-45px');
         nameRef.current.focus();
         break;
       case 'RemoveDebt':
         setTitleText('Select a liability to remove it from your portfolio');
-        props.show ? setPanelLeft('-205.5px') : setPanelLeft('215px');
+        setPanelLeft('135px');
         setOptions(props.liabilities.map(debt => ({ value: debt.desc, label: debt.desc })));
         break;
       case 'SettingsAsset':
         setTitleText('Select an asset to change its value');
-        props.show ? setPanelLeft('455px') : setPanelLeft('288px');
+        setPanelLeft('242px');
         setOptions(props.otherAssets.map(asset => ({ value: asset.desc, label: asset.desc })));
         break;
       default:
         setTitleText('Select a liability to change its value');
-        props.show ? setPanelLeft('-205.5px') : setPanelLeft('330.5px');
+        setPanelLeft('242px');
         setOptions(props.liabilities.map(debt => ({ value: debt.desc, label: debt.desc })));
         break;
     }

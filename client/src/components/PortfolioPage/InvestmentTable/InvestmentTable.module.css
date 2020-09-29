@@ -41,32 +41,9 @@
   border-collapse: collapse;
   box-shadow: var(--box-shadow2);
   background: white;
-  width: 620px;
-}
-@media (max-width: 1299px) {
-  .NormalTable {
-    width: 850px;
-  }
-}
-@media (max-width: 890px) {
-  .NormalTable {
-    width: 750px;
-  }
-}
-@media (max-width: 800px) {
-  .NormalTable {
-    width: 700px;
-  }
-}
-@media (max-width: 740px) {
-  .NormalTable {
-    width: 620px;
-  }
-}
-@media (max-width: 650px) {
-  .NormalTable {
-    width: 545px;
-  }
+  max-width: 900px;
+  min-width: 545px;
+  width: 85vw;
 }
 .DarkTable {
   background: rgba(var(--blue), 0.3);

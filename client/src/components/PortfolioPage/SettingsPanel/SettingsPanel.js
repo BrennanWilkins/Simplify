@@ -93,8 +93,7 @@ const SettingsPanel = props => {
   };
 
   return (
-    <PortPanelContainer show={props.show} close={closeHandler} down={props.down}
-    left={isStock ? (props.show ? '455px' : '327.5px') : (props.show ? '-205px' : '297.5px')}>
+    <PortPanelContainer show={props.show} close={closeHandler} down={props.down} left={isStock ? '282px' : '225px'}>
       <p className={classes.Text} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
         {isStock ?
         'Change the price of a manually added stock' :

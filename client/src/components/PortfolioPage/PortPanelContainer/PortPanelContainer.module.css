@@ -9,10 +9,11 @@
   padding: 10px;
   overflow: hidden;
   transition: all 400ms;
-  top: -330px;
   width: 350px;
   height: 300px;
   background: var(--panelBack);
+  top: -325px;
+  left: calc(50% - 185px);
 }
 .DownPanel {
   top: 60px;
@@ -24,34 +25,14 @@
   top: -130px;
 }
 .BigPanel, .BigDownPanel {
-  top: -290px;
+  top: -375px;
   width: 400px;
   height: 350px;
+  left: calc(50% - 210px);
 }
 .BigDownPanel {
-  top: 145px;
+  top: 60px;
 }
 .BigHide {
-  top: -50px;
-}
-@media (max-width: 1300px) {
-  .Panel {
-    left: calc(50% - 185px) !important;
-    top: -325px;
-  }
-  .DownPanel {
-    left: calc(50% - 185px) !important;
-    top: 60px;
-  }
-  .Hide {
-    left: calc(50% - 185px) !important;
-    top: -130px;
-  }
-  .BigPanel, .BigHide {
-    left: calc(50% - 210px) !important;
-  }
-  .BigDownPanel {
-    left: calc(50% - 210px) !important;
-    top: 145px;
-  }
+  top: -135px;
 }
