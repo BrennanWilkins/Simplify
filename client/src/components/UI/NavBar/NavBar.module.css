@@ -63,7 +63,7 @@
   background: rgb(var(--green));
   transition: background 300ms;
 }
-.Backdrop, .HideBackdrop {
+.NavBackdrop, .HideNavBackdrop, .HelpBackdrop, .HideHelpBackdrop {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -71,11 +71,15 @@
   opacity: 1;
   visibility: visible;
   z-index: 50;
-  transition: all 400ms;
+  transition: 350ms ease-out 100ms;
 }
-.HideBackdrop {
+.HideNavBackdrop, .HideHelpBackdrop {
   opacity: 0;
   visibility: hidden;
+  transition: 350ms ease-out 100ms;
+}
+.HelpBackdrop, .HideHelpBackdrop {
+  transition: 225ms ease-out 200ms;
 }
 .QuestionIcon {
   margin-right: 5px;

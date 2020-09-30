@@ -9,7 +9,7 @@
   z-index: 2;
   padding: 10px;
   left: calc(50% - 265px);
-  transition: 300ms ease-out;
+  transition: 300ms ease-in 150ms;
   overflow: auto;
   color: white;
   display: flex;
@@ -29,7 +29,7 @@
   opacity: 0;
   transform: translateY(-100%);
   visibility: hidden;
-  transition: transform 300ms ease-in, opacity 150ms ease-in 150ms, visibility 150ms ease-in 150ms;
+  transition: 300ms ease-in;
 }
 .Backdrop, .HideBackdrop {
   position: fixed;
@@ -38,12 +38,13 @@
   width: 100%;
   height: calc(100% - 70px);
   background: rgba(0,0,0,0.25);
-  transition: 400ms;
+  transition: 250ms ease-in;
   z-index: 2;
 }
 .HideBackdrop {
   opacity: 0;
   visibility: hidden;
+  transition: 250ms ease-out 250ms;
 }
 .CloseBtn {
   width: 100%;

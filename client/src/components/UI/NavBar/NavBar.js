@@ -56,7 +56,8 @@ const NavBar = props => {
         </div>
       </div>
       <AccntPanel show={showSettings} close={() => setShowSettings(false)} logout={props.logout} isDemo={props.isDemo} />
-      <div className={showSideNav || showHelp ? classes.Backdrop : classes.HideBackdrop}></div>
+      <div className={showSideNav ? classes.NavBackdrop : classes.HideNavBackdrop}></div>
+      <div className={showHelp ? classes.HelpBackdrop : classes.HideHelpBackdrop}></div>
       <SideNav demo={props.isDemo} show={showSideNav} close={() => setShowSideNav(false)}
       showHelpPanel={() => setShowHelp(true)} logout={props.logout} />
       <Suspense fallback=""><HelpPanel show={showHelp} close={() => setShowHelp(false)} /></Suspense>
