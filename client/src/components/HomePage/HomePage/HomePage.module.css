@@ -3,8 +3,10 @@
   position: fixed;
   top: 70px;
   height: calc(100% - 70px);
-  overflow-y: auto;
-  overflow-x: hidden;
+  /* overflow-y: auto;
+  overflow-x: hidden; */
+
+  overflow: scroll;
 }
 .Content, .Dark {
   display: flex;
