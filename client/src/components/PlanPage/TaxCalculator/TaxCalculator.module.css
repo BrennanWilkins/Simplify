@@ -2,6 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  /*  */
+  /* min-width: 500px; */
 }
 .InputBox {
   border-radius: 3px;
@@ -129,6 +131,8 @@
   margin: 20px auto;
   max-width: 850px;
   background: white;
+  /*  */
+  /* min-width: 425px; */
 }
 .Table td, .Table th {
   border: 1px solid rgb(var(--blue));

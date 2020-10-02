@@ -4,6 +4,9 @@
 .Title {
   text-align: center;
   position: relative;
+  /*  */
+  /* width: 500px;
+  margin: auto; */
 }
 .Title h1 {
   margin: 20px 0 15px;
