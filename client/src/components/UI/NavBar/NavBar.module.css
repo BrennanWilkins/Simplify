@@ -107,8 +107,6 @@
   .AccntLink {
     margin-right: 20px;
   }
-}
-@media (max-width: 345px) {
   .Title {
     position: absolute;
     left: calc(50% - 75px);
