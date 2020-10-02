@@ -21,17 +21,18 @@ const AccntPanel = props => {
         <div className={classes.Link} onClick={() => setShowFeedback(true)}>Leave feedback</div>
         {!props.isDemo && <>
         <div className={classes.Link} onClick={() => setShowChangePass(true)}>Change my password</div>
-        <div className={classes.Link} onClick={() => setShowDeleteAccnt(true)}>Delete account</div>
-        <ChangePass show={showChangePass} close={() => setShowChangePass(false)} closeAll={props.close} />
-        <DeleteAccnt show={showDeleteAccnt} close={() => setShowDeleteAccnt(false)} logout={props.logout} closeAll={props.close} /></>}
+        <div className={classes.Link} onClick={() => setShowDeleteAccnt(true)}>Delete account</div></>}
         <div className={classes.Link} style={{marginBottom: '15px'}} onClick={props.toggleDarkMode}>
           {!props.darkMode ?
           <span className={classes.DarkIcon}>{darkIcon} Dark mode</span> :
           <span className={classes.LightIcon}>{lightIcon} Light mode</span>}
         </div>
-        <Feedback show={showFeedback} close={() => setShowFeedback(false)} closeAll={props.close} isDemo={props.isDemo} />
       </div>
     </PanelContainer>
+    {!props.isDemo && <>
+    <ChangePass show={showChangePass} close={() => setShowChangePass(false)} closeAll={props.close} />
+    <DeleteAccnt show={showDeleteAccnt} close={() => setShowDeleteAccnt(false)} logout={props.logout} closeAll={props.close} /></>}
+    <Feedback show={showFeedback} close={() => setShowFeedback(false)} closeAll={props.close} isDemo={props.isDemo} />
     <div className={showChangePass || showDeleteAccnt ? classes.Backdrop : classes.HideBackdrop}></div>
     </>
   );

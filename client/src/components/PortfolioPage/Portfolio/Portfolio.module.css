@@ -1,6 +1,6 @@
 .Container {
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 70px;
   height: calc(100% - 70px);
   overflow: auto;

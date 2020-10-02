@@ -1,14 +1,10 @@
 .Container {
   width: 100%;
-  /* position: absolute; */
+  position: fixed;
   top: 70px;
-  /* height: calc(100% - 70px); */
+  height: calc(100% - 70px);
   overflow-y: auto;
   overflow-x: hidden;
-
-  position: fixed;
-  height: calc(100vh - 70px);
-  -webkit-overflow-scrolling: touch;
 }
 .Content, .Dark {
   display: flex;
