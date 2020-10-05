@@ -19,7 +19,7 @@ const PlanPageContainer = props => {
   }, [showInfo]);
 
   return (
-    <div className={props.show ? undefined : classes.Hide} style={{minWidth: '500px'}}>
+    <div className={props.show ? undefined : classes.Hide}>
       <div className={props.darkMode ? `${classes.Title} ${classes.Dark}` : classes.Title}>
         <h1>
           {props.currMode === 'Tax' ? 'Capital Gains Tax Calculator' :

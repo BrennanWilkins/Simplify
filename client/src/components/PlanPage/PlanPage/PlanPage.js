@@ -110,7 +110,7 @@ const PlanPage = props => {
 
   return (
     <div className={classes.Container}>
-      {/*<div className={classes.Content}>*/}
+      <div className={classes.Content}>
         <div className={classes.SelectBar}>
           <span className={currMode === 'Compound' ? classes.ActiveBtn : classes.Btn}>
             <BlueBtn clicked={() => setCurrMode('Compound')}>Compound Interest Visualizer</BlueBtn></span>
@@ -179,7 +179,7 @@ const PlanPage = props => {
             <p className={classes.SubTitle}>Starting age</p>
           </div>}
         <TaxCalculator show={currMode === 'Tax'} darkMode={props.darkMode} />
-      {/*</div>*/}
+      </div>
     </div>
   );
 };

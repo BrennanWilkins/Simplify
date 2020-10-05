@@ -13,8 +13,6 @@
   transition: all 250ms;
   position: relative;
   margin: 0 auto 30px;
-  /*  */
-  /* min-width: 500px; */
 }
 .DarkChart {
   padding: 3px 5px 0 5px;
@@ -29,8 +27,6 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  /*  */
-  /* min-width: 500px; */
 }
 .InputRow, .InputRow2 {
   display: flex;
@@ -58,8 +54,6 @@
   align-items: center;
   height: 100px;
   margin: 10px 0 0;
-  /*  */
-  /* min-width: 500px; */
 }
 .Btns button {
   margin: 0 10px 0;
@@ -96,8 +90,6 @@
   justify-content: center;
   align-items: center;
   background: rgba(var(--dark-blue3), 0.2);
-  /*  */
-  min-width: 500px;
 }
 .Btn button, .ActiveBtn button {
   border-radius: 0;
