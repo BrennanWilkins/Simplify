@@ -71,7 +71,7 @@ export const SearchInput = React.forwardRef((props, ref) => {
         onChange={e => props.change(e.target.value)}
         placeholder={props.ph}
         tabIndex={props.noTab ? -1 : 0} />
-      <button onClick={props.submit}>{searchIcon}</button>
+      <div onClick={props.submit}>{searchIcon}</div>
     </div>
   );
 });

@@ -114,7 +114,7 @@ const InvestmentTable = props => {
                 {sortMethods.value === '' ? caretNeutralIcon : caretIcon}
               </span>}
             </th> : null}
-            {props.normal && (props.mode === 'Stocks' || props.mode === 'Cryptos') && <th></th>}
+            {props.normal && (props.mode === 'Stocks' || props.mode === 'Cryptos') && <th className={classes.SymbolHeader}></th>}
           </tr>
         </thead>
         <tbody>

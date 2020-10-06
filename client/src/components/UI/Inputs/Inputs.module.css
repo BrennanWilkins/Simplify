@@ -43,6 +43,8 @@
   margin: auto;
   border: 1.2px solid rgba(var(--dark-blue), 0.6);
   transition: box-shadow 200ms ease-out, border 100ms ease-out;
+  overflow: hidden;
+  height: 30px;
 }
 .Focus {
   box-shadow: 0 0 2px 0 rgba(var(--blue), 0.9);
@@ -56,7 +58,7 @@
   font-size: 16px;
   box-sizing: border-box;
 }
-.SearchInput button {
+.SearchInput div {
   padding: 7px;
   display: inline-flex;
   justify-content: center;
@@ -65,12 +67,11 @@
   outline: none;
   cursor: pointer;
   font-size: 16px;
-  background: transparent;
   transition: 300ms;
   background: rgba(var(--dark-blue), 0.2);
   color: rgb(var(--dark-blue2));
 }
-.SearchInput button:hover {
+.SearchInput div:hover {
   background: rgba(var(--dark-blue), 0.4);
   color: rgb(var(--dark-blue));
 }
