@@ -18,7 +18,8 @@ const CategChart = props => {
   });
 
   const options = {
-    backgroundColor: props.darkMode ? 'rgb(32, 84, 109)' : 'white',
+    // backgroundColor: props.darkMode ? 'rgb(32, 84, 109)' : 'white',
+    backgroundColor: 'transparent',
     data: [{
       type: "pie",
 			toolTipContent: "{label}: {y}% (${val})",

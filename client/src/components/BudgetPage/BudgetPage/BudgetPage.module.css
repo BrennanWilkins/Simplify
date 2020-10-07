@@ -6,7 +6,9 @@
   overflow: auto;
 }
 .Content {
-  min-width: 448px;
+  /* min-width: 448px; */
+
+  min-width: 374px;
 }
 .Budget {
   width: 1000px;
@@ -154,5 +156,16 @@
   }
   .Transactions {
     width: 100%;
+  }
+}
+@media (max-width: 475px) {
+  .Budget {
+    width: 360px;
+  }
+  .Transaction {
+    font-size: 15px;
+  }
+  .BudgetDiv {
+    padding: 10px 5px;
   }
 }

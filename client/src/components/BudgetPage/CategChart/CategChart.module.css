@@ -4,3 +4,8 @@
   position: relative;
   z-index: 1;
 }
+@media (max-width: 820px) {
+  .ChartContainer {
+    transform: scale(0.95);
+  }
+}

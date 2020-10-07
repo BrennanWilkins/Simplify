@@ -90,3 +90,9 @@
 .HideErr {
   opacity: 0;
 }
+@media (max-width: 400px) {
+  .PanelUp, .HidePanelUp, .PanelDown, .HidePanelDown {
+    padding: 10px 5px;
+    left: calc(50% - 180px);
+  }
+}

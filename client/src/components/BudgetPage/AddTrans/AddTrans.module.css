@@ -23,3 +23,17 @@
 .CostInput input {
   width: 120px;
 }
+@media (max-width: 475px) {
+  .ShowAddTrans, .HideAddTrans input {
+    width: 150px;
+  }
+  .CostInput input {
+    width: 100px;
+  }
+  .ShowAddTrans, .HideAddTrans {
+    width: 100%;
+  }
+  .ShowAddTrans {
+    margin: 20px 0 10px;
+  }
+}
