@@ -9,6 +9,7 @@ import Container from '../PlanPageContainer/PlanPageContainer';
 import { formatNum } from '../../../utils/formatNum';
 import { connect } from 'react-redux';
 import Form from '../../UI/Form/Form';
+import SmallSelectBar from '../SmallSelectBar/SmallSelectBar';
 
 const PlanPage = props => {
   const [compoundVals, setCompoundVals] = useState({
@@ -119,6 +120,7 @@ const PlanPage = props => {
           <span className={currMode === 'Tax' ? classes.ActiveBtn : classes.Btn}>
             <BlueBtn clicked={() => setCurrMode('Tax')}>Capital Gains Calculator</BlueBtn></span>
         </div>
+        <SmallSelectBar mode={currMode} changeMode={val => setCurrMode(val.value)} />
         <Form allow={currMode !== 'Tax'} submit={calcHandler}>
           <Container show={currMode === 'Compound'} currMode="Compound" darkMode={props.darkMode}>
             <div className={props.darkMode ? `${classes.Inputs} ${classes.DarkInputs}` : classes.Inputs}>

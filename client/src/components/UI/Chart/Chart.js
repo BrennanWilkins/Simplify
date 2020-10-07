@@ -5,7 +5,9 @@ import CanvasJSStockChart from '../../UI/canvasjs/canvasjs.stock.react';
 
 const Chart = props => (
   <div className={classes.Chart}>
-    <CanvasJSChart options={{ ...props.options, animationEnabled: true, exportEnabled: false }} />
+    <div className={props.addZ ? classes.Canvas : undefined}>
+      <CanvasJSChart options={{ ...props.options, animationEnabled: true, exportEnabled: false }} />
+    </div>
     <div className={classes.Block}
     style={props.lightblue ?
       { background: 'rgb(234, 247, 251)' } :

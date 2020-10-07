@@ -44,3 +44,14 @@
   visibility: hidden;
   opacity: 0;
 }
+@media (max-width: 500px) {
+  .Title {
+    width: 300px;
+    margin: auto;
+  }
+  .ShowInfo, .HideInfo {
+    width: 300px;
+    left: calc(50% - 165px);
+    top: 75px;
+  }
+}

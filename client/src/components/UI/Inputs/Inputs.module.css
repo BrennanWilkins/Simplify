@@ -6,6 +6,7 @@
   border: 1px solid rgba(var(--blue), 0.6);
   border-radius: 2px;
   transition: box-shadow 200ms ease-out, border 100ms ease-out, background 200ms ease-out;
+  -webkit-appearance: none;
 }
 .DateInput {
   padding: 2px 3px;

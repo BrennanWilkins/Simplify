@@ -26,6 +26,9 @@
   box-sizing: border-box;
   animation: fadeIn 350ms ease-in forwards;
 }
+.Article div {
+  width: 283px;
+}
 .Article img {
   width: 175px;
   height: 175px;

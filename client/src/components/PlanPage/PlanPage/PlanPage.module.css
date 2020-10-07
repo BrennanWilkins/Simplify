@@ -6,7 +6,7 @@
   overflow: auto;
 }
 .Content {
-  min-width: 500px;
+  min-width: 374px;
 }
 .Chart {
   width: 85%;
@@ -108,5 +108,13 @@
 @media (max-width: 520px) {
   .InputRow {
     flex-direction: column;
+  }
+}
+@media (max-width: 500px) {
+  .SelectBar {
+    display: none;
+  }
+  .InputRow, .InputRow2 {
+    width: 350px;
   }
 }
