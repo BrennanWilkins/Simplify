@@ -18,6 +18,7 @@ import ContribPanel from '../ContribPanel/ContribPanel';
 import GoalChart from '../GoalChart/GoalChart';
 import GoalExpand from '../GoalExpand/GoalExpand';
 import ContribTable from '../ContribTable/ContribTable';
+import NWGoalChart from '../NWGoalChart/NWGoalChart';
 
 const GoalCard = props => {
   const [showMore, setShowMore] = useState(false);
@@ -31,11 +32,9 @@ const GoalCard = props => {
   const showMoreBtn = useRef();
 
   useEffect(() => {
-    if (!props.isNW) {
-      if (showMore) { setShowChart(true); }
-      else { setTimeout(() => setShowChart(false), 500); }
-    }
-  }, [props.isNW, showMore]);
+    if (showMore) { setShowChart(true); }
+    else { setTimeout(() => setShowChart(false), 500); }
+  }, [showMore]);
 
   useEffect(() => {
     // set date that goal will be reached in state
@@ -130,6 +129,7 @@ const GoalCard = props => {
           <ContribPanel show={showAddContrib} close={() => setShowAddContrib(false)} _id={props._id} isDemo={props.isDemo} />
         </div>}
       <div className={props.darkMode ? `${classes.CurrRate} ${classes.DarkCurrRate}` : classes.CurrRate}>{reachDate}</div>
+      {props.isNW && showChart && <NWGoalChart darkMode={props.darkMode} expanded={width > 795} />}
       {!props.isNW && <ContribTable data={props.contributions} darkMode={props.darkMode} />}
       <div className={classes.BtnDiv}>
         <div className={classes.Btns}>

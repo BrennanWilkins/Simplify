@@ -15,6 +15,11 @@
   background: var(--panelBack);
   color: var(--panelText);
 }
+.FeedbackContainer {
+  max-width: 370px;
+  max-height: 400px;
+  left: calc(50% - 185px);
+}
 .Container::-webkit-scrollbar-track, .FeedbackContainer::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: #f3f3f3;
@@ -37,10 +42,6 @@
   .FeedbackContainer {
     left: 5%;
   }
-}
-.FeedbackContainer {
-  max-width: 370px;
-  max-height: 400px;
 }
 .Hide {
   opacity: 0;
