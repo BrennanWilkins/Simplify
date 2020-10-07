@@ -20,7 +20,7 @@
   visibility: hidden;
 }
 .Content {
-  min-width: 435px;
+  min-width: 375px;
   position: relative;
   min-height: 100%;
 }

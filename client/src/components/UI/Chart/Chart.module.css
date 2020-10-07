@@ -17,9 +17,9 @@
   background: inherit;
   height: 10px;
 }
-@media (max-width: 400px) {
+@media (max-width: 600px) {
   .Block::after {
-    width: 61px;
+    width: 61.9px;
   }
 }
 .StockBlock1 {
