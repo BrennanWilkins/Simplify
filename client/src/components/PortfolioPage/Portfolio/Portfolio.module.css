@@ -115,6 +115,7 @@
     transform: scale(0.95);
     z-index: 2;
     margin: auto;
+    position: relative;
   }
   .AnalysisBtn {
     display: none;
@@ -126,4 +127,19 @@
     display: flex;
     justify-content: center;
   }
+}
+.Backdrop, .HideBackdrop {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 70px);
+  background: rgba(0,0,0,0.25);
+  transition: 250ms ease-in;
+  z-index: 9;
+}
+.HideBackdrop {
+  opacity: 0;
+  visibility: hidden;
+  transition: 250ms ease-out 250ms;
 }

@@ -78,17 +78,22 @@ const Portfolio = props => {
 
   let isSmall = btnRef.current && btnRef.current.getBoundingClientRect().width < 445;
   return (
+    <>
+    <div className={showNews || showAnalysis || showStockPriceChart || showCryptoPriceChart ? classes.Backdrop : classes.HideBackdrop}></div>
+    <NewsPanel show={showNews} close={() => setShowNews(false)} />
+    <AnalysisPanel show={showAnalysis} close={() => setShowAnalysis(false)} />
+    <PriceChartPanel show={showStockPriceChart} close={() => setShowStockPriceChart(false)}
+    mode="Stock" symbol={stockPriceChartSymbol} changeStock={symbol => setStockPriceChartSymbol(symbol)} />
+    <PriceChartPanel show={showCryptoPriceChart} close={() => setShowCryptoPriceChart(false)}
+    mode="Crypto" symbol={cryptoPriceChartSymbol} changeCrypto={symbol => setCryptoPriceChartSymbol(symbol)} />
     <div className={classes.Container}>
       <div className={classes.Content}>
         <div className={classes.ChartContainer}>
           <NetWorthChart />
           <Highlights openNews={() => setShowNews(true)}/>
         </div>
-        <NewsPanel show={showNews} close={() => setShowNews(false)} />
         <div className={classes.Investments}>
           <div className={classes.Stocks} ref={stockRef}>
-            <PriceChartPanel show={showStockPriceChart} close={() => setShowStockPriceChart(false)}
-            mode="Stock" symbol={stockPriceChartSymbol} changeStock={symbol => setStockPriceChartSymbol(symbol)} />
             <h1>Stocks</h1>
             <div className={classes.Btns} ref={btnRef}>
               <div className={classes.AddBtn}>
@@ -112,12 +117,9 @@ const Portfolio = props => {
             <div className={`${classes.AnalysisBtn} ${classes.AnalysisBtnSmall}`}>
               <BlueBtn big clicked={() => setShowAnalysis(true)}>{analysisIcon}Analysis</BlueBtn>
             </div>
-            <AnalysisPanel show={showAnalysis} close={() => setShowAnalysis(false)} />
             <InvestmentTable mode="Stocks" normal showChart={showChartHandler} />
           </div>
           <div className={classes.Cryptos} ref={cryptoRef}>
-            <PriceChartPanel show={showCryptoPriceChart} close={() => setShowCryptoPriceChart(false)}
-            mode="Crypto" symbol={cryptoPriceChartSymbol} changeCrypto={symbol => setCryptoPriceChartSymbol(symbol)} />
             <h1>Cryptocurrencies</h1>
             <div className={classes.Btns}>
               <div className={classes.AddBtn}>
@@ -180,7 +182,7 @@ const Portfolio = props => {
         </div>
         <Breakdown />
       </div>
-    </div>
+    </div></>
   );
 };
 

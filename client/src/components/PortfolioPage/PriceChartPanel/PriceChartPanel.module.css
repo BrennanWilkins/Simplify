@@ -4,14 +4,14 @@
   width: 550px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
-  z-index: 2;
+  z-index: 10;
   padding: 10px;
-  left: calc(50% - 293.5px);
   transition: 300ms ease-out;
   overflow: auto;
   color: white;
   height: 555px;
   background: var(--premiumBack);
+  left: calc(50% - 285px);
 }
 .Hide {
   opacity: 0;
@@ -19,45 +19,10 @@
   visibility: hidden;
   transition: transform 300ms ease-in, opacity 150ms ease-in 150ms, visibility 150ms ease-in 150ms;
 }
-@media (max-width: 620px), (max-height: 675px) {
-  .Panel {
-    position: absolute;
-    top: 80px;
-    left: calc(50% - 285px);
-  }
-  .Hide {
-    top: -50px;
-    transition: top 300ms ease-in, opacity 150ms ease-in 150ms, visibility 150ms ease-in 150ms;
-  }
-}
 @media (max-width: 595px) {
   .Panel {
-    transform: scale(0.97);
-  }
-}
-@media (max-width: 580px) {
-  .Panel {
-    width: 500px;
-    left: calc(50% - 260px);
-  }
-}
-@media (max-width: 530px) {
-  .Panel {
-    width: 450px;
-    left: calc(50% - 235px);
-    z-index: 10;
-  }
-}
-@media (max-width: 480px) {
-  .Panel {
-    width: 420px;
-    left: calc(50% - 220px);
-  }
-}
-@media (max-width: 450px) {
-  .Panel {
-    width: 390px;
-    left: calc(50% - 205px);
+    width: calc(94% - 10px);
+    left: calc(3% - 5px);
   }
 }
 .Content {

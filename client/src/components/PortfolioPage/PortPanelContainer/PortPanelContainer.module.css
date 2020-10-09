@@ -5,7 +5,7 @@
   position: absolute;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
-  z-index: 2;
+  z-index: 3;
   padding: 10px;
   overflow: hidden;
   transition: all 400ms;
