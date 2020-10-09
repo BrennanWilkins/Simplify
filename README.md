@@ -1,6 +1,6 @@
 # Simplify
 
-https://simplify.herokuapp.com/
+https://www.simplify-finance.com
 
 Simplify helps you organize and simplify your finances by tracking your budget, goals, investments, net worth, and more.
 The UI has a responsive design, which allows for any screen size to be used, including mobile.
