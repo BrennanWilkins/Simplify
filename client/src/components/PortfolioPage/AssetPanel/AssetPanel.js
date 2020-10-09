@@ -30,32 +30,32 @@ const AssetPanel = props => {
     switch(props.mode) {
       case 'AddAsset':
         setTitleText('Add a new asset');
-        setPanelLeft('-45px');
+        setPanelLeft('-68px');
         nameRef.current.focus();
         break;
       case 'RemoveAsset':
         setTitleText('Select an asset to remove it from your portfolio');
-        setPanelLeft('135px');
+        setPanelLeft('112px');
         setOptions(props.otherAssets.map(asset => ({ value: asset.desc, label: asset.desc })));
         break;
       case 'AddDebt':
         setTitleText('Add a new liability');
-        setPanelLeft('-45px');
+        setPanelLeft('-68px');
         nameRef.current.focus();
         break;
       case 'RemoveDebt':
         setTitleText('Select a liability to remove it from your portfolio');
-        setPanelLeft('135px');
+        setPanelLeft('112px');
         setOptions(props.liabilities.map(debt => ({ value: debt.desc, label: debt.desc })));
         break;
       case 'SettingsAsset':
         setTitleText('Select an asset to change its value');
-        setPanelLeft('242px');
+        setPanelLeft('220px');
         setOptions(props.otherAssets.map(asset => ({ value: asset.desc, label: asset.desc })));
         break;
       default:
         setTitleText('Select a liability to change its value');
-        setPanelLeft('242px');
+        setPanelLeft('220px');
         setOptions(props.liabilities.map(debt => ({ value: debt.desc, label: debt.desc })));
         break;
     }
@@ -238,7 +238,7 @@ const AssetPanel = props => {
   };
 
   return (
-    <PortPanelContainer show={props.show} close={closeHandler} left={panelLeft} down={props.down}>
+    <PortPanelContainer show={props.show} close={closeHandler} left={panelLeft} down={props.down} small={props.small}>
       <p className={(props.mode === 'AddAsset' || props.mode === 'AddDebt') ? classes.Text2 : classes.Text}
       style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{titleText}</p>
       {options ?

@@ -80,54 +80,56 @@ const BudgetPage = props => {
   };
 
   return (
-    <div className={props.darkMode ? `${classes.Container} ${classes.Dark}` : classes.Container}>
-      <div className={classes.Content}>
-        <h1 className={classes.Title}>Budgeting</h1>
-        {props.budget.length ? (
-          <React.Fragment>
-            <ChartContainer show={showCharts} change={() => setShowCharts(prev => !prev)} darkMode={props.darkMode} />
-            <div className={classes.Budget}>
-              <h1 className={classes.TotalBudget}>Total monthly budget: ${formatNum(totBudget)}</h1>
-              <div className={classes.Options}>
-                <div className={classes.Btn}><BlueBtn big clicked={() => setShowBudgetPanel(true)}>{pencilIcon}Edit Budget</BlueBtn></div>
-                <div className={classes.Btn}><BlueBtn big clicked={() => setShowDeletePanel(true)}>{trashIcon}Delete Budget</BlueBtn></div>
-                <EditBudgetPanel showUp={showCharts} show={showBudgetPanel} close={() => setShowBudgetPanel(false)} />
-                <DeletePanel showUp={showCharts} show={showDeletePanel} mode="budget" close={() => setShowDeletePanel(false)} delete={deleteHandler} />
+    <div className={classes.OuterContainer}>
+      <div className={props.darkMode ? `${classes.Container} ${classes.Dark}` : classes.Container}>
+        <div className={classes.Content}>
+          <h1 className={classes.Title}>Budgeting</h1>
+          {props.budget.length ? (
+            <React.Fragment>
+              <ChartContainer show={showCharts} change={() => setShowCharts(prev => !prev)} darkMode={props.darkMode} />
+              <div className={classes.Budget}>
+                <h1 className={classes.TotalBudget}>Total monthly budget: ${formatNum(totBudget)}</h1>
+                <div className={classes.Options}>
+                  <div className={classes.Btn}><BlueBtn big clicked={() => setShowBudgetPanel(true)}>{pencilIcon}Edit Budget</BlueBtn></div>
+                  <div className={classes.Btn}><BlueBtn big clicked={() => setShowDeletePanel(true)}>{trashIcon}Delete Budget</BlueBtn></div>
+                  <EditBudgetPanel showUp={showCharts} show={showBudgetPanel} close={() => setShowBudgetPanel(false)} />
+                  <DeletePanel showUp={showCharts} show={showDeletePanel} mode="budget" close={() => setShowDeletePanel(false)} delete={deleteHandler} />
+                </div>
+                {props.budget.map((budget, i) => {
+                  return (
+                    <div className={classes.BudgetDiv} key={i}>
+                      <BudgetBars budget={budget} darkMode={props.darkMode} />
+                      <div className={classes.Btns}>
+                        <button className={classes.ShowBtn} onClick={() => showTransHandler(budget.category)}>
+                          Transactions<span className={showCategs.includes(budget.category) ? classes.CaretDown : classes.CaretRight}>{caretIcon}</span>
+                        </button>
+                        <span className={classes.AddBtn}><GreenBtn big clicked={() => addTransHandler(budget.category)}>{plusIcon}Add Transaction</GreenBtn></span>
+                      </div>
+                      <div className={showCategs.includes(budget.category) ? classes.Transactions : classes.HideTransactions}>
+                        {budget.transactions.map((transaction, i) => (
+                          <div className={classes.Transaction} style={i === 0 ? { marginTop: '15px' } : null} key={i}>
+                            <div>{transaction.desc}</div>
+                            <div>${formatNum(transaction.val)}</div>
+                            <div>{formatDate3(new Date(transaction.date))}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <AddTrans show={addTransCateg === budget.category} transDesc={transDesc} close={() => setAddTransCateg('')} darkMode={props.darkMode}
+                        transCost={transCost} confirm={confirmAddTransHandler} changeDesc={val => setTransDesc(val)} changeCost={val => setTransCost(val)} />
+                    </div>
+                  );
+                })}
               </div>
-              {props.budget.map((budget, i) => {
-                return (
-                  <div className={classes.BudgetDiv} key={i}>
-                    <BudgetBars budget={budget} darkMode={props.darkMode} />
-                    <div className={classes.Btns}>
-                      <button className={classes.ShowBtn} onClick={() => showTransHandler(budget.category)}>
-                        Transactions<span className={showCategs.includes(budget.category) ? classes.CaretDown : classes.CaretRight}>{caretIcon}</span>
-                      </button>
-                      <span className={classes.AddBtn}><GreenBtn big clicked={() => addTransHandler(budget.category)}>{plusIcon}Add Transaction</GreenBtn></span>
-                    </div>
-                    <div className={showCategs.includes(budget.category) ? classes.Transactions : classes.HideTransactions}>
-                      {budget.transactions.map((transaction, i) => (
-                        <div className={classes.Transaction} style={i === 0 ? { marginTop: '15px' } : null} key={i}>
-                          <div>{transaction.desc}</div>
-                          <div>${formatNum(transaction.val)}</div>
-                          <div>{formatDate3(new Date(transaction.date))}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <AddTrans show={addTransCateg === budget.category} transDesc={transDesc} close={() => setAddTransCateg('')} darkMode={props.darkMode}
-                      transCost={transCost} confirm={confirmAddTransHandler} changeDesc={val => setTransDesc(val)} changeCost={val => setTransCost(val)} />
-                  </div>
-                );
-              })}
+            </React.Fragment>
+          ) : (
+            <div className={classes.NewDiv}>
+              <div className={classes.CreateBtn}>
+                <BlueBtn big clicked={() => setShowCreate(true)}>Create a new budget</BlueBtn>
+              </div>
+              <NewBudgetPanel show={showCreate} close={() => setShowCreate(false)} />
             </div>
-          </React.Fragment>
-        ) : (
-          <div className={classes.NewDiv}>
-            <div className={classes.CreateBtn}>
-              <BlueBtn big clicked={() => setShowCreate(true)}>Create a new budget</BlueBtn>
-            </div>
-            <NewBudgetPanel show={showCreate} close={() => setShowCreate(false)} />
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

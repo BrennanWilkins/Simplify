@@ -128,7 +128,7 @@ const AnalysisPanel = props => {
     theme: 'light2',
     exportEnabled: false,
     axisY: { title: 'Number of analysts' },
-    legend: { maxWidth: 350 },
+    legend: { maxWidth: 300 },
     data: [{
       type: 'stackedColumn',
       name: 'Buy',

@@ -42,8 +42,9 @@
   box-shadow: var(--box-shadow2);
   background: white;
   max-width: 920px;
-  min-width: 545px;
-  width: 85vw;
+  min-width: 400px;
+  width: 94vw;
+  margin: auto;
 }
 .DarkTable {
   background: rgba(var(--blue), 0.3);
@@ -86,9 +87,6 @@
 }
 .HeaderFields th {
   padding: 10px 1px;
-}
-.NormalTable .HeaderFields th {
-  min-width: 75px;
 }
 .NormalTable .SymbolHeader {
   min-width: 50px !important;
@@ -140,4 +138,27 @@
 .Descend {
   transform: rotate(90deg);
   top: 1px;
+}
+@media (max-width: 590px) {
+  .NormalTable {
+    font-size: 14px;
+  }
+  .NormalTable .Symbol img {
+    height: 23px;
+  }
+  .NormalTable th span {
+    display: flex;
+    margin: 6px 0 5px;
+    font-size: 14px;
+    top: 0;
+  }
+  .NormalTable th {
+    padding: 5px 1.5px;
+  }
+  .NormalTable td {
+    padding: 8px 3px;
+  }
+  .Ascend, .Descend {
+    margin: 3px 0 5px !important;
+  }
 }

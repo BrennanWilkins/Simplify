@@ -129,7 +129,8 @@ const SearchPanel = props => {
   };
 
   return (
-    <PortPanelContainer show={props.show} close={closeHandler} down={props.down} left={isStock ? '-60px' : '-10px'} big>
+    <PortPanelContainer show={props.show} close={closeHandler} down={props.down} big
+    left={isStock ? (props.small ? '-60px' : '-85.5px') : (props.small ? '-55px' : '-32.5px')}>
       <div className={classes.BackBtn}>
         <BackBtn back={resetInputsHandler} mode={!showInput && !showManual ? 'Hide' : 'Show'} />
       </div>

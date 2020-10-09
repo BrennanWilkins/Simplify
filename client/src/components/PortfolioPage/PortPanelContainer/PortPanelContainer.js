@@ -8,7 +8,7 @@ const PortPanelContainer = props => (
     <div className={props.big ?
       (props.show ? (props.down ? classes.BigDownPanel : classes.BigPanel) : classes.BigHide) :
       (props.show ? (props.down ? classes.DownPanel : classes.Panel) : classes.Hide)}
-      style={!props.show ? { left: props.left } : null}>
+      style={!props.show ? { left: props.small ? (props.left.slice(0, -2) - 22.5) + 'px' : props.left } : null}>
       <div style={{width: '100%'}}><CloseBtn close={props.close} /></div>
       {props.children}
     </div>

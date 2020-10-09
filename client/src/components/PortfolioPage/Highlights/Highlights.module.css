@@ -134,3 +134,18 @@
     width: 500px;
   }
 }
+@media (max-width: 545px) {
+  .Container {
+    width: 450px;
+  }
+}
+@media (max-width: 490px) {
+  .Container {
+    width: 400px;
+  }
+}
+@media (max-width: 435px) {
+  .Container {
+    width: 390px;
+  }
+}

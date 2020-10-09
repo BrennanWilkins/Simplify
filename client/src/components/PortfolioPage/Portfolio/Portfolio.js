@@ -42,6 +42,7 @@ const Portfolio = props => {
   const cryptoRef = useRef();
   const assetRef = useRef();
   const debtRef = useRef();
+  const btnRef = useRef();
 
   useEffect(() => {
     switch(props.location.search) {
@@ -75,6 +76,7 @@ const Portfolio = props => {
     }
   };
 
+  let isSmall = btnRef.current && btnRef.current.getBoundingClientRect().width < 445;
   return (
     <div className={classes.Container}>
       <div className={classes.Content}>
@@ -88,26 +90,29 @@ const Portfolio = props => {
             <PriceChartPanel show={showStockPriceChart} close={() => setShowStockPriceChart(false)}
             mode="Stock" symbol={stockPriceChartSymbol} changeStock={symbol => setStockPriceChartSymbol(symbol)} />
             <h1>Stocks</h1>
-            <div className={classes.Btns}>
+            <div className={classes.Btns} ref={btnRef}>
               <div className={classes.AddBtn}>
                 <BlueBtn big clicked={() => setShowStockSearch(true)}>{plusIcon}Add a new holding</BlueBtn>
               </div>
               <GreenBtn big clicked={() => showBuySellHandler('BuyStock')}>Buy</GreenBtn>
               <BuySellPanel mode="BuyStock" show={showBuyStock} close={() => setShowBuyStock(false)}
-              down={stockRef.current && stockRef.current.getBoundingClientRect().top < 310} />
+              down={stockRef.current && stockRef.current.getBoundingClientRect().top < 310} small={isSmall} />
               <GreenBtn big clicked={() => showBuySellHandler('SellStock')}>Sell</GreenBtn>
               <BuySellPanel mode="SellStock" show={showSellStock} close={() => setShowSellStock(false)}
-              down={stockRef.current && stockRef.current.getBoundingClientRect().top < 310} />
+              down={stockRef.current && stockRef.current.getBoundingClientRect().top < 310} small={isSmall} />
               <div className={classes.AnalysisBtn}>
                 <BlueBtn big clicked={() => setShowAnalysis(true)}>{analysisIcon}Analysis</BlueBtn>
               </div>
-              <AnalysisPanel show={showAnalysis} close={() => setShowAnalysis(false)} />
               <button className={classes.SettingsBtn} onClick={() => setShowStockSettings(true)}>{settingsIcon}</button>
               <SettingsPanel mode="Stock" show={showStockSettings} close={() => setShowStockSettings(false)}
-              down={stockRef.current && stockRef.current.getBoundingClientRect().top < 310} />
+              down={stockRef.current && stockRef.current.getBoundingClientRect().top < 310} small={isSmall} />
               <SearchPanel mode="Stock" show={showStockSearch} close={() => setShowStockSearch(false)}
-              down={stockRef.current && stockRef.current.getBoundingClientRect().top < 250} />
+              down={stockRef.current && stockRef.current.getBoundingClientRect().top < 250} small={isSmall} />
             </div>
+            <div className={`${classes.AnalysisBtn} ${classes.AnalysisBtnSmall}`}>
+              <BlueBtn big clicked={() => setShowAnalysis(true)}>{analysisIcon}Analysis</BlueBtn>
+            </div>
+            <AnalysisPanel show={showAnalysis} close={() => setShowAnalysis(false)} />
             <InvestmentTable mode="Stocks" normal showChart={showChartHandler} />
           </div>
           <div className={classes.Cryptos} ref={cryptoRef}>
@@ -120,15 +125,15 @@ const Portfolio = props => {
               </div>
               <GreenBtn big clicked={() => showBuySellHandler('BuyCrypto')}>Buy</GreenBtn>
               <BuySellPanel mode="BuyCrypto" show={showBuyCrypto} close={() => setShowBuyCrypto(false)}
-              down={cryptoRef.current && cryptoRef.current.getBoundingClientRect().top < 310} />
+              down={cryptoRef.current && cryptoRef.current.getBoundingClientRect().top < 310} small={isSmall} />
               <GreenBtn big clicked={() => showBuySellHandler('SellCrypto')}>Sell</GreenBtn>
               <BuySellPanel mode="SellCrypto" show={showSellCrypto} close={() => setShowSellCrypto(false)}
-              down={cryptoRef.current && cryptoRef.current.getBoundingClientRect().top < 310} />
+              down={cryptoRef.current && cryptoRef.current.getBoundingClientRect().top < 310} small={isSmall} />
               <button className={classes.SettingsBtn} onClick={() => setShowCryptoSettings(true)}>{settingsIcon}</button>
               <SettingsPanel mode="Crypto" show={showCryptoSettings} close={() => setShowCryptoSettings(false)}
-              down={cryptoRef.current && cryptoRef.current.getBoundingClientRect().top < 310} />
+              down={cryptoRef.current && cryptoRef.current.getBoundingClientRect().top < 310} small={isSmall} />
               <SearchPanel mode="Crypto" show={showCryptoSearch} close={() => setShowCryptoSearch(false)}
-              down={cryptoRef.current && cryptoRef.current.getBoundingClientRect().top < 250} />
+              down={cryptoRef.current && cryptoRef.current.getBoundingClientRect().top < 250} small={isSmall} />
             </div>
             <InvestmentTable mode="Cryptos" normal showChart={showChartHandler} />
           </div>
@@ -141,15 +146,15 @@ const Portfolio = props => {
                 <BlueBtn big clicked={() => setShowAddAsset(true)}>{plusIcon}Add a new asset</BlueBtn>
               </div>
               <AssetPanel mode="AddAsset" close={() => setShowAddAsset(false)} show={showAddAsset}
-              down={assetRef.current && assetRef.current.getBoundingClientRect().top < 310} />
+              down={assetRef.current && assetRef.current.getBoundingClientRect().top < 310} small={isSmall} />
               <div className={classes.RemoveBtn}>
                 <BlueBtn big clicked={() => setShowRemoveAsset(true)}>{trashIcon}Remove an asset</BlueBtn>
               </div>
               <AssetPanel mode="RemoveAsset" close={() => setShowRemoveAsset(false)} show={showRemoveAsset}
-              down={assetRef.current && assetRef.current.getBoundingClientRect().top < 310} />
+              down={assetRef.current && assetRef.current.getBoundingClientRect().top < 310} small={isSmall} />
               <button className={classes.SettingsBtn} onClick={() => setShowAssetSettings(true)}>{settingsIcon}</button>
               <AssetPanel mode="SettingsAsset" close={() => setShowAssetSettings(false)} show={showAssetSettings}
-              down={assetRef.current && assetRef.current.getBoundingClientRect().top < 310} />
+              down={assetRef.current && assetRef.current.getBoundingClientRect().top < 310} small={isSmall} />
             </div>
             <InvestmentTable mode="Assets" normal />
           </div>
@@ -160,15 +165,15 @@ const Portfolio = props => {
                 <BlueBtn big clicked={() => setShowAddDebt(true)}>{plusIcon}Add a new liability</BlueBtn>
               </div>
               <AssetPanel mode="AddDebt" close={() => setShowAddDebt(false)} show={showAddDebt}
-              down={debtRef.current && debtRef.current.getBoundingClientRect().top < 310} />
+              down={debtRef.current && debtRef.current.getBoundingClientRect().top < 310} small={isSmall} />
               <div className={classes.RemoveBtn}>
                 <BlueBtn big clicked={() => setShowRemoveDebt(true)}>{trashIcon}Remove a liability</BlueBtn>
               </div>
               <AssetPanel mode="RemoveDebt" close={() => setShowRemoveDebt(false)} show={showRemoveDebt}
-              down={debtRef.current && debtRef.current.getBoundingClientRect().top < 310} />
+              down={debtRef.current && debtRef.current.getBoundingClientRect().top < 310} small={isSmall} />
               <button className={classes.SettingsBtn} onClick={() => setShowDebtSettings(true)}>{settingsIcon}</button>
               <AssetPanel mode="SettingsDebt" close={() => setShowDebtSettings(false)} show={showDebtSettings}
-              down={debtRef.current && debtRef.current.getBoundingClientRect().top < 310} />
+              down={debtRef.current && debtRef.current.getBoundingClientRect().top < 310} small={isSmall} />
             </div>
             <InvestmentTable mode="Debts" normal />
           </div>

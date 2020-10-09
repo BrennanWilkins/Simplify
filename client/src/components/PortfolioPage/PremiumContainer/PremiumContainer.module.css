@@ -6,7 +6,7 @@
   max-height: 650px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
-  z-index: 2;
+  z-index: 10;
   padding: 10px;
   left: calc(50% - 265px);
   transition: 300ms ease-in 150ms;

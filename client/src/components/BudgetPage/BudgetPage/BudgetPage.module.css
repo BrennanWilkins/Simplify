@@ -1,8 +1,15 @@
-.Container {
+.OuterContainer {
   width: 100%;
   position: fixed;
   top: 70px;
   height: calc(100% - 70px);
+  overflow: hidden;
+}
+.Container {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  height: 100%;
   overflow: auto;
 }
 .Content {

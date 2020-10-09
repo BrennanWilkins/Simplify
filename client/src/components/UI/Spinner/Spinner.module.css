@@ -48,12 +48,17 @@
 .NewsLoader {
   font-size: 6px;
   top: 80px;
-  right: 33px;
   left: calc(50% - 3px);
 }
+@media (max-width: 490px) {
+  .NewsLoader {
+    top: 100px;
+  }
+}
 .AnalysisLoader {
-  top: 18px;
-  right: 105px;
+  top: 80px;
+  font-size: 8px;
+  right: calc(50% - 4px);
 }
 .LoginLoader {
   top: calc(50% - 13px);

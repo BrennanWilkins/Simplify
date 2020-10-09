@@ -140,7 +140,10 @@ const BuySellPanel = props => {
 
   return (
     <PortPanelContainer show={props.show} close={closeHandler} down={props.down}
-    left={props.mode === 'BuyStock' ? '52px' : props.mode === 'SellCrypto' ? '170px' : '115px'}>
+    left={props.mode === 'BuyStock' ? (props.small ? '55px' : '30px') :
+    props.mode === 'SellStock' ? (props.small ? '120px' : '92px') :
+    props.mode === 'SellCrypto' ? (props.small ? '125.5px' : '148px') :
+    (props.small ? '70px' : '93px')}>
       <p className={classes.Text} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{
         props.mode === 'BuyStock' ? 'Which stock did you buy?' :
         props.mode === 'SellStock' ? 'Which stock did you sell?' :

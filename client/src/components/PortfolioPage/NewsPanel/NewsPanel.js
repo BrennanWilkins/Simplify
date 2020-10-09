@@ -88,7 +88,7 @@ const NewsPanel = props => {
   return (
     <PremiumContainer title="Financial News" show={props.show} close={props.close} accessCode={accessCode}
     codeInvalid={codeInvalid} accessHandler={val => { setCodeInvalid(false); setAccessCode(val); }} isAuth={props.isAuth}>
-      <div style={news.length > 0 ? { width: '488px' } : { width: '500px' }}>
+      <div className={classes.Content}>
         <div className={classes.StockText}>Get today's market news or enter a stock ticker for recent company news</div>
         <div className={classes.Inputs}>
           <div className={classes.GeneralBtn}><BlueBtn big clicked={generalSearch}>General market news{arrowRight}</BlueBtn></div>
@@ -103,8 +103,14 @@ const NewsPanel = props => {
         </div>}
         {news.map((art, i) => (
           <div className={classes.Article} key={i}>
-            <div>
+            <div className={classes.ArticleInfo}>
               <a href={art.url} target="_blank" rel="noopener noreferrer">{art.headline}</a>
+              <div className={classes.ArticleInfo2}>
+                <div className={classes.Summary}>{art.summary}</div>
+                <div className={classes.Date}>{art.date}</div>
+              </div>
+            </div>
+            <div className={classes.ArticleInfo3}>
               <div className={classes.Summary}>{art.summary}</div>
               <div className={classes.Date}>{art.date}</div>
             </div>

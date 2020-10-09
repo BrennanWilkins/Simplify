@@ -6,7 +6,7 @@
   overflow: auto;
 }
 .Content {
-  min-width: 555px;
+  min-width: 410px;
 }
 .Investments {
   display: flex;
@@ -16,8 +16,9 @@
   justify-content: flex-start;
 }
 .Stocks, .Cryptos {
-  margin: 20px;
   position: relative;
+  margin: 20px 0;
+  width: 100%;
 }
 .Stocks h1, .Cryptos h1 {
   color: var(--titleColor);
@@ -34,7 +35,6 @@
   }
 }
 .Btns {
-  width: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,6 +42,7 @@
   position: relative;
   border-radius: 3px;
   padding: 5px 0;
+  width: 445px;
 }
 .SettingsBtn {
   display: flex;
@@ -81,7 +82,7 @@
   justify-content: center;
   align-items: center;
   padding: 5.5px 10px 5.5px 5px;
-  margin: 0 5px;
+  margin: 0 5px 0 0;
 }
 .AddBtn svg {
   font-size: 23px;
@@ -103,4 +104,26 @@
   justify-content: center;
   align-items: center;
   margin-right: 6px;
+}
+.AnalysisBtnSmall {
+  display: none;
+}
+@media (max-width: 465px) {
+  .Btns {
+    width: 400px;
+    flex-wrap: wrap;
+    transform: scale(0.95);
+    z-index: 2;
+    margin: auto;
+  }
+  .AnalysisBtn {
+    display: none;
+  }
+  .AnalysisBtnSmall {
+    margin: 5px auto 10px;
+    display: block;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }

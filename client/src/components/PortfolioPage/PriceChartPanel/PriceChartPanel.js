@@ -106,6 +106,10 @@ const PriceChartPanel = props => {
         dataPoints : priceData.dps2
       }]
     }],
+    rangeSelector: {
+      inputFields: { enabled: false },
+      buttonStyle: { spacing: 8 }
+    },
     navigator: {
       dynamicUpdate: false,
       data: [{

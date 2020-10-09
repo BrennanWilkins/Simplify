@@ -3,6 +3,7 @@
 }
 .SubTitle {
   margin: 12px 0;
+  padding: 0 5px;
   text-align: center;
 }
 .Select {
@@ -49,25 +50,36 @@
   margin: 10px 0;
 }
 .Targets {
-  width: 400px;
   margin: 7px auto 0;
   background: rgba(var(--blue), 0.1);
   border-radius: 3px;
+  width: 90%;
+  max-width: 400px;
 }
 .Targets span {
-  width: 200px;
   text-align: center;
   display: inline-block;
   margin: 5px 0;
+  width: 50%;
 }
 .Chart {
   margin: 25px auto;
-  width: 400px;
   position: relative;
+  width: 100%;
 }
 .ChartTitle {
   font-weight: bold;
   font-size: 20px;
   margin: 10px 0 15px;
   text-align: center;
+}
+@media (max-width: 450px) {
+  .Targets span {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+  }
+  .Targets {
+    padding: 1px 0;
+  }
 }
