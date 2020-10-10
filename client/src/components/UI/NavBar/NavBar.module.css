@@ -65,7 +65,7 @@
   transition: background 300ms;
 }
 .NavBackdrop, .HideNavBackdrop, .HelpBackdrop, .HideHelpBackdrop {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.25);
@@ -80,6 +80,8 @@
   transition: 350ms ease-out 100ms;
 }
 .HelpBackdrop, .HideHelpBackdrop {
+  top: 70px;
+  height: calc(100% - 70px);
   transition: 225ms ease-out 200ms;
 }
 .QuestionIcon {

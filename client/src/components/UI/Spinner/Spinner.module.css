@@ -42,7 +42,7 @@
   animation: load4 1.3s infinite linear;
 }
 .SearchLoader {
-  top: 13px;
+  top: calc(50% - 2px);
   right: -25px;
 }
 .NewsLoader {

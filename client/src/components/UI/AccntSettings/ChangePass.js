@@ -44,9 +44,9 @@ const ChangePass = props => {
         <div className={classes.Content}>
           <div style={{width: '100%'}}><CloseBtn close={closeHandler} /></div>
           <p className={classes.Title2}>Change my password</p>
-          <PassInput val={oldPass} change={val => { setErr(false); setOldPass(val); }} ph="Current password" />
-          <PassInput val={newPass} change={val => { setErr(false); setNewPass(val); }} ph="New password" />
-          <PassInput val={confirmPass} change={val => { setErr(false); setConfirmPass(val); }} ph="Confirm password" />
+          <PassInput val={oldPass} change={val => { setErr(false); setOldPass(val); }} ph="Current password" dark2={props.dark} />
+          <PassInput val={newPass} change={val => { setErr(false); setNewPass(val); }} ph="New password" dark2={props.dark} />
+          <PassInput val={confirmPass} change={val => { setErr(false); setConfirmPass(val); }} ph="Confirm password" dark2={props.dark} />
           <BlueBtn clicked={changeHandler}>Confirm</BlueBtn>
           <div className={err ? classes.ShowErr : classes.HideErr}>{errMsg}</div>
         </div>

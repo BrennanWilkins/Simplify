@@ -29,7 +29,7 @@ const DeleteAccnt = props => {
         <div className={classes.Content}>
           <div style={{width: '100%'}}><CloseBtn close={closeHandler} /></div>
           <p className={classes.Title1}>To delete your account, type 'DELETE MY ACCOUNT' below.</p>
-          <Input val={inputVal} change={val => setInputVal(val)} />
+          <Input val={inputVal} change={val => setInputVal(val)} dark2={props.dark} />
           <div className={classes.Btn}><BlueBtn clicked={deleteHandler}>DELETE</BlueBtn></div>
           <div className={err ? classes.ShowErr : classes.HideErr}>There was an error connecting to the server.</div>
         </div>

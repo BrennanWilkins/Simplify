@@ -30,8 +30,8 @@ const AccntPanel = props => {
       </div>
     </PanelContainer>
     {!props.isDemo && <>
-    <ChangePass show={showChangePass} close={() => setShowChangePass(false)} closeAll={props.close} />
-    <DeleteAccnt show={showDeleteAccnt} close={() => setShowDeleteAccnt(false)} logout={props.logout} closeAll={props.close} /></>}
+    <ChangePass show={showChangePass} close={() => setShowChangePass(false)} closeAll={props.close} dark={props.darkMode} />
+    <DeleteAccnt show={showDeleteAccnt} close={() => setShowDeleteAccnt(false)} logout={props.logout} closeAll={props.close} dark={props.darkMode} /></>}
     <Feedback show={showFeedback} close={() => setShowFeedback(false)} closeAll={props.close} isDemo={props.isDemo} />
     <div className={showChangePass || showDeleteAccnt ? classes.Backdrop : classes.HideBackdrop}></div>
     </>

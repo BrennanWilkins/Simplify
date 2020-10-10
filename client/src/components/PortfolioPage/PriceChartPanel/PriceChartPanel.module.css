@@ -1,6 +1,6 @@
 .Panel {
   position: fixed;
-  top: 100px;
+  top: 90px;
   width: 550px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
@@ -23,6 +23,12 @@
   .Panel {
     width: calc(94% - 10px);
     left: calc(3% - 5px);
+  }
+}
+@media (max-height: 670px) {
+  .Panel {
+    height: calc(94% - 90px);
+    top: 80px;
   }
 }
 .Content {
