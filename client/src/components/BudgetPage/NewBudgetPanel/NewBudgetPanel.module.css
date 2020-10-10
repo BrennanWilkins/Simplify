@@ -49,7 +49,7 @@
   height: 150px;
 }
 .Entries::-webkit-scrollbar-track {
-  background: rgba(var(--blue), 0.1);
+  background: rgba(var(--dark-blue), 0.3);
 }
 .Entries::-webkit-scrollbar {
   width: 12px;
@@ -57,7 +57,7 @@
 }
 .Entries::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background: rgba(var(--dark-blue), 0.4);
+  background: rgba(var(--dark-blue), 0.5);
 }
 .Entries div {
   width: 98%;

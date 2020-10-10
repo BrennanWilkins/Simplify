@@ -8,6 +8,9 @@
   color: rgb(var(--dark-blue2));
   width: 80%;
 }
+.SearchInput {
+  position: relative;
+}
 .SearchInput input {
   width: 245px;
 }
@@ -56,6 +59,7 @@
   width: 100%;
   top: 45px;
   height: calc(100% - 45px);
+  transform: translateZ(2px);
 }
 .HideInput {
   transform: translateX(-200%);

@@ -162,3 +162,8 @@
     margin: 3px 0 5px !important;
   }
 }
+@media (max-width: 450px) {
+  .NormalTable {
+    font-size: 13px;
+  }
+}

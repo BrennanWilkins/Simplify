@@ -73,14 +73,17 @@
 .SelectBar::-webkit-scrollbar-track {
   border-radius: 10px;
   background: rgba(0,0,0,0.05);
+  height: 7px;
 }
 .SelectBar::-webkit-scrollbar {
   border-radius: 10px;
   background: rgba(0,0,0,0.1);
+  height: 7px;
 }
 .SelectBar::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: rgba(0,0,0,0.15);
+  height: 7px;
 }
 .Active, .Inactive {
   padding: 5px;

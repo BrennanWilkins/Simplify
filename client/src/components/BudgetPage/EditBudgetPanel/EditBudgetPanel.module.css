@@ -59,11 +59,10 @@
   height: 260px;
   background: rgba(var(--blue), 0.1);
   border: 1.5px solid rgb(var(--dark-blue), 0.5);
-  box-shadow: var(--box-shadow7);
   border-radius: 3px;
 }
 .Budgets::-webkit-scrollbar-track {
-  background: rgba(var(--blue), 0.1);
+  background: rgba(var(--dark-blue), 0.3);
 }
 .Budgets::-webkit-scrollbar {
   width: 12px;
@@ -71,7 +70,7 @@
 }
 .Budgets::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background: rgba(var(--dark-blue), 0.4);
+  background: rgba(var(--dark-blue), 0.5);
 }
 .Budgets div {
   display: flex;

@@ -141,8 +141,8 @@ const SearchPanel = props => {
       </p>
       <div className={classes.SearchInput}>
         <Input val={query} change={setSearchQuery} ref={inputRef} ph={isStock ? 'AAPL, Apple, ...' : 'BTC, Bitcoin, ...'} dark2={props.dark} />
+        {loading && <Spinner mode="Search" />}
       </div>
-      {loading && <Spinner mode="Search" />}
       <div className={props.dark ? classes.DarkResults : classes.Results}>
         {searchRes.map((stock, i) => (
           <div className={classes.Result} key={i} onClick={() => selectedHandler(stock)}>

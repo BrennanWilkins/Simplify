@@ -113,7 +113,6 @@ const AuthPanel = props => {
     <div className={classes.Container}>
       <div className={classes.OuterContent}>
         <div className={props.mode === 'Login' ? classes.LoginPanel : classes.SignupPanel}>
-          {(loading || props.loading) && <Spinner mode={props.mode} />}
           <div className={classes.Content}>
             <div className={classes.Demo} onClick={() => { reset(); props.loadDemo(); }}>View a demo account<span>{arrowRight}</span></div>
             <Title auth />
@@ -126,6 +125,7 @@ const AuthPanel = props => {
                 spellCheck="false"
                 onChange={(e) => { setEmail(e.target.value); setErr(false); }}
                 onKeyDown={keyPressHandler} />
+              {(loading || props.loading) && <Spinner mode={props.mode} />}
             </div>
             <div className={focused === '2' ? classes.InputDivFocus : classes.InputDiv}>
               <span className={classes.Icon}>{lockIcon}</span>

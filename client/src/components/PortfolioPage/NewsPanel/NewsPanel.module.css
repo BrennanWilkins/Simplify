@@ -18,8 +18,9 @@
 .StockText {
   color: rgb(var(--dark-blue2));
   text-align: center;
-  margin: 10px 0 15px;
-  padding: 0 50px;
+  margin: 10px auto 15px;
+  padding: 0 10px;
+  max-width: 400px;
 }
 .Article {
   display: flex;

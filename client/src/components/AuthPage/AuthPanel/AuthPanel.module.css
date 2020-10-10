@@ -94,6 +94,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 .InputDivFocus {
   border: 1px solid rgba(var(--blue), 0.3);
