@@ -141,5 +141,6 @@
 .HideBackdrop {
   opacity: 0;
   visibility: hidden;
+  transform: translateZ(-1px);
   transition: 250ms ease-out 250ms;
 }

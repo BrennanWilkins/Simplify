@@ -69,4 +69,5 @@
 .HideBackdrop {
   opacity: 0;
   visibility: hidden;
+  transform: translateZ(-1px);
 }
