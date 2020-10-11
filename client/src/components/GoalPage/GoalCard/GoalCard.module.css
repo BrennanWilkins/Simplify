@@ -24,8 +24,9 @@
   width: 100%;
   height: 100%;
   z-index: 1;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0,0,0,0.1);
   transition: 300ms;
+  transform: translateZ(2px);
 }
 .HideBackdrop {
   opacity: 0;

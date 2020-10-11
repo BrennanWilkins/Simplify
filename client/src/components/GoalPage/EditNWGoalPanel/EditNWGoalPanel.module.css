@@ -11,7 +11,7 @@
   left: calc(50% - 135px);
   transition: all 400ms;
   background: var(--panelBack);
-  transform: scale(1) transformZ(3px);
+  transform: scale(1) translateZ(3px);
 }
 .Hide {
   opacity: 0;
