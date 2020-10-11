@@ -11,11 +11,12 @@
   left: calc(50% - 135px);
   transition: all 400ms;
   background: var(--panelBack);
+  transform: scale(1) transformZ(3px);
 }
 .Hide {
   opacity: 0;
   top: -70px;
-  transform: scale(0);
+  transform: scale(0) translateZ(-1px);
 }
 .Input input {
   width: 200px;

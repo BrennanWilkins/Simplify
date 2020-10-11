@@ -137,10 +137,11 @@
   background: rgba(0,0,0,0.25);
   transition: 250ms ease-in;
   z-index: 9;
+  transform: translateZ(9px);
 }
 .HideBackdrop {
   opacity: 0;
   visibility: hidden;
-  transform: translateZ(-1px);
   transition: 250ms ease-out 250ms;
+  transform: translateZ(-1px);
 }

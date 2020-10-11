@@ -65,6 +65,7 @@
   width: 100%;
   height: calc(100% - 70px);
   background: rgba(0,0,0,0.25);
+  transform: translateZ(2px);
 }
 .HideBackdrop {
   opacity: 0;

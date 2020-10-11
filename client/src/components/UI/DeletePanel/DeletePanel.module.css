@@ -1,17 +1,18 @@
 .PanelUp, .PanelDown, .HideUp, .HideDown, .GoalPanel, .HideGoalPanel {
   position: absolute;
-  top: -240px;
+  top: -245px;
   width: 250px;
   height: 190px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
   z-index: 3;
-  padding: 10px;
+  padding: 10px 10px 15px;
   overflow: hidden;
   left: calc(50% - 135px);
   transition: 400ms;
   margin-bottom: 20px;
   background: var(--panelBack);
+  transform: scale(1) translateZ(3px);
 }
 .PanelDown {
   top: 50px;
@@ -19,10 +20,10 @@
 .HideUp, .HideDown {
   opacity: 0;
   top: -80px;
-  transform: scale(0);
+  transform: scale(0) translateZ(-1px);
 }
 .GoalPanel {
-  top: -210px;
+  top: -215px;
 }
 .Title {
   margin-top: 35px;

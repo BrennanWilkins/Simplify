@@ -73,12 +73,13 @@
   visibility: visible;
   z-index: 50;
   transition: 350ms ease-out 100ms;
+  transform: translateZ(50px);
 }
 .HideNavBackdrop, .HideHelpBackdrop {
   opacity: 0;
   visibility: hidden;
-  transform: translateZ(-1px);
   transition: 350ms ease-out 100ms;
+  transform: translateZ(-1px);
 }
 .HelpBackdrop, .HideHelpBackdrop {
   top: 70px;
