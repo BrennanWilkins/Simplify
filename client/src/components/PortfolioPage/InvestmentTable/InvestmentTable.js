@@ -54,7 +54,7 @@ const InvestmentTable = props => {
   };
 
   const sortHandler = field => {
-    if (data.length < 2) { return; }
+    if (data.length < 2 || !props.normal) { return; }
     field = getCorrectField(field);
     // sort method cycles through none -> ascending -> descending -> none...
     let method = '';
@@ -89,28 +89,28 @@ const InvestmentTable = props => {
       (props.dark ? `${classes.Table} ${classes.DarkTable}` : classes.Table)}>
         <thead>
           <tr className={classes.HeaderFields}>
-            <th>{props.mode === 'Stocks' ? 'Ticker' : props.mode === 'Cryptos' ? 'Symbol' : 'Category'}
-              {props.normal && <span onClick={() => sortHandler('symbol')} className={getClass('symbol')}>
+            <th onClick={() => sortHandler('symbol')}>{props.mode === 'Stocks' ? 'Ticker' : props.mode === 'Cryptos' ? 'Symbol' : 'Category'}
+              {props.normal && <span className={getClass('symbol')}>
                 {sortMethods[getCorrectField('symbol')] === '' ? caretNeutralIcon : caretIcon}
               </span>}
             </th>
-            <th>{props.mode === 'Stocks' ? 'Company Name' : props.mode === 'Cryptos' ? 'Name' : 'Description'}
-              {props.normal && <span onClick={() => sortHandler('name')} className={getClass('name')}>
+            <th onClick={() => sortHandler('name')}>{props.mode === 'Stocks' ? 'Company Name' : props.mode === 'Cryptos' ? 'Name' : 'Description'}
+              {props.normal && <span className={getClass('name')}>
                 {sortMethods[getCorrectField('name')] === '' ? caretNeutralIcon : caretIcon}
               </span>}
             </th>
-            <th>{props.mode === 'Stocks' ? 'Shares' : props.mode === 'Cryptos' ? 'Quantity': 'Value'}
-              {props.normal && <span onClick={() => sortHandler('quantity')} className={getClass('quantity')}>
+            <th onClick={() => sortHandler('quantity')}>{props.mode === 'Stocks' ? 'Shares' : props.mode === 'Cryptos' ? 'Quantity': 'Value'}
+              {props.normal && <span className={getClass('quantity')}>
                 {sortMethods[getCorrectField('quantity')] === '' ? caretNeutralIcon : caretIcon}
               </span>}
             </th>
-            {props.mode === 'Stocks' || props.mode === 'Cryptos' ? <th>Price
-              {props.normal && <span onClick={() => sortHandler('price')} className={getClass('price')}>
+            {props.mode === 'Stocks' || props.mode === 'Cryptos' ? <th onClick={() => sortHandler('price')}>Price
+              {props.normal && <span className={getClass('price')}>
                 {sortMethods.price === '' ? caretNeutralIcon : caretIcon}
               </span>}
             </th> : null}
-            {props.mode === 'Stocks' || props.mode === 'Cryptos' ? <th>Value
-              {props.normal && <span onClick={() => sortHandler('value')} className={getClass('value')}>
+            {props.mode === 'Stocks' || props.mode === 'Cryptos' ? <th onClick={() => sortHandler('value')}>Value
+              {props.normal && <span className={getClass('value')}>
                 {sortMethods.value === '' ? caretNeutralIcon : caretIcon}
               </span>}
             </th> : null}

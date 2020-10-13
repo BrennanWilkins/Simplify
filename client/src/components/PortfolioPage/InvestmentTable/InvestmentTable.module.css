@@ -87,6 +87,11 @@
 }
 .HeaderFields th {
   padding: 10px 1px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
 }
 .NormalTable .SymbolHeader {
   min-width: 50px !important;

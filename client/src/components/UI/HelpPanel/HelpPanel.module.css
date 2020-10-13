@@ -1,5 +1,5 @@
 .Panel {
-  position: absolute;
+  position: fixed;
   left: calc(50% - 200px);
   border-radius: 3px;
   box-shadow: var(--box-shadow1);

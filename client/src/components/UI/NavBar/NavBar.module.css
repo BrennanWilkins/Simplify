@@ -80,8 +80,6 @@
   transition: 350ms ease-out 100ms;
 }
 .HelpBackdrop, .HideHelpBackdrop {
-  top: 70px;
-  height: calc(100% - 70px);
   transition: 225ms ease-out 200ms;
 }
 .QuestionIcon {

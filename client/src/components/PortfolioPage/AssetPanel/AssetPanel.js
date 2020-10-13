@@ -31,7 +31,6 @@ const AssetPanel = props => {
       case 'AddAsset':
         setTitleText('Add a new asset');
         setPanelLeft('-68px');
-        nameRef.current.focus();
         break;
       case 'RemoveAsset':
         setTitleText('Select an asset to remove it from your portfolio');
@@ -41,7 +40,6 @@ const AssetPanel = props => {
       case 'AddDebt':
         setTitleText('Add a new liability');
         setPanelLeft('-68px');
-        nameRef.current.focus();
         break;
       case 'RemoveDebt':
         setTitleText('Select a liability to remove it from your portfolio');
@@ -59,6 +57,11 @@ const AssetPanel = props => {
         setOptions(props.liabilities.map(debt => ({ value: debt.desc, label: debt.desc })));
         break;
     }
+  }, [props.mode]);
+
+  useEffect(() => {
+    // focus category input on show
+    if (props.mode.includes('Add')) { setTimeout(() => nameRef.current.focus(), 400); }
   }, [props.mode, props.show]);
 
   useEffect(() => btnClassHandler(), [inputName, inputDesc, inputValue]);

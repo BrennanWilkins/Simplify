@@ -51,7 +51,7 @@ const NavBar = props => {
           Help
           <div className={classes.FocusBorder}></div>
         </div>
-        <div className={`${classes.Link2} ${classes.AccntLink}`} onClick={() => showHelp ? null : setShowSettings(true)}>
+        <div className={`${classes.Link2} ${classes.AccntLink}`} onClick={() => setShowSettings(true)}>
           <span className={classes.PersonIcon}>{personIcon2}</span>
         </div>
       </div>

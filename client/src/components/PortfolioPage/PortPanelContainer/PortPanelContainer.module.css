@@ -36,3 +36,8 @@
 .BigHide {
   top: -135px;
 }
+@media (max-width: 465px) {
+  .Panel, .BigPanel, .DownPanel, .BigDownPanel {
+    transform: scale(0.95);
+  }
+}

@@ -34,15 +34,17 @@
     margin: auto;
   }
 }
+.Options {
+  margin: 0 auto 10px;
+  position: relative;
+  padding: 5px 0;
+  width: 445px;
+}
 .Btns {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto 10px;
-  position: relative;
-  border-radius: 3px;
-  padding: 5px 0;
-  width: 445px;
+  width: 100%;
 }
 .SettingsBtn {
   display: flex;
@@ -109,23 +111,23 @@
   display: none;
 }
 @media (max-width: 465px) {
-  .Btns {
+  .Options {
     width: 400px;
+    margin: auto;
+  }
+  .Btns {
     flex-wrap: wrap;
     transform: scale(0.95);
-    z-index: 2;
-    margin: auto;
-    position: relative;
   }
   .AnalysisBtn {
     display: none;
   }
   .AnalysisBtnSmall {
     margin: 5px auto 10px;
-    display: block;
     width: 100%;
     display: flex;
     justify-content: center;
+    transform: scale(0.95);
   }
 }
 .Backdrop, .HideBackdrop {
