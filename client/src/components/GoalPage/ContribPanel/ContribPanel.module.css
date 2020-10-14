@@ -5,17 +5,18 @@
   height: 200px;
   border-radius: 3px;
   box-shadow: var(--box-shadow1);
-  z-index: 2;
+  z-index: 3;
   padding: 10px;
   overflow: hidden;
   left: calc(50% - 145px);
   transition: all 400ms;
   background: var(--panelBack);
+  transform: scale(1) translateZ(3px);
 }
 .Hide {
   opacity: 0;
   top: -100px;
-  transform: scale(0);
+  transform: scale(0) translateZ(-1px);
 }
 .Inputs {
   margin: 40px 0 10px;

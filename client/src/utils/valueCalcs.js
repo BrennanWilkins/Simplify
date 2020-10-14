@@ -32,10 +32,10 @@ export const calcNetWorth = (netWorthData, portfolio) => {
 
   // if last net worth entry was a day ago make a new entry
   if (Math.abs(new Date().getTime() - new Date(netWorthData[netWorthData.length - 1].date).getTime()) >= 86400000) {
-    updatedData.push({ date: new Date(), value: netWorth });
+    updatedData.push({ date: new Date(), value: +netWorth.toFixed(2) });
   } else {
     // else update the current day's net worth
-    updatedData[netWorthData.length - 1].value = netWorth;
+    updatedData[netWorthData.length - 1].value = +netWorth.toFixed(2);
   }
   return updatedData;
 };
