@@ -123,20 +123,13 @@
   background: rgba(var(--blue), 0.2);
 }
 .Table {
-  width: 85%;
-  text-align: center;
   border-collapse: collapse;
-  margin: 20px auto;
-  max-width: 850px;
-  background: white;
+  width: 100%;
 }
 .Table td, .Table th {
   border: 1px solid rgb(var(--blue));
   background: rgba(var(--blue), 0.04);
   padding: 8px 4px;
-  box-sizing: border-box;
-  text-align: center;
-  word-wrap: break-word;
 }
 .Table th {
   color: rgb(var(--dark-blue));
@@ -145,6 +138,45 @@
 .TableTotals td {
   font-weight: bold;
   color: rgb(var(--dark-blue));
+}
+.TableContainer {
+  width: 90%;
+  text-align: center;
+  margin: 20px auto;
+  max-width: 850px;
+  min-width: 360px;
+  overflow: auto;
+  padding-bottom: 5px;
+}
+.DarkTable {
+  background: rgba(var(--blue), 0.3);
+}
+.DarkTable td, .DarkTable th {
+  color: rgb(var(--light-blue2));
+}
+.TableContainer::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: white;
+}
+.TableContainer::-webkit-scrollbar {
+  height: 10px;
+  background-color: white;
+}
+.TableContainer::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #ddd;
+}
+.DarkTableContainer::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgb(var(--dark-blue5), 0.3);
+}
+.DarkTableContainer::-webkit-scrollbar {
+  height: 10px;
+  background-color: rgb(var(--dark-blue5), 0.3);
+}
+.DarkTableContainer::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(var(--dark-blue5));
 }
 @media (max-width: 870px) {
   .Boxes {
@@ -164,6 +196,7 @@
     width: 360px;
   }
   .Table td, .Table th {
-    padding: 8px 3px;
+    padding: 6px 3px;
+    font-size: 15px;
   }
 }

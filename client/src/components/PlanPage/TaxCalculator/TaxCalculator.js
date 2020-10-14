@@ -5,6 +5,7 @@ import { NumInput } from '../../UI/Inputs/Inputs';
 import Container from '../PlanPageContainer/PlanPageContainer';
 import BlueBtn from '../../UI/Btns/BlueBtn/BlueBtn';
 import { plusIcon } from '../../UI/UIIcons';
+import { formatNum } from '../../../utils/formatNum';
 
 const TaxCalculator = props => {
   const [taxVals, setTaxVals] = useState({
@@ -122,40 +123,42 @@ const TaxCalculator = props => {
           </div>
         </div>
       </div>
-      <table className={classes.Table}>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Marginal Tax Rate</th>
-            <th>Effective Tax Rate</th>
-            <th>Profit</th>
-            <th>Tax Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>Short Term Transactions</th>
-            <td>{taxVals.results.shortRate}%</td>
-            <td>{taxVals.results.shortEffective}%</td>
-            <td>${taxVals.results.shortProfit}</td>
-            <td>${taxVals.results.shortTax}</td>
-          </tr>
-          <tr>
-            <th>Long Term Transactions</th>
-            <td>{taxVals.results.longRate}%</td>
-            <td>{taxVals.results.longEffective}%</td>
-            <td>${taxVals.results.longProfit}</td>
-            <td>${taxVals.results.longTax}</td>
-          </tr>
-          <tr className={classes.TableTotals}>
-            <th>Total</th>
-            <td></td>
-            <td>{taxVals.results.totEffectiveRate}%</td>
-            <td>${taxVals.results.totalProfit}</td>
-            <td>${taxVals.results.totalTax}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className={props.darkMode ? `${classes.TableContainer} ${classes.DarkTableContainer}` : classes.TableContainer}>
+        <table className={props.darkMode ? `${classes.Table} ${classes.DarkTable}` : classes.Table}>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Marginal Tax Rate</th>
+              <th>Effective Tax Rate</th>
+              <th>Profit</th>
+              <th>Tax Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Short Term Transactions</th>
+              <td>{taxVals.results.shortRate}%</td>
+              <td>{taxVals.results.shortEffective}%</td>
+              <td>${formatNum(taxVals.results.shortProfit)}</td>
+              <td>${formatNum(taxVals.results.shortTax)}</td>
+            </tr>
+            <tr>
+              <th>Long Term Transactions</th>
+              <td>{taxVals.results.longRate}%</td>
+              <td>{taxVals.results.longEffective}%</td>
+              <td>${formatNum(taxVals.results.longProfit)}</td>
+              <td>${formatNum(taxVals.results.longTax)}</td>
+            </tr>
+            <tr className={classes.TableTotals}>
+              <th>Total</th>
+              <td></td>
+              <td>{taxVals.results.totEffectiveRate}%</td>
+              <td>${formatNum(taxVals.results.totalProfit)}</td>
+              <td>${formatNum(taxVals.results.totalTax)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </Container>
   );
 };

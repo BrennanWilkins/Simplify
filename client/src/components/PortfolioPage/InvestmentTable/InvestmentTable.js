@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import classes from './InvestmentTable.module.css';
 import { connect } from 'react-redux';
 import { caretIcon, caretNeutralIcon, stockChartIcon } from '../../UI/UIIcons';
+import { formatNum } from '../../../utils/formatNum';
 
 const InvestmentTable = props => {
   const [data, setData] = useState([]);
@@ -81,7 +82,7 @@ const InvestmentTable = props => {
   };
 
   return (
-    <div className={props.normal ? null :
+    <div className={props.normal ? (props.dark ? `${classes.NormalContainer} ${classes.Dark}` : classes.NormalContainer) :
       (props.mode === 'Stocks' || props.mode === 'Cryptos' ?
       (props.dark ? `${classes.Container} ${classes.Dark}` : classes.Container) :
       (props.dark ? `${classes.Container} ${classes.AssetContainer} ${classes.Dark}` : `${classes.Container} ${classes.AssetContainer}`))}>
@@ -125,8 +126,8 @@ const InvestmentTable = props => {
                 <td className={classes.Symbol}>{stock.symbol}</td>
                 <td>{stock.name}</td>
                 <td>{Number(stock.quantity).toLocaleString(undefined, { maximumFractionDigits: 5 })}</td>
-                <td>{stock.price === '?' ? '?' : `$${Number(stock.price).toFixed(2)}`}</td>
-                <td className={classes.Value}>{stock.value === '?' ? '?' : `$${Number(stock.value).toFixed(2)}`}</td>
+                <td>{stock.price === '?' ? '?' : `$${formatNum(stock.price)}`}</td>
+                <td className={classes.Value}>{stock.value === '?' ? '?' : `$${formatNum(stock.value)}`}</td>
                 {props.normal && (props.mode === 'Stocks' || props.mode === 'Cryptos') &&
                 <td onClick={() => stock.identifier === 'Normal' ? props.showChart(stock.symbol, 'Stock') : null}
                 className={classes.ChartBtn}>{stockChartIcon}</td>}
@@ -139,8 +140,8 @@ const InvestmentTable = props => {
                 </td>
                 <td>{crypto.name}</td>
                 <td>{Number(crypto.quantity).toLocaleString(undefined, { maximumFractionDigits: 5 })}</td>
-                <td>{crypto.price === '?' ? '?' : `$${Number(crypto.price).toFixed(2)}`}</td>
-                <td className={classes.Value}>{crypto.value === '?' ? '?' : `$${Number(crypto.value).toFixed(2)}`}</td>
+                <td>{crypto.price === '?' ? '?' : `$${formatNum(crypto.price)}`}</td>
+                <td className={classes.Value}>{crypto.value === '?' ? '?' : `$${formatNum(crypto.value)}`}</td>
                 {props.normal && (props.mode === 'Stocks' || props.mode === 'Cryptos') &&
                 <td onClick={() => crypto.identifier === 'Normal' ? props.showChart(crypto.symbol, 'Crypto') : null}
                 className={classes.ChartBtn}>{stockChartIcon}</td>}
@@ -151,7 +152,7 @@ const InvestmentTable = props => {
               <tr key={i}>
                 <td className={classes.Symbol}>{asset.name}</td>
                 <td>{asset.desc}</td>
-                <td className={classes.Value}>${Number(asset.value).toFixed(2)}</td>
+                <td className={classes.Value}>${formatNum(asset.value)}</td>
               </tr>
             ))
           ) : (
@@ -159,7 +160,7 @@ const InvestmentTable = props => {
               <tr key={i}>
                 <td className={classes.Symbol}>{debt.name}</td>
                 <td>{debt.desc}</td>
-                <td className={classes.Value}>${Number(debt.value).toFixed(2)}</td>
+                <td className={classes.Value}>${formatNum(debt.value)}</td>
               </tr>
             ))
           )}

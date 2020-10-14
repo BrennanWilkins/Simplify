@@ -50,11 +50,15 @@
 }
 .TableInnerContainer::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
   background: transparent;
 }
 .TableInnerContainer::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: rgba(var(--dark-blue4), 0.25);
+}
+.TableInnerContainer::-webkit-scrollbar-corner {
+  background-color: transparent;
 }
 .Dark .TableInnerContainer::-webkit-scrollbar-track {
   border-radius: 10px;
@@ -62,6 +66,7 @@
 }
 .Dark .TableInnerContainer::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
   background: transparent;
 }
 .Dark .TableInnerContainer::-webkit-scrollbar-thumb {

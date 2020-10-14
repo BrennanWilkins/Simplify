@@ -1,3 +1,10 @@
+.NormalContainer {
+  max-width: 920px;
+  min-width: 400px;
+  width: 94vw;
+  margin: auto;
+  overflow: auto;
+}
 .Container {
   width: 100%;
   max-height: 220px;
@@ -6,15 +13,16 @@
 .AssetContainer {
   max-height: 95px;
 }
-.Container::-webkit-scrollbar-track {
+.Container::-webkit-scrollbar-track, .NormalContainer::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: white;
 }
-.Container::-webkit-scrollbar {
+.Container::-webkit-scrollbar, .NormalContainer::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
   background-color: white;
 }
-.Container::-webkit-scrollbar-thumb {
+.Container::-webkit-scrollbar-thumb, .NormalContainer::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #ddd;
 }
@@ -24,11 +32,15 @@
 }
 .Dark::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
   background-color: rgb(var(--dark-blue5), 0.3);
 }
 .Dark::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: rgb(var(--dark-blue5));
+}
+.Container::-webkit-scrollbar-corner {
+  background-color: transparent;
 }
 .Table {
   width: 320px;
@@ -41,10 +53,8 @@
   border-collapse: collapse;
   box-shadow: var(--box-shadow2);
   background: white;
-  max-width: 920px;
-  min-width: 400px;
-  width: 94vw;
-  margin: auto;
+  width: calc(100% - 2.4px);
+  margin: 0 auto 5px;
 }
 .DarkTable {
   background: rgba(var(--blue), 0.3);
