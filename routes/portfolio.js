@@ -63,6 +63,7 @@ router.put('/updateStocks', auth,
       const portfolio = await Portfolio.findOne({ userId: req.userId });
       if (req.body.quantity < 0) { throw 'err'; }
       if (req.body.data.identifier === 'Manual') {
+        if (req.body.data.name.length > 70 || req.body.data.symbol.length > 70) { throw 'err'; }
         const manualStocks = [...portfolio.manualStocks];
         manualStocks.unshift({ ...req.body.data });
         portfolio.manualStocks = manualStocks;
@@ -177,6 +178,7 @@ router.put('/updateCryptos', auth,
       if (req.body.quantity < 0) { throw 'err'; }
       const portfolio = await Portfolio.findOne({ userId: req.userId });
       if (req.body.data.identifier === 'Manual') {
+        if (req.body.data.name.length > 70 || req.body.data.symbol.length > 70) { throw 'err'; }
         const manualCryptos = [...portfolio.manualCryptos];
         manualCryptos.unshift({ ...req.body.data });
         portfolio.manualCryptos = manualCryptos;
@@ -195,7 +197,7 @@ router.put('/addAsset', auth,
   [body('*').not().isEmpty().escape()],
   async (req, res) => {
     try {
-      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      if (!validationResult(req).isEmpty() || req.body.name.length > 70 || req.body.desc.length > 70) { throw 'err'; }
       const portfolio = await Portfolio.findOne({ userId: req.userId });
       const otherAssets = [...portfolio.otherAssets];
       otherAssets.unshift({ ...req.body });
@@ -224,7 +226,7 @@ router.put('/addDebt', auth,
   [body('*').not().isEmpty().escape()],
   async (req, res) => {
     try {
-      if (!validationResult(req).isEmpty()) { throw 'err'; }
+      if (!validationResult(req).isEmpty() || req.body.name.length > 70 || req.body.desc.length > 70) { throw 'err'; }
       const portfolio = await Portfolio.findOne({ userId: req.userId });
       const liabilities = [...portfolio.liabilities];
       liabilities.unshift({ ...req.body });

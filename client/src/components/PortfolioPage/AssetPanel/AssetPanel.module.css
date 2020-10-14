@@ -38,8 +38,7 @@
   visibility: hidden;
 }
 .ShowErr, .HideErr {
-  opacity: 1;
-  transition: opacity 300ms;
+  transition: 300ms;
   text-align: center;
   font-size: 15px;
   height: 24px;
@@ -47,4 +46,5 @@
 }
 .HideErr {
   opacity: 0;
+  visibility: hidden;
 }

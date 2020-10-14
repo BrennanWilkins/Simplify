@@ -128,6 +128,15 @@ const SearchPanel = props => {
     } catch(e) { setErr(true); return setErrMsg('Error connecting to the server.'); }
   };
 
+  const manualHandler = (val, isSymbol) => {
+    if (val.length > 70) {
+      setErr(true);
+      return setErrMsg(`Please enter a valid ${isSymbol ? (isStock ? 'ticker' : 'symbol') : (isStock ? 'company name' : 'name')}.`);
+    }
+    isSymbol ? setInputValTicker(val) : setInputValName(val);
+    setErr(false);
+  };
+
   return (
     <PortPanelContainer show={props.show} close={closeHandler} down={props.down} big
     left={isStock ? (props.small ? '-60px' : '-85.5px') : (props.small ? '-55px' : '-32.5px')}>
@@ -185,11 +194,11 @@ const SearchPanel = props => {
       <div className={showManual ? classes.ShowInput: classes.HideInput} style={props.dark ? {background: 'var(--panelBack)', color: 'rgb(var(--light-blue3))'} : null}>
         <div>
           <p>{isStock ? 'Ticker:' : 'Symbol:'}</p>
-          <Input ph={isStock ? 'eg AAPL' : 'eg BTC'} val={inputValTicker} change={val => { setInputValTicker(val); setErr(false); }} dark2={props.dark} />
+          <Input ph={isStock ? 'eg AAPL' : 'eg BTC'} val={inputValTicker} change={val => manualHandler(val, true)} dark2={props.dark} />
         </div>
         <div>
           <p>{isStock ? 'Company name:' : 'Name:'}</p>
-          <Input ph={isStock ? 'eg Apple' : 'eg Bitcoin'} val={inputValName} change={val => { setInputValName(val); setErr(false); }} dark2={props.dark} />
+          <Input ph={isStock ? 'eg Apple' : 'eg Bitcoin'} val={inputValName} change={val => manualHandler(val, false)} dark2={props.dark} />
         </div>
         <div>
           <p>Current price:</p>

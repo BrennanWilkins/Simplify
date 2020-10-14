@@ -240,6 +240,12 @@ const AssetPanel = props => {
     } catch(e) { return errHandler(true); }
   };
 
+  const inputHandler = (val, field) => {
+    if (val.length > 70) { setErr(true); return setErrMsg(`Please enter a valid ${field}.`); }
+    field === 'category' ? setInputName(val) : setInputDesc(val);
+    setErr(false);
+  };
+
   return (
     <PortPanelContainer show={props.show} close={closeHandler} left={panelLeft} down={props.down} small={props.small}>
       <p className={(props.mode === 'AddAsset' || props.mode === 'AddDebt') ? classes.Text2 : classes.Text}
@@ -251,15 +257,15 @@ const AssetPanel = props => {
         <div className={classes.Inputs} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
           <div>
             <p>Category</p>
-            <Input val={inputName} change={val => setInputName(val)} ref={nameRef} dark2={props.dark} />
+            <Input val={inputName} change={val => inputHandler(val, 'category')} ref={nameRef} dark2={props.dark} />
           </div>
           <div>
             <p>Description</p>
-            <Input val={inputDesc} change={val => setInputDesc(val)} dark2={props.dark} />
+            <Input val={inputDesc} change={val => inputHandler(val, 'description')} dark2={props.dark} />
           </div>
           <div>
             <p>Value</p>
-            <NumInput val={inputValue} change={val => setInputValue(val)} dark2={props.dark} />
+            <NumInput val={inputValue} change={val => { setInputValue(val); setErr(false); }} dark2={props.dark} />
           </div>
         </div>
       }
