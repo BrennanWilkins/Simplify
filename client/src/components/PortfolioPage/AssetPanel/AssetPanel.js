@@ -57,11 +57,11 @@ const AssetPanel = props => {
         setOptions(props.liabilities.map(debt => ({ value: debt.desc, label: debt.desc })));
         break;
     }
-  }, [props.mode]);
+  }, [props.mode, props.show]);
 
   useEffect(() => {
     // focus category input on show
-    if (props.mode.includes('Add')) { setTimeout(() => nameRef.current.focus(), 400); }
+    if (props.show && props.mode.includes('Add')) { setTimeout(() => nameRef.current.focus(), 400); }
   }, [props.mode, props.show]);
 
   useEffect(() => btnClassHandler(), [inputName, inputDesc, inputValue]);
@@ -250,7 +250,7 @@ const AssetPanel = props => {
     <PortPanelContainer show={props.show} close={closeHandler} left={panelLeft} down={props.down} small={props.small}>
       <p className={(props.mode === 'AddAsset' || props.mode === 'AddDebt') ? classes.Text2 : classes.Text}
       style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>{titleText}</p>
-      {options ?
+      {props.mode !== 'AddAsset' && props.mode !== 'AddDebt' ?
         <div style={{marginBottom: (props.mode === 'SettingsAsset' || props.mode === 'SettingsDebt') ? '0' : '15px'}}>
           <Select options={options} change={selectHandler} val={selectedName} /></div>
         :

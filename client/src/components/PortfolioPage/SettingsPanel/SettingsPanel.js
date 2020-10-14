@@ -42,7 +42,6 @@ const SettingsPanel = props => {
 
   const setValHandler = val => {
     setErr(false);
-    setErrMsg('');
     setPriceVal(val);
   };
 

@@ -58,12 +58,12 @@ router.post('/otherGoals', auth,
 router.put('/otherGoals', auth,
   [body('goal').not().isEmpty(),
   body('goal.val').isNumeric(),
-  body('goal.date').not().isEmpty().trim().escape(),
+  body('goal.date').trim().escape(),
   body('goal.name').not().isEmpty().trim().escape(),
   body('goal._id').not().isEmpty().trim().escape()],
   async (req, res) => {
-    if (!validationResult(req).isEmpty() || Number(req.body.goal.goal) <= 0 ||
-    Number(req.body.goal.goal) > 999999999999 || req.body.goal.name.length > 70) { return res.sendStatus(500); }
+    if (!validationResult(req).isEmpty() || Number(req.body.goal.val) <= 0 ||
+    Number(req.body.goal.val) > 999999999999 || req.body.goal.name.length > 70) { return res.sendStatus(500); }
     try {
       const goals = await Goals.findOne({ userId: req.userId });
       const otherGoals = [...goals.otherGoals];

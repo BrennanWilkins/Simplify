@@ -39,14 +39,9 @@ const EditGoalPanel = props => {
 
   const isValid = () => {
     // returns false if inputs not valid
-    if (goalName === '') {
+    if (goalName === '' || goalName.length > 70) {
       setErr(true);
       setErrMsg('Please enter a valid name.');
-      return false;
-    }
-    if (goalName.length > 70) {
-      setErr(true);
-      setErrMsg('The goal name must be less than 70 characters.');
       return false;
     }
     if (goalVal === '' || goalVal === 0 || goalVal > 999999999999) {

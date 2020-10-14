@@ -38,7 +38,7 @@ const BuySellPanel = props => {
   };
 
   const setValHandler = val => {
-    errHandler(false);
+    setErr(false);
     setSelectedVal(val);
   };
 
@@ -53,7 +53,8 @@ const BuySellPanel = props => {
     if (props.mode === 'SellStock' || props.mode === 'SellCrypto') {
       if (selectedVal > selected.quantity) {
         setErr(true);
-        return setErrMsg(`You do not own enough${props.mode === 'SellStock' ? ' shares of' : ''} ${selected.symbol} to sell that much.`);
+        return setErrMsg(`You do not own enough${props.mode === 'SellStock' ? ' shares of' : ''}
+        ${selected.symbol.length > 15 ? selected.symbol.slice(0,15) + '...' : selected.symbol} to sell that much.`);
       }
       if (selectedVal === selected.quantity) {
         let sellStock = props.mode === 'SellStock';
@@ -68,7 +69,7 @@ const BuySellPanel = props => {
           // for demo mode only
           props.setNetWorthData(updatedNetWorth);
           sellStock ? props.changeStock(curr) : props.changeCrypto(curr);
-          props.addNotif(`${selected.symbol} removed from portfolio`);
+          props.addNotif(`${selected.symbol.length > 20 ? selected.symbol.slice(0, 20) + '...' : selected.symbol} removed from portfolio`);
           // retrieves today's highlights again if stock/crypto deleted
           props.setUpdateHighlights();
           return closeHandler();
@@ -80,7 +81,7 @@ const BuySellPanel = props => {
           const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
           props.setNetWorthData(resp.data.result.dataPoints);
           sellStock ? props.changeStock(curr) : props.changeCrypto(curr);
-          props.addNotif(`${selected.symbol} removed from portfolio`);
+          props.addNotif(`${selected.symbol.length > 20 ? selected.symbol.slice(0, 20) + '...' : selected.symbol} removed from portfolio`);
           // retrieves today's highlights again if stock/crypto deleted
           props.setUpdateHighlights();
           return closeHandler();
@@ -106,7 +107,7 @@ const BuySellPanel = props => {
     if (props.isDemo) {
       props.setNetWorthData(updatedNetWorth);
       isStock ? props.changeStock(newPortfolio) : props.changeCrypto(newPortfolio);
-      props.addNotif(`${selected.symbol} updated in portfolio`);
+      props.addNotif(`${selected.symbol.length > 20 ? selected.symbol.slice(0, 20) + '...' : selected.symbol} updated in portfolio`);
       return closeHandler();
     }
     try {
@@ -115,7 +116,7 @@ const BuySellPanel = props => {
       const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
       props.setNetWorthData(resp.data.result.dataPoints);
       isStock ? props.changeStock(newPortfolio) : props.changeCrypto(newPortfolio);
-      props.addNotif(`${selected.symbol} updated in portfolio`);
+      props.addNotif(`${selected.symbol.length > 20 ? selected.symbol.slice(0, 20) + '...' : selected.symbol} updated in portfolio`);
       closeHandler();
     } catch(e) { return errHandler(true); }
   };
@@ -153,12 +154,12 @@ const BuySellPanel = props => {
       <Select options={options} change={selectHandler} val={selectedName} />
       <p className={selectedName === '' ? classes.HideText : classes.Text} style={props.dark ? {color: 'rgb(var(--light-blue3))'} : null}>
         {props.mode === 'BuyStock' ?
-        `How many shares of ${selected.symbol} did you buy?` :
+        `How many shares of ${selected.symbol.length > 20 ? selected.symbol.slice(0,20) + '...' : selected.symbol} did you buy?` :
         props.mode === 'SellStock' ?
-        `How many shares of ${selected.symbol} did you sell?` :
+        `How many shares of ${selected.symbol.length > 20 ? selected.symbol.slice(0,20) + '...' : selected.symbol} did you sell?` :
         props.mode === 'BuyCrypto' ?
-        `How much ${selected.symbol} did you buy?` :
-        `How much ${selected.symbol} did you sell?`}
+        `How much ${selected.symbol.length > 20 ? selected.symbol.slice(0,20) + '...' : selected.symbol} did you buy?` :
+        `How much ${selected.symbol.length > 20 ? selected.symbol.slice(0,20) + '...' : selected.symbol} did you sell?`}
       </p>
       <Form allow={selectedVal !== 0 && props.show} submit={confirmHandler}>
         <div className={classes.FormContainer}>

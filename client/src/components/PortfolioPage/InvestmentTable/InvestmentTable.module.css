@@ -103,6 +103,7 @@
   -ms-user-select: none;
   -moz-user-select: none;
   -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
 }
 .NormalTable .SymbolHeader {
   min-width: 50px !important;
@@ -154,9 +155,6 @@
 .Descend {
   transform: rotate(90deg);
   top: 1px;
-}
-.NameHeader {
-  white-space: nowrap !important;
 }
 @media (max-width: 590px) {
   .NormalTable {

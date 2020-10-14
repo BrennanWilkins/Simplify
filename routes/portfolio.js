@@ -65,10 +65,14 @@ router.put('/updateStocks', auth,
       if (req.body.data.identifier === 'Manual') {
         if (req.body.data.name.length > 70 || req.body.data.symbol.length > 70) { throw 'err'; }
         const manualStocks = [...portfolio.manualStocks];
+        // check for duplicates
+        if (manualStocks.findIndex(stock => stock.symbol === req.body.data.symbol || stock.name === req.body.data.name) !== -1) { throw 'err'; }
         manualStocks.unshift({ ...req.body.data });
         portfolio.manualStocks = manualStocks;
       } else {
         const stocks = [...portfolio.stocks];
+        // check for duplicates
+        if (stocks.findIndex(stock => stock.symbol === req.body.data.symbol) !== -1) { throw 'err'; }
         const { value, price, ...data } = req.body.data;
         stocks.unshift(data);
         portfolio.stocks = stocks;
@@ -180,10 +184,14 @@ router.put('/updateCryptos', auth,
       if (req.body.data.identifier === 'Manual') {
         if (req.body.data.name.length > 70 || req.body.data.symbol.length > 70) { throw 'err'; }
         const manualCryptos = [...portfolio.manualCryptos];
+        // check for duplicates
+        if (manualCryptos.findIndex(crypto => crypto.symbol === req.body.data.symbol || crypto.name === req.body.data.name) !== -1) { throw 'err'; }
         manualCryptos.unshift({ ...req.body.data });
         portfolio.manualCryptos = manualCryptos;
       } else {
         const cryptos = [...portfolio.cryptos];
+        // check for duplicates
+        if (cryptos.findIndex(crypto => crypto.symbol === req.body.data.symbol) !== -1) { throw 'err'; }
         const { value, price, ...data } = req.body.data;
         cryptos.unshift(data);
         portfolio.cryptos = cryptos;

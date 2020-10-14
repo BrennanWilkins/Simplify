@@ -4,28 +4,29 @@
   opacity: 1;
   transition: opacity 250ms;
   cursor: default;
+  margin: 12px 0 15px;
 }
 .HideText {
   opacity: 0;
 }
 .ConfirmBtn, .HideConfirmBtn {
-  margin: 20px 0 0;
+  margin: 15px 0 0;
 }
 .AllBtn button {
   margin: 0 0 0 10px;
   padding: 5px 10px;
 }
 .ShowErr, .HideErr {
-  opacity: 1;
-  transition: opacity 300ms;
+  transition: 300ms;
   text-align: center;
   font-size: 15px;
   height: 24px;
   width: 85%;
-  margin: 10px 0 0;
+  margin: 0;
 }
 .HideErr {
   opacity: 0;
+  visibility: hidden;
 }
 .InputDiv, .HideInputDiv {
   width: 100%;

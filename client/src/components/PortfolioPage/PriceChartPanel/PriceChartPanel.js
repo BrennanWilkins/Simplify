@@ -127,17 +127,17 @@ const PriceChartPanel = props => {
       <div className={props.show ? classes.Panel : `${classes.Panel} ${classes.Hide}`}>
         <div className={classes.CloseBtn}><CloseBtn close={closeHandler} /></div>
         <div className={classes.SelectBar}>
-          {props.mode === 'Stock' ? props.stocks.map((stock, i) => (
+          {props.mode === 'Stock' ? props.stocks.filter(stock => stock.identifier === 'Normal').map((stock, i, arr) => (
             <span className={props.symbol === stock.symbol ? classes.Active : classes.Inactive}
             onClick={() => stock.identifier === 'Normal' ? props.changeStock(stock.symbol) : null} key={i}
-            style={props.stocks.length === 1 ? {margin: '0 auto'} : i === 0 ? {marginLeft: 'auto'} : i === props.stocks.length - 1 ? {marginRight: 'auto'} : undefined}>
+            style={arr.length === 1 ? {margin: '0 auto'} : i === 0 ? {marginLeft: 'auto'} : i === arr.length - 1 ? {marginRight: 'auto'} : undefined}>
               {stock.symbol}
               <div className={classes.FocusBorder}></div>
             </span>
-          )) : props.cryptos.map((crypto, i) => (
+          )) : props.cryptos.filter(crypto => crypto.identifier === 'Normal').map((crypto, i, arr) => (
             <span className={props.symbol === crypto.symbol ? classes.Active : classes.Inactive}
             onClick={() => crypto.identifier === 'Normal' ? props.changeCrypto(crypto.symbol) : null} key={i}
-            style={props.cryptos.length === 1 ? {margin: '0 auto'} : i === 0 ? {marginLeft: 'auto'} : i === props.cryptos.length - 1 ? {marginRight: 'auto'} : undefined}>
+            style={arr.length === 1 ? {margin: '0 auto'} : i === 0 ? {marginLeft: 'auto'} : i === arr.length - 1 ? {marginRight: 'auto'} : undefined}>
               {crypto.symbol}
               <div className={classes.FocusBorder}></div>
             </span>
