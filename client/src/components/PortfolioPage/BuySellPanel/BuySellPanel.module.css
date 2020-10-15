@@ -21,7 +21,7 @@
   text-align: center;
   font-size: 15px;
   height: 24px;
-  width: 85%;
+  padding: 0 5px;
   margin: 0;
 }
 .HideErr {

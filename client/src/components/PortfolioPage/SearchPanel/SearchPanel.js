@@ -100,7 +100,7 @@ const SearchPanel = props => {
     const curr = isStock ? [...props.stocks] : [...props.cryptos];
     // check if stock/cypto already in portfolio
     const check = curr.filter(inv => inv.symbol === data.symbol || (inv.name === data.name && manual));
-    if (check.length) { setErr(true); return setErrMsg(`You already have ${data.symbol.length > 20 ? data.symbol.slice(0, 20) + '...' : data.symbol} in your portfolio.`); }
+    if (check.length) { setErr(true); return setErrMsg(`You already have ${data.symbol.length > 15 ? data.symbol.slice(0, 15) + '...' : data.symbol} in your portfolio.`); }
     // add stock/crypto to portfolio
     curr.unshift({ ...data });
     const updatedPortfolio = { ...props.portfolio };
@@ -109,8 +109,8 @@ const SearchPanel = props => {
     const updatedNetWorth = calcNetWorth(props.netWorthData, updatedPortfolio);
     if (props.isDemo) {
       props.setNetWorthData(updatedNetWorth);
-      isStock ? props.addStock(data) : props.addCrypto({ ...data, cmcID: selectedRes.cmcID });
-      props.addNotif(`${data.symbol.length > 20 ? data.symbol.slice(0, 20) + '...' : data.symbol} added to portfolio`);
+      isStock ? props.addStock(data) : props.addCrypto({ ...data, cmcID: manual ? null : selectedRes.cmcID });
+      props.addNotif(`${data.symbol.length > 15 ? data.symbol.slice(0, 15) + '...' : data.symbol} added to portfolio`);
       // update todays highlights data
       props.setUpdateHighlights();
       return closeHandler();
@@ -121,7 +121,7 @@ const SearchPanel = props => {
       const resp = await axios.put('netWorth', { netWorthData: updatedNetWorth });
       props.setNetWorthData(resp.data.result.dataPoints);
       isStock ? props.addStock(data) : props.addCrypto({ ...data, cmcID: manual ? null : selectedRes.cmcID });
-      props.addNotif(`${data.symbol.length > 20 ? data.symbol.slice(0, 20) + '...' : data.symbol} added to portfolio`);
+      props.addNotif(`${data.symbol.length > 15 ? data.symbol.slice(0, 15) + '...' : data.symbol} added to portfolio`);
       // update todays highlights data
       props.setUpdateHighlights();
       closeHandler();

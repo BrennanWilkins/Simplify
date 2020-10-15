@@ -15,7 +15,7 @@
   align-items: center;
 }
 .Notifs-Notif {
-  height: 30px;
+  min-height: 30px;
   background: rgb(29, 198, 175);
   margin-top: 10px;
   border-radius: 3px;

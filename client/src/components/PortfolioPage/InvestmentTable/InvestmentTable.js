@@ -123,8 +123,8 @@ const InvestmentTable = props => {
           {props.mode === 'Stocks' ? (
             data.map((stock, i) => (
               <tr key={i}>
-                <td className={classes.Symbol}>{stock.symbol}</td>
-                <td>{stock.name}</td>
+                <td className={classes.Symbol} style={stock.symbol.length > 5 ? {wordBreak: 'break-word'} : null}>{stock.symbol}</td>
+                <td style={{wordBreak: 'break-word'}}>{stock.name}</td>
                 <td>{Number(stock.quantity).toLocaleString(undefined, { maximumFractionDigits: 5 })}</td>
                 <td>{stock.price === '?' ? '?' : `$${formatNum(stock.price)}`}</td>
                 <td className={classes.Value}>{stock.value === '?' ? '?' : `$${formatNum(stock.value)}`}</td>
@@ -135,10 +135,10 @@ const InvestmentTable = props => {
           ))) : props.mode === 'Cryptos' ? (
             data.map((crypto, i) => (
               <tr key={i}>
-                <td className={classes.Symbol}>
+                <td className={classes.Symbol} style={!crypto.cmcID && crypto.symbol.length > 5  ? {wordBreak: 'break-word'} : null}>
                   {crypto.cmcID ? <img src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${crypto.cmcID}.png`} alt="" /> : crypto.symbol}
                 </td>
-                <td>{crypto.name}</td>
+                <td style={{wordBreak: 'break-word'}}>{crypto.name}</td>
                 <td>{Number(crypto.quantity).toLocaleString(undefined, { maximumFractionDigits: 5 })}</td>
                 <td>{crypto.price === '?' ? '?' : `$${formatNum(crypto.price)}`}</td>
                 <td className={classes.Value}>{crypto.value === '?' ? '?' : `$${formatNum(crypto.value)}`}</td>
@@ -150,16 +150,16 @@ const InvestmentTable = props => {
           ) : props.mode === 'Assets' ? (
             data.map((asset, i) => (
               <tr key={i}>
-                <td className={classes.Symbol}>{asset.name}</td>
-                <td>{asset.desc}</td>
+                <td className={classes.Symbol} style={{wordBreak: 'break-word'}}>{asset.name}</td>
+                <td  style={{wordBreak: 'break-word'}}>{asset.desc}</td>
                 <td className={classes.Value}>${formatNum(asset.value)}</td>
               </tr>
             ))
           ) : (
             data.map((debt, i) => (
               <tr key={i}>
-                <td className={classes.Symbol}>{debt.name}</td>
-                <td>{debt.desc}</td>
+                <td className={classes.Symbol} style={{wordBreak: 'break-word'}}>{debt.name}</td>
+                <td style={{wordBreak: 'break-word'}}>{debt.desc}</td>
                 <td className={classes.Value}>${formatNum(debt.value)}</td>
               </tr>
             ))
